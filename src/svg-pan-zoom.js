@@ -1,4 +1,5 @@
 import React from 'react';
+import MatrixHelper from './matrix-helper';
 
 const MODE_IDLE = 'idle';
 const MODE_PANNING = 'panning';
@@ -7,10 +8,7 @@ class SvgPanZoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      matrix: {
-        a: 1, c: 0, e: 0,
-        b: 0, d: 1, f: 0
-      }
+      matrix: MatrixHelper.identity()
     };
   }
 
@@ -55,26 +53,23 @@ class SvgPanZoom extends React.Component {
         return;
       }
 
+      let translation = MatrixHelper.extractTranslation(startMatrix);
+
       let deltaX = startPoint.x - x;
       let deltaY = startPoint.y - y;
 
-      let newXTranslation = startMatrix.e - deltaX;
-      let newYTranslation = startMatrix.f - deltaY;
+      let XTranslation = translation.x - deltaX;
+      let YTranslation = translation.y - deltaY;
 
       //avoid that paper exit from screen
       let maxBounding = 50;
-      newXTranslation = Math.min(newXTranslation, artboardWidth - maxBounding);
-      newXTranslation = Math.max(newXTranslation, -(paperWidth - maxBounding));
-      newYTranslation = Math.min(newYTranslation, artboardHeight - maxBounding);
-      newYTranslation = Math.max(newYTranslation, -(paperHeight - maxBounding));
-
-      let newMatrixComponents = {
-        e: newXTranslation,
-        f: newYTranslation
-      };
+      XTranslation = Math.min(XTranslation, artboardWidth - maxBounding);
+      XTranslation = Math.max(XTranslation, -(paperWidth - maxBounding));
+      YTranslation = Math.min(YTranslation, artboardHeight - maxBounding);
+      YTranslation = Math.max(YTranslation, -(paperHeight - maxBounding));
 
       this.setState({
-        matrix: Object.assign({}, startMatrix, newMatrixComponents)
+        matrix: MatrixHelper.translate(startMatrix, XTranslation, YTranslation)
       });
       event.preventDefault();
     }
@@ -93,7 +88,6 @@ class SvgPanZoom extends React.Component {
   render() {
 
     let matrix = this.state.matrix;
-    let DOMMatrix = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     return (
       <svg
@@ -113,7 +107,7 @@ class SvgPanZoom extends React.Component {
           width={this.props.artboardWidth}
           height={this.props.artboardHeight}/>
 
-        <g ref="paper" transform={DOMMatrix}>
+        <g ref="paper" transform={MatrixHelper.stringify(matrix)}>
           <rect
             fill={this.props.paperBackground}
             x={0}
