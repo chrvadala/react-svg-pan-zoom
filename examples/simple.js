@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {SvgPanZoom} from '../../src/index';
+import {SvgPanZoom} from '../index';
 
 class Simple extends React.Component {
   render() {
