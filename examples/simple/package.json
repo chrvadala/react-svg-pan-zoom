@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "A React component that adds pan and zoom features to SVG",
   "scripts": {
-    "start": "webpack-dev-server"
+    "start": "webpack-dev-server --inline"
   },
   "author": "chrvadala",
   "devDependencies": {
