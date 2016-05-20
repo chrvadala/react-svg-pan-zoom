@@ -26,7 +26,9 @@
     "zoom",
     "react.js"
   ],
-  "dependencies": {},
+  "dependencies": {
+    "transformation-matrix-js": "^2.6.5"
+  },
   "devDependencies": {
     "babel-core": "^6.9.0",
     "babel-loader": "^6.2.4",

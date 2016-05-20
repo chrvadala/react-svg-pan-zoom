@@ -3,21 +3,16 @@ import MatrixHelper from './matrix-helper';
 
 const MODE_IDLE = 'idle';
 const MODE_PANNING = 'panning';
+const MODE_ZOOMING = 'zooming';
 
 class SvgPanZoom extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      matrix: MatrixHelper.identity()
+      matrix: MatrixHelper.identity(),
+      mode: MODE_IDLE
     };
   }
-
-  //componentDidMount() {
-  //  let svgElement = this.refs.svg;
-  //  this.setState({
-  //    matrix: svgElement.createSVGMatrix()
-  //  });
-  //}
 
   _handleStartPanning(event) {
     let {matrix} = this.state;
@@ -46,7 +41,7 @@ class SvgPanZoom extends React.Component {
       let {startPoint, startMatrix} = state.panningInfo;
 
       //the mouse exited and reentered from svg
-      if(event.buttons === 0){
+      if (event.buttons === 0) {
         this.setState({
           mode: MODE_IDLE
         });
@@ -85,6 +80,24 @@ class SvgPanZoom extends React.Component {
     }
   }
 
+  _handleZoom(event) {
+    let {matrix} = this.state;
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+
+    let translation = MatrixHelper.extractTranslation(matrix);
+
+    let deltaX = Math.abs(x - translation.x);
+    let deltaY = Math.abs(y - translation.y);
+
+    console.log(deltaX, deltaY);
+
+    if (event.shiftKey) {
+      this.setState({
+        matrix: MatrixHelper.scale(matrix, 1.1, deltaX, deltaY)
+      });
+    }
+  }
+
   render() {
 
     let matrix = this.state.matrix;
@@ -95,7 +108,7 @@ class SvgPanZoom extends React.Component {
         width={this.props.artboardWidth}
         height={this.props.artboardHeight}
         style={this.props.style}
-        onMouseDown={ event => this._handleStartPanning(event) }
+        onMouseDown={ event => {this._handleZoom(event); this._handleStartPanning(event)} }
         onMouseMove={ event => this._handleUpdatePanning(event) }
         onMouseUp={ event => this._handleStopPanning(event) }
       >
