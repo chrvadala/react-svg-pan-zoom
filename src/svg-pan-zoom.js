@@ -84,16 +84,9 @@ class SvgPanZoom extends React.Component {
     let {matrix} = this.state;
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
 
-    let translation = MatrixHelper.extractTranslation(matrix);
-
-    let deltaX = Math.abs(x - translation.x);
-    let deltaY = Math.abs(y - translation.y);
-
-    console.log(deltaX, deltaY);
-
     if (event.shiftKey) {
       this.setState({
-        matrix: MatrixHelper.scale(matrix, 1.1, deltaX, deltaY)
+        matrix: MatrixHelper.scale(matrix, 1.1, x, y)
       });
     }
   }
