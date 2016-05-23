@@ -17,7 +17,7 @@ class Simple extends React.Component {
     //defaultValue = ViewerHelper.updatePan(defaultValue, 100, 100);
     //defaultValue = ViewerHelper.stopPan(defaultValue, 100, 100);
 
-    this.state = {value: defaultValue, tool: TOOL_NONE};
+    this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
   }
 
 
