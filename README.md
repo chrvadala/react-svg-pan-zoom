@@ -1,6 +1,11 @@
 # react-svg-pan-zoom
 A react component that adds pan and zoom features to SVG
 
+## Installation
+```
+npm install --save react-svg-pan-zoom
+```
+
 ## Usage
 
 ### SVGPanZoom Viewer
@@ -16,7 +21,7 @@ class MyComponent extends React.Component {
     super(props);
     this.state = {
       value: ViewerHelper.getDefaultValue(),
-      tool: TOOL_PAN
+      tool: TOOL_PAN      //you can change this state with TOOL_NONE or TOOL_ZOOM
     };
   }
 
