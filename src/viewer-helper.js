@@ -81,7 +81,7 @@ export default class ViewerHelper {
 
   }
 
-  static getPaperPoint(value, x, y) {
+  static getArtboardPoint(value, x, y) {
     let {a, b, c, d, e, f} = value.matrix;
     let matrix = Matrix.from(a, b, c, d, e, f);
 

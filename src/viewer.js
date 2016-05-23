@@ -107,13 +107,13 @@ export default class Viewer extends React.Component {
           width={this.props.viewerWidth}
           height={this.props.viewerHeight}/>
 
-        <g ref="paper" transform={matrixStr}>
+        <g ref="artboard" transform={matrixStr}>
           <rect
-            fill={this.props.paperBackground}
+            fill={this.props.artboardBackground}
             x={0}
             y={0}
-            width={this.props.paperWidth}
-            height={this.props.paperHeight}/>
+            width={this.props.artboardWidth}
+            height={this.props.artboardHeight}/>
           <g ref="content">
             {this.props.children}
           </g>
@@ -134,14 +134,14 @@ Viewer
   //background of the viewer
   viewerBackground: React.PropTypes.string,
 
-  //width of the paper
-  paperWidth: React.PropTypes.number.isRequired,
+  //width of the artboard
+  artboardWidth: React.PropTypes.number.isRequired,
 
-  //height of the paper
-  paperHeight: React.PropTypes.number.isRequired,
+  //height of the artboard
+  artboardHeight: React.PropTypes.number.isRequired,
 
-  //background of the paper
-  paperBackground: React.PropTypes.string,
+  //background of the artboard
+  artboardBackground: React.PropTypes.string,
 
   //state of the viewer
   value: React.PropTypes.object.isRequired,
@@ -166,6 +166,6 @@ Viewer
   .defaultProps = {
   style: {},
   viewerBackground: "#616264",
-  paperBackground: "#fff",
+  artboardBackground: "#fff",
   tool: TOOL_NONE
 };

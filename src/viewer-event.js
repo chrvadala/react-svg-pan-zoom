@@ -7,20 +7,20 @@ export default class ViewerEvent {
     this.value = value;
   }
 
-  get paperX() {
+  get artboardX() {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ViewerHelper.getPaperPoint(value, x, y);
+      this._cachePoint = ViewerHelper.getArtboardPoint(value, x, y);
     }
     return this._cachePoint.x;
   }
 
-  get paperY() {
+  get artboardY() {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ViewerHelper.getPaperPoint(value, x, y);
+      this._cachePoint = ViewerHelper.getArtboardPoint(value, x, y);
     }
     return this._cachePoint.y;
   }

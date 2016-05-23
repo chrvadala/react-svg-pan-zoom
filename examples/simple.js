@@ -28,8 +28,8 @@ class Simple extends React.Component {
 
   handleClick(event) {
     console.log('click', event);
-    console.log('paperX', event.paperX);
-    console.log('paperY', event.paperY);
+    console.log('artboardX', event.artboardX);
+    console.log('artboardY', event.artboardY);
     console.log('scaleFactor', event.scaleFactor);
     console.log('translationX', event.translationX);
     console.log('translationY', event.translationY);
@@ -37,8 +37,8 @@ class Simple extends React.Component {
 
   handleMouseMove(event) {
     this.setState({
-      x: event.paperX,
-      y: event.paperY
+      x: event.artboardX,
+      y: event.artboardY
     });
   }
 
@@ -52,8 +52,8 @@ class Simple extends React.Component {
         <Viewer
           viewerWidth={400}
           viewerHeight={400}
-          paperWidth={800}
-          paperHeight={800}
+          artboardWidth={800}
+          artboardHeight={800}
           style={{border:'1px solid black'}}
           value={this.state.value}
           onChange={event => this.handleChange(event)}
