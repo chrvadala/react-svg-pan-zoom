@@ -8,7 +8,7 @@ A react component that adds pan and zoom features to SVG
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
+import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from 'react-svg-pan-zoom';
 
 class MyComponent extends React.Component {
 
