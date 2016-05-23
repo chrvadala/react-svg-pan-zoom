@@ -123,33 +123,32 @@ export default class Viewer extends React.Component {
   }
 }
 
-Viewer
-  .propTypes = {
-  //width of the container displayed on screen
+Viewer.propTypes = {
+  //width of the viewer displayed on screen
   viewerWidth: React.PropTypes.number.isRequired,
 
-  //height of the container displayed on screen
+  //height of the viewer displayed on screen
   viewerHeight: React.PropTypes.number.isRequired,
 
   //background of the viewer
   viewerBackground: React.PropTypes.string,
 
-  //width of the artboard
+  //width of the artboard (size of the original vector image)
   artboardWidth: React.PropTypes.number.isRequired,
 
-  //height of the artboard
+  //height of the artboard (size of the original vector image)
   artboardHeight: React.PropTypes.number.isRequired,
 
   //background of the artboard
   artboardBackground: React.PropTypes.string,
 
-  //state of the viewer
+  //value of the viewer (current point of view)
   value: React.PropTypes.object.isRequired,
 
-  //style of the SVG tag
+  //CSS style of the SVG tag
   style: React.PropTypes.object,
 
-  //handler something change
+  //handler something changed
   onChange: React.PropTypes.func.isRequired,
 
   //handler click
@@ -158,7 +157,7 @@ Viewer
   //handler mousemove
   onMouseMove: React.PropTypes.func,
 
-  //active tool
+  //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
   tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM])
 };
 
