@@ -27,22 +27,22 @@ class MyComponent extends React.Component {
   render() {
     return (
       <div>
-        <Viewer
-          viewerWidth={400}
-          viewerHeight={400}
-          artboardWidth={800}
-          artboardHeight={800}
-          value={this.state.value}
-          onChange={event => this.handleChange(event)}
+        <Viewer viewerWidth={400} viewerHeight={400} artboardWidth={800} artboardHeight={800}
+          value={this.state.value} onChange={event => this.handleChange(event)}
           tool={this.state.tool}>
+
           <rect x="30" y="50" width="100" height="70" fill="black"/>
           <circle cx="210" cy="120" r="50" fill="blue"/>
+
         </Viewer>
       </div>
     );
   }
 }
 ```
+## Concepts
+  - `viewer` - `<div>` that contains a part of drawing
+  - `artboard` - canvas that contains the drawing
 
 ## Props
 
@@ -57,4 +57,4 @@ class MyComponent extends React.Component {
   - `onChange` - handler something changed
   - `onClick` - handler click
   - `onMouseMove` - handler mousemove
-  - `tool` - current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
+  - `tool` - current active tool (`TOOL_NONE`, `TOOL_PAN`, `TOOL_ZOOM`)
