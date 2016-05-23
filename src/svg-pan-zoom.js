@@ -67,6 +67,14 @@ class SvgPanZoom extends React.Component {
     onChange(new ArtboardEvent(event, nextValue));
   }
 
+  handleClick(event){
+    let {value, tool, onClick} = this.props;
+    if(tool !== TOOL_NONE) return;
+    if(!onClick) return;
+
+    onClick(new ArtboardEvent(event, value));
+  }
+
   render() {
 
     let matrix = this.props.value.matrix;
@@ -81,6 +89,7 @@ class SvgPanZoom extends React.Component {
         onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event)} }
         onMouseMove={ event => this.handleUpdatePan(event) }
         onMouseUp={ event => this.handleStopPan(event) }
+        onClick={event => this.handleClick(event)}
       >
 
         <rect
@@ -132,8 +141,11 @@ SvgPanZoom
   //style of the SVG tag
   style: React.PropTypes.object,
 
-  //style of the SVG tag
+  //handler something change
   onChange: React.PropTypes.func.isRequired,
+
+  //handler click
+  onClick: React.PropTypes.func,
 
   //active tool
   tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM])

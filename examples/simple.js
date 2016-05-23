@@ -26,6 +26,15 @@ class Simple extends React.Component {
     console.log('changed');
   }
 
+  handleClick(event){
+    console.log('click', event);
+    console.log('paperX', event.paperX);
+    console.log('paperY', event.paperY);
+    console.log('scaleFactor', event.scaleFactor);
+    console.log('translationX', event.translationX);
+    console.log('translationY', event.translationY);
+  }
+
   handleChangeTool(event) {
     this.setState({tool: event.target.value});
   }
@@ -41,6 +50,7 @@ class Simple extends React.Component {
           style={{border:'1px solid black'}}
           value={this.state.value}
           onChange={event => this.handleChange(event)}
+          onClick={event => this.handleClick(event)}
           tool={this.state.tool}
         >
 

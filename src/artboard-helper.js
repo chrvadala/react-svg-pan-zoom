@@ -81,6 +81,26 @@ export default class ArtboardHelper {
 
   }
 
+  static getPaperPoint(value, x, y){
+    let {a, b, c, d, e, f} = value.matrix;
+    let matrix = Matrix.from(a, b, c, d, e, f);
+
+    let inverseMatrix = matrix.inverse();
+    return inverseMatrix.applyToPoint(x, y);
+  }
+
+  static decomposeValue(value){
+    let {a, b, c, d, e, f} = value.matrix;
+    let matrix = Matrix.from(a, b, c, d, e, f);
+    let decompose = matrix.decompose(false);
+
+    return {
+      scaleFactor: decompose.scale.x,
+      translationX: decompose.translate.x,
+      translationY: decompose.translate.y
+    }
+  }
+
   static stopPan(value) {
     return {
       mode: MODE_IDLE,
