@@ -36,17 +36,12 @@ export default class MatrixHelper {
     }
   }
 
-  static applyMatrix(matrix, operation){
-    let m = Matrix.from(
-      matrix.a,
-      matrix.b,
-      matrix.c,
-      matrix.d,
-      matrix.e,
-      matrix.f);
+  static applyMatrix({a,b,c,d,e,f}, operation){
 
-    m.multiply(operation);
+    let matrix = Matrix.from(a,b,c,d,e,f);
 
-    return { a: m.a, b: m.b, c: m.c,  d: m.d, e: m.e, f: m.f };
+    return {a, b, c, d, e ,f} = matrix.multiply(operation);
+
+
   }
 }
