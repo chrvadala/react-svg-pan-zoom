@@ -4,7 +4,7 @@ import {
   MODE_PANNING
 } from './constants';
 
-export default class ArtboardHelper {
+export default class ViewerHelper {
 
   static getDefaultValue() {
     let matrix = new Matrix();

@@ -2,20 +2,20 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {SvgPanZoom, ArtboardHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
+import {SvgPanZoom, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
 
 class Simple extends React.Component {
 
   constructor(props) {
     super(props);
 
-    let defaultValue = ArtboardHelper.getDefaultValue();
+    let defaultValue = ViewerHelper.getDefaultValue();
 
-    //defaultValue =  ArtboardHelper.zoom(defaultValue, 4.1, 30, 50);
-    //defaultValue =  ArtboardHelper.pan(defaultValue, 100, 80);
-    //defaultValue = ArtboardHelper.startPan(defaultValue, 0, 0);
-    //defaultValue = ArtboardHelper.updatePan(defaultValue, 100, 100);
-    //defaultValue = ArtboardHelper.stopPan(defaultValue, 100, 100);
+    //defaultValue =  ViewerHelper.zoom(defaultValue, 4.1, 30, 50);
+    //defaultValue =  ViewerHelper.pan(defaultValue, 100, 80);
+    //defaultValue = ViewerHelper.startPan(defaultValue, 0, 0);
+    //defaultValue = ViewerHelper.updatePan(defaultValue, 100, 100);
+    //defaultValue = ViewerHelper.stopPan(defaultValue, 100, 100);
 
     this.state = {value: defaultValue, tool: TOOL_NONE};
   }
@@ -50,8 +50,8 @@ class Simple extends React.Component {
     return (
       <div style={{margin:'100px'}}>
         <SvgPanZoom
-          artboardWidth={400}
-          artboardHeight={400}
+          viewerWidth={400}
+          viewerHeight={400}
           paperWidth={800}
           paperHeight={800}
           style={{border:'1px solid black'}}

@@ -1,6 +1,6 @@
 import React from 'react';
-import ArtboardHelper from './viewer-helper';
-import ArtboardEvent from './viewer-event';
+import ViewerHelper from './viewer-helper';
+import ViewerEvent from './viewer-event';
 import {
   TOOL_NONE,
   TOOL_PAN,
@@ -18,10 +18,10 @@ class SvgPanZoom extends React.Component {
     if(tool !== TOOL_PAN) return;
     if(value.mode !== MODE_IDLE) return;
 
-    let nextValue = ArtboardHelper.startPan(value, x, y);
+    let nextValue = ViewerHelper.startPan(value, x, y);
 
     event.preventDefault();
-    onChange(new ArtboardEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue));
   }
 
   handleUpdatePan(event) {
@@ -34,10 +34,10 @@ class SvgPanZoom extends React.Component {
     //the mouse exited and reentered into svg
     let forceExit = (value.mode === MODE_PANNING && event.buttons === 0);
 
-    let nextValue = forceExit ? ArtboardHelper.stopPan(value) : ArtboardHelper.updatePan(value, x, y);
+    let nextValue = forceExit ? ViewerHelper.stopPan(value) : ViewerHelper.updatePan(value, x, y);
 
     event.preventDefault();
-    onChange(new ArtboardEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue));
   }
 
   handleStopPan(event) {
@@ -47,10 +47,10 @@ class SvgPanZoom extends React.Component {
     if(tool !== TOOL_PAN) return;
     if(value.mode !== MODE_PANNING) return;
 
-    let nextValue = ArtboardHelper.stopPan(value, x, y);
+    let nextValue = ViewerHelper.stopPan(value, x, y);
 
     event.preventDefault();
-    onChange(new ArtboardEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue));
   }
 
   handleZoom(event) {
@@ -61,10 +61,10 @@ class SvgPanZoom extends React.Component {
 
     let scaleFactor = event.altKey ? 0.9 : 1.1;
 
-    let nextValue = ArtboardHelper.zoom(value, scaleFactor, x, y);
+    let nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
 
     event.preventDefault();
-    onChange(new ArtboardEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue));
   }
 
   handleClick(event){
@@ -72,7 +72,7 @@ class SvgPanZoom extends React.Component {
     if(tool !== TOOL_NONE) return;
     if(!onClick) return;
 
-    onClick(new ArtboardEvent(event, value));
+    onClick(new ViewerEvent(event, value));
   }
 
   handleMouseMove(event){
@@ -80,7 +80,7 @@ class SvgPanZoom extends React.Component {
     if(tool !== TOOL_NONE) return;
     if(!onMouseMove) return;
 
-    onMouseMove(new ArtboardEvent(event, value));
+    onMouseMove(new ViewerEvent(event, value));
   }
 
   render() {
@@ -91,8 +91,8 @@ class SvgPanZoom extends React.Component {
     return (
       <svg
         ref="svg"
-        width={this.props.artboardWidth}
-        height={this.props.artboardHeight}
+        width={this.props.viewerWidth}
+        height={this.props.viewerHeight}
         style={this.props.style}
         onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event)} }
         onMouseMove={ event => {this.handleUpdatePan(event); this.handleMouseMove(event)} }
@@ -101,11 +101,11 @@ class SvgPanZoom extends React.Component {
       >
 
         <rect
-          fill={this.props.artboardBackground}
+          fill={this.props.viewerBackground}
           x={0}
           y={0}
-          width={this.props.artboardWidth}
-          height={this.props.artboardHeight}/>
+          width={this.props.viewerWidth}
+          height={this.props.viewerHeight}/>
 
         <g ref="paper" transform={matrixStr}>
           <rect
@@ -126,13 +126,13 @@ class SvgPanZoom extends React.Component {
 SvgPanZoom
   .propTypes = {
   //width of the container displayed on screen
-  artboardWidth: React.PropTypes.number.isRequired,
+  viewerWidth: React.PropTypes.number.isRequired,
 
   //height of the container displayed on screen
-  artboardHeight: React.PropTypes.number.isRequired,
+  viewerHeight: React.PropTypes.number.isRequired,
 
-  //background of the artboard
-  artboardBackground: React.PropTypes.string,
+  //background of the viewer
+  viewerBackground: React.PropTypes.string,
 
   //width of the paper
   paperWidth: React.PropTypes.number.isRequired,
@@ -143,7 +143,7 @@ SvgPanZoom
   //background of the paper
   paperBackground: React.PropTypes.string,
 
-  //state of the artboard
+  //state of the viewer
   value: React.PropTypes.object.isRequired,
 
   //style of the SVG tag
@@ -165,7 +165,7 @@ SvgPanZoom
 SvgPanZoom
   .defaultProps = {
   style: {},
-  artboardBackground: "#616264",
+  viewerBackground: "#616264",
   paperBackground: "#fff",
   tool: TOOL_NONE
 };

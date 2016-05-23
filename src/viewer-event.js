@@ -1,6 +1,6 @@
-import ArtboardHelper from './viewer-helper';
+import ViewerHelper from './viewer-helper';
 
-export default class ArtboardEvent {
+export default class ViewerEvent {
 
   constructor(originalEvent, value) {
     this.originalEvent = originalEvent;
@@ -11,7 +11,7 @@ export default class ArtboardEvent {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ArtboardHelper.getPaperPoint(value, x, y);
+      this._cachePoint = ViewerHelper.getPaperPoint(value, x, y);
     }
     return this._cachePoint.x;
   }
@@ -20,7 +20,7 @@ export default class ArtboardEvent {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ArtboardHelper.getPaperPoint(value, x, y);
+      this._cachePoint = ViewerHelper.getPaperPoint(value, x, y);
     }
     return this._cachePoint.y;
   }
@@ -28,7 +28,7 @@ export default class ArtboardEvent {
   get scaleFactor() {
     if (!this._cacheDecomposedValue) {
       let value = this.value;
-      this._cacheDecomposedValue = ArtboardHelper.decomposeValue(value);
+      this._cacheDecomposedValue = ViewerHelper.decomposeValue(value);
     }
     return this._cacheDecomposedValue.scaleFactor;
   }
@@ -36,7 +36,7 @@ export default class ArtboardEvent {
   get translationX() {
     if (!this._cacheDecomposedValue) {
       let value = this.value;
-      this._cacheDecomposedValue = ArtboardHelper.decomposeValue(value);
+      this._cacheDecomposedValue = ViewerHelper.decomposeValue(value);
     }
     return this._cacheDecomposedValue.translationX;
   }
@@ -44,7 +44,7 @@ export default class ArtboardEvent {
   get translationY() {
     if (!this._cacheDecomposedValue) {
       let value = this.value;
-      this._cacheDecomposedValue = ArtboardHelper.decomposeValue(value);
+      this._cacheDecomposedValue = ViewerHelper.decomposeValue(value);
     }
     return this._cacheDecomposedValue.translationY;
   }
