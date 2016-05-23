@@ -1,99 +1,76 @@
 import React from 'react';
-import MatrixHelper from './matrix-helper';
-
-const MODE_IDLE = 'idle';
-const MODE_PANNING = 'panning';
-const MODE_ZOOMING = 'zooming';
+import ArtboardHelper from './artboard-helper';
+import ArtboardEvent from './artboard-event';
+import {
+  TOOL_NONE,
+  TOOL_PAN,
+  TOOL_ZOOM,
+  MODE_IDLE,
+  MODE_PANNING
+} from './constants';
 
 class SvgPanZoom extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      matrix: MatrixHelper.identity(),
-      mode: MODE_IDLE
-    };
-  }
 
-  _handleStartPanning(event) {
-    let {matrix} = this.state;
-    let x = event.clientX, y = event.clientY;
-
-    this.setState({
-      mode: MODE_PANNING,
-      panningInfo: {
-        startPoint: {x, y},
-        startMatrix: Object.assign({}, matrix)
-      }
-    });
-  }
-
-  _handleUpdatePanning(event) {
-    let state = this.state, props = this.props;
-    let x = event.clientX, y = event.clientY;
-    let {
-      artboardWidth,
-      artboardHeight,
-      paperWidth,
-      paperHeight
-      } = props;
-
-    if (state.mode === MODE_PANNING) {
-      let {startPoint, startMatrix} = state.panningInfo;
-
-      //the mouse exited and reentered from svg
-      if (event.buttons === 0) {
-        this.setState({
-          mode: MODE_IDLE
-        });
-        return;
-      }
-
-      let translation = MatrixHelper.extractTranslation(startMatrix);
-
-      let deltaX = startPoint.x - x;
-      let deltaY = startPoint.y - y;
-
-      let XTranslation = translation.x - deltaX;
-      let YTranslation = translation.y - deltaY;
-
-      //avoid that paper exit from screen
-      let maxBounding = 50;
-      XTranslation = Math.min(XTranslation, artboardWidth - maxBounding);
-      XTranslation = Math.max(XTranslation, -(paperWidth - maxBounding));
-      YTranslation = Math.min(YTranslation, artboardHeight - maxBounding);
-      YTranslation = Math.max(YTranslation, -(paperHeight - maxBounding));
-
-      this.setState({
-        matrix: MatrixHelper.translate(startMatrix, XTranslation, YTranslation)
-      });
-      event.preventDefault();
-    }
-  }
-
-  _handleStopPanning(event) {
-    let state = this.state;
-    if (state.mode === MODE_PANNING) {
-      this._handleUpdatePanning(event);
-      this.setState({
-        mode: MODE_IDLE
-      });
-    }
-  }
-
-  _handleZoom(event) {
-    let {matrix} = this.state;
+  handleStartPan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange} = this.props;
 
-    if (event.shiftKey) {
-      this.setState({
-        matrix: MatrixHelper.scale(matrix, 1.1, x, y)
-      });
-    }
+    if(tool !== TOOL_PAN) return;
+    if(value.mode !== MODE_IDLE) return;
+
+    let nextValue = ArtboardHelper.startPan(value, x, y);
+
+    event.preventDefault();
+    onChange(new ArtboardEvent(event, nextValue));
+  }
+
+  handleUpdatePan(event) {
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange} = this.props;
+
+    if(tool !== TOOL_PAN) return;
+    if(value.mode !== MODE_PANNING) return;
+
+    //the mouse exited and reentered into svg
+    let forceExit = (value.mode === MODE_PANNING && event.buttons === 0);
+
+    let nextValue = forceExit ? ArtboardHelper.stopPan(value) : ArtboardHelper.updatePan(value, x, y);
+
+    event.preventDefault();
+    onChange(new ArtboardEvent(event, nextValue));
+  }
+
+  handleStopPan(event) {
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange} = this.props;
+
+    if(tool !== TOOL_PAN) return;
+    if(value.mode !== MODE_PANNING) return;
+
+    let nextValue = ArtboardHelper.stopPan(value, x, y);
+
+    event.preventDefault();
+    onChange(new ArtboardEvent(event, nextValue));
+  }
+
+  handleZoom(event) {
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange} = this.props;
+
+    if(tool !== TOOL_ZOOM) return;
+
+    let scaleFactor = event.altKey ? 0.9 : 1.1;
+
+    let nextValue = ArtboardHelper.zoom(value, scaleFactor, x, y);
+
+    event.preventDefault();
+    onChange(new ArtboardEvent(event, nextValue));
   }
 
   render() {
 
-    let matrix = this.state.matrix;
+    let matrix = this.props.value.matrix;
+    let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     return (
       <svg
@@ -101,9 +78,9 @@ class SvgPanZoom extends React.Component {
         width={this.props.artboardWidth}
         height={this.props.artboardHeight}
         style={this.props.style}
-        onMouseDown={ event => {this._handleZoom(event); this._handleStartPanning(event)} }
-        onMouseMove={ event => this._handleUpdatePanning(event) }
-        onMouseUp={ event => this._handleStopPanning(event) }
+        onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event)} }
+        onMouseMove={ event => this.handleUpdatePan(event) }
+        onMouseUp={ event => this.handleStopPan(event) }
       >
 
         <rect
@@ -113,7 +90,7 @@ class SvgPanZoom extends React.Component {
           width={this.props.artboardWidth}
           height={this.props.artboardHeight}/>
 
-        <g ref="paper" transform={MatrixHelper.stringify(matrix)}>
+        <g ref="paper" transform={matrixStr}>
           <rect
             fill={this.props.paperBackground}
             x={0}
@@ -149,15 +126,25 @@ SvgPanZoom
   //background of the paper
   paperBackground: React.PropTypes.string,
 
+  //state of the artboard
+  value: React.PropTypes.object.isRequired,
+
   //style of the SVG tag
-  style: React.PropTypes.object
+  style: React.PropTypes.object,
+
+  //style of the SVG tag
+  onChange: React.PropTypes.func.isRequired,
+
+  //active tool
+  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM])
 };
 
 SvgPanZoom
   .defaultProps = {
   style: {},
   artboardBackground: "#616264",
-  paperBackground: "#fff"
+  paperBackground: "#fff",
+  tool: TOOL_NONE
 };
 
 export
