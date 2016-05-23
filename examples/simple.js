@@ -35,6 +35,13 @@ class Simple extends React.Component {
     console.log('translationY', event.translationY);
   }
 
+  handleMouseMove(event){
+    this.setState({
+      x: event.paperX,
+      y: event.paperY
+    });
+  }
+
   handleChangeTool(event) {
     this.setState({tool: event.target.value});
   }
@@ -51,6 +58,7 @@ class Simple extends React.Component {
           value={this.state.value}
           onChange={event => this.handleChange(event)}
           onClick={event => this.handleClick(event)}
+          onMouseMove={event => this.handleMouseMove(event)}
           tool={this.state.tool}
         >
 
@@ -79,6 +87,10 @@ class Simple extends React.Component {
             onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM
           </li>
         </ul>
+
+        <div>
+          Position: {this.state.x},{this.state.y}
+        </div>
 
       </div>
 
