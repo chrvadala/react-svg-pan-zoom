@@ -1,6 +1,6 @@
 import React from 'react';
-import ArtboardHelper from './artboard-helper';
-import ArtboardEvent from './artboard-event';
+import ArtboardHelper from './viewer-helper';
+import ArtboardEvent from './viewer-event';
 import {
   TOOL_NONE,
   TOOL_PAN,

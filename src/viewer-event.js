@@ -1,4 +1,4 @@
-import ArtboardHelper from './artboard-helper';
+import ArtboardHelper from './viewer-helper';
 
 export default class ArtboardEvent {
 

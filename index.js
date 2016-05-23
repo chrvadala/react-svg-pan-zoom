@@ -1,5 +1,5 @@
-import SvgPanZoom from './src/svg-pan-zoom';
-import ArtboardHelper from './src/artboard-helper';
+import SvgPanZoom from './src/viewer';
+import ArtboardHelper from './src/viewer-helper';
 import { TOOL_NONE, TOOL_PAN, TOOL_ZOOM }from './src/constants';
 
 export {
