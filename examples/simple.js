@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {SvgPanZoom, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
+import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
 
 class Simple extends React.Component {
 
@@ -49,7 +49,7 @@ class Simple extends React.Component {
   render() {
     return (
       <div style={{margin:'100px'}}>
-        <SvgPanZoom
+        <Viewer
           viewerWidth={400}
           viewerHeight={400}
           paperWidth={800}
@@ -66,7 +66,7 @@ class Simple extends React.Component {
           <circle cx="210" cy="120" r="50" fill="blue"/>
 
 
-        </SvgPanZoom>
+        </Viewer>
         <ul style={{listStyle: "none", padding:"0px"}}>
           <li><input
             type="radio"

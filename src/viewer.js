@@ -9,7 +9,7 @@ import {
   MODE_PANNING
 } from './constants';
 
-class SvgPanZoom extends React.Component {
+export default class Viewer extends React.Component {
 
   handleStartPan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
@@ -123,7 +123,7 @@ class SvgPanZoom extends React.Component {
   }
 }
 
-SvgPanZoom
+Viewer
   .propTypes = {
   //width of the container displayed on screen
   viewerWidth: React.PropTypes.number.isRequired,
@@ -162,14 +162,10 @@ SvgPanZoom
   tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM])
 };
 
-SvgPanZoom
+Viewer
   .defaultProps = {
   style: {},
   viewerBackground: "#616264",
   paperBackground: "#fff",
   tool: TOOL_NONE
 };
-
-export
-default
-SvgPanZoom;
