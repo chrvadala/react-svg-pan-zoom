@@ -26,7 +26,7 @@ class Simple extends React.Component {
     console.log('changed');
   }
 
-  handleClick(event){
+  handleClick(event) {
     console.log('click', event);
     console.log('paperX', event.paperX);
     console.log('paperY', event.paperY);
@@ -35,7 +35,7 @@ class Simple extends React.Component {
     console.log('translationY', event.translationY);
   }
 
-  handleMouseMove(event){
+  handleMouseMove(event) {
     this.setState({
       x: event.paperX,
       y: event.paperY
