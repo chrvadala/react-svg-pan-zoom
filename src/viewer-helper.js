@@ -81,6 +81,23 @@ export default class ViewerHelper {
 
   }
 
+  static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight){
+
+    let scaleX = viewerWidth / selectionWidth;
+    let scaleY = viewerHeight / selectionHeight;
+
+    let scale = Math.min(scaleX, scaleY);
+
+    let matrix = new Matrix();
+    matrix = matrix.scaleU(scale);
+    matrix = matrix.translate(-selectionX, -selectionY);
+
+    return {
+      mode: MODE_IDLE,
+      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}
+    };
+  }
+
   static getArtboardPoint(value, x, y) {
     let {a, b, c, d, e, f} = value.matrix;
     let matrix = Matrix.from(a, b, c, d, e, f);
