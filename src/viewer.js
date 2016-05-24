@@ -63,8 +63,8 @@ export default class Viewer extends React.Component {
     if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
 
     let scaleFactor = event.altKey ? 0.9 : 1.1;
-    if(tool === TOOL_ZOOM_IN) scaleFactor = 1.1;
-    if(tool === TOOL_ZOOM_OUT) scaleFactor = 0.9;
+    if (tool === TOOL_ZOOM_IN) scaleFactor = 1.1;
+    if (tool === TOOL_ZOOM_OUT) scaleFactor = 0.9;
 
     let nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
 
@@ -90,11 +90,11 @@ export default class Viewer extends React.Component {
 
   render() {
     let tool = this.props.tool;
-    let matrix = this.props.value.matrix;
+    let {matrix, mode} = this.props.value;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
-    if (tool === TOOL_PAN) style.cursor = cursor('grab');
+    if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
     if (tool === TOOL_ZOOM) style.cursor = cursor('zoom-in');
     if (tool === TOOL_ZOOM_IN) style.cursor = cursor('zoom-in');
     if (tool === TOOL_ZOOM_OUT) style.cursor = cursor('zoom-out');
