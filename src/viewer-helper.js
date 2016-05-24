@@ -81,6 +81,13 @@ export default class ViewerHelper {
 
   }
 
+  static stopPan(value) {
+    return {
+      mode: MODE_IDLE,
+      matrix: Object.assign({}, value.matrix)
+    };
+  }
+
   static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight){
 
     let scaleX = viewerWidth / selectionWidth;
@@ -116,13 +123,6 @@ export default class ViewerHelper {
       translationX: decompose.translate.x,
       translationY: decompose.translate.y
     }
-  }
-
-  static stopPan(value) {
-    return {
-      mode: MODE_IDLE,
-      matrix: Object.assign({}, value.matrix)
-    };
   }
 
 }
