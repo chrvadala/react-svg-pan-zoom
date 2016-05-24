@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
+import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from '../index';
 
 class Simple extends React.Component {
 
@@ -85,6 +85,18 @@ class Simple extends React.Component {
             value={TOOL_ZOOM}
             checked={this.state.tool === TOOL_ZOOM}
             onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM
+          </li>
+          <li><input
+            type="radio"
+            value={TOOL_ZOOM_IN}
+            checked={this.state.tool === TOOL_ZOOM_IN}
+            onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM IN
+          </li>
+          <li><input
+            type="radio"
+            value={TOOL_ZOOM_OUT}
+            checked={this.state.tool === TOOL_ZOOM_OUT}
+            onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM OUT
           </li>
         </ul>
 

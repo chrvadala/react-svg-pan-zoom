@@ -6,6 +6,8 @@ import {
   TOOL_NONE,
   TOOL_PAN,
   TOOL_ZOOM,
+  TOOL_ZOOM_IN,
+  TOOL_ZOOM_OUT,
   MODE_IDLE,
   MODE_PANNING
 } from './constants';
@@ -16,8 +18,8 @@ export default class Viewer extends React.Component {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
 
-    if(tool !== TOOL_PAN) return;
-    if(value.mode !== MODE_IDLE) return;
+    if (tool !== TOOL_PAN) return;
+    if (value.mode !== MODE_IDLE) return;
 
     let nextValue = ViewerHelper.startPan(value, x, y);
 
@@ -29,8 +31,8 @@ export default class Viewer extends React.Component {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
 
-    if(tool !== TOOL_PAN) return;
-    if(value.mode !== MODE_PANNING) return;
+    if (tool !== TOOL_PAN) return;
+    if (value.mode !== MODE_PANNING) return;
 
     //the mouse exited and reentered into svg
     let forceExit = (value.mode === MODE_PANNING && event.buttons === 0);
@@ -45,8 +47,8 @@ export default class Viewer extends React.Component {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
 
-    if(tool !== TOOL_PAN) return;
-    if(value.mode !== MODE_PANNING) return;
+    if (tool !== TOOL_PAN) return;
+    if (value.mode !== MODE_PANNING) return;
 
     let nextValue = ViewerHelper.stopPan(value, x, y);
 
@@ -58,9 +60,11 @@ export default class Viewer extends React.Component {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
 
-    if(tool !== TOOL_ZOOM) return;
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
 
     let scaleFactor = event.altKey ? 0.9 : 1.1;
+    if(tool === TOOL_ZOOM_IN) scaleFactor = 1.1;
+    if(tool === TOOL_ZOOM_OUT) scaleFactor = 0.9;
 
     let nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
 
@@ -68,18 +72,18 @@ export default class Viewer extends React.Component {
     onChange(new ViewerEvent(event, nextValue));
   }
 
-  handleClick(event){
+  handleClick(event) {
     let {value, tool, onClick} = this.props;
-    if(tool !== TOOL_NONE) return;
-    if(!onClick) return;
+    if (tool !== TOOL_NONE) return;
+    if (!onClick) return;
 
     onClick(new ViewerEvent(event, value));
   }
 
-  handleMouseMove(event){
+  handleMouseMove(event) {
     let {value, tool, onMouseMove} = this.props;
-    if(tool !== TOOL_NONE) return;
-    if(!onMouseMove) return;
+    if (tool !== TOOL_NONE) return;
+    if (!onMouseMove) return;
 
     onMouseMove(new ViewerEvent(event, value));
   }
@@ -90,8 +94,10 @@ export default class Viewer extends React.Component {
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
-    if(tool === TOOL_PAN) style.cursor = cursor('grab');
-    if(tool === TOOL_ZOOM) style.cursor = cursor('zoom-in');
+    if (tool === TOOL_PAN) style.cursor = cursor('grab');
+    if (tool === TOOL_ZOOM) style.cursor = cursor('zoom-in');
+    if (tool === TOOL_ZOOM_IN) style.cursor = cursor('zoom-in');
+    if (tool === TOOL_ZOOM_OUT) style.cursor = cursor('zoom-out');
 
     return (
       <svg
@@ -163,7 +169,7 @@ Viewer.propTypes = {
   onMouseMove: React.PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
-  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM])
+  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT])
 };
 
 Viewer
