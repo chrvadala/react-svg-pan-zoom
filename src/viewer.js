@@ -1,6 +1,7 @@
 import React from 'react';
 import ViewerHelper from './viewer-helper';
 import ViewerEvent from './viewer-event';
+import cursor from './cursor';
 import {
   TOOL_NONE,
   TOOL_PAN,
@@ -84,16 +85,20 @@ export default class Viewer extends React.Component {
   }
 
   render() {
-
+    let tool = this.props.tool;
     let matrix = this.props.value.matrix;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
+
+    let style = {};
+    if(tool === TOOL_PAN) style.cursor = cursor('grab');
+    if(tool === TOOL_ZOOM) style.cursor = cursor('zoom-in');
 
     return (
       <svg
         ref="svg"
         width={this.props.viewerWidth}
         height={this.props.viewerHeight}
-        style={this.props.style}
+        style={Object.assign(style, this.props.style)}
         onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event)} }
         onMouseMove={ event => {this.handleUpdatePan(event); this.handleMouseMove(event)} }
         onMouseUp={ event => this.handleStopPan(event) }
