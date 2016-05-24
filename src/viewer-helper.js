@@ -1,4 +1,5 @@
 import {Matrix} from 'transformation-matrix-js';
+import {calculateBox} from './utils';
 import {
   MODE_IDLE,
   MODE_PANNING,
@@ -119,10 +120,9 @@ export default class ViewerHelper {
     let start = ViewerHelper.getArtboardPoint(value, startX, startY);
     let end = ViewerHelper.getArtboardPoint(value, endX, endY);
 
-    let selectionWidth = end.x - start.x;
-    let selectionHeight = end.y - start.y;
+    let box = calculateBox(start, end);
 
-    return ViewerHelper.fitSelectionToViewer(value, start.x, start.y, selectionWidth, selectionHeight, viewerWidth, viewerHeight);
+    return ViewerHelper.fitSelectionToViewer(value, box.x, box.y, box.width, box.height, viewerWidth, viewerHeight);
   }
 
   static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight){

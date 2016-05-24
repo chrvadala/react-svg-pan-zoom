@@ -2,6 +2,7 @@ import React from 'react';
 import ViewerHelper from './viewer-helper';
 import ViewerEvent from './viewer-event';
 import cursor from './cursor';
+import {calculateBox} from './utils';
 import {
   TOOL_NONE,
   TOOL_PAN,
@@ -146,18 +147,20 @@ export default class Viewer extends React.Component {
     if (tool === TOOL_ZOOM_OUT) style.cursor = cursor('zoom-out');
 
     let zoomSelectionRect;
-    if(mode === MODE_ZOOM_SELECTING) {
+    if (mode === MODE_ZOOM_SELECTING) {
       let {startX, startY, endX, endY} = this.props.value;
+      let box = calculateBox({x: startX, y: startY}, {x: endX, y: endY});
+
       zoomSelectionRect =
         <rect
           stroke="#969FFF"
           strokeOpacity={0.7}
           fill="#F3F4FF"
           fillOpacity={0.7}
-          x={startX}
-          y={startY}
-          width={endX - startX}
-          height={endY - startY}/>
+          x={box.x}
+          y={box.y}
+          width={box.width}
+          height={box.height}/>
     }
 
 
