@@ -1,7 +1,8 @@
 import {Matrix} from 'transformation-matrix-js';
 import {
   MODE_IDLE,
-  MODE_PANNING
+  MODE_PANNING,
+  MODE_ZOOM_SELECTING
 } from './constants';
 
 export default class ViewerHelper {
@@ -86,6 +87,42 @@ export default class ViewerHelper {
       mode: MODE_IDLE,
       matrix: Object.assign({}, value.matrix)
     };
+  }
+
+  static startZoomSelection(value, x, y) {
+    return {
+      mode: MODE_ZOOM_SELECTING,
+      startX: x,
+      startY: y,
+      endX: x,
+      endY: y,
+      matrix: Object.assign({}, value.matrix)
+    };
+  }
+
+  static updateZoomSelection(value, x, y) {
+    if (value.mode !== MODE_ZOOM_SELECTING) throw new Error('update selection not allowed in this mode ' + value.mode);
+
+    return {
+      mode: MODE_ZOOM_SELECTING,
+      startX: value.startX,
+      startY: value.startY,
+      endX: x,
+      endY: y,
+      matrix: Object.assign({}, value.matrix)
+    };
+  }
+
+  static stopZoomSelection(value, viewerWidth, viewerHeight) {
+    let {startX, startY, endX, endY} = value;
+
+    let start = ViewerHelper.getArtboardPoint(value, startX, startY);
+    let end = ViewerHelper.getArtboardPoint(value, endX, endY);
+
+    let selectionWidth = end.x - start.x;
+    let selectionHeight = end.y - start.y;
+
+    return ViewerHelper.fitSelectionToViewer(value, start.x, start.y, selectionWidth, selectionHeight, viewerWidth, viewerHeight);
   }
 
   static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight){

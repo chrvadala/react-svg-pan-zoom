@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from '../index';
+import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_ZOOM_FIT} from '../index';
 
 class Simple extends React.Component {
 
@@ -16,6 +16,11 @@ class Simple extends React.Component {
     //defaultValue = ViewerHelper.startPan(defaultValue, 0, 0);
     //defaultValue = ViewerHelper.updatePan(defaultValue, 100, 100);
     //defaultValue = ViewerHelper.stopPan(defaultValue, 100, 100);
+
+    //defaultValue = ViewerHelper.fitSelectionToViewer(
+    //  defaultValue,
+    //  30, 50, 100, 70,
+    //  400, 400);
 
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
   }
@@ -97,6 +102,12 @@ class Simple extends React.Component {
             value={TOOL_ZOOM_OUT}
             checked={this.state.tool === TOOL_ZOOM_OUT}
             onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM OUT
+          </li>
+          <li><input
+            type="radio"
+            value={TOOL_ZOOM_FIT}
+            checked={this.state.tool === TOOL_ZOOM_FIT}
+            onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM FIT
           </li>
         </ul>
 

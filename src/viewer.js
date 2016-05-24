@@ -8,8 +8,10 @@ import {
   TOOL_ZOOM,
   TOOL_ZOOM_IN,
   TOOL_ZOOM_OUT,
+  TOOL_ZOOM_FIT,
   MODE_IDLE,
-  MODE_PANNING
+  MODE_PANNING,
+  MODE_ZOOM_SELECTING,
 } from './constants';
 
 export default class Viewer extends React.Component {
@@ -72,6 +74,50 @@ export default class Viewer extends React.Component {
     onChange(new ViewerEvent(event, nextValue));
   }
 
+  handleStartZoomSelection(event) {
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange} = this.props;
+
+    if (tool !== TOOL_ZOOM_FIT) return;
+    if (value.mode !== MODE_IDLE) return;
+
+    let nextValue = ViewerHelper.startZoomSelection(value, x, y);
+
+    event.preventDefault();
+    onChange(new ViewerEvent(event, nextValue));
+  }
+
+  handleUpdateZoomSelection(event) {
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange, viewerWidth, viewerHeight} = this.props;
+
+    if (tool !== TOOL_ZOOM_FIT) return;
+    if (value.mode !== MODE_ZOOM_SELECTING) return;
+
+    //the mouse exited and reentered into svg
+    let forceExit = (event.buttons === 0);
+
+    let nextValue = forceExit ?
+      ViewerHelper.stopZoomSelection(value, viewerWidth, viewerWidth)
+      : ViewerHelper.updateZoomSelection(value, x, y);
+
+    event.preventDefault();
+    onChange(new ViewerEvent(event, nextValue));
+  }
+
+  handleStopZoomSelection(event) {
+    let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+    let {value, tool, onChange, viewerWidth, viewerHeight} = this.props;
+
+    if (tool !== TOOL_ZOOM_FIT) return;
+    if (value.mode !== MODE_ZOOM_SELECTING) return;
+
+    let nextValue = ViewerHelper.stopZoomSelection(value, viewerWidth, viewerWidth);
+
+    event.preventDefault();
+    onChange(new ViewerEvent(event, nextValue));
+  }
+
   handleClick(event) {
     let {value, tool, onClick} = this.props;
     if (tool !== TOOL_NONE) return;
@@ -99,15 +145,31 @@ export default class Viewer extends React.Component {
     if (tool === TOOL_ZOOM_IN) style.cursor = cursor('zoom-in');
     if (tool === TOOL_ZOOM_OUT) style.cursor = cursor('zoom-out');
 
+    let zoomSelectionRect;
+    if(mode === MODE_ZOOM_SELECTING) {
+      let {startX, startY, endX, endY} = this.props.value;
+      zoomSelectionRect =
+        <rect
+          stroke="#969FFF"
+          strokeOpacity={0.7}
+          fill="#F3F4FF"
+          fillOpacity={0.7}
+          x={startX}
+          y={startY}
+          width={endX - startX}
+          height={endY - startY}/>
+    }
+
+
     return (
       <svg
         ref="svg"
         width={this.props.viewerWidth}
         height={this.props.viewerHeight}
         style={Object.assign(style, this.props.style)}
-        onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event)} }
-        onMouseMove={ event => {this.handleUpdatePan(event); this.handleMouseMove(event)} }
-        onMouseUp={ event => this.handleStopPan(event) }
+        onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event); this.handleStartZoomSelection(event)} }
+        onMouseMove={ event => {this.handleUpdatePan(event); this.handleMouseMove(event); this.handleUpdateZoomSelection(event)} }
+        onMouseUp={ event => {this.handleStopPan(event); this.handleStopZoomSelection(event)} }
         onClick={event => this.handleClick(event)}
       >
 
@@ -129,6 +191,7 @@ export default class Viewer extends React.Component {
             {this.props.children}
           </g>
         </g>
+        {zoomSelectionRect}
       </svg>
     );
   }
@@ -169,7 +232,7 @@ Viewer.propTypes = {
   onMouseMove: React.PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
-  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT])
+  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_ZOOM_FIT])
 };
 
 Viewer
