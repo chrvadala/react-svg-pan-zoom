@@ -99,7 +99,7 @@ export default class Viewer extends React.Component {
     let forceExit = (event.buttons === 0);
 
     let nextValue = forceExit ?
-      ViewerHelper.stopZoomSelection(value, width, width)
+      ViewerHelper.stopZoomSelection(value, width, height)
       : ViewerHelper.updateZoomSelection(value, x, y);
 
     event.preventDefault();
@@ -113,7 +113,7 @@ export default class Viewer extends React.Component {
     if (tool !== TOOL_ZOOM_FIT) return;
     if (value.mode !== MODE_ZOOM_SELECTING) return;
 
-    let nextValue = ViewerHelper.stopZoomSelection(value, width, width);
+    let nextValue = ViewerHelper.stopZoomSelection(value, width, height);
 
     event.preventDefault();
     onChange(new ViewerEvent(event, nextValue));
