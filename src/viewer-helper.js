@@ -3,7 +3,7 @@ import {calculateBox} from './utils';
 import {
   MODE_IDLE,
   MODE_PANNING,
-  MODE_ZOOM_SELECTING
+  MODE_ZOOMING
 } from './constants';
 
 export default class ViewerHelper {
@@ -92,7 +92,7 @@ export default class ViewerHelper {
 
   static startZoomSelection(value, x, y) {
     return {
-      mode: MODE_ZOOM_SELECTING,
+      mode: MODE_ZOOMING,
       startX: x,
       startY: y,
       endX: x,
@@ -102,10 +102,10 @@ export default class ViewerHelper {
   }
 
   static updateZoomSelection(value, x, y) {
-    if (value.mode !== MODE_ZOOM_SELECTING) throw new Error('update selection not allowed in this mode ' + value.mode);
+    if (value.mode !== MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + value.mode);
 
     return {
-      mode: MODE_ZOOM_SELECTING,
+      mode: MODE_ZOOMING,
       startX: value.startX,
       startY: value.startY,
       endX: x,

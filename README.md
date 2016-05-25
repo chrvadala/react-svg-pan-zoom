@@ -62,4 +62,4 @@ class MyComponent extends React.Component {
   - `onChange` - handler something changed
   - `onClick` - handler click
   - `onMouseMove` - handler mousemove
-  - `tool` - current active tool (`TOOL_NONE`, `TOOL_PAN`, `TOOL_ZOOM`, `TOOL_ZOOM_IN`, `TOOL_ZOOM_OUT`)
+  - `tool` - active tool (`TOOL_NONE`, `TOOL_PAN`, `TOOL_ZOOM`)
