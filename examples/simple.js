@@ -55,8 +55,8 @@ class Simple extends React.Component {
     return (
       <div style={{margin:'100px'}}>
         <Viewer
-          viewerWidth={400}
-          viewerHeight={400}
+          width={400}
+          height={400}
           style={{border:'1px solid black'}}
           value={this.state.value}
           onChange={event => this.handleChange(event)}

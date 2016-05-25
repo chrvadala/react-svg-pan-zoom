@@ -90,7 +90,7 @@ export default class Viewer extends React.Component {
 
   handleUpdateZoomSelection(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-    let {value, tool, onChange, viewerWidth, viewerHeight} = this.props;
+    let {value, tool, onChange, width, height} = this.props;
 
     if (tool !== TOOL_ZOOM_FIT) return;
     if (value.mode !== MODE_ZOOM_SELECTING) return;
@@ -99,7 +99,7 @@ export default class Viewer extends React.Component {
     let forceExit = (event.buttons === 0);
 
     let nextValue = forceExit ?
-      ViewerHelper.stopZoomSelection(value, viewerWidth, viewerWidth)
+      ViewerHelper.stopZoomSelection(value, width, width)
       : ViewerHelper.updateZoomSelection(value, x, y);
 
     event.preventDefault();
@@ -108,12 +108,12 @@ export default class Viewer extends React.Component {
 
   handleStopZoomSelection(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-    let {value, tool, onChange, viewerWidth, viewerHeight} = this.props;
+    let {value, tool, onChange, width, height} = this.props;
 
     if (tool !== TOOL_ZOOM_FIT) return;
     if (value.mode !== MODE_ZOOM_SELECTING) return;
 
-    let nextValue = ViewerHelper.stopZoomSelection(value, viewerWidth, viewerWidth);
+    let nextValue = ViewerHelper.stopZoomSelection(value, width, width);
 
     event.preventDefault();
     onChange(new ViewerEvent(event, nextValue));
@@ -168,8 +168,8 @@ export default class Viewer extends React.Component {
     return (
       <svg
         ref="svg"
-        width={this.props.viewerWidth}
-        height={this.props.viewerHeight}
+        width={this.props.width}
+        height={this.props.height}
         style={Object.assign(style, this.props.style)}
         onMouseDown={ event => {this.handleZoom(event); this.handleStartPan(event); this.handleStartZoomSelection(event)} }
         onMouseMove={ event => {this.handleUpdatePan(event); this.handleMouseMove(event); this.handleUpdateZoomSelection(event)} }
@@ -181,8 +181,8 @@ export default class Viewer extends React.Component {
           fill={this.props.viewerBackground}
           x={0}
           y={0}
-          width={this.props.viewerWidth}
-          height={this.props.viewerHeight}/>
+          width={this.props.width}
+          height={this.props.height}/>
 
         <g ref="originalSvg" transform={matrixStr}>
           <rect
@@ -203,10 +203,10 @@ export default class Viewer extends React.Component {
 
 Viewer.propTypes = {
   //width of the viewer displayed on screen
-  viewerWidth: React.PropTypes.number.isRequired,
+  width: React.PropTypes.number.isRequired,
 
   //height of the viewer displayed on screen
-  viewerHeight: React.PropTypes.number.isRequired,
+  height: React.PropTypes.number.isRequired,
 
   //background of the viewer
   viewerBackground: React.PropTypes.string,
