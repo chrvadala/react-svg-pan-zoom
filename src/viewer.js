@@ -14,6 +14,11 @@ import {
 
 export default class Viewer extends React.Component {
 
+  constructor(props){
+    super(props);
+    this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
+  }
+
   handleStartPan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
@@ -91,7 +96,7 @@ export default class Viewer extends React.Component {
     let abs = Math.abs;
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, width, height} = this.props;
-    let {startX, endX, startY, endY} = value;
+    let {startX, endX, startY, endY, specialKeyEnabled} = value;
 
     if (tool !== TOOL_ZOOM) return;
     if (value.mode !== MODE_ZOOMING) return;
@@ -103,7 +108,7 @@ export default class Viewer extends React.Component {
     if(selectionMode){
       nextValue = ViewerHelper.stopZoomSelection(value, width, height);
     }else{
-      let scaleFactor = event.altKey ? 0.9 : 1.1;
+      let scaleFactor = specialKeyEnabled ? 0.9 : 1.1;
       nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
     }
 
@@ -127,15 +132,37 @@ export default class Viewer extends React.Component {
     onMouseMove(new ViewerEvent(event, value));
   }
 
+  handleSpecialKeyChange(event){
+    let {value, onChange} = this.props;
+    let key = event.which;
+    let active = event.type === "keydown";
+
+    if([18].indexOf(key) === -1) return;
+
+    let nextValue = active ? ViewerHelper.enableSpecialKey(value) :  ViewerHelper.disableSpecialKey(value);
+
+    onChange(new ViewerEvent(event, nextValue));
+  }
+
+  componentWillMount(event){
+    window.addEventListener("keydown", this.handleSpecialKeyChange, false);
+    window.addEventListener("keyup", this.handleSpecialKeyChange, false);
+  }
+
+  componentWillUnmount(event) {
+    window.removeEventListener("keydown", this.handleSpecialKeyChange, false);
+    window.removeEventListener("keyup", this.handleSpecialKeyChange, false);
+  }
+
   render() {
     let originalSVG = this.props.children;
     let tool = this.props.tool;
-    let {matrix, mode} = this.props.value;
+    let {matrix, mode, specialKeyEnabled} = this.props.value;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
-    if (tool === TOOL_ZOOM) style.cursor = cursor('zoom-in');
+    if (tool === TOOL_ZOOM) style.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
 
     let zoomSelectionRect;
     if (mode === MODE_ZOOMING) {

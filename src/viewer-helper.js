@@ -13,7 +13,8 @@ export default class ViewerHelper {
 
     return {
       matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
-      mode: MODE_IDLE
+      mode: MODE_IDLE,
+      specialKeyEnabled: false,
     };
   }
 
@@ -30,7 +31,8 @@ export default class ViewerHelper {
 
     return {
       mode: MODE_IDLE,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}
+      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
+      specialKeyEnabled: value.specialKeyEnabled
     };
   }
 
@@ -45,7 +47,8 @@ export default class ViewerHelper {
 
     return {
       mode: MODE_IDLE,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}
+      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
+      specialKeyEnabled: value.specialKeyEnabled
     };
   }
 
@@ -54,7 +57,8 @@ export default class ViewerHelper {
       mode: MODE_PANNING,
       startX,
       startY,
-      matrix: Object.assign({}, value.matrix)
+      matrix: Object.assign({}, value.matrix),
+      specialKeyEnabled: value.specialKeyEnabled
     };
   }
 
@@ -78,7 +82,8 @@ export default class ViewerHelper {
       mode: MODE_PANNING,
       startX: x,
       startY: y,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}
+      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
+      specialKeyEnabled: value.specialKeyEnabled
     };
 
   }
@@ -86,7 +91,8 @@ export default class ViewerHelper {
   static stopPan(value) {
     return {
       mode: MODE_IDLE,
-      matrix: Object.assign({}, value.matrix)
+      matrix: Object.assign({}, value.matrix),
+      specialKeyEnabled: value.specialKeyEnabled
     };
   }
 
@@ -97,7 +103,8 @@ export default class ViewerHelper {
       startY: y,
       endX: x,
       endY: y,
-      matrix: Object.assign({}, value.matrix)
+      matrix: Object.assign({}, value.matrix),
+      specialKeyEnabled: value.specialKeyEnabled
     };
   }
 
@@ -110,7 +117,8 @@ export default class ViewerHelper {
       startY: value.startY,
       endX: x,
       endY: y,
-      matrix: Object.assign({}, value.matrix)
+      matrix: Object.assign({}, value.matrix),
+      specialKeyEnabled: value.specialKeyEnabled
     };
   }
 
@@ -125,7 +133,7 @@ export default class ViewerHelper {
     return ViewerHelper.fitSelectionToViewer(value, box.x, box.y, box.width, box.height, viewerWidth, viewerHeight);
   }
 
-  static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight){
+  static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight) {
 
     let scaleX = viewerWidth / selectionWidth;
     let scaleY = viewerHeight / selectionHeight;
@@ -138,8 +146,25 @@ export default class ViewerHelper {
 
     return {
       mode: MODE_IDLE,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}
+      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
+      specialKeyEnabled: value.specialKeyEnabled
     };
+  }
+
+  static enableSpecialKey(value) {
+    return Object.assign(
+      {},
+      value,
+      {specialKeyEnabled: true}
+    );
+  }
+
+  static disableSpecialKey(value) {
+    return Object.assign(
+      {},
+      value,
+      {specialKeyEnabled: false}
+    );
   }
 
   static getArtboardPoint(value, x, y) {
