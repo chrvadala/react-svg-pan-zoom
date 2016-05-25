@@ -54,21 +54,22 @@ class Simple extends React.Component {
   render() {
     return (
       <div style={{margin:'100px'}}>
-        <Viewer
-          width={400}
-          height={400}
-          style={{border:'1px solid black'}}
-          value={this.state.value}
+
+
+        <Viewer width={400} height={400} style={{border:'1px solid black'}}
+          value={this.state.value}tool={this.state.tool}
           onChange={event => this.handleChange(event)}
           onClick={event => this.handleClick(event)}
-          onMouseMove={event => this.handleMouseMove(event)}
-          tool={this.state.tool}
-        >
+          onMouseMove={event => this.handleMouseMove(event)} >
+
           <svg width={800} height={800} >
             <rect x="30" y="50" width="100" height="70" fill="black"/>
             <circle cx="210" cy="120" r="50" fill="blue"/>
           </svg>
+
         </Viewer>
+
+
         <ul style={{listStyle: "none", padding:"0px"}}>
           <li><input
             type="radio"

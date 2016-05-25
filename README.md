@@ -32,31 +32,33 @@ class MyComponent extends React.Component {
   render() {
     return (
       <div>
-        <Viewer viewerWidth={400} viewerHeight={400} artboardWidth={800} artboardHeight={800}
-          value={this.state.value} onChange={event => this.handleChange(event)}
-          tool={this.state.tool}>
+        <Viewer width={400} height={400} style={{border:'1px solid black'}}
+          value={this.state.value}tool={this.state.tool}
+          onChange={event => this.handleChange(event)}
+          onClick={event => this.handleClick(event)}
+          onMouseMove={event => this.handleMouseMove(event)} >
 
-          <rect x="30" y="50" width="100" height="70" fill="black"/>
-          <circle cx="210" cy="120" r="50" fill="blue"/>
+          <svg width={800} height={800} >
+            <rect x="30" y="50" width="100" height="70" fill="black"/>
+            <circle cx="210" cy="120" r="50" fill="blue"/>
+          </svg>
 
         </Viewer>
+
       </div>
     );
   }
 }
 ```
-## Concepts
-  - `viewer` - `<div>` that contains a part of drawing
-  - `artboard` - canvas that contains the drawing
 
 ## Props
 
-  - `viewerWidth` – **required** – width of the viewer displayed on screen
-  - `viewerHeight` – **required** – height of the viewer displayed on screen
-  - `viewerBackground` – background of the viewer
-  - `SVGBackground` - background of the artboard
+  - `width` – **required** – width of the viewer displayed on screen
+  - `height` – **required** – height of the viewer displayed on screen
+  - `background` – background of the viewer (default dark grey)
+  - `style` - CSS style of the viewer
+  - `SVGBackground` - background of the SVG (default white)
   - `value` - value of the viewer (current point of view)
-  - `style` - CSS style of the SVG tag
   - `onChange` - handler something changed
   - `onClick` - handler click
   - `onMouseMove` - handler mousemove

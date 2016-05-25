@@ -178,7 +178,7 @@ export default class Viewer extends React.Component {
       >
 
         <rect
-          fill={this.props.viewerBackground}
+          fill={this.props.background}
           x={0}
           y={0}
           width={this.props.width}
@@ -209,7 +209,7 @@ Viewer.propTypes = {
   height: React.PropTypes.number.isRequired,
 
   //background of the viewer
-  viewerBackground: React.PropTypes.string,
+  background: React.PropTypes.string,
 
   //background of the svg
   SVGBackground: React.PropTypes.string,
@@ -251,7 +251,7 @@ Viewer.propTypes = {
 
 Viewer.defaultProps = {
   style: {},
-  viewerBackground: "#616264",
+  background: "#616264",
   SVGBackground: "#fff",
   tool: TOOL_NONE
 };
