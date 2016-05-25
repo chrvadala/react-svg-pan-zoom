@@ -3,7 +3,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_ZOOM_FIT} from '../index';
-import PencilSVG from './svg/pencil';
+import SnakeSVG from './svg/snake';
 
 class Simple extends React.Component {
 
@@ -20,7 +20,7 @@ class Simple extends React.Component {
 
     defaultValue = ViewerHelper.fitSelectionToViewer(
       defaultValue,
-      0, 0, 372, 563,
+      0, 0, 1440, 1440,
       400, 400);
 
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
@@ -63,7 +63,7 @@ class Simple extends React.Component {
           onClick={event => this.handleClick(event)}
           onMouseMove={event => this.handleMouseMove(event)} >
 
-          {PencilSVG}
+          {SnakeSVG}
 
         </Viewer>
 
