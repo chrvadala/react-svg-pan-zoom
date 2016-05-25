@@ -7,7 +7,7 @@ export default class ViewerEvent {
     this.value = value;
   }
 
-  get artboardX() {
+  get x() {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
@@ -16,7 +16,7 @@ export default class ViewerEvent {
     return this._cachePoint.x;
   }
 
-  get artboardY() {
+  get y() {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;

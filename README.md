@@ -54,9 +54,7 @@ class MyComponent extends React.Component {
   - `viewerWidth` – **required** – width of the viewer displayed on screen
   - `viewerHeight` – **required** – height of the viewer displayed on screen
   - `viewerBackground` – background of the viewer
-  - `artboardWidth` – **required** – width of the artboard (size of the original vector image)
-  - `artboardHeight` – **required** – height of the artboard (size of the original vector image)
-  - `artboardBackground` - background of the artboard
+  - `SVGBackground` - background of the artboard
   - `value` - value of the viewer (current point of view)
   - `style` - CSS style of the SVG tag
   - `onChange` - handler something changed

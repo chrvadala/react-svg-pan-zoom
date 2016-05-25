@@ -136,6 +136,7 @@ export default class Viewer extends React.Component {
   }
 
   render() {
+    let originalSVG = this.props.children;
     let tool = this.props.tool;
     let {matrix, mode} = this.props.value;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
@@ -183,15 +184,15 @@ export default class Viewer extends React.Component {
           width={this.props.viewerWidth}
           height={this.props.viewerHeight}/>
 
-        <g ref="artboard" transform={matrixStr}>
+        <g ref="originalSvg" transform={matrixStr}>
           <rect
-            fill={this.props.artboardBackground}
+            fill={this.props.SVGBackground}
             x={0}
             y={0}
-            width={this.props.artboardWidth}
-            height={this.props.artboardHeight}/>
+            width={originalSVG.props.width}
+            height={originalSVG.props.height}/>
           <g ref="content">
-            {this.props.children}
+            {originalSVG.props.children}
           </g>
         </g>
         {zoomSelectionRect}
@@ -210,14 +211,8 @@ Viewer.propTypes = {
   //background of the viewer
   viewerBackground: React.PropTypes.string,
 
-  //width of the artboard (size of the original vector image)
-  artboardWidth: React.PropTypes.number.isRequired,
-
-  //height of the artboard (size of the original vector image)
-  artboardHeight: React.PropTypes.number.isRequired,
-
-  //background of the artboard
-  artboardBackground: React.PropTypes.string,
+  //background of the svg
+  SVGBackground: React.PropTypes.string,
 
   //value of the viewer (current point of view)
   value: React.PropTypes.object.isRequired,
@@ -235,13 +230,28 @@ Viewer.propTypes = {
   onMouseMove: React.PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
-  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_ZOOM_FIT])
+  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_ZOOM_FIT]),
+
+  //accept only one node SVG
+  children: function (props, propName, componentName) {
+    // Only accept a single child, of the appropriate type
+    //credits: http://www.mattzabriskie.com/blog/react-validating-children
+    var prop = props[propName];
+    var types = ['svg'];
+    if (React.Children.count(prop) !== 1 ||
+      types.indexOf(prop.type) === -1) {
+      return new Error(
+        '`' + componentName + '` ' +
+        'should have a single child of the following types: ' +
+        ' `' + types.join('`, `') + '`.'
+      );
+    }
+  }
 };
 
-Viewer
-  .defaultProps = {
+Viewer.defaultProps = {
   style: {},
   viewerBackground: "#616264",
-  artboardBackground: "#fff",
+  SVGBackground: "#fff",
   tool: TOOL_NONE
 };

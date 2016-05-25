@@ -33,8 +33,8 @@ class Simple extends React.Component {
 
   handleClick(event) {
     console.log('click', event);
-    console.log('artboardX', event.artboardX);
-    console.log('artboardY', event.artboardY);
+    console.log('X', event.x);
+    console.log('Y', event.y);
     console.log('scaleFactor', event.scaleFactor);
     console.log('translationX', event.translationX);
     console.log('translationY', event.translationY);
@@ -42,8 +42,8 @@ class Simple extends React.Component {
 
   handleMouseMove(event) {
     this.setState({
-      x: event.artboardX,
-      y: event.artboardY
+      x: event.x,
+      y: event.y
     });
   }
 
@@ -57,8 +57,6 @@ class Simple extends React.Component {
         <Viewer
           viewerWidth={400}
           viewerHeight={400}
-          artboardWidth={800}
-          artboardHeight={800}
           style={{border:'1px solid black'}}
           value={this.state.value}
           onChange={event => this.handleChange(event)}
@@ -66,11 +64,10 @@ class Simple extends React.Component {
           onMouseMove={event => this.handleMouseMove(event)}
           tool={this.state.tool}
         >
-
-          <rect x="30" y="50" width="100" height="70" fill="black"/>
-          <circle cx="210" cy="120" r="50" fill="blue"/>
-
-
+          <svg width={800} height={800} >
+            <rect x="30" y="50" width="100" height="70" fill="black"/>
+            <circle cx="210" cy="120" r="50" fill="blue"/>
+          </svg>
         </Viewer>
         <ul style={{listStyle: "none", padding:"0px"}}>
           <li><input
