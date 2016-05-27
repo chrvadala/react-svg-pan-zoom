@@ -87,7 +87,7 @@ Your event handlers will be passed instances of `ViewerEvent`. It has some usefu
 ## Build
 ```
 npm run build
-``
+```
 
 ## Contributing
 Your contributions (issues and pull request) are appreciated!
