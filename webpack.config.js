@@ -13,7 +13,8 @@ module.exports = {
   },
   externals: {
     "react": "React",
-    "react-dom": "ReactDOM"
+    "react-dom": "ReactDOM",
+    "../index": "svgPanZoom"
   },
   plugins: [
     new OpenBrowserPlugin({url: 'http://localhost:8080'})
