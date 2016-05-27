@@ -11,6 +11,7 @@ class Simple extends React.Component {
     super(props);
 
     let defaultValue = ViewerHelper.getDefaultValue();
+    defaultValue = ViewerHelper.fitSVGToViewer(defaultValue, 1440, 1440, 400, 400);
 
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
   }
