@@ -84,6 +84,11 @@ Your event handlers will be passed instances of `ViewerEvent`. It has some usefu
   - `number translationX` - x delta from the viewer origin
   - `number translationY` - y delta from the viewer origin
 
+## Build
+```
+npm run build
+``
+
 ## Contributing
 Your contributions (issues and pull request) are appreciated!
 
