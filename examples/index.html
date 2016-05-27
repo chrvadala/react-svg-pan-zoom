@@ -3,6 +3,8 @@
 <head>
   <meta charset="UTF-8"/>
   <title>Svg Pan Zoom - Example project</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
   <style>
     html, body, #app {
       height: 100%;
@@ -13,6 +15,12 @@
 </head>
 <body>
 <div id="app"></div>
-<script src="simple.dist.js" onerror="alert('File simple.dist.js not found! Please run \'npm start\'.')"></script>
+<script src="/demo.js" onerror="alert('File simple.dist.js not found! Please run \'npm start\'.')"></script>
+<script>
+  ReactDOM.render(
+    React.createElement(demo.default),
+    document.getElementById('app')
+  );
+</script>
 </body>
 </html>

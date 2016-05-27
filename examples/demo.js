@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
 import SnakeSVG from './svg/snake';
 
-class Simple extends React.Component {
+export default class Demo extends React.Component {
 
   constructor(props) {
     super(props);
@@ -95,9 +95,3 @@ class Simple extends React.Component {
     );
   }
 }
-
-
-ReactDOM.render(
-  React.createElement(Simple),
-  document.getElementById('app')
-);
