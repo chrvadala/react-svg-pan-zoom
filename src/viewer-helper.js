@@ -22,7 +22,7 @@ export default class ViewerHelper {
     let {a, b, c, d, e, f} = value.matrix;
     let matrix = Matrix.from(a, b, c, d, e, f);
 
-    let SVGPoint = ViewerHelper.getArtboardPoint(value, viewerX, viewerY);
+    let SVGPoint = ViewerHelper.getSVGPoint(value, viewerX, viewerY);
 
     let act = new Matrix();
     act = act.translate(SVGPoint.x, SVGPoint.y);
@@ -127,8 +127,8 @@ export default class ViewerHelper {
   static stopZoomSelection(value, viewerWidth, viewerHeight) {
     let {startX, startY, endX, endY} = value;
 
-    let start = ViewerHelper.getArtboardPoint(value, startX, startY);
-    let end = ViewerHelper.getArtboardPoint(value, endX, endY);
+    let start = ViewerHelper.getSVGPoint(value, startX, startY);
+    let end = ViewerHelper.getSVGPoint(value, endX, endY);
 
     let box = calculateBox(start, end);
 
@@ -173,12 +173,12 @@ export default class ViewerHelper {
     );
   }
 
-  static getArtboardPoint(value, x, y) {
+  static getSVGPoint(value, viewerX, viewerY) {
     let {a, b, c, d, e, f} = value.matrix;
     let matrix = Matrix.from(a, b, c, d, e, f);
 
     let inverseMatrix = matrix.inverse();
-    return inverseMatrix.applyToPoint(x, y);
+    return inverseMatrix.applyToPoint(viewerX, viewerY);
   }
 
   static decomposeValue(value) {

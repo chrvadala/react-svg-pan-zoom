@@ -11,7 +11,7 @@ export default class ViewerEvent {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ViewerHelper.getArtboardPoint(value, x, y);
+      this._cachePoint = ViewerHelper.getSVGPoint(value, x, y);
     }
     return this._cachePoint.x;
   }
@@ -20,7 +20,7 @@ export default class ViewerEvent {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
       let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ViewerHelper.getArtboardPoint(value, x, y);
+      this._cachePoint = ViewerHelper.getSVGPoint(value, x, y);
     }
     return this._cachePoint.y;
   }
