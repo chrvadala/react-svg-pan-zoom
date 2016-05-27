@@ -151,6 +151,10 @@ export default class ViewerHelper {
     };
   }
 
+  static fitSVGToViewer(value, SVGWidth, SVGHeight, viewerWidth, viewerHeight) {
+    return ViewerHelper.fitSelectionToViewer(value, 0, 0, SVGWidth, SVGHeight, viewerWidth, viewerHeight);
+  }
+
   static enableSpecialKey(value) {
     return Object.assign(
       {},

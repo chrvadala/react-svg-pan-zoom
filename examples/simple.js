@@ -18,10 +18,8 @@ class Simple extends React.Component {
     //defaultValue = ViewerHelper.updatePan(defaultValue, 100, 100);
     //defaultValue = ViewerHelper.stopPan(defaultValue, 100, 100);
 
-    defaultValue = ViewerHelper.fitSelectionToViewer(
-      defaultValue,
-      0, 0, 1440, 1440,
-      400, 400);
+    //defaultValue = ViewerHelper.fitSVGToViewer(
+    //  defaultValue, 1440, 1440, 400, 400);
 
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
   }
