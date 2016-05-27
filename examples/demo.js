@@ -82,11 +82,17 @@ export default class Demo extends React.Component {
         </ul>
 
         <div>
-          Position: {this.state.x},{this.state.y}
+          <button onClick={event => this.handleReset(event)}>Reset view</button>
         </div>
 
+        <hr style={{border: "1px solid #aaa", borderTop: "0px"}} />
+
+        <span style={{color: "10px"}}>
+          Note: <strong>Press Alt for zoom out</strong>
+        </span>
+
         <div>
-          <button onClick={event => this.handleReset(event)}>Reset</button>
+          Position: {this.state.x},{this.state.y}
         </div>
 
       </div>
