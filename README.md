@@ -6,6 +6,14 @@ A react component that adds pan and zoom features to SVG
 npm install --save react-svg-pan-zoom
 ```
 
+## See SVGPanZoom in action
+```
+  git clone https://github.com/chrvadala/react-svg-pan-zoom.git
+  cd react-svg-pan-zoom
+  npm install
+  npm start
+```
+
 ## Usage
 
 ### SVGPanZoom Viewer

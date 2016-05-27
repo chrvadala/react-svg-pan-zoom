@@ -1,12 +1,13 @@
 var path = require('path');
 
 module.exports = {
-  entry: path.resolve(__dirname, 'index.js'),
+  entry: {
+    svgPanZoom: [path.resolve(__dirname, 'index.js')]
+  },
   output: {
     path: __dirname + "/build",
-    filename: "svg-pan-zoom.js",
-    libraryTarget: "var",
-    library: "SVGPanZoom"
+    filename: "[name].js",
+    library: "[name]"
   },
   externals: {
     "react": "React",

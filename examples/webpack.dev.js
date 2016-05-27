@@ -4,6 +4,9 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 module.exports = {
   entry: path.resolve(__dirname, 'simple.js'),
   devtool: 'source-map',
+  devServer: {
+    contentBase: path.resolve(__dirname)
+  },
   output: {
     path: __dirname,
     filename: "simple.dist.js"
