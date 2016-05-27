@@ -6,7 +6,7 @@ module.exports = {
     path: __dirname + "/build",
     filename: "svg-pan-zoom.js",
     libraryTarget: "var",
-    library: "Viewer"
+    library: "SVGPanZoom"
   },
   externals: {
     "react": "React",
