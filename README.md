@@ -62,8 +62,7 @@ class MyComponent extends React.Component {
   - `SVGBackground` - background of the SVG (default white)
   - `value` - value of the viewer (current point of view)
   - `tool` - active tool ( one of `none`, `pan`, `zoom` )
-
-  - `onChange` - handler something changed `fn(viewerEvent)
+  - `onChange` - handler something changed `fn(viewerEvent)`
   - `onClick` - handler click `fn(viewerEvent)`
   - `onMouseMove` - handler mousemove `fn(viewerEvent)`
 
