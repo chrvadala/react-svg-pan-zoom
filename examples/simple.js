@@ -12,22 +12,16 @@ class Simple extends React.Component {
 
     let defaultValue = ViewerHelper.getDefaultValue();
 
-    //defaultValue =  ViewerHelper.zoom(defaultValue, 4.1, 30, 50);
-    //defaultValue =  ViewerHelper.pan(defaultValue, 100, 80);
-    //defaultValue = ViewerHelper.startPan(defaultValue, 0, 0);
-    //defaultValue = ViewerHelper.updatePan(defaultValue, 100, 100);
-    //defaultValue = ViewerHelper.stopPan(defaultValue, 100, 100);
-
-    //defaultValue = ViewerHelper.fitSVGToViewer(
-    //  defaultValue, 1440, 1440, 400, 400);
-
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
   }
 
 
   handleChange(event) {
     this.setState({value: event.value});
-    console.log('changed');
+  }
+
+  handleReset(event){
+    this.setState({value: ViewerHelper.fitSVGToViewer(this.state.value, 1440, 1440, 400, 400)})
   }
 
   handleClick(event) {
@@ -89,6 +83,10 @@ class Simple extends React.Component {
 
         <div>
           Position: {this.state.x},{this.state.y}
+        </div>
+
+        <div>
+          <button onClick={event => this.handleReset(event)}>Reset</button>
         </div>
 
       </div>
