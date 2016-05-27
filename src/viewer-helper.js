@@ -18,14 +18,16 @@ export default class ViewerHelper {
     };
   }
 
-  static zoom(value, scaleFactor, centerX, centerY) {
+  static zoom(value, scaleFactor, viewerX, viewerY) {
     let {a, b, c, d, e, f} = value.matrix;
     let matrix = Matrix.from(a, b, c, d, e, f);
 
+    let SVGPoint = ViewerHelper.getArtboardPoint(value, viewerX, viewerY);
+
     let act = new Matrix();
-    act = act.translate(centerX, centerY);
+    act = act.translate(SVGPoint.x, SVGPoint.y);
     act = act.scaleU(scaleFactor);
-    act = act.translate(-centerX, -centerY);
+    act = act.translate(-SVGPoint.x, -SVGPoint.y);
 
     matrix = matrix.multiply(act);
 
