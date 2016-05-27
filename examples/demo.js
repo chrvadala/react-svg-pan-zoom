@@ -47,8 +47,7 @@ export default class Demo extends React.Component {
 
   render() {
     return (
-      <div style={{margin:'100px'}}>
-
+      <div>
 
         <Viewer width={400} height={400} style={{border:'1px solid black'}}
           value={this.state.value}tool={this.state.tool}

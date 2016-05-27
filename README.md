@@ -7,6 +7,11 @@ npm install --save react-svg-pan-zoom
 ```
 
 ## See SVGPanZoom in action
+
+### online
+http://chrvadala.github.io/react-svg-pan-zoom/
+
+### localhost
 ```
   git clone https://github.com/chrvadala/react-svg-pan-zoom.git
   cd react-svg-pan-zoom
