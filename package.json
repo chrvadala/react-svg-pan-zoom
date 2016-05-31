@@ -29,6 +29,7 @@
     "react.js"
   ],
   "dependencies": {
+    "react-addons-update": "^15.1.0",
     "react-dimensions": "^1.2.0",
     "transformation-matrix-js": "^2.6.5"
   },

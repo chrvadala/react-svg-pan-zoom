@@ -1,10 +1,13 @@
 import {Matrix} from 'transformation-matrix-js';
 import {calculateBox} from './utils';
+import update from 'react-addons-update';
 import {
   MODE_IDLE,
   MODE_PANNING,
   MODE_ZOOMING
 } from './constants';
+
+let matrix2obj = matrix => {return {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}};
 
 export default class ViewerHelper {
 
@@ -12,9 +15,9 @@ export default class ViewerHelper {
     let matrix = new Matrix();
 
     return {
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
       mode: MODE_IDLE,
-      specialKeyEnabled: false,
+      matrix: matrix2obj(matrix),
+      specialKeyEnabled: false
     };
   }
 
@@ -31,11 +34,12 @@ export default class ViewerHelper {
 
     matrix = matrix.multiply(act);
 
-    return {
-      mode: MODE_IDLE,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    return update(value, {
+      $merge: {
+        mode: MODE_IDLE,
+        matrix: matrix2obj(matrix)
+      }
+    });
   }
 
   static pan(value, deltaX, deltaY) {
@@ -47,21 +51,25 @@ export default class ViewerHelper {
 
     matrix = matrix.multiply(act);
 
-    return {
-      mode: MODE_IDLE,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    return update(value, {
+      $merge: {
+        mode: MODE_IDLE,
+        matrix: matrix2obj(matrix)
+      }
+    });
   }
 
   static startPan(value, startX, startY) {
-    return {
-      mode: MODE_PANNING,
-      startX,
-      startY,
-      matrix: Object.assign({}, value.matrix),
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    let matrix = value.matrix;
+
+    return update(value, {
+      $merge: {
+        mode: MODE_PANNING,
+        startX,
+        startY,
+        matrix: matrix2obj(matrix)
+      }
+    });
   }
 
   static updatePan(value, x, y) {
@@ -80,48 +88,46 @@ export default class ViewerHelper {
 
     matrix = matrix.multiply(act);
 
-    return {
-      mode: MODE_PANNING,
-      startX: x,
-      startY: y,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
-      specialKeyEnabled: value.specialKeyEnabled
-    };
-
+    return update(value, {
+      $merge: {
+        mode: MODE_PANNING,
+        startX: x,
+        startY: y,
+        matrix: matrix2obj(matrix)
+      }
+    });
   }
 
   static stopPan(value) {
-    return {
-      mode: MODE_IDLE,
-      matrix: Object.assign({}, value.matrix),
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    return update(value, {
+      $merge: {
+        mode: MODE_IDLE
+      }
+    });
   }
 
   static startZoomSelection(value, x, y) {
-    return {
-      mode: MODE_ZOOMING,
-      startX: x,
-      startY: y,
-      endX: x,
-      endY: y,
-      matrix: Object.assign({}, value.matrix),
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    return update(value, {
+      $merge: {
+        mode: MODE_ZOOMING,
+        startX: x,
+        startY: y,
+        endX: x,
+        endY: y
+      }
+    });
   }
 
   static updateZoomSelection(value, x, y) {
     if (value.mode !== MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + value.mode);
 
-    return {
-      mode: MODE_ZOOMING,
-      startX: value.startX,
-      startY: value.startY,
-      endX: x,
-      endY: y,
-      matrix: Object.assign({}, value.matrix),
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    return update(value, {
+      $merge: {
+        mode: MODE_ZOOMING,
+        endX: x,
+        endY: y
+      }
+    });
   }
 
   static stopZoomSelection(value, viewerWidth, viewerHeight) {
@@ -146,11 +152,12 @@ export default class ViewerHelper {
     matrix = matrix.scaleU(scale);
     matrix = matrix.translate(-selectionX, -selectionY);
 
-    return {
-      mode: MODE_IDLE,
-      matrix: {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f},
-      specialKeyEnabled: value.specialKeyEnabled
-    };
+    return update(value, {
+      $merge: {
+        mode: MODE_IDLE,
+        matrix: matrix2obj(matrix)
+      }
+    });
   }
 
   static fitSVGToViewer(value, SVGWidth, SVGHeight, viewerWidth, viewerHeight) {
@@ -158,19 +165,19 @@ export default class ViewerHelper {
   }
 
   static enableSpecialKey(value) {
-    return Object.assign(
-      {},
-      value,
-      {specialKeyEnabled: true}
-    );
+    return update(value, {
+      $merge: {
+        specialKeyEnabled: true
+      }
+    });
   }
 
   static disableSpecialKey(value) {
-    return Object.assign(
-      {},
-      value,
-      {specialKeyEnabled: false}
-    );
+    return update(value, {
+      $merge: {
+        specialKeyEnabled: false
+      }
+    });
   }
 
   static getSVGPoint(value, viewerX, viewerY) {
