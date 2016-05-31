@@ -2,12 +2,14 @@
   "name": "react-svg-pan-zoom",
   "version": "1.1.0",
   "description": "A React component that adds pan and zoom features to SVG",
-  "main": "index.js",
+  "main": "./lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack-dev-server --inline",
-    "build": "webpack",
-    "clean": "rm ./build/*",
+    "build": "npm run build:node && npm run build:browser",
+    "build:node": "babel src --out-dir lib",
+    "build:browser": "webpack",
+    "clean": "rm ./build/* && rm ./lib/*",
     "preversion": "npm run build && git add ."
   },
   "repository": {
@@ -34,6 +36,7 @@
     "transformation-matrix-js": "^2.6.5"
   },
   "devDependencies": {
+    "babel-cli": "^6.9.0",
     "babel-core": "^6.9.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",

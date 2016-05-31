@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {ViewerResponsive, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../index';
+import {ViewerResponsive, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../src/index';
 import SnakeSVG from './svg/snake';
 
 export default class Demo extends React.Component {

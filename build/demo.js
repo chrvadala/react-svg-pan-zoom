@@ -126,6 +126,16 @@ var demo =
 	      });
 	    }
 	  }, {
+	    key: 'handleMouseUp',
+	    value: function handleMouseUp(event) {
+	      console.log('up', event.x, event.y);
+	    }
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown(event) {
+	      console.log('down', event.x, event.y);
+	    }
+	  }, {
 	    key: 'handleChangeTool',
 	    value: function handleChangeTool(event) {
 	      this.setState({ tool: event.target.value });
@@ -150,6 +160,12 @@ var demo =
 	            },
 	            onMouseMove: function onMouseMove(event) {
 	              return _this2.handleMouseMove(event);
+	            },
+	            onMouseUp: function onMouseUp(event) {
+	              return _this2.handleMouseUp(event);
+	            },
+	            onMouseDown: function onMouseDown(event) {
+	              return _this2.handleMouseDown(event);
 	            } },
 	          _snake2.default
 	        ),

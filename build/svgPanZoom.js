@@ -298,12 +298,38 @@ var svgPanZoom =
 	      onClick(new _viewerEvent2.default(event, value));
 	    }
 	  }, {
-	    key: 'handleMouseMove',
-	    value: function handleMouseMove(event) {
+	    key: 'handleMouseUp',
+	    value: function handleMouseUp(event) {
 	      var _props8 = this.props;
 	      var value = _props8.value;
 	      var tool = _props8.tool;
-	      var onMouseMove = _props8.onMouseMove;
+	      var onMouseUp = _props8.onMouseUp;
+
+	      if (tool !== _constants.TOOL_NONE) return;
+	      if (!onMouseUp) return;
+
+	      onMouseUp(new _viewerEvent2.default(event, value));
+	    }
+	  }, {
+	    key: 'handleMouseDown',
+	    value: function handleMouseDown(event) {
+	      var _props9 = this.props;
+	      var value = _props9.value;
+	      var tool = _props9.tool;
+	      var onMouseDown = _props9.onMouseDown;
+
+	      if (tool !== _constants.TOOL_NONE) return;
+	      if (!onMouseDown) return;
+
+	      onMouseDown(new _viewerEvent2.default(event, value));
+	    }
+	  }, {
+	    key: 'handleMouseMove',
+	    value: function handleMouseMove(event) {
+	      var _props10 = this.props;
+	      var value = _props10.value;
+	      var tool = _props10.tool;
+	      var onMouseMove = _props10.onMouseMove;
 
 	      if (tool !== _constants.TOOL_NONE) return;
 	      if (!onMouseMove) return;
@@ -313,9 +339,9 @@ var svgPanZoom =
 	  }, {
 	    key: 'handleSpecialKeyChange',
 	    value: function handleSpecialKeyChange(event) {
-	      var _props9 = this.props;
-	      var value = _props9.value;
-	      var onChange = _props9.onChange;
+	      var _props11 = this.props;
+	      var value = _props11.value;
+	      var onChange = _props11.onChange;
 
 	      var key = event.which;
 	      var active = event.type === "keydown";
@@ -385,13 +411,13 @@ var svgPanZoom =
 	          height: this.props.height,
 	          style: Object.assign(style, this.props.style),
 	          onMouseDown: function onMouseDown(event) {
-	            _this2.handleStartPan(event);_this2.handleStartZoom(event);
+	            _this2.handleMouseDown(event);_this2.handleStartPan(event);_this2.handleStartZoom(event);
 	          },
 	          onMouseMove: function onMouseMove(event) {
-	            _this2.handleUpdatePan(event);_this2.handleMouseMove(event);_this2.handleUpdateZoom(event);
+	            _this2.handleMouseMove(event);_this2.handleUpdatePan(event);_this2.handleUpdateZoom(event);
 	          },
 	          onMouseUp: function onMouseUp(event) {
-	            _this2.handleStopPan(event);_this2.handleStopZoom(event);
+	            _this2.handleMouseUp(event);_this2.handleStopPan(event);_this2.handleStopZoom(event);
 	          },
 	          onClick: function onClick(event) {
 	            return _this2.handleClick(event);
@@ -454,8 +480,14 @@ var svgPanZoom =
 	  //handler click
 	  onClick: _react2.default.PropTypes.func,
 
+	  //handler mouseup
+	  onMouseUp: _react2.default.PropTypes.func,
+
 	  //handler mousemove
 	  onMouseMove: _react2.default.PropTypes.func,
+
+	  //handler mousedown
+	  onMouseDown: _react2.default.PropTypes.func,
 
 	  //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
 	  tool: _react2.default.PropTypes.oneOf([_constants.TOOL_NONE, _constants.TOOL_PAN, _constants.TOOL_ZOOM]),

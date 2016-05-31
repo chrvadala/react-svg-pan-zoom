@@ -3,7 +3,7 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
   entry: {
-    svgPanZoom: [path.resolve(__dirname, 'index.js')],
+    svgPanZoom: [path.resolve(__dirname, 'src', 'index.js')],
     demo: [path.resolve(__dirname, 'examples', 'demo.js')],
     demoResponsive: [path.resolve(__dirname, 'examples', 'demo-responsive.js')]
   },
@@ -15,7 +15,7 @@ module.exports = {
   externals: {
     "react": "React",
     "react-dom": "ReactDOM",
-    "../index": "svgPanZoom"
+    "../src/index": "svgPanZoom"
   },
   plugins: [
     new OpenBrowserPlugin({url: 'http://localhost:8080'})
