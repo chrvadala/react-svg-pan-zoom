@@ -77,7 +77,9 @@ class MyComponent extends React.Component {
   - `tool` - active tool ( one of `none`, `pan`, `zoom` )
   - `onChange` - handler something changed `fn(viewerEvent)`
   - `onClick` - handler click `fn(viewerEvent)`
+  - `onMouseUp` - handler mouseup `fn(viewerEvent)`
   - `onMouseMove` - handler mousemove `fn(viewerEvent)`
+  - `onMouseDown` - handler mousedown `fn(viewerEvent)`
 
 ## ViewerEvent attributes
 Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below). If, for your purpose, you need original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`.

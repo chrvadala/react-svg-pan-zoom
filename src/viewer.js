@@ -124,6 +124,22 @@ export default class Viewer extends React.Component {
     onClick(new ViewerEvent(event, value));
   }
 
+  handleMouseUp(event) {
+    let {value, tool, onMouseUp} = this.props;
+    if (tool !== TOOL_NONE) return;
+    if (!onMouseUp) return;
+
+    onMouseUp(new ViewerEvent(event, value));
+  }
+
+  handleMouseDown(event) {
+    let {value, tool, onMouseDown} = this.props;
+    if (tool !== TOOL_NONE) return;
+    if (!onMouseDown) return;
+
+    onMouseDown(new ViewerEvent(event, value));
+  }
+
   handleMouseMove(event) {
     let {value, tool, onMouseMove} = this.props;
     if (tool !== TOOL_NONE) return;
@@ -188,9 +204,9 @@ export default class Viewer extends React.Component {
         width={this.props.width}
         height={this.props.height}
         style={Object.assign(style, this.props.style)}
-        onMouseDown={ event => {this.handleStartPan(event); this.handleStartZoom(event)} }
-        onMouseMove={ event => {this.handleUpdatePan(event); this.handleMouseMove(event); this.handleUpdateZoom(event)} }
-        onMouseUp={ event => {this.handleStopPan(event); this.handleStopZoom(event)} }
+        onMouseDown={ event => {this.handleMouseDown(event); this.handleStartPan(event);  this.handleStartZoom(event)} }
+        onMouseMove={ event => {this.handleMouseMove(event); this.handleUpdatePan(event); this.handleUpdateZoom(event)} }
+        onMouseUp={ event =>   {this.handleMouseUp(event);   this.handleStopPan(event);   this.handleStopZoom(event)} }
         onClick={event => this.handleClick(event)}
       >
 
@@ -243,8 +259,14 @@ Viewer.propTypes = {
   //handler click
   onClick: React.PropTypes.func,
 
+  //handler mouseup
+  onMouseUp: React.PropTypes.func,
+
   //handler mousemove
   onMouseMove: React.PropTypes.func,
+
+  //handler mousedown
+  onMouseDown: React.PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
   tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM]),

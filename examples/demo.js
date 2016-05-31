@@ -41,6 +41,14 @@ export default class Demo extends React.Component {
     });
   }
 
+  handleMouseUp(event) {
+    console.log('up', event.x, event.y);
+  }
+
+  handleMouseDown(event) {
+    console.log('down', event.x, event.y);
+  }
+
   handleChangeTool(event) {
     this.setState({tool: event.target.value});
   }
@@ -53,7 +61,9 @@ export default class Demo extends React.Component {
           value={this.state.value}tool={this.state.tool}
           onChange={event => this.handleChange(event)}
           onClick={event => this.handleClick(event)}
-          onMouseMove={event => this.handleMouseMove(event)} >
+          onMouseMove={event => this.handleMouseMove(event)}
+          onMouseUp={event => this.handleMouseUp(event)}
+          onMouseDown={event => this.handleMouseDown(event)}>
 
           {SnakeSVG}
 
