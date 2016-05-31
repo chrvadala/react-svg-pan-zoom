@@ -68,8 +68,8 @@ class MyComponent extends React.Component {
 ```
 
 ## Props
-  - `width` – **required** – width of the viewer displayed on screen
-  - `height` – **required** – height of the viewer displayed on screen
+  - `width` – **required** – width of the viewer displayed on screen (if you want to omit this see below)
+  - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see below)
   - `background` – background of the viewer (default dark grey)
   - `style` - CSS style of the viewer
   - `SVGBackground` - background of the SVG (default white)
@@ -88,6 +88,13 @@ Your event handlers will be passed instances of `ViewerEvent`. It has some usefu
   - `number scaleFactor` - zoom level
   - `number translationX` - x delta from the viewer origin
   - `number translationY` - y delta from the viewer origin
+
+### SVGPanZoom Responsive
+SvgPanZoom requires width and height to work propertly. If you need a responsive component you can use `ViewerResponsive`, a component that extends `Viewer` and detects width and height trought its parent (See [ReactDimension](https://github.com/digidem/react-dimensions) for details).
+
+~~`import {Viewer, ViewerHelper} from 'react-svg-pan-zoom';`~~
+become
+`import {ViewerResponsive, ViewerHelper} from 'react-svg-pan-zoom';`
 
 ## Build
 ```

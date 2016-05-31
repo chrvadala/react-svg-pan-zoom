@@ -4,7 +4,8 @@ const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 module.exports = {
   entry: {
     svgPanZoom: [path.resolve(__dirname, 'index.js')],
-    demo: [path.resolve(__dirname, 'examples', 'demo.js')]
+    demo: [path.resolve(__dirname, 'examples', 'demo.js')],
+    demoResponsive: [path.resolve(__dirname, 'examples', 'demo-responsive.js')]
   },
   output: {
     path: __dirname + "/build",
@@ -29,7 +30,8 @@ module.exports = {
         exclude: /(node_modules|bower_components)/,
         loader: 'babel',
         query: {
-          presets: ['es2015', 'react']
+          presets: ['es2015', 'react'],
+          plugins: ["transform-object-rest-spread"]
         }
       }
     ]
