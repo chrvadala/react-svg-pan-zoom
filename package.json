@@ -8,7 +8,7 @@
     "start": "webpack-dev-server --inline",
     "build": "webpack",
     "clean": "rm ./build/*",
-    "preversion": "npm run build && git add . && git commit -a -m 'update build'"
+    "preversion": "npm run build && git add ."
   },
   "repository": {
     "type": "git",
