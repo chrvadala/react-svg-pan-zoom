@@ -137,7 +137,7 @@ var demo =
 
 	      return _react2.default.createElement(
 	        'div',
-	        { style: { margin: '100px' } },
+	        null,
 	        _react2.default.createElement(
 	          _index.Viewer,
 	          { width: 400, height: 400, style: { border: '1px solid black' },
@@ -196,21 +196,32 @@ var demo =
 	        _react2.default.createElement(
 	          'div',
 	          null,
-	          'Position: ',
-	          this.state.x,
-	          ',',
-	          this.state.y
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          null,
 	          _react2.default.createElement(
 	            'button',
 	            { onClick: function onClick(event) {
 	                return _this2.handleReset(event);
 	              } },
-	            'Reset'
+	            'Reset view'
 	          )
+	        ),
+	        _react2.default.createElement('hr', { style: { border: "1px solid #aaa", borderTop: "0px" } }),
+	        _react2.default.createElement(
+	          'span',
+	          { style: { color: "10px" } },
+	          'Note: ',
+	          _react2.default.createElement(
+	            'strong',
+	            null,
+	            'Press Alt for zoom out'
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          null,
+	          'Position: ',
+	          this.state.x,
+	          ',',
+	          this.state.y
 	        )
 	      );
 	    }

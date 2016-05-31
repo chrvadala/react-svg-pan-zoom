@@ -45,7 +45,7 @@ var svgPanZoom =
 /* 0 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(6);
+	module.exports = __webpack_require__(7);
 
 
 /***/ },
@@ -59,7 +59,8 @@ var svgPanZoom =
 /* 3 */,
 /* 4 */,
 /* 5 */,
-/* 6 */
+/* 6 */,
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -67,28 +68,33 @@ var svgPanZoom =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.TOOL_ZOOM = exports.TOOL_PAN = exports.TOOL_NONE = exports.ViewerHelper = exports.Viewer = undefined;
+	exports.TOOL_ZOOM = exports.TOOL_PAN = exports.TOOL_NONE = exports.ViewerResponsive = exports.ViewerHelper = exports.Viewer = undefined;
 
-	var _viewer = __webpack_require__(7);
+	var _viewer = __webpack_require__(8);
 
 	var _viewer2 = _interopRequireDefault(_viewer);
 
-	var _viewerHelper = __webpack_require__(8);
+	var _viewerResponsive = __webpack_require__(21);
+
+	var _viewerResponsive2 = _interopRequireDefault(_viewerResponsive);
+
+	var _viewerHelper = __webpack_require__(9);
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
 
-	var _constants = __webpack_require__(11);
+	var _constants = __webpack_require__(18);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	exports.Viewer = _viewer2.default;
 	exports.ViewerHelper = _viewerHelper2.default;
+	exports.ViewerResponsive = _viewerResponsive2.default;
 	exports.TOOL_NONE = _constants.TOOL_NONE;
 	exports.TOOL_PAN = _constants.TOOL_PAN;
 	exports.TOOL_ZOOM = _constants.TOOL_ZOOM;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -103,21 +109,21 @@ var svgPanZoom =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _viewerHelper = __webpack_require__(8);
+	var _viewerHelper = __webpack_require__(9);
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
 
-	var _viewerEvent = __webpack_require__(12);
+	var _viewerEvent = __webpack_require__(19);
 
 	var _viewerEvent2 = _interopRequireDefault(_viewerEvent);
 
-	var _cursor = __webpack_require__(13);
+	var _cursor = __webpack_require__(20);
 
 	var _cursor2 = _interopRequireDefault(_cursor);
 
-	var _utils = __webpack_require__(10);
+	var _utils = __webpack_require__(11);
 
-	var _constants = __webpack_require__(11);
+	var _constants = __webpack_require__(18);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -474,7 +480,7 @@ var svgPanZoom =
 	};
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -485,13 +491,23 @@ var svgPanZoom =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _transformationMatrixJs = __webpack_require__(9);
+	var _transformationMatrixJs = __webpack_require__(10);
 
-	var _utils = __webpack_require__(10);
+	var _utils = __webpack_require__(11);
 
-	var _constants = __webpack_require__(11);
+	var _reactAddonsUpdate = __webpack_require__(12);
+
+	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
+
+	var _constants = __webpack_require__(18);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	var matrix2obj = function matrix2obj(matrix) {
+	  return { a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f };
+	};
 
 	var ViewerHelper = function () {
 	  function ViewerHelper() {
@@ -504,8 +520,8 @@ var svgPanZoom =
 	      var matrix = new _transformationMatrixJs.Matrix();
 
 	      return {
-	        matrix: { a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f },
 	        mode: _constants.MODE_IDLE,
+	        matrix: matrix2obj(matrix),
 	        specialKeyEnabled: false
 	      };
 	    }
@@ -531,11 +547,12 @@ var svgPanZoom =
 
 	      matrix = matrix.multiply(act);
 
-	      return {
-	        mode: _constants.MODE_IDLE,
-	        matrix: { a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f },
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_IDLE,
+	          matrix: matrix2obj(matrix)
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'pan',
@@ -555,22 +572,26 @@ var svgPanZoom =
 
 	      matrix = matrix.multiply(act);
 
-	      return {
-	        mode: _constants.MODE_IDLE,
-	        matrix: { a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f },
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_IDLE,
+	          matrix: matrix2obj(matrix)
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'startPan',
 	    value: function startPan(value, startX, startY) {
-	      return {
-	        mode: _constants.MODE_PANNING,
-	        startX: startX,
-	        startY: startY,
-	        matrix: Object.assign({}, value.matrix),
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      var matrix = value.matrix;
+
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_PANNING,
+	          startX: startX,
+	          startY: startY,
+	          matrix: matrix2obj(matrix)
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'updatePan',
@@ -597,50 +618,49 @@ var svgPanZoom =
 
 	      matrix = matrix.multiply(act);
 
-	      return {
-	        mode: _constants.MODE_PANNING,
-	        startX: x,
-	        startY: y,
-	        matrix: { a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f },
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_PANNING,
+	          startX: x,
+	          startY: y,
+	          matrix: matrix2obj(matrix)
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'stopPan',
 	    value: function stopPan(value) {
-	      return {
-	        mode: _constants.MODE_IDLE,
-	        matrix: Object.assign({}, value.matrix),
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_IDLE
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'startZoomSelection',
 	    value: function startZoomSelection(value, x, y) {
-	      return {
-	        mode: _constants.MODE_ZOOMING,
-	        startX: x,
-	        startY: y,
-	        endX: x,
-	        endY: y,
-	        matrix: Object.assign({}, value.matrix),
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_ZOOMING,
+	          startX: x,
+	          startY: y,
+	          endX: x,
+	          endY: y
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'updateZoomSelection',
 	    value: function updateZoomSelection(value, x, y) {
 	      if (value.mode !== _constants.MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + value.mode);
 
-	      return {
-	        mode: _constants.MODE_ZOOMING,
-	        startX: value.startX,
-	        startY: value.startY,
-	        endX: x,
-	        endY: y,
-	        matrix: Object.assign({}, value.matrix),
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_ZOOMING,
+	          endX: x,
+	          endY: y
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'stopZoomSelection',
@@ -671,11 +691,12 @@ var svgPanZoom =
 	      matrix = matrix.scaleU(scale);
 	      matrix = matrix.translate(-selectionX, -selectionY);
 
-	      return {
-	        mode: _constants.MODE_IDLE,
-	        matrix: { a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f },
-	        specialKeyEnabled: value.specialKeyEnabled
-	      };
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          mode: _constants.MODE_IDLE,
+	          matrix: matrix2obj(matrix)
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'fitSVGToViewer',
@@ -685,12 +706,20 @@ var svgPanZoom =
 	  }, {
 	    key: 'enableSpecialKey',
 	    value: function enableSpecialKey(value) {
-	      return Object.assign({}, value, { specialKeyEnabled: true });
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          specialKeyEnabled: true
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'disableSpecialKey',
 	    value: function disableSpecialKey(value) {
-	      return Object.assign({}, value, { specialKeyEnabled: false });
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          specialKeyEnabled: false
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'getSVGPoint',
@@ -736,7 +765,7 @@ var svgPanZoom =
 	exports.default = ViewerHelper;
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*!
@@ -1752,7 +1781,7 @@ var svgPanZoom =
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -1794,7 +1823,414 @@ var svgPanZoom =
 	}
 
 /***/ },
-/* 11 */
+/* 12 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__(13);
+
+/***/ },
+/* 13 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule update
+	 */
+
+	/* global hasOwnProperty:true */
+
+	'use strict';
+
+	var _assign = __webpack_require__(15);
+
+	var keyOf = __webpack_require__(16);
+	var invariant = __webpack_require__(17);
+	var hasOwnProperty = {}.hasOwnProperty;
+
+	function shallowCopy(x) {
+	  if (Array.isArray(x)) {
+	    return x.concat();
+	  } else if (x && typeof x === 'object') {
+	    return _assign(new x.constructor(), x);
+	  } else {
+	    return x;
+	  }
+	}
+
+	var COMMAND_PUSH = keyOf({ $push: null });
+	var COMMAND_UNSHIFT = keyOf({ $unshift: null });
+	var COMMAND_SPLICE = keyOf({ $splice: null });
+	var COMMAND_SET = keyOf({ $set: null });
+	var COMMAND_MERGE = keyOf({ $merge: null });
+	var COMMAND_APPLY = keyOf({ $apply: null });
+
+	var ALL_COMMANDS_LIST = [COMMAND_PUSH, COMMAND_UNSHIFT, COMMAND_SPLICE, COMMAND_SET, COMMAND_MERGE, COMMAND_APPLY];
+
+	var ALL_COMMANDS_SET = {};
+
+	ALL_COMMANDS_LIST.forEach(function (command) {
+	  ALL_COMMANDS_SET[command] = true;
+	});
+
+	function invariantArrayCase(value, spec, command) {
+	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : invariant(false) : void 0;
+	  var specValue = spec[command];
+	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. ' + 'Did you forget to wrap your parameter in an array?', command, specValue) : invariant(false) : void 0;
+	}
+
+	/**
+	 * Returns a updated shallow copy of an object without mutating the original.
+	 * See https://facebook.github.io/react/docs/update.html for details.
+	 */
+	function update(value, spec) {
+	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one ' + 'of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : invariant(false) : void 0;
+
+	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
+	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : invariant(false) : void 0;
+
+	    return spec[COMMAND_SET];
+	  }
+
+	  var nextValue = shallowCopy(value);
+
+	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
+	    var mergeObj = spec[COMMAND_MERGE];
+	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : invariant(false) : void 0;
+	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : invariant(false) : void 0;
+	    _assign(nextValue, spec[COMMAND_MERGE]);
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_PUSH)) {
+	    invariantArrayCase(value, spec, COMMAND_PUSH);
+	    spec[COMMAND_PUSH].forEach(function (item) {
+	      nextValue.push(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_UNSHIFT)) {
+	    invariantArrayCase(value, spec, COMMAND_UNSHIFT);
+	    spec[COMMAND_UNSHIFT].forEach(function (item) {
+	      nextValue.unshift(item);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
+	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : invariant(false) : void 0;
+	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. ' + 'Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : invariant(false) : void 0;
+	    spec[COMMAND_SPLICE].forEach(function (args) {
+	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. ' + 'Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : invariant(false) : void 0;
+	      nextValue.splice.apply(nextValue, args);
+	    });
+	  }
+
+	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
+	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : invariant(false) : void 0;
+	    nextValue = spec[COMMAND_APPLY](nextValue);
+	  }
+
+	  for (var k in spec) {
+	    if (!(ALL_COMMANDS_SET.hasOwnProperty(k) && ALL_COMMANDS_SET[k])) {
+	      nextValue[k] = update(value[k], spec[k]);
+	    }
+	  }
+
+	  return nextValue;
+	}
+
+	module.exports = update;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+
+/***/ },
+/* 14 */
+/***/ function(module, exports) {
+
+	// shim for using process in browser
+
+	var process = module.exports = {};
+	var queue = [];
+	var draining = false;
+	var currentQueue;
+	var queueIndex = -1;
+
+	function cleanUpNextTick() {
+	    if (!draining || !currentQueue) {
+	        return;
+	    }
+	    draining = false;
+	    if (currentQueue.length) {
+	        queue = currentQueue.concat(queue);
+	    } else {
+	        queueIndex = -1;
+	    }
+	    if (queue.length) {
+	        drainQueue();
+	    }
+	}
+
+	function drainQueue() {
+	    if (draining) {
+	        return;
+	    }
+	    var timeout = setTimeout(cleanUpNextTick);
+	    draining = true;
+
+	    var len = queue.length;
+	    while(len) {
+	        currentQueue = queue;
+	        queue = [];
+	        while (++queueIndex < len) {
+	            if (currentQueue) {
+	                currentQueue[queueIndex].run();
+	            }
+	        }
+	        queueIndex = -1;
+	        len = queue.length;
+	    }
+	    currentQueue = null;
+	    draining = false;
+	    clearTimeout(timeout);
+	}
+
+	process.nextTick = function (fun) {
+	    var args = new Array(arguments.length - 1);
+	    if (arguments.length > 1) {
+	        for (var i = 1; i < arguments.length; i++) {
+	            args[i - 1] = arguments[i];
+	        }
+	    }
+	    queue.push(new Item(fun, args));
+	    if (queue.length === 1 && !draining) {
+	        setTimeout(drainQueue, 0);
+	    }
+	};
+
+	// v8 likes predictible objects
+	function Item(fun, array) {
+	    this.fun = fun;
+	    this.array = array;
+	}
+	Item.prototype.run = function () {
+	    this.fun.apply(null, this.array);
+	};
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+	process.version = ''; // empty string to avoid regexp issues
+	process.versions = {};
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	};
+
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+	process.umask = function() { return 0; };
+
+
+/***/ },
+/* 15 */
+/***/ function(module, exports) {
+
+	'use strict';
+	/* eslint-disable no-unused-vars */
+	var hasOwnProperty = Object.prototype.hasOwnProperty;
+	var propIsEnumerable = Object.prototype.propertyIsEnumerable;
+
+	function toObject(val) {
+		if (val === null || val === undefined) {
+			throw new TypeError('Object.assign cannot be called with null or undefined');
+		}
+
+		return Object(val);
+	}
+
+	function shouldUseNative() {
+		try {
+			if (!Object.assign) {
+				return false;
+			}
+
+			// Detect buggy property enumeration order in older V8 versions.
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=4118
+			var test1 = new String('abc');  // eslint-disable-line
+			test1[5] = 'de';
+			if (Object.getOwnPropertyNames(test1)[0] === '5') {
+				return false;
+			}
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test2 = {};
+			for (var i = 0; i < 10; i++) {
+				test2['_' + String.fromCharCode(i)] = i;
+			}
+			var order2 = Object.getOwnPropertyNames(test2).map(function (n) {
+				return test2[n];
+			});
+			if (order2.join('') !== '0123456789') {
+				return false;
+			}
+
+			// https://bugs.chromium.org/p/v8/issues/detail?id=3056
+			var test3 = {};
+			'abcdefghijklmnopqrst'.split('').forEach(function (letter) {
+				test3[letter] = letter;
+			});
+			if (Object.keys(Object.assign({}, test3)).join('') !==
+					'abcdefghijklmnopqrst') {
+				return false;
+			}
+
+			return true;
+		} catch (e) {
+			// We don't expect any of the above to throw, but better to be safe.
+			return false;
+		}
+	}
+
+	module.exports = shouldUseNative() ? Object.assign : function (target, source) {
+		var from;
+		var to = toObject(target);
+		var symbols;
+
+		for (var s = 1; s < arguments.length; s++) {
+			from = Object(arguments[s]);
+
+			for (var key in from) {
+				if (hasOwnProperty.call(from, key)) {
+					to[key] = from[key];
+				}
+			}
+
+			if (Object.getOwnPropertySymbols) {
+				symbols = Object.getOwnPropertySymbols(from);
+				for (var i = 0; i < symbols.length; i++) {
+					if (propIsEnumerable.call(from, symbols[i])) {
+						to[symbols[i]] = from[symbols[i]];
+					}
+				}
+			}
+		}
+
+		return to;
+	};
+
+
+/***/ },
+/* 16 */
+/***/ function(module, exports) {
+
+	"use strict";
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+
+	/**
+	 * Allows extraction of a minified key. Let's the build system minify keys
+	 * without losing the ability to dynamically use key strings as values
+	 * themselves. Pass in an object with a single key/val pair and it will return
+	 * you the string key of that single record. Suppose you want to grab the
+	 * value for a key 'className' inside of an object. Key/val minification may
+	 * have aliased that key to be 'xa12'. keyOf({className: null}) will return
+	 * 'xa12' in that case. Resolve keys you want to use once at startup time, then
+	 * reuse those resolutions.
+	 */
+	var keyOf = function keyOf(oneKeyObj) {
+	  var key;
+	  for (key in oneKeyObj) {
+	    if (!oneKeyObj.hasOwnProperty(key)) {
+	      continue;
+	    }
+	    return key;
+	  }
+	  return null;
+	};
+
+	module.exports = keyOf;
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 */
+
+	'use strict';
+
+	/**
+	 * Use invariant() to assert state which your program assumes to be true.
+	 *
+	 * Provide sprintf-style format (only %s is supported) and arguments
+	 * to provide information about what broke and what you were
+	 * expecting.
+	 *
+	 * The invariant message will be stripped in production, but the invariant
+	 * will remain to ensure logic does not differ in production.
+	 */
+
+	function invariant(condition, format, a, b, c, d, e, f) {
+	  if (process.env.NODE_ENV !== 'production') {
+	    if (format === undefined) {
+	      throw new Error('invariant requires an error message argument');
+	    }
+	  }
+
+	  if (!condition) {
+	    var error;
+	    if (format === undefined) {
+	      error = new Error('Minified exception occurred; use the non-minified dev environment ' + 'for the full error message and additional helpful warnings.');
+	    } else {
+	      var args = [a, b, c, d, e, f];
+	      var argIndex = 0;
+	      error = new Error(format.replace(/%s/g, function () {
+	        return args[argIndex++];
+	      }));
+	      error.name = 'Invariant Violation';
+	    }
+
+	    error.framesToPop = 1; // we don't care about invariant's own frame
+	    throw error;
+	  }
+	}
+
+	module.exports = invariant;
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(14)))
+
+/***/ },
+/* 18 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1811,7 +2247,7 @@ var svgPanZoom =
 	var TOOL_PAN = exports.TOOL_PAN = 'pan';
 
 /***/ },
-/* 12 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -1822,7 +2258,7 @@ var svgPanZoom =
 
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-	var _viewerHelper = __webpack_require__(8);
+	var _viewerHelper = __webpack_require__(9);
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
 
@@ -1897,7 +2333,7 @@ var svgPanZoom =
 	exports.default = ViewerEvent;
 
 /***/ },
-/* 13 */
+/* 20 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -1926,6 +2362,371 @@ var svgPanZoom =
 	var isWebkit = function isWebkit() {
 	  return userAgent().indexOf('webkit') > -1;
 	};
+
+/***/ },
+/* 21 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	var _react = __webpack_require__(2);
+
+	var _react2 = _interopRequireDefault(_react);
+
+	var _reactDimensions = __webpack_require__(22);
+
+	var _reactDimensions2 = _interopRequireDefault(_reactDimensions);
+
+	var _viewer = __webpack_require__(8);
+
+	var _viewer2 = _interopRequireDefault(_viewer);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var ViewerResponsive = function (_React$Component) {
+	  _inherits(ViewerResponsive, _React$Component);
+
+	  function ViewerResponsive() {
+	    _classCallCheck(this, ViewerResponsive);
+
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ViewerResponsive).apply(this, arguments));
+	  }
+
+	  _createClass(ViewerResponsive, [{
+	    key: 'render',
+	    value: function render() {
+	      var _props = this.props;
+	      var containerWidth = _props.containerWidth;
+	      var containerHeight = _props.containerHeight;
+	      var children = _props.children;
+
+	      var props = _objectWithoutProperties(_props, ['containerWidth', 'containerHeight', 'children']);
+
+	      return _react2.default.createElement(
+	        _viewer2.default,
+	        _extends({}, props, { width: containerWidth, height: containerHeight }),
+	        children
+	      );
+	    }
+	  }]);
+
+	  return ViewerResponsive;
+	}(_react2.default.Component);
+
+	exports.default = (0, _reactDimensions2.default)()(ViewerResponsive);
+
+/***/ },
+/* 22 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+	var React = __webpack_require__(2);
+	var onElementResize = __webpack_require__(23);
+
+	var defaultContainerStyle = {
+	  width: '100%',
+	  height: '100%',
+	  padding: 0,
+	  border: 0
+	};
+
+	function defaultGetWidth(element) {
+	  return element.clientWidth;
+	}
+
+	function defaultGetHeight(element) {
+	  return element.clientHeight;
+	}
+
+	/**
+	 * Wraps a react component and adds properties `containerHeight` and
+	 * `containerWidth`. Useful for responsive design. Properties update on
+	 * window resize. **Note** that the parent element must have either a
+	 * height or a width, or nothing will be rendered
+	 *
+	 * Can be used as a
+	 * [higher-order component](http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers)
+	 * or as an [ES7 class decorator](https://github.com/wycats/javascript-decorators)
+	 * (see examples)
+	 *
+	 * @param {object} [options]
+	 * @param {function} [options.getHeight] A function that is passed an element and returns element
+	 * height, where element is the wrapper div. Defaults to `(element) => element.clientHeight`
+	 * @param {function} [options.getWidth]  A function that is passed an element and returns element
+	 * width, where element is the wrapper div. Defaults to `(element) => element.clientWidth`
+	 * @param {object} [options.containerStyle] A style object for the `<div>` that will wrap your component.
+	 * The dimensions of this `div` are what are passed as props to your component. The default style is
+	 * `{ width: '100%', height: '100%', padding: 0, border: 0 }` which will cause the `div` to fill its
+	 * parent in most cases. If you are using a flexbox layout you will want to change this default style.
+	 * @param {boolean} [options.elementResize=false] Set true to watch the wrapper `div` for changes in
+	 * size which are not a result of window resizing - e.g. changes to the flexbox and other layout.
+	 * @return {function}                   A higher-order component that can be
+	 * used to enhance a react component `Dimensions()(MyComponent)`
+	 *
+	 * @example
+	 * // ES2015
+	 * import React from 'react'
+	 * import Dimensions from 'react-dimensions'
+	 *
+	 * class MyComponent extends React.Component {
+	 *   render() (
+	 *     <div
+	 *       containerWidth={this.props.containerWidth}
+	 *       containerHeight={this.props.containerHeight}
+	 *     >
+	 *     </div>
+	 *   )
+	 * }
+	 *
+	 * export default Dimensions()(MyComponent) // Enhanced component
+	 *
+	 * @example
+	 * // ES5
+	 * var React = require('react')
+	 * var Dimensions = require('react-dimensions')
+	 *
+	 * var MyComponent = React.createClass({
+	 *   render: function() {(
+	 *     <div
+	 *       containerWidth={this.props.containerWidth}
+	 *       containerHeight={this.props.containerHeight}
+	 *     >
+	 *     </div>
+	 *   )}
+	 * }
+	 *
+	 * module.exports = Dimensions()(MyComponent) // Enhanced component
+	 *
+	 */
+	module.exports = function Dimensions() {
+	  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
+
+	  var _ref$getHeight = _ref.getHeight;
+	  var getHeight = _ref$getHeight === undefined ? defaultGetHeight : _ref$getHeight;
+	  var _ref$getWidth = _ref.getWidth;
+	  var getWidth = _ref$getWidth === undefined ? defaultGetWidth : _ref$getWidth;
+	  var _ref$containerStyle = _ref.containerStyle;
+	  var containerStyle = _ref$containerStyle === undefined ? defaultContainerStyle : _ref$containerStyle;
+	  var _ref$elementResize = _ref.elementResize;
+	  var elementResize = _ref$elementResize === undefined ? false : _ref$elementResize;
+
+	  return function (ComposedComponent) {
+	    return function (_React$Component) {
+	      _inherits(DimensionsHOC, _React$Component);
+
+	      function DimensionsHOC() {
+	        var _Object$getPrototypeO;
+
+	        var _temp, _this, _ret;
+
+	        _classCallCheck(this, DimensionsHOC);
+
+	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+	          args[_key] = arguments[_key];
+	        }
+
+	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DimensionsHOC)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {}, _this.updateDimensions = function () {
+	          var container = _this.refs.container;
+	          var containerWidth = getWidth(container);
+	          var containerHeight = getHeight(container);
+
+	          if (containerWidth !== _this.state.containerWidth || containerHeight !== _this.state.containerHeight) {
+	            _this.setState({ containerWidth: containerWidth, containerHeight: containerHeight });
+	          }
+	        }, _this.onResize = function () {
+	          if (_this.rqf) return;
+	          _this.rqf = _this.getWindow().requestAnimationFrame(function () {
+	            _this.rqf = null;
+	            _this.updateDimensions();
+	          });
+	        }, _temp), _possibleConstructorReturn(_this, _ret);
+	      }
+	      // ES7 Class properties
+	      // http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers
+
+
+	      // Using arrow functions and ES7 Class properties to autobind
+	      // http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#arrow-functions
+
+
+	      _createClass(DimensionsHOC, [{
+	        key: 'getWindow',
+
+
+	        // If the component is mounted in a different window to the javascript
+	        // context, as with https://github.com/JakeGinnivan/react-popout
+	        // then the `window` global will be different from the `window` that
+	        // contains the component.
+	        // Depends on `defaultView` which is not supported <IE9
+	        value: function getWindow() {
+	          return this.refs.container ? this.refs.container.ownerDocument.defaultView || window : window;
+	        }
+	      }, {
+	        key: 'componentDidMount',
+	        value: function componentDidMount() {
+	          if (!this.refs.container) {
+	            throw new Error('Cannot find container div');
+	          }
+	          this.updateDimensions();
+	          if (elementResize) {
+	            // Experimental: `element-resize-event` fires when an element resizes.
+	            // It attaches its own window resize listener and also uses
+	            // requestAnimationFrame, so we can just call `this.updateDimensions`.
+	            onElementResize(this.refs.container, this.updateDimensions);
+	          } else {
+	            this.getWindow().addEventListener('resize', this.onResize, false);
+	          }
+	        }
+	      }, {
+	        key: 'componentWillUnmount',
+	        value: function componentWillUnmount() {
+	          this.getWindow().removeEventListener('resize', this.onResize);
+	        }
+
+	        /**
+	         * Returns the underlying wrapped component instance.
+	         * Useful if you need to access a method or property of the component
+	         * passed to react-dimensions.
+	         *
+	         * @return {object} The rendered React component
+	         **/
+
+	      }, {
+	        key: 'getWrappedInstance',
+	        value: function getWrappedInstance() {
+	          this.refs.wrappedInstance;
+	        }
+	      }, {
+	        key: 'render',
+	        value: function render() {
+	          return React.createElement(
+	            'div',
+	            { style: containerStyle, ref: 'container' },
+	            (this.state.containerWidth || this.state.containerHeight) && React.createElement(ComposedComponent, _extends({}, this.state, this.props, {
+	              updateDimensions: this.updateDimensions,
+	              ref: 'wrappedInstance'
+	            }))
+	          );
+	        }
+	      }]);
+
+	      return DimensionsHOC;
+	    }(React.Component);
+	  };
+	};
+
+
+/***/ },
+/* 23 */
+/***/ function(module, exports) {
+
+	var exports = function exports(element, fn) {
+	  var window = this
+	  var document = window.document
+	  var isIE
+	  var requestFrame
+
+	  var attachEvent = document.attachEvent
+	  if (typeof navigator !== 'undefined') {
+	    isIE = navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/)
+	  }
+
+	  requestFrame = (function () {
+	    var raf = window.requestAnimationFrame ||
+	      window.mozRequestAnimationFrame ||
+	        window.webkitRequestAnimationFrame ||
+	          function fallbackRAF(func) {
+	            return window.setTimeout(func, 20)
+	          }
+	    return function requestFrameFunction(func) {
+	      return raf(func)
+	    }
+	  })()
+
+	  var cancelFrame = (function () {
+	    var cancel = window.cancelAnimationFrame ||
+	      window.mozCancelAnimationFrame ||
+	        window.webkitCancelAnimationFrame ||
+	          window.clearTimeout
+	    return function cancelFrameFunction(id) {
+	      return cancel(id)
+	    }
+	  })()
+
+	  function resizeListener(e) {
+	    var win = e.target || e.srcElement
+	    if (win.__resizeRAF__) {
+	      cancelFrame(win.__resizeRAF__)
+	    }
+	    win.__resizeRAF__ = requestFrame(function () {
+	      var trigger = win.__resizeTrigger__
+	      trigger.__resizeListeners__.forEach(function (fn) {
+	        fn.call(trigger, e)
+	      })
+	    })
+	  }
+
+	  function objectLoad() {
+	    this.contentDocument.defaultView.__resizeTrigger__ = this.__resizeElement__
+	    this.contentDocument.defaultView.addEventListener('resize', resizeListener)
+	  }
+
+	  if (!element.__resizeListeners__) {
+	    element.__resizeListeners__ = []
+	    if (attachEvent) {
+	      element.__resizeTrigger__ = element
+	      element.attachEvent('onresize', resizeListener)
+	    } else {
+	      if (getComputedStyle(element).position === 'static') {
+	        element.style.position = 'relative'
+	      }
+	      var obj = element.__resizeTrigger__ = document.createElement('object')
+	      obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
+	      obj.setAttribute('class', 'resize-sensor')
+	      obj.__resizeElement__ = element
+	      obj.onload = objectLoad
+	      obj.type = 'text/html'
+	      if (isIE) {
+	        element.appendChild(obj)
+	      }
+	      obj.data = 'about:blank'
+	      if (!isIE) {
+	        element.appendChild(obj)
+	      }
+	    }
+	  }
+	  element.__resizeListeners__.push(fn)
+	}
+
+	module.exports = (typeof window === 'undefined') ? exports : exports.bind(window)
+
 
 /***/ }
 /******/ ]);
