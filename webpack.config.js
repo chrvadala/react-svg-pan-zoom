@@ -1,27 +1,17 @@
 var path = require('path');
-const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
   entry: {
-    svgPanZoom: [path.resolve(__dirname, 'src', 'index.js')],
-    demo: [path.resolve(__dirname, 'examples', 'demo.js')],
-    demoResponsive: [path.resolve(__dirname, 'examples', 'demo-responsive.js')]
+    ReactSVGPanZoom: path.resolve(__dirname, 'src', 'index.js')
   },
   output: {
-    path: __dirname + "/build",
-    filename: "[name].js",
-    library: "[name]"
+    path: __dirname + "/dist",
+    filename: "react-svg-pan-zoom.js",
+    library: "ReactSVGPanZoom"
   },
   externals: {
     "react": "React",
-    "react-dom": "ReactDOM",
-    "../src/index": "svgPanZoom"
-  },
-  plugins: [
-    new OpenBrowserPlugin({url: 'http://localhost:8080'})
-  ],
-  devServer: {
-    contentBase: path.resolve(__dirname, "examples")
+    "react-dom": "ReactDOM"
   },
   module: {
     loaders: [

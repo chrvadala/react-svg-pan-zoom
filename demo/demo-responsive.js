@@ -50,10 +50,10 @@ export default class Demo extends React.Component {
         {/* col-1 */}
         <div style={{width: "50%", height: "100%"}}>
           <ViewerResponsive style={{border:'1px solid black'}} ref="viewer"
-                  value={this.state.value} tool={this.state.tool}
-                  onChange={event => this.handleChange(event)}
-                  onClick={event => this.handleClick(event)}
-                  onMouseMove={event => this.handleMouseMove(event)}>
+                            value={this.state.value} tool={this.state.tool}
+                            onChange={event => this.handleChange(event)}
+                            onClick={event => this.handleClick(event)}
+                            onMouseMove={event => this.handleMouseMove(event)}>
 
             {SnakeSVG}
 
@@ -64,9 +64,7 @@ export default class Demo extends React.Component {
         {/* col-2 */}
         <div style={{width: "50%", paddingLeft: "20px"}}>
 
-          <h3>React SVG Pan Zoom Demo</h3>
-
-          <ul style={{listStyle: "none", padding:"0px"}}>
+          <ul style={{listStyle: "none", padding:"0px", margin:"0px"}}>
             <li><input
               type="radio"
               value={TOOL_NONE}
@@ -91,7 +89,7 @@ export default class Demo extends React.Component {
             <button onClick={event => this.handleReset(event)}>Reset view</button>
           </div>
 
-          <hr style={{border: "1px solid #aaa", borderTop: "0px"}}/>
+          <br/>
 
         <span style={{color: "10px"}}>
           Note: <strong>Press Alt for zoom out</strong>
