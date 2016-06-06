@@ -209,4 +209,11 @@ export default class ViewerHelper {
     }
   }
 
+  static isPointInsideSVG(x, y, SVGWidth, SVGHeight){
+    return 0 <= x
+        && x <= SVGWidth
+        && 0 <= y
+        && y <= SVGHeight;
+  }
+
 }

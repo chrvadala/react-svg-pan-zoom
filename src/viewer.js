@@ -73,8 +73,7 @@ export default class Viewer extends React.Component {
     if (value.mode !== MODE_IDLE) return;
 
     let point = ViewerHelper.getSVGPoint(value, x, y);
-    if (!(   0 <= point.x && point.x <= SVGWidth
-      && 0 <= point.y && point.y <= SVGHeight)) return;
+    if(!ViewerHelper.isPointInsideSVG(point.x, point.y, SVGWidth, SVGHeight)) return;
 
     let nextValue = ViewerHelper.startZoomSelection(value, x, y);
 
@@ -125,35 +124,58 @@ export default class Viewer extends React.Component {
   }
 
   handleClick(event) {
-    let {value, tool, onClick} = this.props;
+    let {value, tool, onClick, children} = this.props;
+    let SVGWidth = children.props.width, SVGHeight = children.props.height;
+
     if (tool !== TOOL_NONE) return;
     if (!onClick) return;
 
-    onClick(new ViewerEvent(event, value));
+    let viewerEvent = new ViewerEvent(event, value);
+    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+    onClick(viewerEvent);
   }
 
   handleMouseUp(event) {
-    let {value, tool, onMouseUp} = this.props;
+    let {value, tool, onMouseUp, children} = this.props;
+    let x = event.offsetX, y = event.offsetY;
+    let SVGWidth = children.props.width, SVGHeight = children.props.height;
+
     if (tool !== TOOL_NONE) return;
     if (!onMouseUp) return;
 
-    onMouseUp(new ViewerEvent(event, value));
+    let viewerEvent = new ViewerEvent(event, value);
+    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+    onMouseUp(viewerEvent);
   }
 
   handleMouseDown(event) {
-    let {value, tool, onMouseDown} = this.props;
+    let {value, tool, onMouseDown, children} = this.props;
+    let x = event.offsetX, y = event.offsetY;
+    let SVGWidth = children.props.width, SVGHeight = children.props.height;
+
     if (tool !== TOOL_NONE) return;
     if (!onMouseDown) return;
 
-    onMouseDown(new ViewerEvent(event, value));
+    let viewerEvent = new ViewerEvent(event, value);
+    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+    onMouseDown(viewerEvent);
   }
 
   handleMouseMove(event) {
-    let {value, tool, onMouseMove} = this.props;
+    let {value, tool, onMouseMove, children} = this.props;
+    let x = event.offsetX, y = event.offsetY;
+    let SVGWidth = children.props.width, SVGHeight = children.props.height;
+
     if (tool !== TOOL_NONE) return;
     if (!onMouseMove) return;
 
-    onMouseMove(new ViewerEvent(event, value));
+    let viewerEvent = new ViewerEvent(event, value);
+    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+    onMouseMove(viewerEvent);
   }
 
   handleSpecialKeyChange(event) {
