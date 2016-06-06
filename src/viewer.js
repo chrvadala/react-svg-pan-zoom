@@ -209,7 +209,7 @@ export default class Viewer extends React.Component {
     let style = {};
     let gStyle = {pointerEvents: "none"};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
-    if (tool === TOOL_ZOOM) gStyle.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
+    if (tool === TOOL_ZOOM) style.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
 
     let zoomSelectionRect;
     if (mode === MODE_ZOOMING) {
