@@ -408,7 +408,7 @@ var ReactSVGPanZoom =
 	      var style = {};
 	      var gStyle = { pointerEvents: "none" };
 	      if (tool === _constants.TOOL_PAN) style.cursor = (0, _cursor2.default)(mode === _constants.MODE_PANNING ? 'grabbing' : 'grab');
-	      if (tool === _constants.TOOL_ZOOM) gStyle.cursor = (0, _cursor2.default)(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
+	      if (tool === _constants.TOOL_ZOOM) style.cursor = (0, _cursor2.default)(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
 
 	      var zoomSelectionRect = void 0;
 	      if (mode === _constants.MODE_ZOOMING) {
