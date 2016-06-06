@@ -155,7 +155,12 @@ var ReactSVGPanZoom =
 	      var value = _props2.value;
 	      var tool = _props2.tool;
 	      var onChange = _props2.onChange;
+	      var width = _props2.width;
+	      var height = _props2.height;
+	      var children = _props2.children;
 
+	      var SVGWidth = children.props.width,
+	          SVGHeight = children.props.height;
 
 	      if (tool !== _constants.TOOL_PAN) return;
 	      if (value.mode !== _constants.MODE_PANNING) return;
@@ -163,7 +168,7 @@ var ReactSVGPanZoom =
 	      //the mouse exited and reentered into svg
 	      var forceExit = value.mode === _constants.MODE_PANNING && event.buttons === 0;
 
-	      var nextValue = forceExit ? _viewerHelper2.default.stopPan(value) : _viewerHelper2.default.updatePan(value, x, y);
+	      var nextValue = forceExit ? _viewerHelper2.default.stopPan(value) : _viewerHelper2.default.updatePan(value, x, y, 20, SVGWidth, SVGHeight, width, height);
 
 	      event.preventDefault();
 	      onChange(new _viewerEvent2.default(event, nextValue));
@@ -196,10 +201,16 @@ var ReactSVGPanZoom =
 	      var value = _props4.value;
 	      var tool = _props4.tool;
 	      var onChange = _props4.onChange;
+	      var children = _props4.children;
 
+	      var SVGWidth = children.props.width,
+	          SVGHeight = children.props.height;
 
 	      if (tool !== _constants.TOOL_ZOOM) return;
 	      if (value.mode !== _constants.MODE_IDLE) return;
+
+	      var point = _viewerHelper2.default.getSVGPoint(value, x, y);
+	      if (!_viewerHelper2.default.isPointInsideSVG(point.x, point.y, SVGWidth, SVGHeight)) return;
 
 	      var nextValue = _viewerHelper2.default.startZoomSelection(value, x, y);
 
@@ -273,11 +284,18 @@ var ReactSVGPanZoom =
 	      var value = _props7.value;
 	      var tool = _props7.tool;
 	      var onClick = _props7.onClick;
+	      var children = _props7.children;
+
+	      var SVGWidth = children.props.width,
+	          SVGHeight = children.props.height;
 
 	      if (tool !== _constants.TOOL_NONE) return;
 	      if (!onClick) return;
 
-	      onClick(new _viewerEvent2.default(event, value));
+	      var viewerEvent = new _viewerEvent2.default(event, value);
+	      if (!_viewerHelper2.default.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+	      onClick(viewerEvent);
 	    }
 	  }, {
 	    key: 'handleMouseUp',
@@ -286,11 +304,20 @@ var ReactSVGPanZoom =
 	      var value = _props8.value;
 	      var tool = _props8.tool;
 	      var onMouseUp = _props8.onMouseUp;
+	      var children = _props8.children;
+
+	      var x = event.offsetX,
+	          y = event.offsetY;
+	      var SVGWidth = children.props.width,
+	          SVGHeight = children.props.height;
 
 	      if (tool !== _constants.TOOL_NONE) return;
 	      if (!onMouseUp) return;
 
-	      onMouseUp(new _viewerEvent2.default(event, value));
+	      var viewerEvent = new _viewerEvent2.default(event, value);
+	      if (!_viewerHelper2.default.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+	      onMouseUp(viewerEvent);
 	    }
 	  }, {
 	    key: 'handleMouseDown',
@@ -299,11 +326,20 @@ var ReactSVGPanZoom =
 	      var value = _props9.value;
 	      var tool = _props9.tool;
 	      var onMouseDown = _props9.onMouseDown;
+	      var children = _props9.children;
+
+	      var x = event.offsetX,
+	          y = event.offsetY;
+	      var SVGWidth = children.props.width,
+	          SVGHeight = children.props.height;
 
 	      if (tool !== _constants.TOOL_NONE) return;
 	      if (!onMouseDown) return;
 
-	      onMouseDown(new _viewerEvent2.default(event, value));
+	      var viewerEvent = new _viewerEvent2.default(event, value);
+	      if (!_viewerHelper2.default.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+	      onMouseDown(viewerEvent);
 	    }
 	  }, {
 	    key: 'handleMouseMove',
@@ -312,11 +348,20 @@ var ReactSVGPanZoom =
 	      var value = _props10.value;
 	      var tool = _props10.tool;
 	      var onMouseMove = _props10.onMouseMove;
+	      var children = _props10.children;
+
+	      var x = event.offsetX,
+	          y = event.offsetY;
+	      var SVGWidth = children.props.width,
+	          SVGHeight = children.props.height;
 
 	      if (tool !== _constants.TOOL_NONE) return;
 	      if (!onMouseMove) return;
 
-	      onMouseMove(new _viewerEvent2.default(event, value));
+	      var viewerEvent = new _viewerEvent2.default(event, value);
+	      if (!_viewerHelper2.default.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+
+	      onMouseMove(viewerEvent);
 	    }
 	  }, {
 	    key: 'handleSpecialKeyChange',
@@ -361,6 +406,7 @@ var ReactSVGPanZoom =
 	      var matrixStr = 'matrix(' + matrix.a + ', ' + matrix.b + ', ' + matrix.c + ', ' + matrix.d + ', ' + matrix.e + ', ' + matrix.f + ')';
 
 	      var style = {};
+	      var gStyle = { pointerEvents: "none" };
 	      if (tool === _constants.TOOL_PAN) style.cursor = (0, _cursor2.default)(mode === _constants.MODE_PANNING ? 'grabbing' : 'grab');
 	      if (tool === _constants.TOOL_ZOOM) style.cursor = (0, _cursor2.default)(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
 
@@ -410,10 +456,12 @@ var ReactSVGPanZoom =
 	          x: 0,
 	          y: 0,
 	          width: this.props.width,
-	          height: this.props.height }),
+	          height: this.props.height,
+	          style: { pointerEvents: "none" }
+	        }),
 	        _react2.default.createElement(
 	          'g',
-	          { ref: 'originalSvg', transform: matrixStr },
+	          { ref: 'originalSvg', transform: matrixStr, style: gStyle },
 	          _react2.default.createElement('rect', {
 	            fill: this.props.SVGBackground,
 	            x: 0,
@@ -482,6 +530,9 @@ var ReactSVGPanZoom =
 	    var types = ['svg'];
 	    if (_react2.default.Children.count(prop) !== 1 || types.indexOf(prop.type) === -1) {
 	      return new Error('`' + componentName + '` ' + 'should have a single child of the following types: ' + ' `' + types.join('`, `') + '`.');
+	    }
+	    if (!prop.props.hasOwnProperty('width') || !prop.props.hasOwnProperty('height')) {
+	      return new Error('SVG should have props `width` and `height`');
 	    }
 	  }
 	};
@@ -615,7 +666,7 @@ var ReactSVGPanZoom =
 	    }
 	  }, {
 	    key: 'updatePan',
-	    value: function updatePan(value, x, y) {
+	    value: function updatePan(value, x, y, panLimit, SVGWidth, SVGHeight, viewerWidth, viewerHeight) {
 
 	      if (value.mode !== _constants.MODE_PANNING) throw new Error('update pan not allowed in this mode ' + value.mode);
 
@@ -637,6 +688,13 @@ var ReactSVGPanZoom =
 	      act = act.translate(-deltaX, -deltaY);
 
 	      matrix = matrix.multiply(act);
+
+	      //apply pan limits
+	      matrix.e = Math.min(matrix.e, viewerWidth - panLimit);
+	      matrix.e = Math.max(matrix.e, panLimit - SVGWidth * zoomLevel);
+
+	      matrix.f = Math.min(matrix.f, viewerHeight - panLimit);
+	      matrix.f = Math.max(matrix.f, panLimit - SVGHeight * zoomLevel);
 
 	      return (0, _reactAddonsUpdate2.default)(value, {
 	        $merge: {
@@ -776,6 +834,11 @@ var ReactSVGPanZoom =
 	        translationX: decompose.translate.x,
 	        translationY: decompose.translate.y
 	      };
+	    }
+	  }, {
+	    key: 'isPointInsideSVG',
+	    value: function isPointInsideSVG(x, y, SVGWidth, SVGHeight) {
+	      return 0 <= x && x <= SVGWidth && 0 <= y && y <= SVGHeight;
 	    }
 	  }]);
 
@@ -2434,13 +2497,16 @@ var ReactSVGPanZoom =
 	      var _props = this.props;
 	      var containerWidth = _props.containerWidth;
 	      var containerHeight = _props.containerHeight;
+	      var width = _props.width;
+	      var height = _props.height;
 	      var children = _props.children;
 
-	      var props = _objectWithoutProperties(_props, ['containerWidth', 'containerHeight', 'children']);
+	      var props = _objectWithoutProperties(_props, ['containerWidth', 'containerHeight', 'width', 'height', 'children']);
 
+	      width = width || containerWidth;height = height || containerHeight;
 	      return _react2.default.createElement(
 	        _viewer2.default,
-	        _extends({}, props, { width: containerWidth, height: containerHeight }),
+	        _extends({}, props, { width: width, height: height }),
 	        children
 	      );
 	    }
