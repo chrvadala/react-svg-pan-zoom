@@ -207,7 +207,7 @@ export default class Viewer extends React.Component {
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
-    let gStyle = {};
+    let gStyle = {pointerEvents: "none"};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
     if (tool === TOOL_ZOOM) gStyle.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
 
@@ -246,7 +246,9 @@ export default class Viewer extends React.Component {
           x={0}
           y={0}
           width={this.props.width}
-          height={this.props.height}/>
+          height={this.props.height}
+          style={{pointerEvents: "none"}}
+        />
 
         <g ref="originalSvg" transform={matrixStr} style={gStyle}>
           <rect
