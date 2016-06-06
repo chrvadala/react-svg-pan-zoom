@@ -4,9 +4,10 @@ import Viewer from './viewer';
 
 class ViewerResponsive extends React.Component {
   render() {
-    let {containerWidth, containerHeight, children, ...props} = this.props;
+    let {containerWidth, containerHeight, width, height, children, ...props} = this.props;
+    width = width || containerWidth; height = height || containerHeight;
     return (
-      <Viewer {...props} width={containerWidth} height={containerHeight}>
+      <Viewer {...props} width={width} height={height}>
         {children}
       </Viewer>
     )
