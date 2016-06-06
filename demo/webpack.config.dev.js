@@ -11,7 +11,6 @@ module.exports = {
     filename: "[name].js"
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({minimize: true}),
     new OpenBrowserPlugin({url: 'http://localhost:8080'})
   ],
   devServer: {
