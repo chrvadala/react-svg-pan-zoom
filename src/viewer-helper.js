@@ -72,7 +72,7 @@ export default class ViewerHelper {
     });
   }
 
-  static updatePan(value, x, y) {
+  static updatePan(value, x, y, panLimit, SVGWidth, SVGHeight, viewerWidth, viewerHeight) {
 
     if (value.mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + value.mode);
 
@@ -87,6 +87,13 @@ export default class ViewerHelper {
     act = act.translate(-deltaX, -deltaY);
 
     matrix = matrix.multiply(act);
+
+    //apply pan limits
+    matrix.e = Math.min(matrix.e, viewerWidth - panLimit);
+    matrix.e = Math.max(matrix.e, panLimit - SVGWidth * zoomLevel);
+
+    matrix.f = Math.min(matrix.f, viewerHeight - panLimit);
+    matrix.f = Math.max(matrix.f, panLimit - SVGHeight * zoomLevel);
 
     return update(value, {
       $merge: {
@@ -199,5 +206,44 @@ export default class ViewerHelper {
       translationY: decompose.translate.y
     }
   }
+
+  static applyViewerMarginLimit(matrix, margin, SVGWidth, SVGHeight, viewerWidth, viewerHeight){
+
+    //let deltaX, deltaY;
+    let {e, f} = matrix;
+    let {min, max} = Math;
+
+    e = min(e, viewerWidth - margin);
+    e = max(e, margin - viewerWidth);
+
+    f = min(f, viewerHeight - margin);
+    f = max(f, margin - viewerHeight);
+
+
+    //
+    //
+    //console.log(e, f);
+    //
+    //if(topLeft.x > viewerWidth - margin) {
+    //  e = viewerWidth - margin;
+    //}else if (bottomRight.x < margin ){
+    //  e = margin - viewerWidth ;
+    //}else{
+    //  //deltaX = 0;
+    //}
+    //console.log(deltaX);
+
+    //let act = new Matrix();
+    //act = act.translate(deltaX, 0);
+    //matrix = matrix.multiply(act);
+
+    matrix.e = e;
+    matrix.f = f;
+
+
+    console.log(topLeft, bottomRight);
+    return matrix;
+  }
+
 
 }

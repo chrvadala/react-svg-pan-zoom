@@ -34,7 +34,8 @@ export default class Viewer extends React.Component {
 
   handleUpdatePan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-    let {value, tool, onChange} = this.props;
+    let {value, tool, onChange, width, height, children} = this.props;
+    let SVGWidth = children.props.width, SVGHeight = children.props.height;
 
     if (tool !== TOOL_PAN) return;
     if (value.mode !== MODE_PANNING) return;
@@ -42,7 +43,9 @@ export default class Viewer extends React.Component {
     //the mouse exited and reentered into svg
     let forceExit = (value.mode === MODE_PANNING && event.buttons === 0);
 
-    let nextValue = forceExit ? ViewerHelper.stopPan(value) : ViewerHelper.updatePan(value, x, y);
+    let nextValue = forceExit ?
+      ViewerHelper.stopPan(value) :
+      ViewerHelper.updatePan(value, x, y, 20, SVGWidth, SVGHeight, width, height);
 
     event.preventDefault();
     onChange(new ViewerEvent(event, nextValue));
