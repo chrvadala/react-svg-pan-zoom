@@ -16,6 +16,7 @@ module.exports = {
   devServer: {
     contentBase: path.resolve(__dirname)
   },
+  devtool: "eval",
   module: {
     loaders: [
       {
