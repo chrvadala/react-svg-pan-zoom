@@ -294,6 +294,10 @@ Viewer.propTypes = {
         ' `' + types.join('`, `') + '`.'
       );
     }
+    if(!prop.props.hasOwnProperty('width') || !prop.props.hasOwnProperty('height')){
+      return new Error('SVG should have props `width` and `height`');
+    }
+
   }
 };
 
