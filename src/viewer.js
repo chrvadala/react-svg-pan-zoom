@@ -66,10 +66,15 @@ export default class Viewer extends React.Component {
 
   handleStartZoom(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-    let {value, tool, onChange} = this.props;
+    let {value, tool, onChange, children} = this.props;
+    let SVGWidth = children.props.width, SVGHeight = children.props.height;
 
     if (tool !== TOOL_ZOOM) return;
     if (value.mode !== MODE_IDLE) return;
+
+    let point = ViewerHelper.getSVGPoint(value, x, y);
+    if(!(   0 <= point.x && point.x <= SVGWidth
+        &&  0 <= point.y && point.y <= SVGHeight)) return;
 
     let nextValue = ViewerHelper.startZoomSelection(value, x, y);
 
@@ -180,8 +185,9 @@ export default class Viewer extends React.Component {
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
+    let gStyle = {};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
-    if (tool === TOOL_ZOOM) style.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
+    if (tool === TOOL_ZOOM) gStyle.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
 
     let zoomSelectionRect;
     if (mode === MODE_ZOOMING) {
@@ -220,7 +226,7 @@ export default class Viewer extends React.Component {
           width={this.props.width}
           height={this.props.height}/>
 
-        <g ref="originalSvg" transform={matrixStr}>
+        <g ref="originalSvg" transform={matrixStr} style={gStyle}>
           <rect
             fill={this.props.SVGBackground}
             x={0}
