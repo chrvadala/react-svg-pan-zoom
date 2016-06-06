@@ -11,7 +11,7 @@
     "build:dist": "webpack",
     "build:demo": "webpack --config demo/webpack.config.dev.js",
     "clean": "rm ./dist/* && rm ./lib/* && rm ./demo/build/*",
-    "version": "npm run build && git add -A dist  && git add -A lib"
+    "version": "npm run build && git add -A dist  && git add -A lib && git add -A demo/build"
   },
   "repository": {
     "type": "git",
