@@ -14,7 +14,7 @@ import {
 
 export default class Viewer extends React.Component {
 
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
   }
@@ -73,8 +73,8 @@ export default class Viewer extends React.Component {
     if (value.mode !== MODE_IDLE) return;
 
     let point = ViewerHelper.getSVGPoint(value, x, y);
-    if(!(   0 <= point.x && point.x <= SVGWidth
-        &&  0 <= point.y && point.y <= SVGHeight)) return;
+    if (!(   0 <= point.x && point.x <= SVGWidth
+      && 0 <= point.y && point.y <= SVGHeight)) return;
 
     let nextValue = ViewerHelper.startZoomSelection(value, x, y);
 
@@ -109,13 +109,13 @@ export default class Viewer extends React.Component {
     if (tool !== TOOL_ZOOM) return;
     if (value.mode !== MODE_ZOOMING) return;
 
-    let selectionMode = abs(startX - endX) > 2 && abs(startY-endY) > 2;
+    let selectionMode = abs(startX - endX) > 2 && abs(startY - endY) > 2;
 
     let nextValue;
 
-    if(selectionMode){
+    if (selectionMode) {
       nextValue = ViewerHelper.stopZoomSelection(value, width, height);
-    }else{
+    } else {
       let scaleFactor = specialKeyEnabled ? 0.9 : 1.1;
       nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
     }
@@ -156,19 +156,19 @@ export default class Viewer extends React.Component {
     onMouseMove(new ViewerEvent(event, value));
   }
 
-  handleSpecialKeyChange(event){
+  handleSpecialKeyChange(event) {
     let {value, onChange} = this.props;
     let key = event.which;
     let active = event.type === "keydown";
 
-    if([18].indexOf(key) === -1) return;
+    if ([18].indexOf(key) === -1) return;
 
-    let nextValue = active ? ViewerHelper.enableSpecialKey(value) :  ViewerHelper.disableSpecialKey(value);
+    let nextValue = active ? ViewerHelper.enableSpecialKey(value) : ViewerHelper.disableSpecialKey(value);
 
     onChange(new ViewerEvent(event, nextValue));
   }
 
-  componentWillMount(event){
+  componentWillMount(event) {
     window.addEventListener("keydown", this.handleSpecialKeyChange, false);
     window.addEventListener("keyup", this.handleSpecialKeyChange, false);
   }
@@ -294,7 +294,7 @@ Viewer.propTypes = {
         ' `' + types.join('`, `') + '`.'
       );
     }
-    if(!prop.props.hasOwnProperty('width') || !prop.props.hasOwnProperty('height')){
+    if (!prop.props.hasOwnProperty('width') || !prop.props.hasOwnProperty('height')) {
       return new Error('SVG should have props `width` and `height`');
     }
 

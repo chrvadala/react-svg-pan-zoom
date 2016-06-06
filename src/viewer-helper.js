@@ -7,7 +7,9 @@ import {
   MODE_ZOOMING
 } from './constants';
 
-let matrix2obj = matrix => {return {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}};
+let matrix2obj = matrix => {
+  return {a: matrix.a, b: matrix.b, c: matrix.c, d: matrix.d, e: matrix.e, f: matrix.f}
+};
 
 export default class ViewerHelper {
 
@@ -206,44 +208,5 @@ export default class ViewerHelper {
       translationY: decompose.translate.y
     }
   }
-
-  static applyViewerMarginLimit(matrix, margin, SVGWidth, SVGHeight, viewerWidth, viewerHeight){
-
-    //let deltaX, deltaY;
-    let {e, f} = matrix;
-    let {min, max} = Math;
-
-    e = min(e, viewerWidth - margin);
-    e = max(e, margin - viewerWidth);
-
-    f = min(f, viewerHeight - margin);
-    f = max(f, margin - viewerHeight);
-
-
-    //
-    //
-    //console.log(e, f);
-    //
-    //if(topLeft.x > viewerWidth - margin) {
-    //  e = viewerWidth - margin;
-    //}else if (bottomRight.x < margin ){
-    //  e = margin - viewerWidth ;
-    //}else{
-    //  //deltaX = 0;
-    //}
-    //console.log(deltaX);
-
-    //let act = new Matrix();
-    //act = act.translate(deltaX, 0);
-    //matrix = matrix.multiply(act);
-
-    matrix.e = e;
-    matrix.f = f;
-
-
-    console.log(topLeft, bottomRight);
-    return matrix;
-  }
-
 
 }
