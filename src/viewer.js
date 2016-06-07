@@ -74,8 +74,8 @@ export default class Viewer extends React.Component {
     if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
     if (value.mode !== MODE_IDLE) return;
 
-    let point = ViewerHelper.getSVGPoint(value, x, y);
-    if(!ViewerHelper.isPointInsideSVG(point.x, point.y, SVGWidth, SVGHeight)) return;
+    //let point = ViewerHelper.getSVGPoint(value, x, y);
+    //if(!ViewerHelper.isPointInsideSVG(point.x, point.y, SVGWidth, SVGHeight)) return;
 
     let nextValue = ViewerHelper.startZoomSelection(value, x, y);
 
