@@ -21,6 +21,10 @@ export default class Viewer extends React.Component {
     this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
   }
 
+  shouldComponentUpdate(nextProps){
+    return nextProps !== this.props;
+  }
+
   handleStartPan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
