@@ -7,6 +7,8 @@ import {
   TOOL_NONE,
   TOOL_PAN,
   TOOL_ZOOM,
+  TOOL_ZOOM_IN,
+  TOOL_ZOOM_OUT,
   MODE_IDLE,
   MODE_PANNING,
   MODE_ZOOMING,
@@ -69,7 +71,7 @@ export default class Viewer extends React.Component {
     let {value, tool, onChange, children} = this.props;
     let SVGWidth = children.props.width, SVGHeight = children.props.height;
 
-    if (tool !== TOOL_ZOOM) return;
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
     if (value.mode !== MODE_IDLE) return;
 
     let point = ViewerHelper.getSVGPoint(value, x, y);
@@ -85,7 +87,7 @@ export default class Viewer extends React.Component {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, width, height} = this.props;
 
-    if (tool !== TOOL_ZOOM) return;
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
     if (value.mode !== MODE_ZOOMING) return;
 
     //the mouse exited and reentered into svg
@@ -105,7 +107,7 @@ export default class Viewer extends React.Component {
     let {value, tool, onChange, width, height} = this.props;
     let {startX, endX, startY, endY, specialKeyEnabled} = value;
 
-    if (tool !== TOOL_ZOOM) return;
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
     if (value.mode !== MODE_ZOOMING) return;
 
     let selectionMode = abs(startX - endX) > 2 && abs(startY - endY) > 2;
@@ -115,7 +117,8 @@ export default class Viewer extends React.Component {
     if (selectionMode) {
       nextValue = ViewerHelper.stopZoomSelection(value, width, height);
     } else {
-      let scaleFactor = specialKeyEnabled ? 0.9 : 1.1;
+      let needZoomIn = (tool === TOOL_ZOOM_IN) || (tool === TOOL_ZOOM && !specialKeyEnabled);
+      let scaleFactor = needZoomIn ? 1.1 : 0.9;
       nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
     }
 
@@ -209,7 +212,11 @@ export default class Viewer extends React.Component {
     let style = {};
     let gStyle = {pointerEvents: "none"};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
-    if (tool === TOOL_ZOOM) style.cursor = cursor(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
+    if([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0) {
+      let needZoomIn = (tool === TOOL_ZOOM_IN) || (tool === TOOL_ZOOM && !specialKeyEnabled);
+      style.cursor = cursor(needZoomIn ? 'zoom-in' : 'zoom-out');
+    }
+
 
     let zoomSelectionRect;
     if (mode === MODE_ZOOMING) {
@@ -302,7 +309,7 @@ Viewer.propTypes = {
   onMouseDown: React.PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
-  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM]),
+  tool: React.PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
 
   //accept only one node SVG
   children: function (props, propName, componentName) {
