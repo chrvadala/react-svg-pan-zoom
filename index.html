@@ -2,17 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8"/>
-    <title>Svg Pan Zoom - Example project</title>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/react/15.1.0/react-dom.js"></script>
+    <title>React Svg Pan Zoom - Example project</title>
     <style>
-        html, body, #app {
-            height: 100%;
-            padding: 0;
-            margin: 10px;
-        }
+        html {padding: 0; margin: 0;}
+        body {padding: 10px 10px 30px;}
+        hr {border: 1px solid #aaa; border-top: 0;}
     </style>
 </head>
+
 <body>
 <a href="https://github.com/chrvadala/react-svg-pan-zoom/">
     <img style="position: fixed; top: 0; right: 0; border: 0;"
@@ -20,16 +17,16 @@
          alt="Fork me on GitHub"
          data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png"></a>
 
-<h3>React SVG Pan Zoom Demo</h3>
 
-<div id="app"></div>
-<script src="https://rawgit.com/chrvadala/react-svg-pan-zoom/master/build/svgPanZoom.js"></script>
-<script src="https://rawgit.com/chrvadala/react-svg-pan-zoom/master/build/demo.js"></script>
-<script>
-    ReactDOM.render(
-            React.createElement(demo.default),
-            document.getElementById('app')
-    );
-</script>
+<h1>React SVG Pan Zoom Demo</h1>
+<h2>Viewer</h2>
+<div id="demo"></div>
+
+<hr/>
+
+<h2>ViewerResponsive</h2>
+<div id="demo-responsive" style="height: 300px;"></div>
+
+<script src="https://rawgit.com/chrvadala/react-svg-pan-zoom/master/demo/build/index.js"></script>
 </body>
 </html>
