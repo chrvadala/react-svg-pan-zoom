@@ -50,7 +50,7 @@ var ReactSVGPanZoom =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.TOOL_ZOOM = exports.TOOL_PAN = exports.TOOL_NONE = exports.ViewerResponsive = exports.ViewerHelper = exports.Viewer = undefined;
+	exports.TOOL_ZOOM_OUT = exports.TOOL_ZOOM_IN = exports.TOOL_ZOOM = exports.TOOL_PAN = exports.TOOL_NONE = exports.ViewerResponsive = exports.ViewerHelper = exports.Viewer = undefined;
 
 	var _viewer = __webpack_require__(1);
 
@@ -74,6 +74,8 @@ var ReactSVGPanZoom =
 	exports.TOOL_NONE = _constants.TOOL_NONE;
 	exports.TOOL_PAN = _constants.TOOL_PAN;
 	exports.TOOL_ZOOM = _constants.TOOL_ZOOM;
+	exports.TOOL_ZOOM_IN = _constants.TOOL_ZOOM_IN;
+	exports.TOOL_ZOOM_OUT = _constants.TOOL_ZOOM_OUT;
 
 /***/ },
 /* 1 */
@@ -128,6 +130,11 @@ var ReactSVGPanZoom =
 	  }
 
 	  _createClass(Viewer, [{
+	    key: 'shouldComponentUpdate',
+	    value: function shouldComponentUpdate(nextProps) {
+	      return nextProps !== this.props;
+	    }
+	  }, {
 	    key: 'handleStartPan',
 	    value: function handleStartPan(event) {
 	      var x = event.nativeEvent.offsetX,
@@ -206,11 +213,11 @@ var ReactSVGPanZoom =
 	      var SVGWidth = children.props.width,
 	          SVGHeight = children.props.height;
 
-	      if (tool !== _constants.TOOL_ZOOM) return;
+	      if ([_constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
 	      if (value.mode !== _constants.MODE_IDLE) return;
 
-	      var point = _viewerHelper2.default.getSVGPoint(value, x, y);
-	      if (!_viewerHelper2.default.isPointInsideSVG(point.x, point.y, SVGWidth, SVGHeight)) return;
+	      //let point = ViewerHelper.getSVGPoint(value, x, y);
+	      //if(!ViewerHelper.isPointInsideSVG(point.x, point.y, SVGWidth, SVGHeight)) return;
 
 	      var nextValue = _viewerHelper2.default.startZoomSelection(value, x, y);
 
@@ -230,7 +237,7 @@ var ReactSVGPanZoom =
 	      var height = _props5.height;
 
 
-	      if (tool !== _constants.TOOL_ZOOM) return;
+	      if ([_constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
 	      if (value.mode !== _constants.MODE_ZOOMING) return;
 
 	      //the mouse exited and reentered into svg
@@ -260,7 +267,7 @@ var ReactSVGPanZoom =
 	      var specialKeyEnabled = value.specialKeyEnabled;
 
 
-	      if (tool !== _constants.TOOL_ZOOM) return;
+	      if ([_constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
 	      if (value.mode !== _constants.MODE_ZOOMING) return;
 
 	      var selectionMode = abs(startX - endX) > 2 && abs(startY - endY) > 2;
@@ -270,7 +277,8 @@ var ReactSVGPanZoom =
 	      if (selectionMode) {
 	        nextValue = _viewerHelper2.default.stopZoomSelection(value, width, height);
 	      } else {
-	        var scaleFactor = specialKeyEnabled ? 0.9 : 1.1;
+	        var needZoomIn = tool === _constants.TOOL_ZOOM_IN || tool === _constants.TOOL_ZOOM && !specialKeyEnabled;
+	        var scaleFactor = needZoomIn ? 1.1 : 0.9;
 	        nextValue = _viewerHelper2.default.zoom(value, scaleFactor, x, y);
 	      }
 
@@ -368,12 +376,13 @@ var ReactSVGPanZoom =
 	    value: function handleSpecialKeyChange(event) {
 	      var _props11 = this.props;
 	      var value = _props11.value;
+	      var specialKeys = _props11.specialKeys;
 	      var onChange = _props11.onChange;
 
 	      var key = event.which;
 	      var active = event.type === "keydown";
 
-	      if ([18].indexOf(key) === -1) return;
+	      if (specialKeys.indexOf(key) === -1) return;
 
 	      var nextValue = active ? _viewerHelper2.default.enableSpecialKey(value) : _viewerHelper2.default.disableSpecialKey(value);
 
@@ -408,7 +417,10 @@ var ReactSVGPanZoom =
 	      var style = {};
 	      var gStyle = { pointerEvents: "none" };
 	      if (tool === _constants.TOOL_PAN) style.cursor = (0, _cursor2.default)(mode === _constants.MODE_PANNING ? 'grabbing' : 'grab');
-	      if (tool === _constants.TOOL_ZOOM) style.cursor = (0, _cursor2.default)(specialKeyEnabled ? 'zoom-out' : 'zoom-in');
+	      if ([_constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT].indexOf(tool) >= 0) {
+	        var needZoomIn = tool === _constants.TOOL_ZOOM_IN || tool === _constants.TOOL_ZOOM && !specialKeyEnabled;
+	        style.cursor = (0, _cursor2.default)(needZoomIn ? 'zoom-in' : 'zoom-out');
+	      }
 
 	      var zoomSelectionRect = void 0;
 	      if (mode === _constants.MODE_ZOOMING) {
@@ -504,6 +516,9 @@ var ReactSVGPanZoom =
 	  //CSS style of the SVG tag
 	  style: _react2.default.PropTypes.object,
 
+	  //array of keys that in zoom mode switch zoom in and zoom out
+	  specialKeys: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number),
+
 	  //handler something changed
 	  onChange: _react2.default.PropTypes.func.isRequired,
 
@@ -520,7 +535,7 @@ var ReactSVGPanZoom =
 	  onMouseDown: _react2.default.PropTypes.func,
 
 	  //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM)
-	  tool: _react2.default.PropTypes.oneOf([_constants.TOOL_NONE, _constants.TOOL_PAN, _constants.TOOL_ZOOM]),
+	  tool: _react2.default.PropTypes.oneOf([_constants.TOOL_NONE, _constants.TOOL_PAN, _constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT]),
 
 	  //accept only one node SVG
 	  children: function children(props, propName, componentName) {
@@ -541,7 +556,8 @@ var ReactSVGPanZoom =
 	  style: {},
 	  background: "#616264",
 	  SVGBackground: "#fff",
-	  tool: _constants.TOOL_NONE
+	  tool: _constants.TOOL_NONE,
+	  specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl
 	};
 
 /***/ },
@@ -2328,6 +2344,8 @@ var ReactSVGPanZoom =
 	var TOOL_NONE = exports.TOOL_NONE = 'none';
 	var TOOL_ZOOM = exports.TOOL_ZOOM = 'zoom';
 	var TOOL_PAN = exports.TOOL_PAN = 'pan';
+	var TOOL_ZOOM_IN = exports.TOOL_ZOOM_IN = 'zoom-in';
+	var TOOL_ZOOM_OUT = exports.TOOL_ZOOM_OUT = 'zoom-out';
 
 /***/ },
 /* 13 */
