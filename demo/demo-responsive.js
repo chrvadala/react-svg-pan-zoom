@@ -2,7 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {ViewerResponsive, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM} from '../src/index';
+import {ViewerResponsive, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from '../src/index';
 import SnakeSVG from './svg/snake';
 
 export default class Demo extends React.Component {
@@ -82,6 +82,18 @@ export default class Demo extends React.Component {
               value={TOOL_ZOOM}
               checked={this.state.tool === TOOL_ZOOM}
               onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM
+            </li>
+            <li><input
+              type="radio"
+              value={TOOL_ZOOM_IN}
+              checked={this.state.tool === TOOL_ZOOM_IN}
+              onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM IN
+            </li>
+            <li><input
+              type="radio"
+              value={TOOL_ZOOM_OUT}
+              checked={this.state.tool === TOOL_ZOOM_OUT}
+              onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM OUT
             </li>
           </ul>
 
