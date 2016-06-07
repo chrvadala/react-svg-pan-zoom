@@ -82,6 +82,7 @@ export default class Demo extends React.Component {
               value={TOOL_ZOOM}
               checked={this.state.tool === TOOL_ZOOM}
               onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM
+              <span style={{fontSize: "12px", color:"#555", paddingLeft: "4px"}}>Switch with CTRL or Win/CMD</span>
             </li>
             <li><input
               type="radio"
@@ -102,10 +103,6 @@ export default class Demo extends React.Component {
           </div>
 
           <br/>
-
-        <span style={{color: "10px"}}>
-          Note: <strong>Press Alt for zoom out</strong>
-        </span>
 
           <div>
             Position: {this.state.x},{this.state.y}

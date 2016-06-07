@@ -186,11 +186,11 @@ export default class Viewer extends React.Component {
   }
 
   handleSpecialKeyChange(event) {
-    let {value, onChange} = this.props;
+    let {value, specialKeys, onChange} = this.props;
     let key = event.which;
     let active = event.type === "keydown";
 
-    if ([18].indexOf(key) === -1) return;
+    if (specialKeys.indexOf(key) === -1) return;
 
     let nextValue = active ? ViewerHelper.enableSpecialKey(value) : ViewerHelper.disableSpecialKey(value);
 
@@ -297,6 +297,9 @@ Viewer.propTypes = {
   //CSS style of the SVG tag
   style: React.PropTypes.object,
 
+  //array of keys that in zoom mode switch zoom in and zoom out
+  specialKeys: React.PropTypes.arrayOf(React.PropTypes.number),
+
   //handler something changed
   onChange: React.PropTypes.func.isRequired,
 
@@ -340,5 +343,6 @@ Viewer.defaultProps = {
   style: {},
   background: "#616264",
   SVGBackground: "#fff",
-  tool: TOOL_NONE
+  tool: TOOL_NONE,
+  specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl
 };

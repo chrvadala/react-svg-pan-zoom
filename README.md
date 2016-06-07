@@ -72,6 +72,7 @@ class MyComponent extends React.Component {
   - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see below)
   - `background` – background of the viewer (default dark grey)
   - `style` - CSS style of the viewer
+  - `specialKeys` - array of keys that in zoom mode switch zoom in and zoom out (default Win/Cmd, Ctrl)
   - `SVGBackground` - background of the SVG (default white)
   - `value` - value of the viewer (current point of view)
   - `tool` - active tool ( one of `none`, `pan`, `zoom` )
