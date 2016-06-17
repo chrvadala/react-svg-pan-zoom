@@ -48,8 +48,8 @@ export default class Demo extends React.Component {
       <div style={{display: "flex", height: "100%"}}>
 
         {/* col-1 */}
-        <div style={{width: "50%", height: "100%"}}>
-          <ViewerResponsive style={{border:'1px solid black'}} ref="viewer"
+        <div style={{width: "50%", height: "100%", border:'1px solid black'}} >
+          <ViewerResponsive ref="viewer"
                             value={this.state.value} tool={this.state.tool}
                             onChange={event => this.handleChange(event)}
                             onClick={event => this.handleClick(event)}
