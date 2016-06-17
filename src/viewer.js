@@ -114,7 +114,7 @@ export default class Viewer extends React.Component {
     if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
     if (value.mode !== MODE_ZOOMING && tool !== TOOL_ZOOM_OUT) return;
 
-    let selectionMode = abs(startX - endX) > 2 && abs(startY - endY) > 2 && tool !== TOOL_ZOOM_OUT;
+    let selectionMode = abs(startX - endX) > 7 && abs(startY - endY) > 7 && tool !== TOOL_ZOOM_OUT;
 
     let nextValue;
 
