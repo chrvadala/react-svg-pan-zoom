@@ -21,7 +21,7 @@ export default class Viewer extends React.Component {
     this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
   }
 
-  shouldComponentUpdate(nextProps){
+  shouldComponentUpdate(nextProps) {
     return nextProps !== this.props;
   }
 
@@ -138,7 +138,7 @@ export default class Viewer extends React.Component {
     if (!onClick) return;
 
     let viewerEvent = new ViewerEvent(event, value);
-    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
 
     onClick(viewerEvent);
   }
@@ -152,7 +152,7 @@ export default class Viewer extends React.Component {
     if (!onMouseUp) return;
 
     let viewerEvent = new ViewerEvent(event, value);
-    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
 
     onMouseUp(viewerEvent);
   }
@@ -166,7 +166,7 @@ export default class Viewer extends React.Component {
     if (!onMouseDown) return;
 
     let viewerEvent = new ViewerEvent(event, value);
-    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
 
     onMouseDown(viewerEvent);
   }
@@ -180,7 +180,7 @@ export default class Viewer extends React.Component {
     if (!onMouseMove) return;
 
     let viewerEvent = new ViewerEvent(event, value);
-    if(!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
 
     onMouseMove(viewerEvent);
   }
@@ -216,7 +216,7 @@ export default class Viewer extends React.Component {
     let style = {};
     let gStyle = {pointerEvents: "none"};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
-    if([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0) {
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0) {
       let needZoomIn = (tool === TOOL_ZOOM_IN) || (tool === TOOL_ZOOM && !specialKeyEnabled);
       style.cursor = cursor(needZoomIn ? 'zoom-in' : 'zoom-out');
     }
