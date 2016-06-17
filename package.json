@@ -29,7 +29,11 @@
     "svg",
     "pan",
     "zoom",
-    "react.js"
+    "react.js",
+    "ui",
+    "user",
+    "interface",
+    "component"
   ],
   "dependencies": {
     "react-addons-update": "^15.1.0",
@@ -46,18 +50,11 @@
     "open-browser-webpack-plugin": "0.0.2",
     "react": "^15.0.2",
     "react-dom": "^15.1.0",
-    "react-templates": "^0.5.2",
-    "react-templates-loader": "^0.5.0",
     "webpack": "^1.13.0",
     "webpack-dev-server": "^1.14.1"
   },
-  "babel": {
-    "plugins": [
-      "transform-object-rest-spread"
-    ],
-    "presets": [
-      "es2015",
-      "react"
-    ]
+  "peerDependencies": {
+    "react": "^15.0.0",
+    "react-dom": "^15.0.0"
   }
 }
