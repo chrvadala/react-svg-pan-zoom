@@ -130,59 +130,17 @@ export default class Viewer extends React.Component {
     onChange(new ViewerEvent(event, nextValue));
   }
 
-  handleClick(event) {
-    let {value, tool, onClick, children} = this.props;
-    let SVGWidth = children.props.width, SVGHeight = children.props.height;
+  handleEvent(event){
+    let {value, tool, onClick, onMouseUp, onMouseMove, onMouseDown} = this.props;
+    let eventsHandler = {click: onClick, mousemove: onMouseMove, mouseup: onMouseUp, mousedown: onMouseDown};
 
     if (tool !== TOOL_NONE) return;
-    if (!onClick) return;
+    let onEventHandler = eventsHandler[event.type];
+    if(!onEventHandler) return;
 
-    let viewerEvent = new ViewerEvent(event, value);
-    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
+    event.target = this.refs.svg;
 
-    onClick(viewerEvent);
-  }
-
-  handleMouseUp(event) {
-    let {value, tool, onMouseUp, children} = this.props;
-    let x = event.offsetX, y = event.offsetY;
-    let SVGWidth = children.props.width, SVGHeight = children.props.height;
-
-    if (tool !== TOOL_NONE) return;
-    if (!onMouseUp) return;
-
-    let viewerEvent = new ViewerEvent(event, value);
-    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
-
-    onMouseUp(viewerEvent);
-  }
-
-  handleMouseDown(event) {
-    let {value, tool, onMouseDown, children} = this.props;
-    let x = event.offsetX, y = event.offsetY;
-    let SVGWidth = children.props.width, SVGHeight = children.props.height;
-
-    if (tool !== TOOL_NONE) return;
-    if (!onMouseDown) return;
-
-    let viewerEvent = new ViewerEvent(event, value);
-    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
-
-    onMouseDown(viewerEvent);
-  }
-
-  handleMouseMove(event) {
-    let {value, tool, onMouseMove, children} = this.props;
-    let x = event.offsetX, y = event.offsetY;
-    let SVGWidth = children.props.width, SVGHeight = children.props.height;
-
-    if (tool !== TOOL_NONE) return;
-    if (!onMouseMove) return;
-
-    let viewerEvent = new ViewerEvent(event, value);
-    if (!ViewerHelper.isPointInsideSVG(viewerEvent.x, viewerEvent.y, SVGWidth, SVGHeight)) return;
-
-    onMouseMove(viewerEvent);
+    onEventHandler(new ViewerEvent(event, value));
   }
 
   handleSpecialKeyChange(event) {
@@ -214,7 +172,7 @@ export default class Viewer extends React.Component {
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
-    let gStyle = {pointerEvents: "none"};
+    let gStyle = tool === TOOL_NONE ? {} : {pointerEvents: "none"};
     if (tool === TOOL_PAN) style.cursor = cursor(mode === MODE_PANNING ? 'grabbing' : 'grab');
     if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0) {
       let needZoomIn = (tool === TOOL_ZOOM_IN) || (tool === TOOL_ZOOM && !specialKeyEnabled);
@@ -246,10 +204,9 @@ export default class Viewer extends React.Component {
         width={this.props.width}
         height={this.props.height}
         style={Object.assign(style, this.props.style)}
-        onMouseDown={ event => {this.handleMouseDown(event); this.handleStartPan(event);  this.handleStartZoom(event)} }
-        onMouseMove={ event => {this.handleMouseMove(event); this.handleUpdatePan(event); this.handleUpdateZoom(event)} }
-        onMouseUp={ event =>   {this.handleMouseUp(event);   this.handleStopPan(event);   this.handleStopZoom(event)} }
-        onClick={event => this.handleClick(event)}
+        onMouseDown={ event => { this.handleStartPan(event);  this.handleStartZoom(event)} }
+        onMouseMove={ event => { this.handleUpdatePan(event); this.handleUpdateZoom(event)} }
+        onMouseUp={ event =>   { this.handleStopPan(event);   this.handleStopZoom(event)} }
       >
 
         <rect
@@ -261,14 +218,22 @@ export default class Viewer extends React.Component {
           style={{pointerEvents: "none"}}
         />
 
-        <g ref="originalSvg" transform={matrixStr} style={gStyle}>
+        <g
+          ref="originalSVG"
+          transform={matrixStr}
+          style={gStyle}
+          onMouseDown={ event => this.handleEvent(event)}
+          onMouseMove={event => this.handleEvent(event)}
+          onMouseUp={event => this.handleEvent(event)}
+          onClick={event => this.handleEvent(event)}
+        >
           <rect
             fill={this.props.SVGBackground}
             x={0}
             y={0}
             width={originalSVG.props.width}
             height={originalSVG.props.height}/>
-          <g ref="content">
+          <g ref="content" >
             {originalSVG.props.children}
           </g>
         </g>

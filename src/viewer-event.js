@@ -7,22 +7,25 @@ export default class ViewerEvent {
     this.value = value;
   }
 
-  get x() {
+  get point() {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
-      let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+
+      let rect = event.target.getBoundingClientRect();
+      let x = event.clientX - Math.round(rect.left);
+      let y = event.clientY - Math.round(rect.top);
+
       this._cachePoint = ViewerHelper.getSVGPoint(value, x, y);
     }
-    return this._cachePoint.x;
+    return this._cachePoint;
+  }
+
+  get x() {
+    return this.point.x;
   }
 
   get y() {
-    if (!this._cachePoint) {
-      let event = this.originalEvent, value = this.value;
-      let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-      this._cachePoint = ViewerHelper.getSVGPoint(value, x, y);
-    }
-    return this._cachePoint.y;
+    return this.point.y;
   }
 
   get scaleFactor() {

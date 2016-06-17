@@ -86,6 +86,7 @@ class MyComponent extends React.Component {
 Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below). If, for your purpose, you need original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`.
 
   - `SyntheticEvent originalEvent` - The original React event
+  - `object` - coordinate {x,y} of the event mapped to SVG coordinates
   - `number x` - x coordinate of the event mapped to SVG coordinates
   - `number y` - y coordinate of the event mapped to SVG coordinates
   - `number scaleFactor` - zoom level
