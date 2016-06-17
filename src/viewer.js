@@ -75,7 +75,7 @@ export default class Viewer extends React.Component {
     let {value, tool, onChange, children} = this.props;
     let SVGWidth = children.props.width, SVGHeight = children.props.height;
 
-    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN].indexOf(tool) === -1) return;
     if (value.mode !== MODE_IDLE) return;
 
     //let point = ViewerHelper.getSVGPoint(value, x, y);
@@ -91,7 +91,7 @@ export default class Viewer extends React.Component {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, width, height} = this.props;
 
-    if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
+    if ([TOOL_ZOOM, TOOL_ZOOM_IN].indexOf(tool) === -1) return;
     if (value.mode !== MODE_ZOOMING) return;
 
     //the mouse exited and reentered into svg
@@ -112,9 +112,9 @@ export default class Viewer extends React.Component {
     let {startX, endX, startY, endY, specialKeyEnabled} = value;
 
     if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
-    if (value.mode !== MODE_ZOOMING) return;
+    if (value.mode !== MODE_ZOOMING && tool !== TOOL_ZOOM_OUT) return;
 
-    let selectionMode = abs(startX - endX) > 2 && abs(startY - endY) > 2;
+    let selectionMode = abs(startX - endX) > 2 && abs(startY - endY) > 2 && tool !== TOOL_ZOOM_OUT;
 
     let nextValue;
 
