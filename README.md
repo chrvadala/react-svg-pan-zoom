@@ -79,7 +79,7 @@ class MyComponent extends React.Component {
   - `specialKeys` - array of keys that in zoom mode switch zoom in and zoom out (default Win/Cmd, Ctrl)
   - `SVGBackground` - background of the SVG (default white)
   - `value` - value of the viewer (current point of view)
-  - `tool` - active tool ( one of `none`, `pan`, `zoom` )
+  - `tool` - active tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
   - `onChange` - handler something changed `fn(viewerEvent)`
   - `onClick` - handler click `fn(viewerEvent)`
   - `onMouseUp` - handler mouseup `fn(viewerEvent)`
