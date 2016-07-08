@@ -5,6 +5,8 @@ A react component that adds pan and zoom features to SVG
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 
+[![react-svg-pan-zoom](react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
+
 ## Installation
 ```
 npm install --save react-svg-pan-zoom
@@ -19,8 +21,7 @@ http://chrvadala.github.io/react-svg-pan-zoom/
 ```
   git clone https://github.com/chrvadala/react-svg-pan-zoom.git
   cd react-svg-pan-zoom
-  npm install
-  npm start
+  npm install && npm start
 ```
 
 ## Usage
@@ -53,11 +54,8 @@ class MyComponent extends React.Component {
   render() {
     return (
       <div>
-        <Viewer width={400} height={400}
-          value={this.state.value} tool={this.state.tool}
-          onChange={event => this.handleChange(event)}
-          onClick={event => this.handleClick(event)}
-          onMouseMove={event => this.handleMouseMove(event)} >
+        <Viewer width={400} height={400} value={this.state.value}
+        tool={this.state.tool}  onChange={this.handleChange} onClick={this.handleClick}>
 
           <svg width={800} height={800} >
             <rect x="30" y="50" width="100" height="70" fill="black"/>
