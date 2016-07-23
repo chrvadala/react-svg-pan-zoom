@@ -50,19 +50,19 @@ var ReactSVGPanZoom =
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.TOOL_ZOOM_OUT = exports.TOOL_ZOOM_IN = exports.TOOL_ZOOM = exports.TOOL_PAN = exports.TOOL_NONE = exports.ViewerResponsive = exports.ViewerHelper = exports.Viewer = undefined;
+	exports.TOOL_ZOOM_OUT = exports.TOOL_ZOOM_IN = exports.TOOL_ZOOM = exports.TOOL_PAN = exports.TOOL_NONE = exports.Toolbar = exports.ViewerHelper = exports.Viewer = undefined;
 
 	var _viewer = __webpack_require__(1);
 
 	var _viewer2 = _interopRequireDefault(_viewer);
 
-	var _viewerResponsive = __webpack_require__(15);
-
-	var _viewerResponsive2 = _interopRequireDefault(_viewerResponsive);
-
 	var _viewerHelper = __webpack_require__(3);
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
+
+	var _toolbar = __webpack_require__(15);
+
+	var _toolbar2 = _interopRequireDefault(_toolbar);
 
 	var _constants = __webpack_require__(12);
 
@@ -70,7 +70,7 @@ var ReactSVGPanZoom =
 
 	exports.Viewer = _viewer2.default;
 	exports.ViewerHelper = _viewerHelper2.default;
-	exports.ViewerResponsive = _viewerResponsive2.default;
+	exports.Toolbar = _toolbar2.default;
 	exports.TOOL_NONE = _constants.TOOL_NONE;
 	exports.TOOL_PAN = _constants.TOOL_PAN;
 	exports.TOOL_ZOOM = _constants.TOOL_ZOOM;
@@ -2450,361 +2450,169 @@ var ReactSVGPanZoom =
 
 	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	exports.default = Toolbar;
 
 	var _react = __webpack_require__(2);
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _reactDimensions = __webpack_require__(16);
+	var _constants = __webpack_require__(12);
 
-	var _reactDimensions2 = _interopRequireDefault(_reactDimensions);
-
-	var _viewer = __webpack_require__(1);
-
-	var _viewer2 = _interopRequireDefault(_viewer);
+	var _icons = __webpack_require__(16);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	var STYLE_TOOLBAR = {
+	  backgroundColor: '#28292D',
+	  padding: "5px 2px 2px",
+	  width: "24px",
+	  borderRadius: "2px"
+	};
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var STYLE_ELEMENT = {
+	  display: "block",
+	  width: "24px",
+	  height: "24px",
+	  marginBottom: "5px"
+	};
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	var ICON_COLOR_OFF = '#FFF';
+	var ICON_COLOR_ON = '#1CA6FC';
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function Toolbar(_ref) {
+	  var tool = _ref.tool;
+	  var onChangeTool = _ref.onChangeTool;
+	  var style = _ref.style;
 
-	var ViewerResponsive = function (_React$Component) {
-	  _inherits(ViewerResponsive, _React$Component);
 
-	  function ViewerResponsive() {
-	    _classCallCheck(this, ViewerResponsive);
+	  var handleChangeTool = function handleChangeTool(event, tool) {
+	    event.stopPropagation();
+	    event.preventDefault();
+	    onChangeTool(tool);
+	  };
 
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ViewerResponsive).apply(this, arguments));
-	  }
+	  return _react2.default.createElement(
+	    'div',
+	    { style: _extends({}, STYLE_TOOLBAR, style) },
+	    _react2.default.createElement(
+	      'a',
+	      { href: true, style: STYLE_ELEMENT, title: 'Selection', onClick: function onClick(event) {
+	          return handleChangeTool(event, _constants.TOOL_NONE);
+	        } },
+	      _react2.default.createElement(
+	        'svg',
+	        { width: 24, height: 24 },
+	        _react2.default.createElement(_icons.IconCursor, { color: tool === _constants.TOOL_NONE ? ICON_COLOR_ON : ICON_COLOR_OFF })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'a',
+	      { style: STYLE_ELEMENT, href: 'javascript:;', title: 'Pan', onClick: function onClick(event) {
+	          return onChangeTool(_constants.TOOL_PAN);
+	        } },
+	      _react2.default.createElement(
+	        'svg',
+	        { width: 24, height: 24 },
+	        _react2.default.createElement(_icons.IconPan, { color: tool === _constants.TOOL_PAN ? ICON_COLOR_ON : ICON_COLOR_OFF })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'a',
+	      { style: STYLE_ELEMENT, href: 'javascript:;', title: 'Zoom', onClick: function onClick(event) {
+	          return onChangeTool(_constants.TOOL_ZOOM);
+	        } },
+	      _react2.default.createElement(
+	        'svg',
+	        { width: 24, height: 24 },
+	        _react2.default.createElement(_icons.IconZoom, { color: tool === _constants.TOOL_ZOOM ? ICON_COLOR_ON : ICON_COLOR_OFF })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'a',
+	      { style: STYLE_ELEMENT, href: 'javascript:;', title: 'Zoom in', onClick: function onClick(event) {
+	          return onChangeTool(_constants.TOOL_ZOOM_IN);
+	        } },
+	      _react2.default.createElement(
+	        'svg',
+	        { width: 24, height: 24 },
+	        _react2.default.createElement(_icons.IconZoomIn, { color: tool === _constants.TOOL_ZOOM_IN ? ICON_COLOR_ON : ICON_COLOR_OFF })
+	      )
+	    ),
+	    _react2.default.createElement(
+	      'a',
+	      { style: STYLE_ELEMENT, href: 'javascript:;', title: 'Zoom out', onClick: function onClick(event) {
+	          return onChangeTool(_constants.TOOL_ZOOM_OUT);
+	        } },
+	      _react2.default.createElement(
+	        'svg',
+	        { width: 24, height: 24 },
+	        _react2.default.createElement(_icons.IconZoomOut, { color: tool === _constants.TOOL_ZOOM_OUT ? ICON_COLOR_ON : ICON_COLOR_OFF })
+	      )
+	    )
+	  );
+	}
 
-	  _createClass(ViewerResponsive, [{
-	    key: 'render',
-	    value: function render() {
-	      var _props = this.props;
-	      var containerWidth = _props.containerWidth;
-	      var containerHeight = _props.containerHeight;
-	      var width = _props.width;
-	      var height = _props.height;
-	      var children = _props.children;
+	Toolbar.propTypes = {
+	  tool: _react.PropTypes.oneOf([_constants.TOOL_NONE, _constants.TOOL_PAN, _constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT]).isRequired,
+	  onChangeTool: _react.PropTypes.func.isRequired,
+	  style: _react.PropTypes.object
+	};
 
-	      var props = _objectWithoutProperties(_props, ['containerWidth', 'containerHeight', 'width', 'height', 'children']);
-
-	      width = width || containerWidth;height = height || containerHeight;
-	      return _react2.default.createElement(
-	        _viewer2.default,
-	        _extends({}, props, { width: width, height: height }),
-	        children
-	      );
-	    }
-	  }]);
-
-	  return ViewerResponsive;
-	}(_react2.default.Component);
-
-	exports.default = (0, _reactDimensions2.default)()(ViewerResponsive);
+	Toolbar.defaultProps = {
+	  style: {}
+	};
 
 /***/ },
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.IconZoomOut = exports.IconZoomIn = exports.IconZoom = exports.IconPan = exports.IconCursor = undefined;
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	var _react = __webpack_require__(2);
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	var _react2 = _interopRequireDefault(_react);
 
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-	var React = __webpack_require__(2);
-	var onElementResize = __webpack_require__(17);
-
-	var defaultContainerStyle = {
-	  width: '100%',
-	  height: '100%',
-	  padding: 0,
-	  border: 0
+	var IconCursor = exports.IconCursor = function IconCursor(_ref) {
+	  var color = _ref.color;
+	  return _react2.default.createElement("path", { stroke: color,
+	    d: "M10.07,14.27C10.57,14.03 11.16,14.25 11.4,14.75L13.7,19.74L15.5,18.89L13.19,13.91C12.95,13.41 13.17,12.81 13.67,12.58L13.95,12.5L16.25,12.05L8,5.12V15.9L9.82,14.43L10.07,14.27M13.64,21.97C13.14,22.21 12.54,22 12.31,21.5L10.13,16.76L7.62,18.78C7.45,18.92 7.24,19 7,19A1,1 0 0,1 6,18V3A1,1 0 0,1 7,2C7.24,2 7.47,2.09 7.64,2.23L7.65,2.22L19.14,11.86C19.57,12.22 19.62,12.85 19.27,13.27C19.12,13.45 18.91,13.57 18.7,13.61L15.54,14.23L17.74,18.96C18,19.46 17.76,20.05 17.26,20.28L13.64,21.97Z" });
 	};
 
-	function defaultGetWidth(element) {
-	  return element.clientWidth;
-	}
-
-	function defaultGetHeight(element) {
-	  return element.clientHeight;
-	}
-
-	/**
-	 * Wraps a react component and adds properties `containerHeight` and
-	 * `containerWidth`. Useful for responsive design. Properties update on
-	 * window resize. **Note** that the parent element must have either a
-	 * height or a width, or nothing will be rendered
-	 *
-	 * Can be used as a
-	 * [higher-order component](http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers)
-	 * or as an [ES7 class decorator](https://github.com/wycats/javascript-decorators)
-	 * (see examples)
-	 *
-	 * @param {object} [options]
-	 * @param {function} [options.getHeight] A function that is passed an element and returns element
-	 * height, where element is the wrapper div. Defaults to `(element) => element.clientHeight`
-	 * @param {function} [options.getWidth]  A function that is passed an element and returns element
-	 * width, where element is the wrapper div. Defaults to `(element) => element.clientWidth`
-	 * @param {object} [options.containerStyle] A style object for the `<div>` that will wrap your component.
-	 * The dimensions of this `div` are what are passed as props to your component. The default style is
-	 * `{ width: '100%', height: '100%', padding: 0, border: 0 }` which will cause the `div` to fill its
-	 * parent in most cases. If you are using a flexbox layout you will want to change this default style.
-	 * @param {boolean} [options.elementResize=false] Set true to watch the wrapper `div` for changes in
-	 * size which are not a result of window resizing - e.g. changes to the flexbox and other layout.
-	 * @return {function}                   A higher-order component that can be
-	 * used to enhance a react component `Dimensions()(MyComponent)`
-	 *
-	 * @example
-	 * // ES2015
-	 * import React from 'react'
-	 * import Dimensions from 'react-dimensions'
-	 *
-	 * class MyComponent extends React.Component {
-	 *   render() (
-	 *     <div
-	 *       containerWidth={this.props.containerWidth}
-	 *       containerHeight={this.props.containerHeight}
-	 *     >
-	 *     </div>
-	 *   )
-	 * }
-	 *
-	 * export default Dimensions()(MyComponent) // Enhanced component
-	 *
-	 * @example
-	 * // ES5
-	 * var React = require('react')
-	 * var Dimensions = require('react-dimensions')
-	 *
-	 * var MyComponent = React.createClass({
-	 *   render: function() {(
-	 *     <div
-	 *       containerWidth={this.props.containerWidth}
-	 *       containerHeight={this.props.containerHeight}
-	 *     >
-	 *     </div>
-	 *   )}
-	 * }
-	 *
-	 * module.exports = Dimensions()(MyComponent) // Enhanced component
-	 *
-	 */
-	module.exports = function Dimensions() {
-	  var _ref = arguments.length <= 0 || arguments[0] === undefined ? {} : arguments[0];
-
-	  var _ref$getHeight = _ref.getHeight;
-	  var getHeight = _ref$getHeight === undefined ? defaultGetHeight : _ref$getHeight;
-	  var _ref$getWidth = _ref.getWidth;
-	  var getWidth = _ref$getWidth === undefined ? defaultGetWidth : _ref$getWidth;
-	  var _ref$containerStyle = _ref.containerStyle;
-	  var containerStyle = _ref$containerStyle === undefined ? defaultContainerStyle : _ref$containerStyle;
-	  var _ref$elementResize = _ref.elementResize;
-	  var elementResize = _ref$elementResize === undefined ? false : _ref$elementResize;
-
-	  return function (ComposedComponent) {
-	    return function (_React$Component) {
-	      _inherits(DimensionsHOC, _React$Component);
-
-	      function DimensionsHOC() {
-	        var _Object$getPrototypeO;
-
-	        var _temp, _this, _ret;
-
-	        _classCallCheck(this, DimensionsHOC);
-
-	        for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-	          args[_key] = arguments[_key];
-	        }
-
-	        return _ret = (_temp = (_this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(DimensionsHOC)).call.apply(_Object$getPrototypeO, [this].concat(args))), _this), _this.state = {}, _this.updateDimensions = function () {
-	          var container = _this.refs.container;
-	          var containerWidth = getWidth(container);
-	          var containerHeight = getHeight(container);
-
-	          if (containerWidth !== _this.state.containerWidth || containerHeight !== _this.state.containerHeight) {
-	            _this.setState({ containerWidth: containerWidth, containerHeight: containerHeight });
-	          }
-	        }, _this.onResize = function () {
-	          if (_this.rqf) return;
-	          _this.rqf = _this.getWindow().requestAnimationFrame(function () {
-	            _this.rqf = null;
-	            _this.updateDimensions();
-	          });
-	        }, _temp), _possibleConstructorReturn(_this, _ret);
-	      }
-	      // ES7 Class properties
-	      // http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#property-initializers
-
-
-	      // Using arrow functions and ES7 Class properties to autobind
-	      // http://babeljs.io/blog/2015/06/07/react-on-es6-plus/#arrow-functions
-
-
-	      _createClass(DimensionsHOC, [{
-	        key: 'getWindow',
-
-
-	        // If the component is mounted in a different window to the javascript
-	        // context, as with https://github.com/JakeGinnivan/react-popout
-	        // then the `window` global will be different from the `window` that
-	        // contains the component.
-	        // Depends on `defaultView` which is not supported <IE9
-	        value: function getWindow() {
-	          return this.refs.container ? this.refs.container.ownerDocument.defaultView || window : window;
-	        }
-	      }, {
-	        key: 'componentDidMount',
-	        value: function componentDidMount() {
-	          if (!this.refs.container) {
-	            throw new Error('Cannot find container div');
-	          }
-	          this.updateDimensions();
-	          if (elementResize) {
-	            // Experimental: `element-resize-event` fires when an element resizes.
-	            // It attaches its own window resize listener and also uses
-	            // requestAnimationFrame, so we can just call `this.updateDimensions`.
-	            onElementResize(this.refs.container, this.updateDimensions);
-	          } else {
-	            this.getWindow().addEventListener('resize', this.onResize, false);
-	          }
-	        }
-	      }, {
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	          this.getWindow().removeEventListener('resize', this.onResize);
-	        }
-
-	        /**
-	         * Returns the underlying wrapped component instance.
-	         * Useful if you need to access a method or property of the component
-	         * passed to react-dimensions.
-	         *
-	         * @return {object} The rendered React component
-	         **/
-
-	      }, {
-	        key: 'getWrappedInstance',
-	        value: function getWrappedInstance() {
-	          this.refs.wrappedInstance;
-	        }
-	      }, {
-	        key: 'render',
-	        value: function render() {
-	          return React.createElement(
-	            'div',
-	            { style: containerStyle, ref: 'container' },
-	            (this.state.containerWidth || this.state.containerHeight) && React.createElement(ComposedComponent, _extends({}, this.state, this.props, {
-	              updateDimensions: this.updateDimensions,
-	              ref: 'wrappedInstance'
-	            }))
-	          );
-	        }
-	      }]);
-
-	      return DimensionsHOC;
-	    }(React.Component);
-	  };
+	var IconPan = exports.IconPan = function IconPan(_ref2) {
+	  var color = _ref2.color;
+	  return _react2.default.createElement("path", { stroke: color,
+	    d: "M13,6V11H18V7.75L22.25,12L18,16.25V13H13V18H16.25L12,22.25L7.75,18H11V13H6V16.25L1.75,12L6,7.75V11H11V6H7.75L12,1.75L16.25,6H13Z" });
 	};
 
+	var IconZoom = exports.IconZoom = function IconZoom(_ref3) {
+	  var color = _ref3.color;
+	  return _react2.default.createElement("path", { stroke: color,
+	    d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" });
+	};
 
-/***/ },
-/* 17 */
-/***/ function(module, exports) {
+	var IconZoomIn = exports.IconZoomIn = function IconZoomIn(_ref4) {
+	  var color = _ref4.color;
+	  return _react2.default.createElement(
+	    "g",
+	    null,
+	    _react2.default.createElement("path", { stroke: color,
+	      d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" }),
+	    _react2.default.createElement("path", { d: "M12 10h-2v2H9v-2H7V9h2V7h1v2h2v1z", stroke: color })
+	  );
+	};
 
-	var exports = function exports(element, fn) {
-	  var window = this
-	  var document = window.document
-	  var isIE
-	  var requestFrame
-
-	  var attachEvent = document.attachEvent
-	  if (typeof navigator !== 'undefined') {
-	    isIE = navigator.userAgent.match(/Trident/) || navigator.userAgent.match(/Edge/)
-	  }
-
-	  requestFrame = (function () {
-	    var raf = window.requestAnimationFrame ||
-	      window.mozRequestAnimationFrame ||
-	        window.webkitRequestAnimationFrame ||
-	          function fallbackRAF(func) {
-	            return window.setTimeout(func, 20)
-	          }
-	    return function requestFrameFunction(func) {
-	      return raf(func)
-	    }
-	  })()
-
-	  var cancelFrame = (function () {
-	    var cancel = window.cancelAnimationFrame ||
-	      window.mozCancelAnimationFrame ||
-	        window.webkitCancelAnimationFrame ||
-	          window.clearTimeout
-	    return function cancelFrameFunction(id) {
-	      return cancel(id)
-	    }
-	  })()
-
-	  function resizeListener(e) {
-	    var win = e.target || e.srcElement
-	    if (win.__resizeRAF__) {
-	      cancelFrame(win.__resizeRAF__)
-	    }
-	    win.__resizeRAF__ = requestFrame(function () {
-	      var trigger = win.__resizeTrigger__
-	      trigger.__resizeListeners__.forEach(function (fn) {
-	        fn.call(trigger, e)
-	      })
-	    })
-	  }
-
-	  function objectLoad() {
-	    this.contentDocument.defaultView.__resizeTrigger__ = this.__resizeElement__
-	    this.contentDocument.defaultView.addEventListener('resize', resizeListener)
-	  }
-
-	  if (!element.__resizeListeners__) {
-	    element.__resizeListeners__ = []
-	    if (attachEvent) {
-	      element.__resizeTrigger__ = element
-	      element.attachEvent('onresize', resizeListener)
-	    } else {
-	      if (getComputedStyle(element).position === 'static') {
-	        element.style.position = 'relative'
-	      }
-	      var obj = element.__resizeTrigger__ = document.createElement('object')
-	      obj.setAttribute('style', 'display: block; position: absolute; top: 0; left: 0; height: 100%; width: 100%; overflow: hidden; pointer-events: none; z-index: -1;')
-	      obj.setAttribute('class', 'resize-sensor')
-	      obj.__resizeElement__ = element
-	      obj.onload = objectLoad
-	      obj.type = 'text/html'
-	      if (isIE) {
-	        element.appendChild(obj)
-	      }
-	      obj.data = 'about:blank'
-	      if (!isIE) {
-	        element.appendChild(obj)
-	      }
-	    }
-	  }
-	  element.__resizeListeners__.push(fn)
-	}
-
-	module.exports = (typeof window === 'undefined') ? exports : exports.bind(window)
-
+	var IconZoomOut = exports.IconZoomOut = function IconZoomOut(_ref5) {
+	  var color = _ref5.color;
+	  return _react2.default.createElement("path", { stroke: color,
+	    d: "M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14zM7 9h5v1H7z" });
+	};
 
 /***/ }
 /******/ ]);
