@@ -1,5 +1,5 @@
 # react-svg-pan-zoom
-A react component that adds pan and zoom features to SVG
+A React component that adds pan and zoom features to SVG
 
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
@@ -7,34 +7,21 @@ A react component that adds pan and zoom features to SVG
 
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
-## Installation
+[Live Demo http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
+
+
+## Usage
 ```
 npm install --save react-svg-pan-zoom
 ```
 
-## See SVGPanZoom in action
-
-### online
-http://chrvadala.github.io/react-svg-pan-zoom/
-
-### localhost
-```
-  git clone https://github.com/chrvadala/react-svg-pan-zoom.git
-  cd react-svg-pan-zoom
-  npm install && npm start
-```
-
-## Usage
-
-### SVGPanZoom Viewer
-
+[A full DEMO is available here](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js)
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Viewer, ViewerHelper} from 'react-svg-pan-zoom';
 
 class MyComponent extends React.Component {
-
   constructor(props) {
     super(props);
     this.state = {
@@ -96,24 +83,19 @@ Your event handlers will be passed instances of `ViewerEvent`. It has some usefu
   - `number translationY` - y delta from the viewer origin
 
 ### SVGPanZoom Responsive
-SvgPanZoom requires width and height to work propertly. If you need a responsive component you can use `ViewerResponsive`, a component that extends `Viewer` and detects width and height trought its parent (See [ReactDimension](https://github.com/digidem/react-dimensions) for details).
+**React SVG Pan Zoom** requires `width` and `height` to works properly. If you need an autosized component you can get the dimensions of a wrapper element and pass them as properties to the child element through [ReactDimension](https://github.com/digidem/react-dimensions).
 
-~~`import {Viewer, ViewerHelper} from 'react-svg-pan-zoom';`~~
-
-become
-
-`import {ViewerResponsive, ViewerHelper} from 'react-svg-pan-zoom';`
-
-## Build
+## Start local demo
 ```
-npm run build
+git clone https://github.com/chrvadala/react-svg-pan-zoom.git
+cd react-svg-pan-zoom
+npm install && npm start
 ```
 
 ## Contributing
 Your contributions (issues and pull request) are appreciated!
 
 ### Author
-
 - [chrvadala](https://github.com/chrvadala)
 
 ### License
