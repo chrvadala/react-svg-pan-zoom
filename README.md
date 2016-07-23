@@ -1,5 +1,6 @@
 # react-svg-pan-zoom
 A React component that adds pan and zoom features to SVG
+[Live Demo available at http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
@@ -7,7 +8,6 @@ A React component that adds pan and zoom features to SVG
 
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
-[Live Demo http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 
 ## Usage
@@ -82,7 +82,7 @@ Your event handlers will be passed instances of `ViewerEvent`. It has some usefu
   - `number translationX` - x delta from the viewer origin
   - `number translationY` - y delta from the viewer origin
 
-### SVGPanZoom Responsive
+## Autosize
 **React SVG Pan Zoom** requires `width` and `height` to works properly. If you need an autosized component you can get the dimensions of a wrapper element and pass them as properties to the child element through [ReactDimension](https://github.com/digidem/react-dimensions).
 
 ## Start local demo
@@ -95,8 +95,8 @@ npm install && npm start
 ## Contributing
 Your contributions (issues and pull request) are appreciated!
 
-### Author
+## Author
 - [chrvadala](https://github.com/chrvadala)
 
-### License
+## License
 MIT
