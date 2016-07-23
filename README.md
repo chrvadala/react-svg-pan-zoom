@@ -1,5 +1,6 @@
 # react-svg-pan-zoom
 A React component that adds pan and zoom features to SVG
+
 [Live Demo available at http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
