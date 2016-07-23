@@ -2,8 +2,9 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Viewer, ViewerHelper, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT } from '../src/index';
+import {Viewer, ViewerHelper, Toolbar, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from '../src/index';
 import SnakeSVG from './svg/snake';
+import If from './if';
 
 export default class Demo extends React.Component {
 
@@ -11,7 +12,7 @@ export default class Demo extends React.Component {
     super(props);
 
     let defaultValue = ViewerHelper.getDefaultValue();
-    defaultValue = ViewerHelper.fitSVGToViewer(defaultValue, 1440, 1440, 400, 400);
+    defaultValue = ViewerHelper.fitSVGToViewer(defaultValue, 1440, 1440, 500, 500);
 
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
   }
@@ -22,7 +23,7 @@ export default class Demo extends React.Component {
   }
 
   handleReset(event) {
-    this.setState({value: ViewerHelper.fitSVGToViewer(this.state.value, 1440, 1440, 400, 400)})
+    this.setState({value: ViewerHelper.fitSVGToViewer(this.state.value, 1440, 1440, 500, 500)})
   }
 
   handleClick(event) {
@@ -49,79 +50,51 @@ export default class Demo extends React.Component {
     console.log('down', event.x, event.y);
   }
 
-  handleChangeTool(event) {
-    this.setState({tool: event.target.value});
+  handleChangeTool(tool) {
+    this.setState({tool});
   }
 
   render() {
     return (
       <div style={{display: "flex"}}>
+        <div style={{position: "relative", width: "500px", height: "500px", border: '1px solid black'}}>
 
-        {/* col-1 */}
-        <div style={{width: "50%"}} style={{border:'1px solid black'}}>
-          <Viewer width={400} height={400}
+          <Viewer width={500} height={500}
                   value={this.state.value} tool={this.state.tool}
                   onChange={event => this.handleChange(event)}
                   onClick={event => this.handleClick(event)}
                   onMouseMove={event => this.handleMouseMove(event)}
                   onMouseUp={event => this.handleMouseUp(event)}
                   onMouseDown={event => this.handleMouseDown(event)}>
-
             {SnakeSVG}
-
           </Viewer>
+
+          <Toolbar
+            style={{position: "absolute", top: "10px", right: "10px"}}
+            tool={this.state.tool}
+            onChangeTool={tool => this.handleChangeTool(tool)}
+          />
         </div>
 
-        {/* col-2 */}
-        <div style={{width: "50%", paddingLeft: "20px"}}>
+        <div style={{paddingLeft: "15px"}}>
+          <If condition={this.state.tool === TOOL_NONE}>
+            <strong>SVG Mouse Position</strong> <br/>
+            x: {Number(this.state.x).toFixed(4)} <br/>
+            y: {Number(this.state.y).toFixed(4)}
+            <hr/>
+          </If>
 
-          <ul style={{listStyle: "none", padding:"0px", margin:"0px"}}>
-            <li><input
-              type="radio"
-              value={TOOL_NONE}
-              checked={this.state.tool === TOOL_NONE}
-              onChange={event => this.handleChangeTool(event)}/>TOOL: NONE
-            </li>
-            <li><input
-              type="radio"
-              value={TOOL_PAN}
-              checked={this.state.tool === TOOL_PAN}
-              onChange={event => this.handleChangeTool(event)}/>TOOL: PAN
-            </li>
-            <li><input
-              type="radio"
-              value={TOOL_ZOOM}
-              checked={this.state.tool === TOOL_ZOOM}
-              onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM
-              <span style={{fontSize: "12px", color:"#555", paddingLeft: "4px"}}>Switch with CTRL or Win/CMD</span>
-            </li>
-            <li><input
-              type="radio"
-              value={TOOL_ZOOM_IN}
-              checked={this.state.tool === TOOL_ZOOM_IN}
-              onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM IN
-            </li>
-            <li><input
-              type="radio"
-              value={TOOL_ZOOM_OUT}
-              checked={this.state.tool === TOOL_ZOOM_OUT}
-              onChange={event => this.handleChangeTool(event)}/>TOOL: ZOOM OUT
-            </li>
-          </ul>
+          <If condition={this.state.tool === TOOL_ZOOM}>
+            <strong>Hey!</strong> <br/>
+            Use CTRL or Win/CMD to switch zoom-in/zoom-out
+            <hr/>
+          </If>
 
-          <div>
-            <button onClick={event => this.handleReset(event)}>Reset view</button>
-          </div>
-
-
-          <div>
-            Position: {this.state.x},{this.state.y}
-          </div>
-
+          <strong>Reset pan/zoom state</strong> <br/>
+          <button onClick={event => this.handleReset(event)}>Reset view</button>
         </div>
+
       </div>
-
-
-    );
+    )
   }
 }
