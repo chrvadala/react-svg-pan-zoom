@@ -1,7 +1,6 @@
 "use strict";
 
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Viewer, ViewerHelper, Toolbar, TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from '../src/index';
 import SnakeSVG from './svg/snake';
 import If from './if';
@@ -18,40 +17,17 @@ export default class Demo extends React.Component {
   }
 
 
-  handleChange(event) {
-    this.setState({value: event.value});
-  }
-
   handleReset(event) {
     this.setState({value: ViewerHelper.fitSVGToViewer(this.state.value, 1440, 1440, 500, 500)})
   }
 
-  handleClick(event) {
+  debugClick(event) {
     console.log('click', event);
     console.log('X', event.x);
     console.log('Y', event.y);
     console.log('scaleFactor', event.scaleFactor);
     console.log('translationX', event.translationX);
     console.log('translationY', event.translationY);
-  }
-
-  handleMouseMove(event) {
-    this.setState({
-      x: event.x,
-      y: event.y
-    });
-  }
-
-  handleMouseUp(event) {
-    console.log('up', event.x, event.y);
-  }
-
-  handleMouseDown(event) {
-    console.log('down', event.x, event.y);
-  }
-
-  handleChangeTool(tool) {
-    this.setState({tool});
   }
 
   render() {
@@ -61,19 +37,20 @@ export default class Demo extends React.Component {
 
           <Viewer width={500} height={500}
                   value={this.state.value} tool={this.state.tool}
-                  onChange={event => this.handleChange(event)}
-                  onClick={event => this.handleClick(event)}
-                  onMouseMove={event => this.handleMouseMove(event)}
-                  onMouseUp={event => this.handleMouseUp(event)}
-                  onMouseDown={event => this.handleMouseDown(event)}>
+                  onChange={event => this.setState({value: event.value})}         //update state
+
+                  onClick={event => this.debugClick(event)}                       //display click on console
+                  onMouseMove={event => this.setState({x: event.x, y: event.y })} //display mouse position on window
+                  onMouseUp={event => console.info('up', event.x, event.y)}       //print mouseup on console
+                  onMouseDown={event => console.info('down', event.x, event.y)}   //print mousedown on console
+            >
             {SnakeSVG}
           </Viewer>
 
           <Toolbar
             style={{position: "absolute", top: "10px", right: "10px"}}
             tool={this.state.tool}
-            onChangeTool={tool => this.handleChangeTool(tool)}
-          />
+            onChangeTool={tool =>  this.setState({tool: tool})} />
         </div>
 
         <div style={{paddingLeft: "15px"}}>
