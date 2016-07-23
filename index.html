@@ -31,8 +31,8 @@
 
             <h2>Props</h2>
             <ul>
-                <li><code>width</code> – <strong>required</strong> – width of the viewer displayed on screen (if you want to omit this <a href="#viewer-responsive">see below</a>)</li>
-                <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to omit this <a href="#viewer-responsive">see below</a>)</li>
+                <li><code>width</code> – <strong>required</strong> – width of the viewer displayed on screen (if you want to omit this below)</li>
+                <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to omit this below)</li>
                 <li><code>background</code> – background of the viewer (default dark grey)</li>
                 <li><code>style</code> - CSS style of the viewer</li>
                 <li><code>specialKeys</code> - array of keys that in zoom mode switch zoom in and zoom out (default Win/Cmd, Ctrl)</li>
@@ -63,10 +63,8 @@
                 <pre class="bash">npm install --save react-svg-pan-zoom</pre>
             </div>
 
-
-            <h1>Viewer Responsive</h1>
-            <a name="viewer-responsive"></a>
-            <div id="demo-responsive" style="height: 300px;"></div>
+            <h1>Autosize</h1>
+            <p><strong>React SVG Pan Zoom</strong> requires <code>width</code> and <code>height</code> to works properly. If you need an autosized component you can get the dimensions of a wrapper element and pass them as properties to the child element through <a href="https://github.com/digidem/react-dimensions">ReactDimension</a>.</p>
 
         </section>
 
