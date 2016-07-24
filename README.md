@@ -7,7 +7,7 @@ A React component that adds pan and zoom features to SVG
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 
-[![react-svg-pan-zoom](react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
+[![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 
 
