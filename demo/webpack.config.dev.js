@@ -3,12 +3,14 @@ const webpack = require("webpack");
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
 
 module.exports = {
-  entry: {
-    index: path.resolve(__dirname, 'renderer.js')
-  },
+  entry: path.resolve(__dirname, 'renderer.js'),
   output: {
     path: __dirname + "/build",
-    filename: "[name].js"
+    filename: "demo.build.js"
+  },
+  externals: {
+    "react": "React",
+    "react-dom": "ReactDOM"
   },
   plugins: [
     new OpenBrowserPlugin({url: 'http://localhost:8080'})
