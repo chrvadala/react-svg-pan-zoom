@@ -7,7 +7,7 @@ export default class ViewerEvent {
     this.value = value;
   }
 
-  get point() {
+  get point() {
     if (!this._cachePoint) {
       let event = this.originalEvent, value = this.value;
 

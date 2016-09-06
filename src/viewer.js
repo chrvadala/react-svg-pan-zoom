@@ -130,13 +130,13 @@ export default class Viewer extends React.Component {
     onChange(new ViewerEvent(event, nextValue));
   }
 
-  handleEvent(event){
+  handleEvent(event) {
     let {value, tool, onClick, onMouseUp, onMouseMove, onMouseDown} = this.props;
     let eventsHandler = {click: onClick, mousemove: onMouseMove, mouseup: onMouseUp, mousedown: onMouseDown};
 
     if (tool !== TOOL_NONE) return;
     let onEventHandler = eventsHandler[event.type];
-    if(!onEventHandler) return;
+    if (!onEventHandler) return;
 
     event.target = this.refs.svg;
 
@@ -204,9 +204,18 @@ export default class Viewer extends React.Component {
         width={this.props.width}
         height={this.props.height}
         style={Object.assign(style, this.props.style)}
-        onMouseDown={ event => { this.handleStartPan(event);  this.handleStartZoom(event)} }
-        onMouseMove={ event => { this.handleUpdatePan(event); this.handleUpdateZoom(event)} }
-        onMouseUp={ event =>   { this.handleStopPan(event);   this.handleStopZoom(event)} }
+        onMouseDown={ event => {
+          this.handleStartPan(event);
+          this.handleStartZoom(event)
+        } }
+        onMouseMove={ event => {
+          this.handleUpdatePan(event);
+          this.handleUpdateZoom(event)
+        } }
+        onMouseUp={ event => {
+          this.handleStopPan(event);
+          this.handleStopZoom(event)
+        } }
       >
 
         <rect
@@ -233,7 +242,7 @@ export default class Viewer extends React.Component {
             y={0}
             width={originalSVG.props.width}
             height={originalSVG.props.height}/>
-          <g ref="content" >
+          <g ref="content">
             {originalSVG.props.children}
           </g>
         </g>

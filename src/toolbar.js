@@ -29,7 +29,7 @@ export default function Toolbar({tool, onChangeTool, style}) {
 
   return (
     <div style={{...STYLE_TOOLBAR, ...style}}>
-      <a href style={STYLE_ELEMENT}  title="Selection" onClick={ event => handleChangeTool(event, TOOL_NONE) }>
+      <a href style={STYLE_ELEMENT} title="Selection" onClick={ event => handleChangeTool(event, TOOL_NONE) }>
         <svg width={24} height={24}>
           <IconCursor color={(tool === TOOL_NONE) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
         </svg>
