@@ -2,7 +2,7 @@ import React from 'react';
 import ViewerHelper from './viewer-helper';
 import ViewerEvent from './viewer-event';
 import cursor from './cursor';
-import {calculateBox} from './utils';
+import {calculateBox, mapRange} from './utils';
 import {
   TOOL_NONE,
   TOOL_PAN,
@@ -155,6 +155,21 @@ export default class Viewer extends React.Component {
     onChange(new ViewerEvent(event, nextValue));
   }
 
+  handlePinch(event) {
+    let {value, onChange, detectPinch} = this.props;
+    if(!detectPinch) return;
+
+    let rect = this.refs.svg.getBoundingClientRect();
+    let x = event.clientX - Math.round(rect.left);
+    let y = event.clientY - Math.round(rect.top);
+    var delta = Math.max(-1, Math.min(1, event.deltaY));
+    let scaleFactor = mapRange(delta, -1, 1, 1.06, 0.96);
+
+    let nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
+    event.preventDefault();
+    onChange(new ViewerEvent(event, nextValue));
+  }
+
   componentWillMount(event) {
     window.addEventListener("keydown", this.handleSpecialKeyChange, false);
     window.addEventListener("keyup", this.handleSpecialKeyChange, false);
@@ -216,6 +231,9 @@ export default class Viewer extends React.Component {
           this.handleStopPan(event);
           this.handleStopZoom(event)
         } }
+        onWheel={ event => {
+          this.handlePinch(event)
+        }}
       >
 
         <rect
@@ -274,6 +292,9 @@ Viewer.propTypes = {
   //array of keys that in zoom mode switch zoom in and zoom out
   specialKeys: React.PropTypes.arrayOf(React.PropTypes.number),
 
+  //detect zoom operation performed trough pinch gesture or mouse scroll
+  detectPinch: React.PropTypes.bool,
+
   //handler something changed
   onChange: React.PropTypes.func.isRequired,
 
@@ -318,5 +339,6 @@ Viewer.defaultProps = {
   background: "#616264",
   SVGBackground: "#fff",
   tool: TOOL_NONE,
-  specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl
+  detectPinch: true,
+  specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl,
 };
