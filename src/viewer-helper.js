@@ -18,7 +18,8 @@ export default class ViewerHelper {
     return {
       mode: MODE_IDLE,
       matrix: matrix2obj(matrix),
-      specialKeyEnabled: false
+      specialKeyEnabled: false,
+      focus: false,
     };
   }
 
@@ -174,6 +175,16 @@ export default class ViewerHelper {
         autoPanY
       }
     });
+  }
+
+  static updateFocus(value, focus) {
+    return value.focus === focus ?
+      value :
+      update(value, {
+        $merge: {
+          focus
+        }
+      });
   }
 
   static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight) {

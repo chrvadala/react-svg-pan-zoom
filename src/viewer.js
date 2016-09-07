@@ -184,6 +184,7 @@ export default class Viewer extends React.Component {
     let deltaX = 0, deltaY = 0, delta = 30;
 
     if (tool !== TOOL_NONE) return;
+    if (!value.focus) return;
 
     if (autoPanX === DIRECTION_LEFT) {
       deltaX = delta;
@@ -199,6 +200,12 @@ export default class Viewer extends React.Component {
 
     let nextValue = ViewerHelper.pan(value, deltaX, deltaY);
     onChange(new ViewerEvent(null, nextValue));
+  }
+
+  handleUpdateFocus(event, focus) {
+    let {value, onChange} = this.props;
+    let nextValue = ViewerHelper.updateFocus(value, focus);
+    onChange(new ViewerEvent(event, nextValue));
   }
 
   componentWillMount(event) {
@@ -270,6 +277,12 @@ export default class Viewer extends React.Component {
         } }
         onWheel={ event => {
           this.handlePinch(event)
+        }}
+        onMouseEnter={event => {
+          this.handleUpdateFocus(event, true);
+        }}
+        onMouseLeave={event => {
+          this.handleUpdateFocus(event, false);
         }}
       >
 
