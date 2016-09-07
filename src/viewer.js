@@ -179,12 +179,13 @@ export default class Viewer extends React.Component {
   }
 
   handleAutoPan() {
-    let {value, onChange, tool} = this.props;
+    let {value, onChange, tool, detectAutoPan} = this.props;
     let {autoPanX, autoPanY} = value;
     let deltaX = 0, deltaY = 0, delta = 30;
 
     if (tool !== TOOL_NONE) return;
     if (!value.focus) return;
+    if (!detectAutoPan) return;
 
     if (autoPanX === DIRECTION_LEFT) {
       deltaX = delta;
@@ -345,6 +346,9 @@ Viewer.propTypes = {
   //detect zoom operation performed trough pinch gesture or mouse scroll
   detectPinch: React.PropTypes.bool,
 
+  //perform PAN if the mouse is on viewer border
+  detectAutoPan: React.PropTypes.bool,
+
   //handler something changed
   onChange: React.PropTypes.func.isRequired,
 
@@ -390,5 +394,6 @@ Viewer.defaultProps = {
   SVGBackground: "#fff",
   tool: TOOL_NONE,
   detectPinch: true,
+  detectAutoPan: true,
   specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl,
 };
