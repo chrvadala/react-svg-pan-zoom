@@ -2,9 +2,8 @@ import {Matrix} from 'transformation-matrix-js';
 import {calculateBox} from './utils';
 import update from 'react-addons-update';
 import {
-  MODE_IDLE,
-  MODE_PANNING,
-  MODE_ZOOMING
+  MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
+  DIRECTION_NONE, DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_LEFT
 } from './constants';
 
 let matrix2obj = matrix => {
@@ -148,6 +147,33 @@ export default class ViewerHelper {
     let box = calculateBox(start, end);
 
     return ViewerHelper.fitSelectionToViewer(value, box.x, box.y, box.width, box.height, viewerWidth, viewerHeight);
+  }
+
+  static updateAutoPan(value, viewerX, viewerY, viewerWidth, viewerHeight) {
+    let borderSize = 20;
+
+    let autoPanX = DIRECTION_NONE;
+    if (viewerX < borderSize) {
+      autoPanX = DIRECTION_LEFT;
+    } else if (viewerWidth - viewerX < borderSize) {
+      autoPanX = DIRECTION_RIGHT;
+    }
+
+    let autoPanY = DIRECTION_NONE;
+    if (viewerY < borderSize) {
+      autoPanY = DIRECTION_UP;
+    } else if (viewerHeight - viewerY < borderSize) {
+      autoPanY = DIRECTION_DOWN;
+    }
+
+    if (value.autoPanX === autoPanX && value.autoPanY === autoPanY) return value;
+
+    return update(value, {
+      $merge: {
+        autoPanX,
+        autoPanY
+      }
+    });
   }
 
   static fitSelectionToViewer(value, selectionX, selectionY, selectionWidth, selectionHeight, viewerWidth, viewerHeight) {

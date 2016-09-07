@@ -4,14 +4,9 @@ import ViewerEvent from './viewer-event';
 import cursor from './cursor';
 import {calculateBox, mapRange} from './utils';
 import {
-  TOOL_NONE,
-  TOOL_PAN,
-  TOOL_ZOOM,
-  TOOL_ZOOM_IN,
-  TOOL_ZOOM_OUT,
-  MODE_IDLE,
-  MODE_PANNING,
-  MODE_ZOOMING,
+  TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
+  DIRECTION_NONE, DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_LEFT
 } from './constants';
 
 export default class Viewer extends React.Component {
@@ -19,6 +14,7 @@ export default class Viewer extends React.Component {
   constructor(props) {
     super(props);
     this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
+    this.handleAutoPan = this.handleAutoPan.bind(this);
   }
 
   shouldComponentUpdate(nextProps) {
@@ -157,7 +153,7 @@ export default class Viewer extends React.Component {
 
   handlePinch(event) {
     let {value, onChange, detectPinch} = this.props;
-    if(!detectPinch) return;
+    if (!detectPinch) return;
 
     let rect = this.refs.svg.getBoundingClientRect();
     let x = event.clientX - Math.round(rect.left);
@@ -170,14 +166,54 @@ export default class Viewer extends React.Component {
     onChange(new ViewerEvent(event, nextValue));
   }
 
+  handleAutoPanDetection(event) {
+    let {value, onChange, width, height, tool} = this.props;
+    if (tool !== TOOL_NONE) return;
+
+    let rect = this.refs.svg.getBoundingClientRect();
+    let x = event.clientX - Math.round(rect.left);
+    let y = event.clientY - Math.round(rect.top);
+
+    let nextValue = ViewerHelper.updateAutoPan(value, x, y, width, height);
+    onChange(new ViewerEvent(event, nextValue));
+  }
+
+  handleAutoPan() {
+    let {value, onChange, tool} = this.props;
+    let {autoPanX, autoPanY} = value;
+    let deltaX = 0, deltaY = 0, delta = 30;
+
+    if (tool !== TOOL_NONE) return;
+
+    if (autoPanX === DIRECTION_LEFT) {
+      deltaX = delta;
+    } else if (autoPanX === DIRECTION_RIGHT) {
+      deltaX = -delta;
+    }
+
+    if (autoPanY === DIRECTION_UP) {
+      deltaY = delta
+    } else if (autoPanY === DIRECTION_DOWN) {
+      deltaY = -delta;
+    }
+
+    let nextValue = ViewerHelper.pan(value, deltaX, deltaY);
+    onChange(new ViewerEvent(null, nextValue));
+  }
+
   componentWillMount(event) {
     window.addEventListener("keydown", this.handleSpecialKeyChange, false);
     window.addEventListener("keyup", this.handleSpecialKeyChange, false);
   }
 
+  componentDidMount() {
+    this.autoPanTimer = setInterval(this.handleAutoPan, 200);
+  }
+
   componentWillUnmount(event) {
     window.removeEventListener("keydown", this.handleSpecialKeyChange, false);
     window.removeEventListener("keyup", this.handleSpecialKeyChange, false);
+    clearTimeout(this.autoPanTimer);
   }
 
   render() {
@@ -225,7 +261,8 @@ export default class Viewer extends React.Component {
         } }
         onMouseMove={ event => {
           this.handleUpdatePan(event);
-          this.handleUpdateZoom(event)
+          this.handleUpdateZoom(event);
+          this.handleAutoPanDetection(event);
         } }
         onMouseUp={ event => {
           this.handleStopPan(event);
