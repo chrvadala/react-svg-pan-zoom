@@ -61,6 +61,7 @@ class MyComponent extends React.Component {
   - `style` - CSS style of the viewer
   - `specialKeys` - array of keys that in zoom mode switch zoom in and zoom out (default Win/Cmd, Ctrl)
   - `detectPinch` - detect zoom operation performed trough pinch gesture or mouse scroll
+  - `detectAutoPan` - perform PAN if the mouse is on viewer border
   - `SVGBackground` - background of the SVG (default white)
   - `value` - value of the viewer (current point of view)
   - `tool` - active tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
