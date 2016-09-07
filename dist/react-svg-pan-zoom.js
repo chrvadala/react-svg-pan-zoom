@@ -60,11 +60,11 @@ var ReactSVGPanZoom =
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
 
-	var _toolbar = __webpack_require__(15);
+	var _toolbar = __webpack_require__(16);
 
 	var _toolbar2 = _interopRequireDefault(_toolbar);
 
-	var _constants = __webpack_require__(12);
+	var _constants = __webpack_require__(13);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -97,17 +97,17 @@ var ReactSVGPanZoom =
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
 
-	var _viewerEvent = __webpack_require__(13);
+	var _viewerEvent = __webpack_require__(14);
 
 	var _viewerEvent2 = _interopRequireDefault(_viewerEvent);
 
-	var _cursor = __webpack_require__(14);
+	var _cursor = __webpack_require__(15);
 
 	var _cursor2 = _interopRequireDefault(_cursor);
 
 	var _utils = __webpack_require__(5);
 
-	var _constants = __webpack_require__(12);
+	var _constants = __webpack_require__(13);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -123,9 +123,10 @@ var ReactSVGPanZoom =
 	  function Viewer(props) {
 	    _classCallCheck(this, Viewer);
 
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Viewer).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (Viewer.__proto__ || Object.getPrototypeOf(Viewer)).call(this, props));
 
 	    _this.handleSpecialKeyChange = _this.handleSpecialKeyChange.bind(_this);
+	    _this.handleAutoPan = _this.handleAutoPan.bind(_this);
 	    return _this;
 	  }
 
@@ -324,16 +325,105 @@ var ReactSVGPanZoom =
 	      onChange(new _viewerEvent2.default(event, nextValue));
 	    }
 	  }, {
+	    key: 'handlePinch',
+	    value: function handlePinch(event) {
+	      var _props9 = this.props;
+	      var value = _props9.value;
+	      var onChange = _props9.onChange;
+	      var detectPinch = _props9.detectPinch;
+
+	      if (!detectPinch) return;
+
+	      var rect = this.refs.svg.getBoundingClientRect();
+	      var x = event.clientX - Math.round(rect.left);
+	      var y = event.clientY - Math.round(rect.top);
+	      var delta = Math.max(-1, Math.min(1, event.deltaY));
+	      var scaleFactor = (0, _utils.mapRange)(delta, -1, 1, 1.06, 0.96);
+
+	      var nextValue = _viewerHelper2.default.zoom(value, scaleFactor, x, y);
+	      event.preventDefault();
+	      onChange(new _viewerEvent2.default(event, nextValue));
+	    }
+	  }, {
+	    key: 'handleAutoPanDetection',
+	    value: function handleAutoPanDetection(event) {
+	      var _props10 = this.props;
+	      var value = _props10.value;
+	      var onChange = _props10.onChange;
+	      var width = _props10.width;
+	      var height = _props10.height;
+	      var tool = _props10.tool;
+
+	      if (tool !== _constants.TOOL_NONE) return;
+
+	      var rect = this.refs.svg.getBoundingClientRect();
+	      var x = event.clientX - Math.round(rect.left);
+	      var y = event.clientY - Math.round(rect.top);
+
+	      var nextValue = _viewerHelper2.default.updateAutoPan(value, x, y, width, height);
+	      onChange(new _viewerEvent2.default(event, nextValue));
+	    }
+	  }, {
+	    key: 'handleAutoPan',
+	    value: function handleAutoPan() {
+	      var _props11 = this.props;
+	      var value = _props11.value;
+	      var onChange = _props11.onChange;
+	      var tool = _props11.tool;
+	      var detectAutoPan = _props11.detectAutoPan;
+	      var autoPanX = value.autoPanX;
+	      var autoPanY = value.autoPanY;
+
+	      var deltaX = 0,
+	          deltaY = 0,
+	          delta = 30;
+
+	      if (tool !== _constants.TOOL_NONE) return;
+	      if (!value.focus) return;
+	      if (!detectAutoPan) return;
+
+	      if (autoPanX === _constants.DIRECTION_LEFT) {
+	        deltaX = delta;
+	      } else if (autoPanX === _constants.DIRECTION_RIGHT) {
+	        deltaX = -delta;
+	      }
+
+	      if (autoPanY === _constants.DIRECTION_UP) {
+	        deltaY = delta;
+	      } else if (autoPanY === _constants.DIRECTION_DOWN) {
+	        deltaY = -delta;
+	      }
+
+	      var nextValue = _viewerHelper2.default.pan(value, deltaX, deltaY);
+	      onChange(new _viewerEvent2.default(null, nextValue));
+	    }
+	  }, {
+	    key: 'handleUpdateFocus',
+	    value: function handleUpdateFocus(event, focus) {
+	      var _props12 = this.props;
+	      var value = _props12.value;
+	      var onChange = _props12.onChange;
+
+	      var nextValue = _viewerHelper2.default.updateFocus(value, focus);
+	      onChange(new _viewerEvent2.default(event, nextValue));
+	    }
+	  }, {
 	    key: 'componentWillMount',
 	    value: function componentWillMount(event) {
 	      window.addEventListener("keydown", this.handleSpecialKeyChange, false);
 	      window.addEventListener("keyup", this.handleSpecialKeyChange, false);
 	    }
 	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      this.autoPanTimer = setInterval(this.handleAutoPan, 200);
+	    }
+	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount(event) {
 	      window.removeEventListener("keydown", this.handleSpecialKeyChange, false);
 	      window.removeEventListener("keyup", this.handleSpecialKeyChange, false);
+	      clearTimeout(this.autoPanTimer);
 	    }
 	  }, {
 	    key: 'render',
@@ -386,13 +476,26 @@ var ReactSVGPanZoom =
 	          height: this.props.height,
 	          style: Object.assign(style, this.props.style),
 	          onMouseDown: function onMouseDown(event) {
-	            _this2.handleStartPan(event);_this2.handleStartZoom(event);
+	            _this2.handleStartPan(event);
+	            _this2.handleStartZoom(event);
 	          },
 	          onMouseMove: function onMouseMove(event) {
-	            _this2.handleUpdatePan(event);_this2.handleUpdateZoom(event);
+	            _this2.handleUpdatePan(event);
+	            _this2.handleUpdateZoom(event);
+	            _this2.handleAutoPanDetection(event);
 	          },
 	          onMouseUp: function onMouseUp(event) {
-	            _this2.handleStopPan(event);_this2.handleStopZoom(event);
+	            _this2.handleStopPan(event);
+	            _this2.handleStopZoom(event);
+	          },
+	          onWheel: function onWheel(event) {
+	            _this2.handlePinch(event);
+	          },
+	          onMouseEnter: function onMouseEnter(event) {
+	            _this2.handleUpdateFocus(event, true);
+	          },
+	          onMouseLeave: function onMouseLeave(event) {
+	            _this2.handleUpdateFocus(event, false);
 	          }
 	        },
 	        _react2.default.createElement('rect', {
@@ -467,6 +570,12 @@ var ReactSVGPanZoom =
 	  //array of keys that in zoom mode switch zoom in and zoom out
 	  specialKeys: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number),
 
+	  //detect zoom operation performed trough pinch gesture or mouse scroll
+	  detectPinch: _react2.default.PropTypes.bool,
+
+	  //perform PAN if the mouse is on viewer border
+	  detectAutoPan: _react2.default.PropTypes.bool,
+
 	  //handler something changed
 	  onChange: _react2.default.PropTypes.func.isRequired,
 
@@ -505,7 +614,9 @@ var ReactSVGPanZoom =
 	  background: "#616264",
 	  SVGBackground: "#fff",
 	  tool: _constants.TOOL_NONE,
-	  specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl
+	  detectPinch: true,
+	  detectAutoPan: true,
+	  specialKeys: [91, 17] //91=Win/Cmd 17=Ctrl,
 	};
 
 /***/ },
@@ -534,7 +645,7 @@ var ReactSVGPanZoom =
 
 	var _reactAddonsUpdate2 = _interopRequireDefault(_reactAddonsUpdate);
 
-	var _constants = __webpack_require__(12);
+	var _constants = __webpack_require__(13);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -557,7 +668,8 @@ var ReactSVGPanZoom =
 	      return {
 	        mode: _constants.MODE_IDLE,
 	        matrix: matrix2obj(matrix),
-	        specialKeyEnabled: false
+	        specialKeyEnabled: false,
+	        focus: false
 	      };
 	    }
 	  }, {
@@ -719,6 +831,43 @@ var ReactSVGPanZoom =
 	      var box = (0, _utils.calculateBox)(start, end);
 
 	      return ViewerHelper.fitSelectionToViewer(value, box.x, box.y, box.width, box.height, viewerWidth, viewerHeight);
+	    }
+	  }, {
+	    key: 'updateAutoPan',
+	    value: function updateAutoPan(value, viewerX, viewerY, viewerWidth, viewerHeight) {
+	      var borderSize = 20;
+
+	      var autoPanX = _constants.DIRECTION_NONE;
+	      if (viewerX < borderSize) {
+	        autoPanX = _constants.DIRECTION_LEFT;
+	      } else if (viewerWidth - viewerX < borderSize) {
+	        autoPanX = _constants.DIRECTION_RIGHT;
+	      }
+
+	      var autoPanY = _constants.DIRECTION_NONE;
+	      if (viewerY < borderSize) {
+	        autoPanY = _constants.DIRECTION_UP;
+	      } else if (viewerHeight - viewerY < borderSize) {
+	        autoPanY = _constants.DIRECTION_DOWN;
+	      }
+
+	      if (value.autoPanX === autoPanX && value.autoPanY === autoPanY) return value;
+
+	      return (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          autoPanX: autoPanX,
+	          autoPanY: autoPanY
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'updateFocus',
+	    value: function updateFocus(value, focus) {
+	      return value.focus === focus ? value : (0, _reactAddonsUpdate2.default)(value, {
+	        $merge: {
+	          focus: focus
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'fitSelectionToViewer',
@@ -1837,6 +1986,7 @@ var ReactSVGPanZoom =
 	  value: true
 	});
 	exports.calculateBox = calculateBox;
+	exports.mapRange = mapRange;
 	function calculateBox(start, end) {
 	  if (start.x <= end.x && start.y <= end.y) {
 	    return {
@@ -1869,6 +2019,10 @@ var ReactSVGPanZoom =
 	  }
 	}
 
+	function mapRange(value, low1, high1, low2, high2) {
+	  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+	}
+
 /***/ },
 /* 6 */
 /***/ function(module, exports, __webpack_require__) {
@@ -1894,10 +2048,11 @@ var ReactSVGPanZoom =
 
 	'use strict';
 
-	var _assign = __webpack_require__(9);
+	var _prodInvariant = __webpack_require__(9),
+	    _assign = __webpack_require__(10);
 
-	var keyOf = __webpack_require__(10);
-	var invariant = __webpack_require__(11);
+	var keyOf = __webpack_require__(11);
+	var invariant = __webpack_require__(12);
 	var hasOwnProperty = {}.hasOwnProperty;
 
 	function shallowCopy(x) {
@@ -1926,9 +2081,9 @@ var ReactSVGPanZoom =
 	});
 
 	function invariantArrayCase(value, spec, command) {
-	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : invariant(false) : void 0;
+	  !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected target of %s to be an array; got %s.', command, value) : _prodInvariant('1', command, value) : void 0;
 	  var specValue = spec[command];
-	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. ' + 'Did you forget to wrap your parameter in an array?', command, specValue) : invariant(false) : void 0;
+	  !Array.isArray(specValue) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array; got %s. Did you forget to wrap your parameter in an array?', command, specValue) : _prodInvariant('2', command, specValue) : void 0;
 	}
 
 	/**
@@ -1936,10 +2091,10 @@ var ReactSVGPanZoom =
 	 * See https://facebook.github.io/react/docs/update.html for details.
 	 */
 	function update(value, spec) {
-	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one ' + 'of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : invariant(false) : void 0;
+	  !(typeof spec === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): You provided a key path to update() that did not contain one of %s. Did you forget to include {%s: ...}?', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : _prodInvariant('3', ALL_COMMANDS_LIST.join(', '), COMMAND_SET) : void 0;
 
 	  if (hasOwnProperty.call(spec, COMMAND_SET)) {
-	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : invariant(false) : void 0;
+	    !(Object.keys(spec).length === 1) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Cannot have more than one key in an object with %s', COMMAND_SET) : _prodInvariant('4', COMMAND_SET) : void 0;
 
 	    return spec[COMMAND_SET];
 	  }
@@ -1948,8 +2103,8 @@ var ReactSVGPanZoom =
 
 	  if (hasOwnProperty.call(spec, COMMAND_MERGE)) {
 	    var mergeObj = spec[COMMAND_MERGE];
-	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : invariant(false) : void 0;
-	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : invariant(false) : void 0;
+	    !(mergeObj && typeof mergeObj === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a spec of type \'object\'; got %s', COMMAND_MERGE, mergeObj) : _prodInvariant('5', COMMAND_MERGE, mergeObj) : void 0;
+	    !(nextValue && typeof nextValue === 'object') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): %s expects a target of type \'object\'; got %s', COMMAND_MERGE, nextValue) : _prodInvariant('6', COMMAND_MERGE, nextValue) : void 0;
 	    _assign(nextValue, spec[COMMAND_MERGE]);
 	  }
 
@@ -1968,16 +2123,16 @@ var ReactSVGPanZoom =
 	  }
 
 	  if (hasOwnProperty.call(spec, COMMAND_SPLICE)) {
-	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : invariant(false) : void 0;
-	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. ' + 'Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : invariant(false) : void 0;
+	    !Array.isArray(value) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'Expected %s target to be an array; got %s', COMMAND_SPLICE, value) : _prodInvariant('7', COMMAND_SPLICE, value) : void 0;
+	    !Array.isArray(spec[COMMAND_SPLICE]) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
 	    spec[COMMAND_SPLICE].forEach(function (args) {
-	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. ' + 'Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : invariant(false) : void 0;
+	      !Array.isArray(args) ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be an array of arrays; got %s. Did you forget to wrap your parameters in an array?', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : _prodInvariant('8', COMMAND_SPLICE, spec[COMMAND_SPLICE]) : void 0;
 	      nextValue.splice.apply(nextValue, args);
 	    });
 	  }
 
 	  if (hasOwnProperty.call(spec, COMMAND_APPLY)) {
-	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : invariant(false) : void 0;
+	    !(typeof spec[COMMAND_APPLY] === 'function') ? process.env.NODE_ENV !== 'production' ? invariant(false, 'update(): expected spec of %s to be a function; got %s.', COMMAND_APPLY, spec[COMMAND_APPLY]) : _prodInvariant('9', COMMAND_APPLY, spec[COMMAND_APPLY]) : void 0;
 	    nextValue = spec[COMMAND_APPLY](nextValue);
 	  }
 
@@ -1998,7 +2153,6 @@ var ReactSVGPanZoom =
 /***/ function(module, exports) {
 
 	// shim for using process in browser
-
 	var process = module.exports = {};
 
 	// cached from whatever global is present so that test runners that stub it
@@ -2009,22 +2163,84 @@ var ReactSVGPanZoom =
 	var cachedSetTimeout;
 	var cachedClearTimeout;
 
+	function defaultSetTimout() {
+	    throw new Error('setTimeout has not been defined');
+	}
+	function defaultClearTimeout () {
+	    throw new Error('clearTimeout has not been defined');
+	}
 	(function () {
-	  try {
-	    cachedSetTimeout = setTimeout;
-	  } catch (e) {
-	    cachedSetTimeout = function () {
-	      throw new Error('setTimeout is not defined');
+	    try {
+	        if (typeof setTimeout === 'function') {
+	            cachedSetTimeout = setTimeout;
+	        } else {
+	            cachedSetTimeout = defaultSetTimout;
+	        }
+	    } catch (e) {
+	        cachedSetTimeout = defaultSetTimout;
 	    }
-	  }
-	  try {
-	    cachedClearTimeout = clearTimeout;
-	  } catch (e) {
-	    cachedClearTimeout = function () {
-	      throw new Error('clearTimeout is not defined');
+	    try {
+	        if (typeof clearTimeout === 'function') {
+	            cachedClearTimeout = clearTimeout;
+	        } else {
+	            cachedClearTimeout = defaultClearTimeout;
+	        }
+	    } catch (e) {
+	        cachedClearTimeout = defaultClearTimeout;
 	    }
-	  }
 	} ())
+	function runTimeout(fun) {
+	    if (cachedSetTimeout === setTimeout) {
+	        //normal enviroments in sane situations
+	        return setTimeout(fun, 0);
+	    }
+	    // if setTimeout wasn't available but was latter defined
+	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
+	        cachedSetTimeout = setTimeout;
+	        return setTimeout(fun, 0);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedSetTimeout(fun, 0);
+	    } catch(e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
+	            return cachedSetTimeout.call(null, fun, 0);
+	        } catch(e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
+	            return cachedSetTimeout.call(this, fun, 0);
+	        }
+	    }
+
+
+	}
+	function runClearTimeout(marker) {
+	    if (cachedClearTimeout === clearTimeout) {
+	        //normal enviroments in sane situations
+	        return clearTimeout(marker);
+	    }
+	    // if clearTimeout wasn't available but was latter defined
+	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
+	        cachedClearTimeout = clearTimeout;
+	        return clearTimeout(marker);
+	    }
+	    try {
+	        // when when somebody has screwed with setTimeout but no I.E. maddness
+	        return cachedClearTimeout(marker);
+	    } catch (e){
+	        try {
+	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
+	            return cachedClearTimeout.call(null, marker);
+	        } catch (e){
+	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
+	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
+	            return cachedClearTimeout.call(this, marker);
+	        }
+	    }
+
+
+
+	}
 	var queue = [];
 	var draining = false;
 	var currentQueue;
@@ -2049,7 +2265,7 @@ var ReactSVGPanZoom =
 	    if (draining) {
 	        return;
 	    }
-	    var timeout = cachedSetTimeout(cleanUpNextTick);
+	    var timeout = runTimeout(cleanUpNextTick);
 	    draining = true;
 
 	    var len = queue.length;
@@ -2066,7 +2282,7 @@ var ReactSVGPanZoom =
 	    }
 	    currentQueue = null;
 	    draining = false;
-	    cachedClearTimeout(timeout);
+	    runClearTimeout(timeout);
 	}
 
 	process.nextTick = function (fun) {
@@ -2078,7 +2294,7 @@ var ReactSVGPanZoom =
 	    }
 	    queue.push(new Item(fun, args));
 	    if (queue.length === 1 && !draining) {
-	        cachedSetTimeout(drainQueue, 0);
+	        runTimeout(drainQueue);
 	    }
 	};
 
@@ -2120,6 +2336,50 @@ var ReactSVGPanZoom =
 
 /***/ },
 /* 9 */
+/***/ function(module, exports) {
+
+	/**
+	 * Copyright (c) 2013-present, Facebook, Inc.
+	 * All rights reserved.
+	 *
+	 * This source code is licensed under the BSD-style license found in the
+	 * LICENSE file in the root directory of this source tree. An additional grant
+	 * of patent rights can be found in the PATENTS file in the same directory.
+	 *
+	 * @providesModule reactProdInvariant
+	 * 
+	 */
+	'use strict';
+
+	/**
+	 * WARNING: DO NOT manually require this module.
+	 * This is a replacement for `invariant(...)` used by the error code system
+	 * and will _only_ be required by the corresponding babel pass.
+	 * It always throws.
+	 */
+
+	function reactProdInvariant(code) {
+	  var argCount = arguments.length - 1;
+
+	  var message = 'Minified React error #' + code + '; visit ' + 'http://facebook.github.io/react/docs/error-decoder.html?invariant=' + code;
+
+	  for (var argIdx = 0; argIdx < argCount; argIdx++) {
+	    message += '&args[]=' + encodeURIComponent(arguments[argIdx + 1]);
+	  }
+
+	  message += ' for the full message or use the non-minified dev environment' + ' for full errors and additional helpful warnings.';
+
+	  var error = new Error(message);
+	  error.name = 'Invariant Violation';
+	  error.framesToPop = 1; // we don't care about reactProdInvariant's own frame
+
+	  throw error;
+	}
+
+	module.exports = reactProdInvariant;
+
+/***/ },
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2208,7 +2468,7 @@ var ReactSVGPanZoom =
 
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -2247,7 +2507,7 @@ var ReactSVGPanZoom =
 	module.exports = keyOf;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2302,7 +2562,7 @@ var ReactSVGPanZoom =
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(8)))
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2320,8 +2580,14 @@ var ReactSVGPanZoom =
 	var TOOL_ZOOM_IN = exports.TOOL_ZOOM_IN = 'zoom-in';
 	var TOOL_ZOOM_OUT = exports.TOOL_ZOOM_OUT = 'zoom-out';
 
+	var DIRECTION_UP = exports.DIRECTION_UP = 'up';
+	var DIRECTION_RIGHT = exports.DIRECTION_RIGHT = 'right';
+	var DIRECTION_DOWN = exports.DIRECTION_DOWN = 'down';
+	var DIRECTION_LEFT = exports.DIRECTION_LEFT = 'left';
+	var DIRECTION_NONE = exports.DIRECTION_NONE = 'none';
+
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2408,7 +2674,7 @@ var ReactSVGPanZoom =
 	exports.default = ViewerEvent;
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -2439,7 +2705,7 @@ var ReactSVGPanZoom =
 	};
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -2456,9 +2722,9 @@ var ReactSVGPanZoom =
 
 	var _react2 = _interopRequireDefault(_react);
 
-	var _constants = __webpack_require__(12);
+	var _constants = __webpack_require__(13);
 
-	var _icons = __webpack_require__(16);
+	var _icons = __webpack_require__(17);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2563,7 +2829,7 @@ var ReactSVGPanZoom =
 	};
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
