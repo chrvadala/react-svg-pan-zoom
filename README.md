@@ -1,5 +1,5 @@
 # react-svg-pan-zoom
-A React component that adds pan and zoom features to SVG
+**react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features on **SVG images**. It helps to display big SVG images when there isn’t enough space.
 
 [Live Demo available at http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
 
@@ -9,6 +9,19 @@ A React component that adds pan and zoom features to SVG
 
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
+## Features
+This component works with three different mode selected through an attribute:
+- With the tool **pan** the user can move the image dragging it inside the viewer
+- With the tool **zoom** the user can scale the image through a point click or zoom a specified area
+- With the tool **none** the user can interact with the SVG content and trigger browser events
+
+##Additional Features
+- Detect zoom performed through pinch and scroll (optional)
+- Perform *autopan* when the mouse is close to the edge of the viewer (optional)
+- Each callback function receives (x,y) coords mapped to the real SVG size
+- Fully stateless
+- Event info managed with lazy mode to ensure high performance
+- ES6 syntax
 
 
 ## Usage
@@ -16,7 +29,7 @@ A React component that adds pan and zoom features to SVG
 npm install --save react-svg-pan-zoom
 ```
 
-[A full DEMO is available here](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js)
+[Sample code available here](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js)
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
