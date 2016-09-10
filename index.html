@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen"/>
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print"/>
+    <title>react-svg-pan-zoom</title>
+</head>
+
+<body>
+<header>
+    <div class="inner">
+        <h1>react-svg-pan-zoom</h1>
+        <h2>A React component that adds <strong>pan</strong> and <strong>zoom</strong> features to SVG</h2>
+        <a href="https://github.com/chrvadala/react-svg-pan-zoom" class="button">
+            <small>View project on</small> GitHub</a>
+    </div>
+</header>
+
+<div id="content-wrapper">
+    <div class="inner clearfix">
+        <section id="main-content">
+
+            <h1>Viewer</h1>
+            <div id="demo"></div>
+
+            <h2>Props</h2>
+            <ul>
+                <li><code>width</code> – <strong>required</strong> – width of the viewer displayed on screen (if you want to omit this below)</li>
+                <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to omit this below)</li>
+                <li><code>background</code> – background of the viewer (default dark grey)</li>
+                <li><code>style</code> - CSS style of the viewer</li>
+                <li><code>specialKeys</code> - array of keys that in zoom mode switch zoom in and zoom out (default Win/Cmd, Ctrl)</li>
+                <li><code>SVGBackground</code> - background of the SVG (default white)</li>
+                <li><code>value</code> - value of the viewer (current point of view)</li>
+                <li><code>tool</code> - active tool ( one of <code>none</code>, <code>pan</code>, <code>zoom</code>, <code>zoom-in</code>, <code>zoom-out</code> )</li>
+                <li><code>onChange</code> - handler something changed <code>fn(viewerEvent)</code></li>
+                <li><code>onClick</code> - handler click <code>fn(viewerEvent)</code></li>
+                <li><code>onMouseUp</code> - handler mouseup <code>fn(viewerEvent)</code></li>
+                <li><code>onMouseMove</code> - handler mousemove <code>fn(viewerEvent)</code></li>
+                <li><code>onMouseDown</code> - handler mousedown <code>fn(viewerEvent)</code></li>
+            </ul>
+
+            <h2>ViewerEvent</h2>
+            <ul>
+                <li><code>SyntheticEvent originalEvent</code> - The original React event</li>
+                <li><code>object</code> - coordinate {x,y} of the event mapped to SVG coordinates</li>
+                <li><code>number x</code> - x coordinate of the event mapped to SVG coordinates</li>
+                <li><code>number y</code> - y coordinate of the event mapped to SVG coordinates</li>
+                <li><code>number scaleFactor</code> - zoom level</li>
+                <li><code>number translationX</code> - x delta from the viewer origin</li>
+                <li><code>number translationY</code> - y delta from the viewer origin</li>
+            </ul>
+
+            <h1>Usage</h1>
+            <a href="https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js#L38-L48">See here</a> a demo code
+            <div class="highlight">
+                <pre class="bash">npm install --save react-svg-pan-zoom</pre>
+            </div>
+
+            <h1>Autosize</h1>
+            <p><strong>React SVG Pan Zoom</strong> requires <code>width</code> and <code>height</code> to works properly. If you need an autosized component you can get the dimensions of a wrapper element and pass them as properties to the child element through <a href="https://github.com/digidem/react-dimensions">ReactDimension</a>.</p>
+
+        </section>
+
+        <aside id="sidebar">
+            <a href="https://github.com/chrvadala/react-svg-pan-zoom/archive/master.zip" class="button">
+                <small>Download</small>
+                .zip file
+            </a>
+            <a href="https://github.com/chrvadala/react-svg-pan-zoom/archive/master.tar.gz" class="button">
+                <small>Download</small>
+                .tar.gz file
+            </a>
+
+            <p class="repo-owner"><a href="https://github.com/chrvadala/react-svg-pan-zoom">react-svg-pan-zoom</a> is
+                maintained by <a href="https://github.com/chrvadala">chrvadala</a>.</p>
+
+            <p>
+                <a href="https://www.npmjs.com/package/react-svg-pan-zoom">
+                    <img src="https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic"
+                         alt="npm">
+                </a>
+                <img src="https://img.shields.io/badge/javascript-ES6-fbde34.svg">
+                <img src="https://img.shields.io/badge/license-MIT-42cd00.svg">
+                <img src="https://img.shields.io/badge/react-15.0.0%20or%20later-61dafb.svg">
+                <iframe src="https://ghbtns.com/github-btn.html?user=chrvadala&repo=react-svg-pan-zoom&type=star&count=true" frameborder="0" scrolling="0" width="170px" height="20px"></iframe>
+            </p>
+
+        </aside>
+    </div>
+</div>
+
+<a href="https://github.com/chrvadala/react-svg-pan-zoom"><img style="position: absolute; top: 0; left: 0; border: 0;" src="https://camo.githubusercontent.com/c6625ac1f3ee0a12250227cf83ce904423abf351/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f6c6566745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_left_gray_6d6d6d.png"></a>
+
+<script src="https://fb.me/react-15.2.1.min.js"></script>
+<script src="https://fb.me/react-dom-15.2.1.min.js"></script>
+<script src="https://rawgit.com/chrvadala/react-svg-pan-zoom/master/demo/build/demo.build.js"></script>
+</body>
+</html>
