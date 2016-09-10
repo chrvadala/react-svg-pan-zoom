@@ -11,8 +11,9 @@
     "build:dist": "webpack",
     "build:demo": "webpack --config demo/webpack.config.dev.js",
     "clean": "rm ./dist/* && rm ./lib/* && rm ./demo/build/*",
-    "version": "npm run build && git add -A dist  && git add -A lib && git add -A demo/build",
-    "website:serve": "node website/serve.js"
+    "version": "npm run build && git add -A dist  && git add -A lib && git add -A demo/build && npm run website:deploy",
+    "website:serve": "node website/serve.js",
+    "website:deploy": "git push origin :gh-pages && git subtree push --prefix website origin gh-pages"
   },
   "repository": {
     "type": "git",
