@@ -13,7 +13,7 @@ export default class Demo extends React.Component {
     let defaultValue = ViewerHelper.getDefaultValue();
     defaultValue = ViewerHelper.fitSVGToViewer(defaultValue, 1440, 1440, 500, 500);
 
-    this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0};
+    this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0, detectAutoPan: true, detectPinch: true};
   }
 
 
@@ -39,18 +39,21 @@ export default class Demo extends React.Component {
                   value={this.state.value} tool={this.state.tool}
                   onChange={event => this.setState({value: event.value})}         //update state
 
+                  detectPinch={this.state.detectPinch}                            //detect zoom gestures
+                  detectAutoPan={this.state.detectAutoPan}                        //perform auto pan
+
                   onClick={event => this.debugClick(event)}                       //display click on console
-                  onMouseMove={event => this.setState({x: event.x, y: event.y })} //display mouse position on window
+                  onMouseMove={event => this.setState({x: event.x, y: event.y})} //display mouse position on window
                   onMouseUp={event => console.info('up', event.x, event.y)}       //print mouseup on console
                   onMouseDown={event => console.info('down', event.x, event.y)}   //print mousedown on console
-            >
+          >
             {SnakeSVG}
           </Viewer>
 
           <Toolbar
             style={{position: "absolute", top: "10px", right: "10px"}}
             tool={this.state.tool}
-            onChangeTool={tool =>  this.setState({tool: tool})} />
+            onChangeTool={tool => this.setState({tool: tool})}/>
         </div>
 
         <div style={{paddingLeft: "15px"}}>
@@ -66,6 +69,23 @@ export default class Demo extends React.Component {
             Use CTRL or Win/CMD to switch zoom-in/zoom-out
             <hr/>
           </If>
+
+          <div>
+            <strong>Additional features</strong> <br/>
+            <ul style={{padding: "0px", margin:"0px", listStyle: "none"}}>
+              <li>
+                <input type="checkbox" id="detectPinch" checked={this.state.detectPinch}
+                       onChange={ event => this.setState({detectPinch: event.target.checked})}/>
+                <label for="detectPinch"> detectPinch</label>
+              </li>
+              <li>
+                <input type="checkbox" id="detectAutoPan" checked={this.state.detectAutoPan}
+                       onChange={ event => this.setState({detectAutoPan: event.target.checked})}/>
+                <label for="detectAutoPan"> detectAutoPan</label>
+              </li>
+            </ul>
+            <hr/>
+          </div>
 
           <strong>Reset pan/zoom state</strong> <br/>
           <button onClick={event => this.handleReset(event)}>Reset view</button>
