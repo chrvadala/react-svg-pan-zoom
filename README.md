@@ -1,14 +1,14 @@
 # react-svg-pan-zoom
 **react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features to the **SVG images**. It helps to display big SVG images in a small space.
 
-## Live Demo
-[available at http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
-
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
+
+## Live Demo
+[available at http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Features
 This component can work in three different modes depending on the selected tool:
@@ -86,7 +86,7 @@ class MyComponent extends React.Component {
   - `onMouseDown` - handler for mousedown `fn(viewerEvent)`
 
 ## ViewerEvent attributes
-Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below). If your purpose demands you to have  the original React event instance (`SyntheticEvent`), it is provided by `event.originalEvent.
+Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below). If your purpose demands you to have  the original React event instance (`SyntheticEvent`), it is provided by `event.originalEvent`.
 
   - `SyntheticEvent originalEvent` - The original React event
   - `SVGSVGElement SVGViewer` - Reference to SVGViewer
