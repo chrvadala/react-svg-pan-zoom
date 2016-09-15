@@ -1,6 +1,7 @@
+import React from 'react';
 import {DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_NONE} from './constants';
 
-export default (direction, SVGWidth, SVGHeight) => {
+export default function Gradient({direction, SVGWidth, SVGHeight}) {
 
   let transform;
 

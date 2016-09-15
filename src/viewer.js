@@ -3,7 +3,7 @@ import ViewerHelper from './viewer-helper';
 import ViewerEvent from './viewer-event';
 import cursor from './cursor';
 import {calculateBox, mapRange} from './utils';
-import gradient from './gradient';
+import Gradient from './gradient';
 
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
@@ -319,8 +319,8 @@ export default class Viewer extends React.Component {
         </g>
 
         <g style={{pointerEvents: "none"}}>
-        {focus ? gradient(autoPanX, SVGWidth, SVGHeight) : null}
-        {focus ? gradient(autoPanY, SVGWidth, SVGHeight) : null}
+        {focus ? <Gradient direction={autoPanX} SVGWidth={SVGWidth} SVGHeight={SVGHeight} /> : null}
+        {focus ? <Gradient direction={autoPanY} SVGWidth={SVGWidth} SVGHeight={SVGHeight} /> : null}
         </g>
 
         {zoomSelectionRect}
