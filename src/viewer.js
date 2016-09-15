@@ -175,7 +175,7 @@ export default class Viewer extends React.Component {
     let y = event.clientY - Math.round(rect.top);
 
     let nextValue = ViewerHelper.updateAutoPan(value, x, y, width, height);
-    onChange(new ViewerEvent(event, nextValue));
+    if (value !== nextValue) onChange(new ViewerEvent(event, nextValue));
   }
 
   handleAutoPan() {
@@ -186,6 +186,7 @@ export default class Viewer extends React.Component {
     if (tool !== TOOL_NONE) return;
     if (!value.focus) return;
     if (!detectAutoPan) return;
+    if (autoPanX === DIRECTION_NONE && autoPanY === DIRECTION_NONE) return;
 
     if (autoPanX === DIRECTION_LEFT) {
       deltaX = delta;
