@@ -3,6 +3,8 @@ import ViewerHelper from './viewer-helper';
 import ViewerEvent from './viewer-event';
 import cursor from './cursor';
 import {calculateBox, mapRange} from './utils';
+import gradient from './gradient';
+
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
@@ -228,7 +230,7 @@ export default class Viewer extends React.Component {
   render() {
     let originalSVG = this.props.children;
     let tool = this.props.tool;
-    let {matrix, mode, specialKeyEnabled} = this.props.value;
+    let {matrix, mode, specialKeyEnabled, autoPanX, autoPanY} = this.props.value;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
@@ -316,6 +318,12 @@ export default class Viewer extends React.Component {
             {originalSVG.props.children}
           </g>
         </g>
+
+        <g style={{pointerEvents: "none"}}>
+        {gradient(autoPanX)}
+        {gradient(autoPanY)}
+        </g>
+
         {zoomSelectionRect}
       </svg>
     );
