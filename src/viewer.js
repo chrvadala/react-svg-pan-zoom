@@ -228,7 +228,8 @@ export default class Viewer extends React.Component {
   render() {
     let originalSVG = this.props.children;
     let tool = this.props.tool;
-    let {matrix, mode, specialKeyEnabled, autoPanX, autoPanY} = this.props.value;
+    let {matrix, mode, specialKeyEnabled, autoPanX, autoPanY, focus} = this.props.value;
+    let {width: SVGWidth, height: SVGHeight} = this.props;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
     let style = {};
@@ -261,8 +262,8 @@ export default class Viewer extends React.Component {
     return (
       <svg
         ref="svg"
-        width={this.props.width}
-        height={this.props.height}
+        width={SVGWidth}
+        height={SVGHeight}
         style={Object.assign(style, this.props.style)}
         onMouseDown={ event => {
           this.handleStartPan(event);
@@ -318,8 +319,8 @@ export default class Viewer extends React.Component {
         </g>
 
         <g style={{pointerEvents: "none"}}>
-        {gradient(autoPanX)}
-        {gradient(autoPanY)}
+        {focus ? gradient(autoPanX, SVGWidth, SVGHeight) : null}
+        {focus ? gradient(autoPanY, SVGWidth, SVGHeight) : null}
         </g>
 
         {zoomSelectionRect}

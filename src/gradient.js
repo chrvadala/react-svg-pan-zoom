@@ -1,6 +1,6 @@
 import {DIRECTION_UP, DIRECTION_RIGHT, DIRECTION_DOWN, DIRECTION_LEFT, DIRECTION_NONE} from './constants';
 
-export default direction => {
+export default (direction, SVGWidth, SVGHeight) => {
 
   let transform;
 
@@ -11,15 +11,15 @@ export default direction => {
       break;
 
     case DIRECTION_RIGHT:
-      transform = "translate(500, 500) rotate(180)";
+      transform = `translate(${SVGWidth}, ${SVGHeight}) rotate(180)`;
       break;
 
     case DIRECTION_UP:
-      transform = "translate(500, 0) rotate(90)";
+      transform = `translate(${SVGWidth}, 0) rotate(90)`;
       break;
 
     case DIRECTION_DOWN:
-      transform = "translate(0, 500) rotate(270)";
+      transform = `translate(0, ${SVGHeight}) rotate(270)`;
       break;
 
     case DIRECTION_NONE:
@@ -35,13 +35,14 @@ export default direction => {
           <stop offset="100%" stopColor="#000" stopOpacity="0.5"/>
         </linearGradient>
 
-        <mask id="react-svg-pan-zoom-mask1" x="0" y="0" width="20" height="500">
-          <rect x="0" y="0" width="20" height="500" style={{stroke: "none", fill: "url(#react-svg-pan-zoom-gradient1)"}}/>
+        <mask id="react-svg-pan-zoom-mask1" x="0" y="0" width="20" height={Math.max(SVGWidth, SVGHeight)}>
+          <rect x="0" y="0" width="20" height={Math.max(SVGWidth, SVGHeight)}
+                style={{stroke: "none", fill: "url(#react-svg-pan-zoom-gradient1)"}}/>
         </mask>
       </defs>
 
-      <rect x="0" y="0" width="20" height="500" style={{stroke: "none", fill: "#000", mask: "url(#react-svg-pan-zoom-mask1)"}}
-            transform={transform}/>
+      <rect x="0" y="0" width="20" height={Math.max(SVGWidth, SVGHeight)}
+            style={{stroke: "none", fill: "#000", mask: "url(#react-svg-pan-zoom-mask1)"}} transform={transform}/>
     </g>
   );
 
