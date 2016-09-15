@@ -2,16 +2,17 @@ import ViewerHelper from './viewer-helper';
 
 export default class ViewerEvent {
 
-  constructor(originalEvent, value) {
+  constructor(originalEvent, value, SVGViewer) {
     this.originalEvent = originalEvent;
     this.value = value;
+    this.SVGViewer = SVGViewer;
   }
 
   get point() {
     if (!this._cachePoint) {
-      let event = this.originalEvent, value = this.value;
+      let event = this.originalEvent, value = this.value, SVGViewer = this.SVGViewer;
 
-      let rect = event.target.getBoundingClientRect();
+      let rect = SVGViewer.getBoundingClientRect();
       let x = event.clientX - Math.round(rect.left);
       let y = event.clientY - Math.round(rect.top);
 

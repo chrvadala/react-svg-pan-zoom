@@ -33,7 +33,7 @@ export default class Viewer extends React.Component {
     let nextValue = ViewerHelper.startPan(value, x, y);
 
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleUpdatePan(event) {
@@ -52,7 +52,7 @@ export default class Viewer extends React.Component {
       ViewerHelper.updatePan(value, x, y, 20, SVGWidth, SVGHeight, width, height);
 
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleStopPan(event) {
@@ -65,7 +65,7 @@ export default class Viewer extends React.Component {
     let nextValue = ViewerHelper.stopPan(value, x, y);
 
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleStartZoom(event) {
@@ -82,7 +82,7 @@ export default class Viewer extends React.Component {
     let nextValue = ViewerHelper.startZoomSelection(value, x, y);
 
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleUpdateZoom(event) {
@@ -100,7 +100,7 @@ export default class Viewer extends React.Component {
       : ViewerHelper.updateZoomSelection(value, x, y);
 
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleStopZoom(event) {
@@ -125,7 +125,7 @@ export default class Viewer extends React.Component {
     }
 
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleEvent(event) {
@@ -136,9 +136,7 @@ export default class Viewer extends React.Component {
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
-    event.target = this.refs.svg;
-
-    onEventHandler(new ViewerEvent(event, value));
+    onEventHandler(new ViewerEvent(event, value, this.refs.svg));
   }
 
   handleSpecialKeyChange(event) {
@@ -150,7 +148,7 @@ export default class Viewer extends React.Component {
 
     let nextValue = active ? ViewerHelper.enableSpecialKey(value) : ViewerHelper.disableSpecialKey(value);
 
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handlePinch(event) {
@@ -165,7 +163,7 @@ export default class Viewer extends React.Component {
 
     let nextValue = ViewerHelper.zoom(value, scaleFactor, x, y);
     event.preventDefault();
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleAutoPanDetection(event) {
@@ -177,7 +175,7 @@ export default class Viewer extends React.Component {
     let y = event.clientY - Math.round(rect.top);
 
     let nextValue = ViewerHelper.updateAutoPan(value, x, y, width, height);
-    if (value !== nextValue) onChange(new ViewerEvent(event, nextValue));
+    if (value !== nextValue) onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   handleAutoPan() {
@@ -203,13 +201,13 @@ export default class Viewer extends React.Component {
     }
 
     let nextValue = ViewerHelper.pan(value, deltaX, deltaY);
-    onChange(new ViewerEvent(null, nextValue));
+    onChange(new ViewerEvent(null, nextValue, this.refs.svg));
   }
 
   handleUpdateFocus(event, focus) {
     let {value, onChange} = this.props;
     let nextValue = ViewerHelper.updateFocus(value, focus);
-    onChange(new ViewerEvent(event, nextValue));
+    onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
 
   componentWillMount(event) {

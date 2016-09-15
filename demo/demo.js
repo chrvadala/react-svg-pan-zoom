@@ -28,6 +28,7 @@ export default class Demo extends React.Component {
     console.log('scaleFactor', event.scaleFactor);
     console.log('translationX', event.translationX);
     console.log('translationY', event.translationY);
+    console.log('SVGViewer', event.SVGViewer)
   }
 
   render() {
