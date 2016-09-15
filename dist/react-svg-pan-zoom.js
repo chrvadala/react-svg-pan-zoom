@@ -60,7 +60,7 @@ var ReactSVGPanZoom =
 
 	var _viewerHelper2 = _interopRequireDefault(_viewerHelper);
 
-	var _toolbar = __webpack_require__(16);
+	var _toolbar = __webpack_require__(17);
 
 	var _toolbar2 = _interopRequireDefault(_toolbar);
 
@@ -107,6 +107,10 @@ var ReactSVGPanZoom =
 
 	var _utils = __webpack_require__(5);
 
+	var _gradient = __webpack_require__(16);
+
+	var _gradient2 = _interopRequireDefault(_gradient);
+
 	var _constants = __webpack_require__(13);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -152,7 +156,7 @@ var ReactSVGPanZoom =
 	      var nextValue = _viewerHelper2.default.startPan(value, x, y);
 
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleUpdatePan',
@@ -179,7 +183,7 @@ var ReactSVGPanZoom =
 	      var nextValue = forceExit ? _viewerHelper2.default.stopPan(value) : _viewerHelper2.default.updatePan(value, x, y, 20, SVGWidth, SVGHeight, width, height);
 
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleStopPan',
@@ -198,7 +202,7 @@ var ReactSVGPanZoom =
 	      var nextValue = _viewerHelper2.default.stopPan(value, x, y);
 
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleStartZoom',
@@ -223,7 +227,7 @@ var ReactSVGPanZoom =
 	      var nextValue = _viewerHelper2.default.startZoomSelection(value, x, y);
 
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleUpdateZoom',
@@ -247,7 +251,7 @@ var ReactSVGPanZoom =
 	      var nextValue = forceExit ? _viewerHelper2.default.stopZoomSelection(value, width, height) : _viewerHelper2.default.updateZoomSelection(value, x, y);
 
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleStopZoom',
@@ -284,7 +288,7 @@ var ReactSVGPanZoom =
 	      }
 
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleEvent',
@@ -303,9 +307,7 @@ var ReactSVGPanZoom =
 	      var onEventHandler = eventsHandler[event.type];
 	      if (!onEventHandler) return;
 
-	      event.target = this.refs.svg;
-
-	      onEventHandler(new _viewerEvent2.default(event, value));
+	      onEventHandler(new _viewerEvent2.default(event, value, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleSpecialKeyChange',
@@ -322,7 +324,7 @@ var ReactSVGPanZoom =
 
 	      var nextValue = active ? _viewerHelper2.default.enableSpecialKey(value) : _viewerHelper2.default.disableSpecialKey(value);
 
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handlePinch',
@@ -342,7 +344,7 @@ var ReactSVGPanZoom =
 
 	      var nextValue = _viewerHelper2.default.zoom(value, scaleFactor, x, y);
 	      event.preventDefault();
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleAutoPanDetection',
@@ -361,7 +363,7 @@ var ReactSVGPanZoom =
 	      var y = event.clientY - Math.round(rect.top);
 
 	      var nextValue = _viewerHelper2.default.updateAutoPan(value, x, y, width, height);
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      if (value !== nextValue) onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleAutoPan',
@@ -381,6 +383,7 @@ var ReactSVGPanZoom =
 	      if (tool !== _constants.TOOL_NONE) return;
 	      if (!value.focus) return;
 	      if (!detectAutoPan) return;
+	      if (autoPanX === _constants.DIRECTION_NONE && autoPanY === _constants.DIRECTION_NONE) return;
 
 	      if (autoPanX === _constants.DIRECTION_LEFT) {
 	        deltaX = delta;
@@ -395,7 +398,7 @@ var ReactSVGPanZoom =
 	      }
 
 	      var nextValue = _viewerHelper2.default.pan(value, deltaX, deltaY);
-	      onChange(new _viewerEvent2.default(null, nextValue));
+	      onChange(new _viewerEvent2.default(null, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'handleUpdateFocus',
@@ -405,7 +408,7 @@ var ReactSVGPanZoom =
 	      var onChange = _props12.onChange;
 
 	      var nextValue = _viewerHelper2.default.updateFocus(value, focus);
-	      onChange(new _viewerEvent2.default(event, nextValue));
+	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
 	  }, {
 	    key: 'componentWillMount',
@@ -436,6 +439,12 @@ var ReactSVGPanZoom =
 	      var matrix = _props$value.matrix;
 	      var mode = _props$value.mode;
 	      var specialKeyEnabled = _props$value.specialKeyEnabled;
+	      var autoPanX = _props$value.autoPanX;
+	      var autoPanY = _props$value.autoPanY;
+	      var focus = _props$value.focus;
+	      var _props13 = this.props;
+	      var SVGWidth = _props13.width;
+	      var SVGHeight = _props13.height;
 
 	      var matrixStr = 'matrix(' + matrix.a + ', ' + matrix.b + ', ' + matrix.c + ', ' + matrix.d + ', ' + matrix.e + ', ' + matrix.f + ')';
 
@@ -472,8 +481,8 @@ var ReactSVGPanZoom =
 	        'svg',
 	        {
 	          ref: 'svg',
-	          width: this.props.width,
-	          height: this.props.height,
+	          width: SVGWidth,
+	          height: SVGHeight,
 	          style: Object.assign(style, this.props.style),
 	          onMouseDown: function onMouseDown(event) {
 	            _this2.handleStartPan(event);
@@ -536,6 +545,12 @@ var ReactSVGPanZoom =
 	            { ref: 'content' },
 	            originalSVG.props.children
 	          )
+	        ),
+	        _react2.default.createElement(
+	          'g',
+	          { style: { pointerEvents: "none" } },
+	          focus ? (0, _gradient2.default)(autoPanX, SVGWidth, SVGHeight) : null,
+	          focus ? (0, _gradient2.default)(autoPanY, SVGWidth, SVGHeight) : null
 	        ),
 	        zoomSelectionRect
 	      );
@@ -2607,11 +2622,12 @@ var ReactSVGPanZoom =
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 	var ViewerEvent = function () {
-	  function ViewerEvent(originalEvent, value) {
+	  function ViewerEvent(originalEvent, value, SVGViewer) {
 	    _classCallCheck(this, ViewerEvent);
 
 	    this.originalEvent = originalEvent;
 	    this.value = value;
+	    this.SVGViewer = SVGViewer;
 	  }
 
 	  _createClass(ViewerEvent, [{
@@ -2619,9 +2635,10 @@ var ReactSVGPanZoom =
 	    get: function get() {
 	      if (!this._cachePoint) {
 	        var event = this.originalEvent,
-	            value = this.value;
+	            value = this.value,
+	            SVGViewer = this.SVGViewer;
 
-	        var rect = event.target.getBoundingClientRect();
+	        var rect = SVGViewer.getBoundingClientRect();
 	        var x = event.clientX - Math.round(rect.left);
 	        var y = event.clientY - Math.round(rect.top);
 
@@ -2708,6 +2725,69 @@ var ReactSVGPanZoom =
 /* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
+	"use strict";
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _constants = __webpack_require__(13);
+
+	exports.default = function (direction, SVGWidth, SVGHeight) {
+
+	  var transform = void 0;
+
+	  switch (direction) {
+
+	    case _constants.DIRECTION_LEFT:
+	      transform = " ";
+	      break;
+
+	    case _constants.DIRECTION_RIGHT:
+	      transform = "translate(" + SVGWidth + ", " + SVGHeight + ") rotate(180)";
+	      break;
+
+	    case _constants.DIRECTION_UP:
+	      transform = "translate(" + SVGWidth + ", 0) rotate(90)";
+	      break;
+
+	    case _constants.DIRECTION_DOWN:
+	      transform = "translate(0, " + SVGHeight + ") rotate(270)";
+	      break;
+
+	    case _constants.DIRECTION_NONE:
+	    default:
+	      return null;
+	  }
+
+	  return React.createElement(
+	    "g",
+	    null,
+	    React.createElement(
+	      "defs",
+	      null,
+	      React.createElement(
+	        "linearGradient",
+	        { id: "react-svg-pan-zoom-gradient1", x1: "0%", y1: "0%", x2: "100%", y2: "0%", spreadMethod: "pad" },
+	        React.createElement("stop", { offset: "0%", stopColor: "#fff", stopOpacity: "0.8" }),
+	        React.createElement("stop", { offset: "100%", stopColor: "#000", stopOpacity: "0.5" })
+	      ),
+	      React.createElement(
+	        "mask",
+	        { id: "react-svg-pan-zoom-mask1", x: "0", y: "0", width: "20", height: Math.max(SVGWidth, SVGHeight) },
+	        React.createElement("rect", { x: "0", y: "0", width: "20", height: Math.max(SVGWidth, SVGHeight),
+	          style: { stroke: "none", fill: "url(#react-svg-pan-zoom-gradient1)" } })
+	      )
+	    ),
+	    React.createElement("rect", { x: "0", y: "0", width: "20", height: Math.max(SVGWidth, SVGHeight),
+	      style: { stroke: "none", fill: "#000", mask: "url(#react-svg-pan-zoom-mask1)" }, transform: transform })
+	  );
+	};
+
+/***/ },
+/* 17 */
+/***/ function(module, exports, __webpack_require__) {
+
 	'use strict';
 
 	Object.defineProperty(exports, "__esModule", {
@@ -2724,7 +2804,7 @@ var ReactSVGPanZoom =
 
 	var _constants = __webpack_require__(13);
 
-	var _icons = __webpack_require__(17);
+	var _icons = __webpack_require__(18);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2829,7 +2909,7 @@ var ReactSVGPanZoom =
 	};
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
