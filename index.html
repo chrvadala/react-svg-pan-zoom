@@ -50,12 +50,9 @@
       <h2>Features</h2>
       <p>This component can work in three different modes depending on the selected tool:</p>
       <ul>
-        <li>With the tool <strong>pan</strong> the user can move the image dragging it around within the viewer</li>
-        <li>With the tool <strong>zoom</strong> the user can scale the image either with a point click or selecting a
-          region to zoom the specified area
-        </li>
-        <li>With the tool <strong>none</strong> the user can interact with the SVG content and trigger browser events
-        </li>
+        <li>With the tool <strong>pan</strong> the user can move the image and drag it around within the viewer</li>
+        <li>With the tool <strong>zoom</strong> the user can scale the image either with a point click or selecting a region to zoom the specified area</li>
+        <li>With the tool <strong>none</strong> the user can interact with the SVG content and trigger browser events</li>
       </ul>
 
       <h2>Additional Features</h2>
@@ -70,24 +67,16 @@
 
       <h2>Props</h2>
       <ul>
-        <li><code>width</code> – <strong>required</strong> – width of the viewer displayed on screen (if you want to
-          omit this see <a href="#autosize">Autosize</a>)
-        </li>
-        <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to
-          omit this see <a href="#autosize">Autosize</a>)
-        </li>
+        <li><code>width</code> – <strong>required</strong> – width of the viewer displayed on screen (if you want to omit this see <a href="#autosize">Autosize</a>)</li>
+        <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to omit this see  <a href="#autosize">Autosize</a>)</li>
         <li><code>background</code> – background of the viewer (default color: dark grey)</li>
         <li><code>style</code> - CSS style of the viewer</li>
-        <li><code>specialKeys</code> - array of keys used in zoom mode to switch between zoom-in and zoom-out (default
-          binding: Win/Cmd, Ctrl)
-        </li>
-        <li><code>detectPinch</code> - detect zoom operation performed trough pinch gesture or mouse scroll</li>
+        <li><code>specialKeys</code> - array of keys used in zoom mode to switch between zoom-in and zoom-out (default binding: Win/Cmd, Ctrl)</li>
+        <li><code>detectPinch</code> - detect zoom operation performed through pinch gesture or mouse scroll</li>
         <li><code>detectAutoPan</code> - perform PAN if the mouse is on the border of the viewer</li>
         <li><code>SVGBackground</code> - background of the SVG (default color: white)</li>
         <li><code>value</code> - value of the viewer (current point of view)</li>
-        <li><code>tool</code> - active tool ( one of <code>none</code>, <code>pan</code>, <code>zoom</code>, <code>zoom-in</code>,
-          <code>zoom-out</code> )
-        </li>
+        <li><code>tool</code> - active tool ( one of <code>none</code>, <code>pan</code>, <code>zoom</code>, <code>zoom-in</code>, <code>zoom-out</code> )</li>
         <li><code>onChange</code> - handler for changes <code>fn(viewerEvent)</code></li>
         <li><code>onClick</code> - handler for click <code>fn(viewerEvent)</code></li>
         <li><code>onMouseUp</code> - handler for mouseup <code>fn(viewerEvent)</code></li>
@@ -95,23 +84,8 @@
         <li><code>onMouseDown</code> - handler for mousedown <code>fn(viewerEvent)</code></li>
       </ul>
 
-      <h2>ViewerEvent attributes</h2>
-      <p>Your event handlers will be passed instances of <code>ViewerEvent</code>. It has some useful attributes (See
-        below). If your purpose demands you to have the original React event instance (<code>SyntheticEvent</code>), it
-        is provided by <code>event.originalEvent</code>.</p>
-      <ul>
-        <li><code>SyntheticEvent originalEvent</code> - The original React event</li>
-        <li><code>SVGSVGElement SVGViewer</code> - Reference to SVGViewer</li>
-        <li><code>object</code> - coordinate (x,y) of the event mapped to SVG coordinates</li>
-        <li><code>number x</code> - x coordinate of the event mapped to SVG coordinates</li>
-        <li><code>number y</code> - y coordinate of the event mapped to SVG coordinates</li>
-        <li><code>number scaleFactor</code> - zoom level</li>
-        <li><code>number translationX</code> - x delta from the viewer origin</li>
-        <li><code>number translationY</code> - y delta from the viewer origin</li>
-      </ul>
-
       <h1>Usage</h1>
-      <a href="https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js#L38-L52">See here</a> a demo
+      <a href="https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js#L39-L52">See here</a> a demo
       code
       <div class="highlight">
         <pre class="bash">npm install --save react-svg-pan-zoom</pre>
@@ -119,10 +93,7 @@
 
       <h1>Autosize</h1>
       <a name="autosize"></a>
-      <p><strong>React SVG Pan Zoom</strong> requires the properties <code>width</code> and <code>height</code> to be
-        set in order to work properly. If you need an autosized component you can use <a
-          href="https://github.com/digidem/react-dimensions">ReactDimension</a> to get the dimensions of a wrapper
-        element and pass them as properties to its/the child element.</p>
+      <p><strong>React SVG Pan Zoom</strong> requires the properties <code>width</code> and <code>height</code> to be set in order to work properly. If you need an autosized component you can use <a href="https://github.com/digidem/react-dimensions">ReactDimension</a> to get the dimensions of a wrapper element and pass them as properties to its child element.</p>
 
     </section>
 
