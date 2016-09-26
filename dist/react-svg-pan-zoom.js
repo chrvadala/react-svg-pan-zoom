@@ -68,6 +68,8 @@ var ReactSVGPanZoom =
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	console.info("react-svg-pan-zoom started"); //MIT LICENSE COMPLIANT
+
 	exports.Viewer = _viewer2.default;
 	exports.ViewerHelper = _viewerHelper2.default;
 	exports.Toolbar = _toolbar2.default;
@@ -126,6 +128,8 @@ var ReactSVGPanZoom =
 
 	  function Viewer(props) {
 	    _classCallCheck(this, Viewer);
+
+	    props.value = props.value || _viewerHelper2.default.getDefaultValue();
 
 	    var _this = _possibleConstructorReturn(this, (Viewer.__proto__ || Object.getPrototypeOf(Viewer)).call(this, props));
 
