@@ -14,6 +14,7 @@ import {
 export default class Viewer extends React.Component {
 
   constructor(props) {
+    props.value = props.value || ViewerHelper.getDefaultValue();
     super(props);
     this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
     this.handleAutoPan = this.handleAutoPan.bind(this);

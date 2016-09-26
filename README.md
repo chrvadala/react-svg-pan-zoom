@@ -34,13 +34,13 @@ npm install --save react-svg-pan-zoom
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Viewer, ViewerHelper} from 'react-svg-pan-zoom';
+import {Viewer} from 'react-svg-pan-zoom';
 
 class MyComponent extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: ViewerHelper.getDefaultValue(),
+      value: null,
       tool: 'pan'  //one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out`
     };
   }
