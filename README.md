@@ -8,11 +8,11 @@
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Live Demo
-[available at http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
+available at [http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Features
 This component can work in three different modes depending on the selected tool:
-- With the tool **pan** the user can move the image dragging it around within the viewer
+- With the tool **pan** the user can move the image and drag it around within the viewer
 - With the tool **zoom** the user can scale the image either with a point click or selecting a region to zoom the specified area
 - With the tool **none** the user can interact with the SVG content and trigger browser events
 
@@ -74,7 +74,7 @@ class MyComponent extends React.Component {
   - `background` – background of the viewer (default color: dark grey)
   - `style` - CSS style of the viewer
   - `specialKeys` - array of keys used in zoom mode to switch between zoom-in and zoom-out (default binding: Win/Cmd, Ctrl)
-  - `detectPinch` - detect zoom operation performed trough pinch gesture or mouse scroll
+  - `detectPinch` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
   - `SVGBackground` - background of the SVG (default color: white)
   - `value` - value of the viewer (current point of view)
@@ -86,11 +86,12 @@ class MyComponent extends React.Component {
   - `onMouseDown` - handler for mousedown `fn(viewerEvent)`
 
 ## ViewerEvent attributes
-Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below). If your purpose demands you to have  the original React event instance (`SyntheticEvent`), it is provided by `event.originalEvent`.
+Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below).
+If, for your purpose, you need the original React event instance (`SyntheticEvent), you can get it through `event.originalEvent`.
 
   - `SyntheticEvent originalEvent` - The original React event
   - `SVGSVGElement SVGViewer` - Reference to SVGViewer
-  - `object` - coordinate (x,y) of the event mapped to SVG coordinates
+  - `object` - coordinates (x,y) of the event mapped to SVG coordinates
   - `number x` - x coordinate of the event mapped to SVG coordinates
   - `number y` - y coordinate of the event mapped to SVG coordinates
   - `number scaleFactor` - zoom level
@@ -98,7 +99,7 @@ Your event handlers will be passed instances of `ViewerEvent`. It has some usefu
   - `number translationY` - y delta from the viewer origin
 
 ## Autosize
-**React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its/the child element.
+**React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its child element.
 
 ## Start local demo
 ```
@@ -108,7 +109,7 @@ npm install && npm start
 ```
 
 ## Contributing
-Your contributions (issues and pull request) are much appreciated!
+Your contributions (issues and pull request) are very appreciated!
 
 ## Author
 - [chrvadala](https://github.com/chrvadala)
