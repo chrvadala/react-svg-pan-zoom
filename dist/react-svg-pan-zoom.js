@@ -129,8 +129,6 @@ var ReactSVGPanZoom =
 	  function Viewer(props) {
 	    _classCallCheck(this, Viewer);
 
-	    props.value = props.value || _viewerHelper2.default.getDefaultValue();
-
 	    var _this = _possibleConstructorReturn(this, (Viewer.__proto__ || Object.getPrototypeOf(Viewer)).call(this, props));
 
 	    _this.handleSpecialKeyChange = _this.handleSpecialKeyChange.bind(_this);
@@ -153,6 +151,7 @@ var ReactSVGPanZoom =
 	      var tool = _props.tool;
 	      var onChange = _props.onChange;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 
 	      if (tool !== _constants.TOOL_PAN) return;
 	      if (value.mode !== _constants.MODE_IDLE) return;
@@ -175,6 +174,7 @@ var ReactSVGPanZoom =
 	      var height = _props2.height;
 	      var children = _props2.children;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      var SVGWidth = children.props.width,
 	          SVGHeight = children.props.height;
 
@@ -199,6 +199,7 @@ var ReactSVGPanZoom =
 	      var tool = _props3.tool;
 	      var onChange = _props3.onChange;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 
 	      if (tool !== _constants.TOOL_PAN) return;
 	      if (value.mode !== _constants.MODE_PANNING) return;
@@ -219,6 +220,7 @@ var ReactSVGPanZoom =
 	      var onChange = _props4.onChange;
 	      var children = _props4.children;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      var SVGWidth = children.props.width,
 	          SVGHeight = children.props.height;
 
@@ -245,6 +247,7 @@ var ReactSVGPanZoom =
 	      var width = _props5.width;
 	      var height = _props5.height;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 
 	      if ([_constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN].indexOf(tool) === -1) return;
 	      if (value.mode !== _constants.MODE_ZOOMING) return;
@@ -269,11 +272,14 @@ var ReactSVGPanZoom =
 	      var onChange = _props6.onChange;
 	      var width = _props6.width;
 	      var height = _props6.height;
-	      var startX = value.startX;
-	      var endX = value.endX;
-	      var startY = value.startY;
-	      var endY = value.endY;
-	      var specialKeyEnabled = value.specialKeyEnabled;
+
+	      value = value || _viewerHelper2.default.getDefaultValue();
+	      var _value = value;
+	      var startX = _value.startX;
+	      var endX = _value.endX;
+	      var startY = _value.startY;
+	      var endY = _value.endY;
+	      var specialKeyEnabled = _value.specialKeyEnabled;
 
 
 	      if ([_constants.TOOL_ZOOM, _constants.TOOL_ZOOM_IN, _constants.TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
@@ -305,6 +311,7 @@ var ReactSVGPanZoom =
 	      var onMouseMove = _props7.onMouseMove;
 	      var onMouseDown = _props7.onMouseDown;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      var eventsHandler = { click: onClick, mousemove: onMouseMove, mouseup: onMouseUp, mousedown: onMouseDown };
 
 	      if (tool !== _constants.TOOL_NONE) return;
@@ -321,6 +328,7 @@ var ReactSVGPanZoom =
 	      var specialKeys = _props8.specialKeys;
 	      var onChange = _props8.onChange;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      var key = event.which;
 	      var active = event.type === "keydown";
 
@@ -338,6 +346,7 @@ var ReactSVGPanZoom =
 	      var onChange = _props9.onChange;
 	      var detectPinch = _props9.detectPinch;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      if (!detectPinch) return;
 
 	      var rect = this.refs.svg.getBoundingClientRect();
@@ -360,6 +369,7 @@ var ReactSVGPanZoom =
 	      var height = _props10.height;
 	      var tool = _props10.tool;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      if (tool !== _constants.TOOL_NONE) return;
 
 	      var rect = this.refs.svg.getBoundingClientRect();
@@ -377,8 +387,11 @@ var ReactSVGPanZoom =
 	      var onChange = _props11.onChange;
 	      var tool = _props11.tool;
 	      var detectAutoPan = _props11.detectAutoPan;
-	      var autoPanX = value.autoPanX;
-	      var autoPanY = value.autoPanY;
+
+	      value = value || _viewerHelper2.default.getDefaultValue();
+	      var _value2 = value;
+	      var autoPanX = _value2.autoPanX;
+	      var autoPanY = _value2.autoPanY;
 
 	      var deltaX = 0,
 	          deltaY = 0,
@@ -411,6 +424,7 @@ var ReactSVGPanZoom =
 	      var value = _props12.value;
 	      var onChange = _props12.onChange;
 
+	      value = value || _viewerHelper2.default.getDefaultValue();
 	      var nextValue = _viewerHelper2.default.updateFocus(value, focus);
 	      onChange(new _viewerEvent2.default(event, nextValue, this.refs.svg));
 	    }
@@ -438,13 +452,13 @@ var ReactSVGPanZoom =
 	      var _this2 = this;
 
 	      var originalSVG = this.props.children;
-	      var _props$value = this.props.value;
-	      var matrix = _props$value.matrix;
-	      var mode = _props$value.mode;
-	      var specialKeyEnabled = _props$value.specialKeyEnabled;
-	      var autoPanX = _props$value.autoPanX;
-	      var autoPanY = _props$value.autoPanY;
-	      var focus = _props$value.focus;
+	      var value = this.props.value || _viewerHelper2.default.getDefaultValue();
+	      var matrix = value.matrix;
+	      var mode = value.mode;
+	      var specialKeyEnabled = value.specialKeyEnabled;
+	      var autoPanX = value.autoPanX;
+	      var autoPanY = value.autoPanY;
+	      var focus = value.focus;
 	      var _props13 = this.props;
 	      var SVGWidth = _props13.width;
 	      var SVGHeight = _props13.height;
@@ -463,11 +477,10 @@ var ReactSVGPanZoom =
 
 	      var zoomSelectionRect = void 0;
 	      if (mode === _constants.MODE_ZOOMING) {
-	        var _props$value2 = this.props.value;
-	        var startX = _props$value2.startX;
-	        var startY = _props$value2.startY;
-	        var endX = _props$value2.endX;
-	        var endY = _props$value2.endY;
+	        var startX = value.startX;
+	        var startY = value.startY;
+	        var endX = value.endX;
+	        var endY = value.endY;
 
 	        var box = (0, _utils.calculateBox)({ x: startX, y: startY }, { x: endX, y: endY });
 
