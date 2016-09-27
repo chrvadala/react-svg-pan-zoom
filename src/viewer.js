@@ -14,7 +14,6 @@ import {
 export default class Viewer extends React.Component {
 
   constructor(props) {
-    props.value = props.value || ViewerHelper.getDefaultValue();
     super(props);
     this.handleSpecialKeyChange = this.handleSpecialKeyChange.bind(this);
     this.handleAutoPan = this.handleAutoPan.bind(this);
@@ -27,6 +26,7 @@ export default class Viewer extends React.Component {
   handleStartPan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
 
     if (tool !== TOOL_PAN) return;
     if (value.mode !== MODE_IDLE) return;
@@ -40,6 +40,7 @@ export default class Viewer extends React.Component {
   handleUpdatePan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, width, height, children} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let SVGWidth = children.props.width, SVGHeight = children.props.height;
 
     if (tool !== TOOL_PAN) return;
@@ -59,6 +60,7 @@ export default class Viewer extends React.Component {
   handleStopPan(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
 
     if (tool !== TOOL_PAN) return;
     if (value.mode !== MODE_PANNING) return;
@@ -72,6 +74,7 @@ export default class Viewer extends React.Component {
   handleStartZoom(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, children} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let SVGWidth = children.props.width, SVGHeight = children.props.height;
 
     if ([TOOL_ZOOM, TOOL_ZOOM_IN].indexOf(tool) === -1) return;
@@ -89,6 +92,7 @@ export default class Viewer extends React.Component {
   handleUpdateZoom(event) {
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, width, height} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
 
     if ([TOOL_ZOOM, TOOL_ZOOM_IN].indexOf(tool) === -1) return;
     if (value.mode !== MODE_ZOOMING) return;
@@ -108,6 +112,7 @@ export default class Viewer extends React.Component {
     let abs = Math.abs;
     let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
     let {value, tool, onChange, width, height} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let {startX, endX, startY, endY, specialKeyEnabled} = value;
 
     if ([TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) === -1) return;
@@ -131,6 +136,7 @@ export default class Viewer extends React.Component {
 
   handleEvent(event) {
     let {value, tool, onClick, onMouseUp, onMouseMove, onMouseDown} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let eventsHandler = {click: onClick, mousemove: onMouseMove, mouseup: onMouseUp, mousedown: onMouseDown};
 
     if (tool !== TOOL_NONE) return;
@@ -142,6 +148,7 @@ export default class Viewer extends React.Component {
 
   handleSpecialKeyChange(event) {
     let {value, specialKeys, onChange} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let key = event.which;
     let active = event.type === "keydown";
 
@@ -154,6 +161,7 @@ export default class Viewer extends React.Component {
 
   handlePinch(event) {
     let {value, onChange, detectPinch} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     if (!detectPinch) return;
 
     let rect = this.refs.svg.getBoundingClientRect();
@@ -169,6 +177,7 @@ export default class Viewer extends React.Component {
 
   handleAutoPanDetection(event) {
     let {value, onChange, width, height, tool} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     if (tool !== TOOL_NONE) return;
 
     let rect = this.refs.svg.getBoundingClientRect();
@@ -181,6 +190,7 @@ export default class Viewer extends React.Component {
 
   handleAutoPan() {
     let {value, onChange, tool, detectAutoPan} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let {autoPanX, autoPanY} = value;
     let deltaX = 0, deltaY = 0, delta = 30;
 
@@ -207,6 +217,7 @@ export default class Viewer extends React.Component {
 
   handleUpdateFocus(event, focus) {
     let {value, onChange} = this.props;
+    value = value || ViewerHelper.getDefaultValue();
     let nextValue = ViewerHelper.updateFocus(value, focus);
     onChange(new ViewerEvent(event, nextValue, this.refs.svg));
   }
@@ -228,7 +239,8 @@ export default class Viewer extends React.Component {
 
   render() {
     let originalSVG = this.props.children;
-    let {matrix, mode, specialKeyEnabled, autoPanX, autoPanY, focus} = this.props.value;
+    let value = this.props.value || ViewerHelper.getDefaultValue();
+    let {matrix, mode, specialKeyEnabled, autoPanX, autoPanY, focus} = value;
     let {width: SVGWidth, height: SVGHeight, detectAutoPan, tool} = this.props;
     let matrixStr = `matrix(${matrix.a}, ${matrix.b}, ${matrix.c}, ${matrix.d}, ${matrix.e}, ${matrix.f})`;
 
@@ -243,7 +255,7 @@ export default class Viewer extends React.Component {
 
     let zoomSelectionRect;
     if (mode === MODE_ZOOMING) {
-      let {startX, startY, endX, endY} = this.props.value;
+      let {startX, startY, endX, endY} = value;
       let box = calculateBox({x: startX, y: startY}, {x: endX, y: endY});
 
       zoomSelectionRect =
