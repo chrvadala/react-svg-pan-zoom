@@ -595,7 +595,7 @@ var ReactSVGPanZoom =
 	  SVGBackground: _react2.default.PropTypes.string,
 
 	  //value of the viewer (current point of view)
-	  value: _react2.default.PropTypes.object.isRequired,
+	  value: _react2.default.PropTypes.object,
 
 	  //CSS style of the SVG tag
 	  style: _react2.default.PropTypes.object,
@@ -643,6 +643,7 @@ var ReactSVGPanZoom =
 	};
 
 	Viewer.defaultProps = {
+	  value: null,
 	  style: {},
 	  background: "#616264",
 	  SVGBackground: "#fff",
