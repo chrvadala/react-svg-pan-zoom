@@ -356,7 +356,7 @@ Viewer.propTypes = {
   SVGBackground: React.PropTypes.string,
 
   //value of the viewer (current point of view)
-  value: React.PropTypes.object.isRequired,
+  value: React.PropTypes.object,
 
   //CSS style of the SVG tag
   style: React.PropTypes.object,
@@ -410,6 +410,7 @@ Viewer.propTypes = {
 };
 
 Viewer.defaultProps = {
+  value: null,
   style: {},
   background: "#616264",
   SVGBackground: "#fff",
