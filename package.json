@@ -7,7 +7,7 @@
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "start": "webpack-dev-server --inline --config demo/webpack.config.dev.js",
     "build": "npm run build:lib && npm run build:dist && npm run build:demo",
-    "build:lib": "babel src --out-dir lib",
+    "build:lib": "rm -R lib && babel src --out-dir lib",
     "build:dist": "webpack",
     "build:demo": "webpack --config demo/webpack.config.dev.js",
     "clean": "rm ./dist/* && rm ./lib/* && rm ./demo/build/*",
