@@ -1,17 +1,13 @@
 import Viewer from './viewer';
-import ViewerHelper from './viewer-helper';
-import Toolbar from './toolbar';
-import {TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT}from './constants';
+import Toolbar from './ui-toolbar/toolbar';
+import {pan} from './features/pan';
+import {zoom, fitSelection, fitToViewer} from './features/zoom';
+import {TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from './constants';
 
 console.info("react-svg-pan-zoom started"); //MIT LICENSE COMPLIANT
 
 export {
-  Viewer,
-  ViewerHelper,
-  Toolbar,
-  TOOL_NONE,
-  TOOL_PAN,
-  TOOL_ZOOM,
-  TOOL_ZOOM_IN,
-  TOOL_ZOOM_OUT
+  Viewer, Toolbar,
+  pan, zoom, fitSelection, fitToViewer,
+  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT
 };

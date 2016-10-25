@@ -13,6 +13,10 @@ module.exports = {
     "react": "React",
     "react-dom": "ReactDOM"
   },
+  devtool: "eval",
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {

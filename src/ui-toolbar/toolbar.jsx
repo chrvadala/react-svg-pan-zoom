@@ -1,6 +1,10 @@
 import React, {PropTypes} from 'react';
-import {TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from './constants';
-import {IconCursor, IconPan, IconZoom, IconZoomIn, IconZoomOut} from './icons';
+import {TOOL_NONE, TOOL_PAN, TOOL_ZOOM, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from '../constants';
+
+import IconCursor from './icon-cursor';
+import IconPan from './icon-pan';
+import IconZoomIn from './icon-zoom-in';
+import IconZoomOut from './icon-zoom-out';
 
 const STYLE_TOOLBAR = {
   backgroundColor: '#28292D',
@@ -20,7 +24,6 @@ const ICON_COLOR_OFF = '#FFF';
 const ICON_COLOR_ON = '#1CA6FC';
 
 export default function Toolbar({tool, onChangeTool, style}) {
-
   let handleChangeTool = (event, tool) => {
     event.stopPropagation();
     event.preventDefault();
@@ -30,29 +33,19 @@ export default function Toolbar({tool, onChangeTool, style}) {
   return (
     <div style={{...STYLE_TOOLBAR, ...style}}>
       <a href style={STYLE_ELEMENT} title="Selection" onClick={ event => handleChangeTool(event, TOOL_NONE) }>
-        <svg width={24} height={24}>
-          <IconCursor color={(tool === TOOL_NONE) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
-        </svg>
+        <IconCursor color={(tool === TOOL_NONE) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
+
       <a style={STYLE_ELEMENT} href="javascript:;" title="Pan" onClick={ event => onChangeTool(TOOL_PAN) }>
-        <svg width={24} height={24}>
-          <IconPan color={(tool === TOOL_PAN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
-        </svg>
+        <IconPan color={(tool === TOOL_PAN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
-      <a style={STYLE_ELEMENT} href="javascript:;" title="Zoom" onClick={ event => onChangeTool(TOOL_ZOOM) }>
-        <svg width={24} height={24}>
-          <IconZoom color={(tool === TOOL_ZOOM) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
-        </svg>
-      </a>
+
       <a style={STYLE_ELEMENT} href="javascript:;" title="Zoom in" onClick={ event => onChangeTool(TOOL_ZOOM_IN) }>
-        <svg width={24} height={24}>
-          <IconZoomIn color={(tool === TOOL_ZOOM_IN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
-        </svg>
+        <IconZoomIn color={(tool === TOOL_ZOOM_IN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
+
       <a style={STYLE_ELEMENT} href="javascript:;" title="Zoom out" onClick={ event => onChangeTool(TOOL_ZOOM_OUT) }>
-        <svg width={24} height={24}>
-          <IconZoomOut color={(tool === TOOL_ZOOM_OUT) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
-        </svg>
+        <IconZoomOut color={(tool === TOOL_ZOOM_OUT) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
     </div>
   )

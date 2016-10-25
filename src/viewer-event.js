@@ -1,4 +1,4 @@
-import ViewerHelper from './viewer-helper';
+import {getSVGPoint, decompose} from './features/common'
 
 export default class ViewerEvent {
 
@@ -16,7 +16,7 @@ export default class ViewerEvent {
       let x = event.clientX - Math.round(rect.left);
       let y = event.clientY - Math.round(rect.top);
 
-      this._cachePoint = ViewerHelper.getSVGPoint(value, x, y);
+      this._cachePoint = getSVGPoint(value, x, y);
     }
     return this._cachePoint;
   }
@@ -30,27 +30,17 @@ export default class ViewerEvent {
   }
 
   get scaleFactor() {
-    if (!this._cacheDecomposedValue) {
-      let value = this.value;
-      this._cacheDecomposedValue = ViewerHelper.decomposeValue(value);
-    }
+    this._cacheDecomposedValue = this._cacheDecomposedValue || decompose(this.value);
     return this._cacheDecomposedValue.scaleFactor;
   }
 
   get translationX() {
-    if (!this._cacheDecomposedValue) {
-      let value = this.value;
-      this._cacheDecomposedValue = ViewerHelper.decomposeValue(value);
-    }
+    this._cacheDecomposedValue = this._cacheDecomposedValue || decompose(this.value);
     return this._cacheDecomposedValue.translationX;
   }
 
   get translationY() {
-    if (!this._cacheDecomposedValue) {
-      let value = this.value;
-      this._cacheDecomposedValue = ViewerHelper.decomposeValue(value);
-    }
+    this._cacheDecomposedValue = this._cacheDecomposedValue || decompose(this.value);
     return this._cacheDecomposedValue.translationY;
   }
-
 }

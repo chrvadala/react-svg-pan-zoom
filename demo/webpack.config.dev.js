@@ -19,6 +19,9 @@ module.exports = {
     contentBase: path.resolve(__dirname)
   },
   devtool: "eval",
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {

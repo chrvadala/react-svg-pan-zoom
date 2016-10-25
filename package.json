@@ -4,7 +4,7 @@
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./lib/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "start": "webpack-dev-server --inline --config demo/webpack.config.dev.js",
     "build": "npm run build:lib && npm run build:dist && npm run build:demo",
     "build:lib": "babel src --out-dir lib",
@@ -38,7 +38,6 @@
     "component"
   ],
   "dependencies": {
-    "react-addons-update": "^15.3.2",
     "transformation-matrix-js": "^2.6.5"
   },
   "devDependencies": {
@@ -54,7 +53,9 @@
     "react-dom": "^15.3.2",
     "serve-static": "^1.11.1",
     "webpack": "^1.13.2",
-    "webpack-dev-server": "^1.16.1"
+    "webpack-dev-server": "^1.16.1",
+    "chai": "^3.5.0",
+    "mocha": "^3.1.2"
   },
   "peerDependencies": {
     "react": "^15.0.0",
