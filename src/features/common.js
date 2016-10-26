@@ -101,3 +101,14 @@ export function setFocus(value, focus) {
 export function setViewerCoords(value, viewerX, viewerY) {
   return set(value, {viewerX, viewerY});
 }
+
+/**
+ *
+ * @param value
+ * @param viewerWidth
+ * @param viewerHeight
+ * @returns {Object}
+ */
+export function setViewerSize(value, viewerWidth, viewerHeight){
+  return set(value, {viewerWidth, viewerHeight});
+}

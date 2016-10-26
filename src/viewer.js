@@ -3,7 +3,7 @@ import ViewerEvent from './viewer-event';
 import cursor from './ui/cursor';
 import BorderGradient from './ui/border-gradient';
 import {autoPanIfNeeded} from './features/pan';
-import {getDefaultValue, isValueValid} from './features/common';
+import {getDefaultValue, isValueValid, setViewerSize} from './features/common';
 import If from './ui/if';
 import Selection from './ui/selection';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
@@ -31,6 +31,17 @@ export default class Viewer extends React.Component {
     if (!onEventHandler) return;
 
     onEventHandler(new ViewerEvent(event, value, this.refs.Viewer));
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let {props} = this;
+    let {onChange, width: viewerWidth, height: viewerHeight} = nextProps;
+
+    if (nextProps.width === props.width && nextProps.height === props.height) return;
+
+    let nextValue = setViewerSize(nextProps.value, nextProps.width, nextProps.height);
+
+    onChange(new ViewerEvent(null, nextValue, Viewer));
   }
 
   componentWillMount(event) {
