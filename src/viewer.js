@@ -241,9 +241,6 @@ Viewer.propTypes = {
   //CSS style of the SVG tag
   style: PropTypes.object,
 
-  //array of keys that in zoom mode switch zoom in and zoom out
-  specialKeys: PropTypes.arrayOf(PropTypes.number),
-
   //detect zoom operation performed trough pinch gesture or mouse scroll
   detectWheel: PropTypes.bool,
 
