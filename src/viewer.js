@@ -30,7 +30,6 @@ export default class Viewer extends React.Component {
   componentWillReceiveProps(nextProps) {
     let {props, state: {value}} = this;
     let {onChange} = nextProps;
-    console.log('receiveProps:->', value, nextProps.value);
 
     let nextValue = value;
 
