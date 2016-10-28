@@ -3,7 +3,7 @@ import ViewerEvent from './viewer-event';
 import cursor from './ui/cursor';
 import BorderGradient from './ui/border-gradient';
 import {autoPanIfNeeded} from './features/pan';
-import {getDefaultValue, isValueValid, setViewerSize} from './features/common';
+import {getDefaultValue, isValueValid, setViewerSize, sameValues} from './features/common';
 import If from './ui/if';
 import Selection from './ui/selection';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
@@ -16,14 +16,58 @@ import {
 
 export default class Viewer extends React.Component {
 
+  constructor(props, context) {
+    super(props, context);
+
+    let {onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
+    let {width: SVGWidth, height: SVGHeight} = children.props;
+    //TODO check props.value ??
+    let nextValue = getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight);
+    this.state = {value: nextValue};
+    this.setState = this.setState.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    let {props, state: {value}} = this;
+    let {onChange} = nextProps;
+    console.log('receiveProps:->', value, nextProps.value);
+
+    let nextValue = value;
+
+
+    if (nextProps.value && isValueValid(nextProps.value) && !sameValues(value, nextProps.value)) {
+      nextValue = nextProps.value;
+    }
+
+    if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
+      nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
+    }
+
+    if (nextValue === value) return;
+    this.setState({value: nextValue});
+    onChange(nextValue);
+  }
+
+
+  setValue(value) {
+    let {state, props: {onChange}} = this;
+    if (!sameValues(state.value, value)) {
+      this.setState({value});
+      onChange(value);
+    }
+  }
+
+  getValue() {
+    return this.state.value;
+  }
+
   handleEvent(event) {
-    let {props} = this;
-    let {value, tool} = props;
+    let {props: {value, tool, onClick, onMouseMove, onMouseUp, onMouseDown}} = this;
     let eventsHandler = {
-      click: props.onClick,
-      mousemove: props.onMouseMove,
-      mouseup: props.onMouseUp,
-      mousedown: props.onMouseDown
+      click: onClick,
+      mousemove: onMouseMove,
+      mouseup: onMouseUp,
+      mousedown: onMouseDown
     };
 
     if (tool !== TOOL_NONE) return;
@@ -33,38 +77,20 @@ export default class Viewer extends React.Component {
     onEventHandler(new ViewerEvent(event, value, this.refs.Viewer));
   }
 
-  componentWillReceiveProps(nextProps) {
-    let {props} = this;
-    let {onChange, width: viewerWidth, height: viewerHeight} = nextProps;
-
-    if (nextProps.width === props.width && nextProps.height === props.height) return;
-
-    let nextValue = setViewerSize(nextProps.value, nextProps.width, nextProps.height);
-
-    onChange(new ViewerEvent(null, nextValue, Viewer));
-  }
-
-  componentWillMount(event) {
-    let {onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
-    let {width: SVGWidth, height: SVGHeight} = children.props;
-    let {Viewer} = this.refs;
-
-    let nextValue = getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight);
-    onChange(new ViewerEvent(null, nextValue, Viewer));
-    setTimeout(() => {
-      if (onReady) onReady();
-    }, 0);
-  }
 
   componentDidMount() {
+    let {props, state} = this;
+    if (props.onChange) props.onChange(state.value);
+
     this.autoPanTimer = setInterval(()=> {
+      let {props, state} = this;
+      if (!(props.tool === TOOL_NONE && props.detectAutoPan && state.value.focus)) return;
 
-      let {tool, detectAutoPan, value, onChange} = this.props;
-      if (!(tool === TOOL_NONE && detectAutoPan && value.focus)) return;
+      let nextValue = autoPanIfNeeded(state.value, state.viewerX, state.viewerY);
 
-      let nextValue = autoPanIfNeeded(value);
-      if (value !== nextValue)
-        onChange(new ViewerEvent(null, nextValue, this.refs.Viewer));
+      if (nextValue === state.value) return;
+      this.setState({value: nextValue});
+      props.onChange(nextValue);
     }, 200);
   }
 
@@ -72,24 +98,56 @@ export default class Viewer extends React.Component {
     clearTimeout(this.autoPanTimer);
   }
 
-  render() {
-    let {props, refs} = this;
-    let {value, style, tool} = props;
-    if (!isValueValid(value)) return null;
+  handleMouseDown(event) {
+    let value = onMouseDown(event, this.props, this.state.value);
+    this.setState({value});
+  }
 
-    if (tool === TOOL_PAN) {
+  handlerMouseMove(event) {
+    let viewerX = event.nativeEvent.offsetX, viewerY = event.nativeEvent.offsetY;
+    let value = onMouseMove(event, this.props, this.state.value);
+    this.setState({value, viewerX, viewerY});
+  }
+
+  handlerMouseUp(event) {
+    let value = onMouseUp(event, this.props, this.state.value);
+    this.setState({value});
+  }
+
+  handlerWheel(event) {
+    let value = onWheel(event, this.props, this.state.value);
+    this.setState({value});
+  }
+
+  handlerMouseEnterOrLeave(event) {
+    let value = onMouseEnterOrLeave(event, this.props, this.state.value);
+    this.setState({value});
+  }
+
+  render() {
+    let {props, state: {value, viewerX, viewerY}} = this;
+    let style = props.style;
+
+    if (props.tool === TOOL_PAN)
       style = {
         cursor: cursor(value.mode === MODE_PANNING ? 'grabbing' : 'grab'),
         ...style
       };
-    }
 
-    if (tool === TOOL_ZOOM_IN || tool === TOOL_ZOOM_OUT) {
+
+    if (props.tool === TOOL_ZOOM_IN)
       style = {
-        cursor: tool === TOOL_ZOOM_IN ? 'zoom-in' : 'zoom-out',
+        cursor: 'zoom-in',
         ...style
       };
-    }
+
+
+    if (props.tool === TOOL_ZOOM_OUT)
+      style = {
+        cursor: 'zoom-out',
+        ...style
+      };
+
 
     return (
       <svg
@@ -97,12 +155,13 @@ export default class Viewer extends React.Component {
         width={value.viewerWidth}
         height={value.viewerHeight}
         style={style}
-        onMouseDown={ event => onMouseDown(event, this.props, this.refs.Viewer)}
-        onMouseMove={ event => onMouseMove(event, this.props, this.refs.Viewer)}
-        onMouseUp={ event => onMouseUp(event, this.props, this.refs.Viewer)}
-        onWheel={ event => onWheel(event, this.props, this.refs.Viewer)}
-        onMouseEnter={event => onMouseEnterOrLeave(event, this.props, this.refs.Viewer)}
-        onMouseLeave={event => onMouseEnterOrLeave(event, this.props, this.refs.Viewer)}>
+        onMouseDown={ event => this.handleMouseDown(event)}
+        onMouseMove={ event => this.handlerMouseMove(event)}
+        onMouseUp={ event => this.handlerMouseUp(event)}
+        onWheel={ event => this.handlerWheel(event)}
+        onMouseEnter={ event => this.handlerMouseEnterOrLeave(event)}
+        onMouseLeave={ event => this.handlerMouseEnterOrLeave(event)}>
+
 
         <rect
           fill={props.background}
@@ -115,7 +174,7 @@ export default class Viewer extends React.Component {
 
         <g
           transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
-          style={tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
+          style={props.tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
           onMouseDown={ event => this.handleEvent(event)}
           onMouseMove={event => this.handleEvent(event)}
           onMouseUp={event => this.handleEvent(event)}
@@ -134,19 +193,19 @@ export default class Viewer extends React.Component {
 
         <If condition={props.tool === TOOL_NONE && props.detectAutoPan && value.focus}>
           <g style={{pointerEvents: "none"}}>
-            <If condition={value.viewerY <= 20}>
+            <If condition={viewerY <= 20}>
               <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
             </If>
 
-            <If condition={value.viewerWidth - value.viewerX <= 20}>
+            <If condition={value.viewerWidth - viewerX <= 20}>
               <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight}/>
             </If>
 
-            <If condition={ value.viewerHeight - value.viewerY <= 20}>
+            <If condition={ value.viewerHeight - viewerY <= 20}>
               <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight}/>
             </If>
 
-            <If condition={value.focus && value.viewerX <= 20}>
+            <If condition={value.focus && viewerX <= 20}>
               <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight}/>
             </If>
           </g>

@@ -17,15 +17,19 @@ export default class Demo extends React.Component {
 
   constructor(props) {
     super(props);
-
     let defaultValue = null;
-
     this.state = {value: defaultValue, tool: TOOL_NONE, x: 0, y: 0, detectAutoPan: true, detectWheel: true};
+
+    this.Viewer = null;
   }
 
+  componentDidMount() {
+    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
+  }
 
   handleReset() {
-    this.setState({value: fitToViewer(this.state.value)})
+    // this.setState({value: fitToViewer(this.state.value)})
+    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
   }
 
   debugClick(event) {
@@ -43,9 +47,9 @@ export default class Demo extends React.Component {
       <div style={{display: "flex"}}>
         <div style={{position: "relative", width: "500px", height: "500px", border: '1px solid black'}}>
 
-          <Viewer width={500} height={500}
+          <Viewer width={500} height={500} ref={Viewer => this.Viewer = Viewer}
                   value={this.state.value} tool={this.state.tool}
-                  onChange={event => this.setState({value: event.value})}         //update state
+                  onChange={value => this.setState({value})}         //update state
 
                   detectWheel={this.state.detectWheel}                            //detect zoom gestures
                   detectAutoPan={this.state.detectAutoPan}                        //perform auto pan
@@ -54,8 +58,6 @@ export default class Demo extends React.Component {
                   onMouseMove={event => this.setState({x: event.x, y: event.y})} //display mouse position on window
                   onMouseUp={event => console.info('up', event.x, event.y)}       //print mouseup on console
                   onMouseDown={event => console.info('down', event.x, event.y)}   //print mousedown on console
-
-                  onReady={() => this.handleReset()}
           >
             {SnakeSVG}
           </Viewer>

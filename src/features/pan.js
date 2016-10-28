@@ -76,14 +76,14 @@ export function stopPanning(value) {
   );
 }
 
-export function autoPanIfNeeded(value) {
+export function autoPanIfNeeded(value, viewerX, viewerY) {
   let deltaX = 0;
   let deltaY = 0;
 
-  if (value.viewerY <= 20) deltaY = 20;
-  if (value.viewerWidth - value.viewerX <= 20) deltaX = -20;
-  if (value.viewerHeight - value.viewerY <= 20) deltaY = -20;
-  if (value.viewerX <= 20) deltaX = 20;
+  if (viewerY <= 20) deltaY = 20;
+  if (value.viewerWidth - viewerX <= 20) deltaX = -20;
+  if (value.viewerHeight - viewerY <= 20) deltaY = -20;
+  if (viewerX <= 20) deltaX = 20;
 
   return (deltaX === 0 && deltaY === 0) ? value : pan(value, deltaX, deltaY);
 }

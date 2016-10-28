@@ -14,14 +14,14 @@ import ViewerEvent from '../viewer-event';
 import {mapRange} from '../utils'
 
 
-export function onMouseDown(event, props, SVG) {
+export function onMouseDown(event, props, value) {
   let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-  let {tool, onChange, value} = props;
+  let {tool, onChange} = props;
   let nextValue = value;
 
   switch (tool) {
     case TOOL_NONE:
-      return;
+      return value;
 
     case TOOL_ZOOM_OUT:
       nextValue = zoom(value, x, y, 0.8);
@@ -36,25 +36,23 @@ export function onMouseDown(event, props, SVG) {
       break;
   }
 
-  if (value === nextValue) return;
   event.preventDefault();
-  onChange(new ViewerEvent(event, nextValue, SVG));
+  if (onChange) onChange(nextValue);
+  return nextValue;
 }
 
-export function onMouseMove(event, props, SVG) {
+export function onMouseMove(event, props, value) {
   let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
   let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
-  let {tool, onChange, value} = props;
+  let {tool, onChange} = props;
   let nextValue = value;
 
   switch (tool) {
     case TOOL_NONE:
-      nextValue = setViewerCoords(value, x, y);
-      break;
+      return value;
 
     case TOOL_ZOOM_OUT:
-
-      break;
+      return value;
 
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
@@ -67,19 +65,19 @@ export function onMouseMove(event, props, SVG) {
       break;
   }
 
-  if (value === nextValue) return;
   event.preventDefault();
-  onChange(new ViewerEvent(event, nextValue, SVG));
+  if (onChange) onChange(nextValue);
+  return nextValue;
 }
 
-export function onMouseUp(event, props, SVG) {
+export function onMouseUp(event, props, value) {
   let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-  let {tool, onChange, value} = props;
+  let {tool, onChange} = props;
   let nextValue = value;
 
   switch (tool) {
     case TOOL_NONE:
-      return;
+      return value;
 
     case TOOL_ZOOM_OUT:
       if (value.mode === MODE_ZOOMING)
@@ -97,30 +95,32 @@ export function onMouseUp(event, props, SVG) {
       break;
   }
 
-  if (value === nextValue) return;
   event.preventDefault();
-  onChange(new ViewerEvent(event, nextValue, SVG));
+  if (onChange) onChange(nextValue);
+  return nextValue;
 }
 
-export function onWheel(event, props, SVG) {
+export function onWheel(event, props, value) {
   let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
-  let {value, onChange, detectWheel} = props;
+  let {tool, onChange, detectWheel} = props;
 
-  if (!detectWheel) return;
+  if (!detectWheel) return value;
 
   var delta = Math.max(-1, Math.min(1, event.deltaY));
   let scaleFactor = mapRange(delta, -1, 1, 1.06, 0.96);
 
   let nextValue = zoom(value, x, y, scaleFactor);
+
   event.preventDefault();
-  onChange(new ViewerEvent(event, nextValue, SVG));
+  if (onChange) onChange(nextValue);
+  return nextValue;
 }
 
-export function onMouseEnterOrLeave(event, props, SVG) {
-  let {value, onChange, detectWheel} = props;
+export function onMouseEnterOrLeave(event, props, value) {
+  let {tool, onChange} = props;
 
-  if (!detectWheel) return;
   let nextValue = setFocus(value, event.type === 'mouseenter');
   event.preventDefault();
-  onChange(new ViewerEvent(event, nextValue, SVG));
+  if (onChange) onChange(nextValue);
+  return nextValue;
 }
