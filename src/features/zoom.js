@@ -25,7 +25,7 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
   });
 }
 
-export function fitSelection(value, selectionViewerX, selectionViewerY, selectionWidth, selectionHeight) {
+export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
   let {viewerWidth, viewerHeight} = value;
 
   let scaleX = viewerWidth / selectionWidth;
@@ -35,7 +35,7 @@ export function fitSelection(value, selectionViewerX, selectionViewerY, selectio
 
   let matrix = new Matrix();
   matrix = matrix.scaleU(scale);
-  matrix = matrix.translate(-selectionViewerX, -selectionViewerY);
+  matrix = matrix.translate(-selectionSVGPointX, -selectionSVGPointY);
 
   return set(value, {
     mode: MODE_IDLE,
