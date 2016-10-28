@@ -7,7 +7,7 @@ import {
   MODE_ZOOMING,
   MODE_IDLE
 } from '../constants';
-import {setFocus, setViewerCoords} from './common';
+import {setFocus, setViewerCoords, getSVGPoint} from './common';
 import {startPanning, updatePanning, stopPanning} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import ViewerEvent from '../viewer-event';
@@ -25,7 +25,8 @@ export function onMouseDown(event, viewerCoords, props, value) {
       return value;
 
     case TOOL_ZOOM_OUT:
-      nextValue = zoom(value, x, y, 0.8);
+      let SVGPoint = getSVGPoint(value, x, y);
+      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 0.8);
       break;
 
     case TOOL_ZOOM_IN:
@@ -113,7 +114,8 @@ export function onWheel(event, viewerCoords, props, value) {
   var delta = Math.max(-1, Math.min(1, event.deltaY));
   let scaleFactor = mapRange(delta, -1, 1, 1.06, 0.96);
 
-  let nextValue = zoom(value, x, y, scaleFactor);
+  let SVGPoint = getSVGPoint(value, x, y);
+  let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
 
   event.preventDefault();
   if (onChange) onChange(nextValue);

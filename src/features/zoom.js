@@ -3,16 +3,14 @@ import {getDefaultValue, set, getSVGPoint} from './common';
 import {Matrix} from 'transformation-matrix-js';
 import {calculateBox} from '../utils';
 
-export function zoom(value, viewerX, viewerY, scaleFactor) {
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
   let {a, b, c, d, e, f} = value;
   let matrix = Matrix.from(a, b, c, d, e, f);
 
-  let SVGPoint = getSVGPoint(value, viewerX, viewerY);
-
   let act = new Matrix();
-  act = act.translate(SVGPoint.x, SVGPoint.y);
+  act = act.translate(SVGPointX, SVGPointY);
   act = act.scaleU(scaleFactor);
-  act = act.translate(-SVGPoint.x, -SVGPoint.y);
+  act = act.translate(-SVGPointX, -SVGPointY);
 
   matrix = matrix.multiply(act);
 
@@ -83,6 +81,7 @@ export function stopZooming(value, viewerX, viewerY, scaleFactor) {
     let box = calculateBox(start, end);
     return fitSelection(value, box.x, box.y, box.width, box.height);
   } else {
-    return zoom(value, viewerX, viewerY, scaleFactor);
+    let SVGPoint = getSVGPoint(value, viewerX, viewerY);
+    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
   }
 }
