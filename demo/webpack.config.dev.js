@@ -8,10 +8,6 @@ module.exports = {
     path: __dirname + "/build",
     filename: "demo.build.js"
   },
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
-  },
   plugins: [
     new OpenBrowserPlugin({url: 'http://localhost:8080'})
   ],
