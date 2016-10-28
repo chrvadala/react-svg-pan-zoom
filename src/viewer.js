@@ -3,7 +3,7 @@ import ViewerEvent from './viewer-event';
 import cursor from './ui/cursor';
 import BorderGradient from './ui/border-gradient';
 import {autoPanIfNeeded} from './features/pan';
-import {getDefaultValue, isValueValid, setViewerSize, sameValues} from './features/common';
+import {getDefaultValue, isValueValid, setViewerSize, sameValues, changeTool} from './features/common';
 import If from './ui/if';
 import Selection from './ui/selection';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
@@ -19,10 +19,10 @@ export default class ReactSVGPanZoom extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    let {onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
+    let {tool, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
     //TODO check props.value ??
-    let nextValue = getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight);
+    let nextValue = getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
     this.state = {value: nextValue};
     this.setState = this.setState.bind(this);
   }
@@ -40,6 +40,10 @@ export default class ReactSVGPanZoom extends React.Component {
 
     if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
       nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
+    }
+
+    if(nextProps.tool !== props.tool){
+      nextValue = changeTool(nextValue, nextProps.tool);
     }
 
     if (nextValue === value) return;
@@ -61,7 +65,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleEvent(event) {
-    let {props: {value, tool, onClick, onMouseMove, onMouseUp, onMouseDown}} = this;
+    let {props: {value, onClick, onMouseMove, onMouseUp, onMouseDown}} = this;
     let eventsHandler = {
       click: onClick,
       mousemove: onMouseMove,
@@ -69,7 +73,7 @@ export default class ReactSVGPanZoom extends React.Component {
       mousedown: onMouseDown
     };
 
-    if (tool !== TOOL_NONE) return;
+    if (value.tool !== TOOL_NONE) return;
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
@@ -83,7 +87,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
     this.autoPanTimer = setInterval(()=> {
       let {props, state} = this;
-      if (!(props.tool === TOOL_NONE && props.detectAutoPan && state.value.focus)) return;
+      if (!(state.value.tool === TOOL_NONE && props.detectAutoPan && state.value.focus)) return;
 
       let nextValue = autoPanIfNeeded(state.value, state.viewerX, state.viewerY);
 
@@ -131,21 +135,21 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {value, viewerX, viewerY}} = this;
     let style = props.style;
 
-    if (props.tool === TOOL_PAN)
+    if (value.tool === TOOL_PAN)
       style = {
         cursor: cursor(value.mode === MODE_PANNING ? 'grabbing' : 'grab'),
         ...style
       };
 
 
-    if (props.tool === TOOL_ZOOM_IN)
+    if (value.tool === TOOL_ZOOM_IN)
       style = {
         cursor: 'zoom-in',
         ...style
       };
 
 
-    if (props.tool === TOOL_ZOOM_OUT)
+    if (value.tool === TOOL_ZOOM_OUT)
       style = {
         cursor: 'zoom-out',
         ...style
@@ -177,7 +181,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
         <g
           transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
-          style={props.tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
+          style={value.tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
           onMouseDown={ event => this.handleEvent(event)}
           onMouseMove={event => this.handleEvent(event)}
           onMouseUp={event => this.handleEvent(event)}
@@ -194,7 +198,7 @@ export default class ReactSVGPanZoom extends React.Component {
           </g>
         </g>
 
-        <If condition={props.tool === TOOL_NONE && props.detectAutoPan && value.focus}>
+        <If condition={value.tool === TOOL_NONE && props.detectAutoPan && value.focus}>
           <g style={{pointerEvents: "none"}}>
             <If condition={viewerY <= 20}>
               <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>

@@ -1,13 +1,14 @@
-import {MODE_IDLE} from '../constants';
+import {TOOL_NONE, MODE_IDLE} from '../constants';
 import {Matrix} from 'transformation-matrix-js';
 
 /**
  * Obtain default value
  * @returns {Object}
  */
-export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
+export function getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
   return set({}, {
     version: 2,
+    tool,
     mode: MODE_IDLE,
     focus: false,
     a: 1,
@@ -114,4 +115,13 @@ export function sameValues(value1, value2){
   let keys = Object.keys(value1);
   keys.forEach(key => r = r && value1[key] === value2[key]);
   return r;
+}
+
+/**
+ *
+ * @param value
+ * @param tool
+ */
+export function changeTool(value, tool){
+  return set(value, {tool});
 }
