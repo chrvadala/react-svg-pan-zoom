@@ -2,7 +2,7 @@
 
 import React from 'react';
 import {
-  Viewer,
+  ReactSVGPanZoom,
   Toolbar,
   TOOL_NONE,
   TOOL_PAN,
@@ -47,7 +47,7 @@ export default class Demo extends React.Component {
       <div style={{display: "flex"}}>
         <div style={{position: "relative", width: "500px", height: "500px", border: '1px solid black'}}>
 
-          <Viewer width={500} height={500} ref={Viewer => this.Viewer = Viewer}
+          <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
                   value={this.state.value} tool={this.state.tool}
                   onChange={value => this.setState({value})}         //update state
 
@@ -60,7 +60,7 @@ export default class Demo extends React.Component {
                   onMouseDown={event => console.info('down', event.x, event.y)}   //print mousedown on console
           >
             {SnakeSVG}
-          </Viewer>
+          </ReactSVGPanZoom>
 
           <Toolbar
             style={{position: "absolute", top: "10px", right: "10px"}}

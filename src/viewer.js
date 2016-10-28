@@ -14,7 +14,7 @@ import {
   POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from './constants';
 
-export default class Viewer extends React.Component {
+export default class ReactSVGPanZoom extends React.Component {
 
   constructor(props, context) {
     super(props, context);
@@ -222,7 +222,7 @@ export default class Viewer extends React.Component {
   }
 }
 
-Viewer.propTypes = {
+ReactSVGPanZoom.propTypes = {
   //width of the viewer displayed on screen
   width: PropTypes.number.isRequired,
 
@@ -286,7 +286,7 @@ Viewer.propTypes = {
   }
 };
 
-Viewer.defaultProps = {
+ReactSVGPanZoom.defaultProps = {
   value: null,
   style: {},
   background: "#616264",
