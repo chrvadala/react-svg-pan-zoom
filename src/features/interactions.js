@@ -14,8 +14,9 @@ import ViewerEvent from '../viewer-event';
 import {mapRange} from '../utils'
 
 
-export function onMouseDown(event, props, value) {
-  let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+export function onMouseDown(event, viewerCoords, props, value) {
+  let {x, y} = viewerCoords;
+
   let {tool, onChange} = props;
   let nextValue = value;
 
@@ -41,8 +42,9 @@ export function onMouseDown(event, props, value) {
   return nextValue;
 }
 
-export function onMouseMove(event, props, value) {
-  let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+export function onMouseMove(event, viewerCoords, props, value) {
+  let {x, y} = viewerCoords;
+
   let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
   let {tool, onChange} = props;
   let nextValue = value;
@@ -70,8 +72,9 @@ export function onMouseMove(event, props, value) {
   return nextValue;
 }
 
-export function onMouseUp(event, props, value) {
-  let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+export function onMouseUp(event, viewerCoords, props, value) {
+  let {x, y} = viewerCoords;
+
   let {tool, onChange} = props;
   let nextValue = value;
 
@@ -100,8 +103,9 @@ export function onMouseUp(event, props, value) {
   return nextValue;
 }
 
-export function onWheel(event, props, value) {
-  let x = event.nativeEvent.offsetX, y = event.nativeEvent.offsetY;
+export function onWheel(event, viewerCoords, props, value) {
+  let {x, y} = viewerCoords;
+
   let {tool, onChange, detectWheel} = props;
 
   if (!detectWheel) return value;
@@ -116,7 +120,7 @@ export function onWheel(event, props, value) {
   return nextValue;
 }
 
-export function onMouseEnterOrLeave(event, props, value) {
+export function onMouseEnterOrLeave(event, viewerCoords, props, value) {
   let {tool, onChange} = props;
 
   let nextValue = setFocus(value, event.type === 'mouseenter');

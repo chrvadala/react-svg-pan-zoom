@@ -98,28 +98,32 @@ export default class Viewer extends React.Component {
   }
 
   handleMouseDown(event) {
-    let value = onMouseDown(event, this.props, this.state.value);
+    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
+    let value = onMouseDown(event, viewerCoords, this.props, this.state.value);
     this.setState({value});
   }
 
   handlerMouseMove(event) {
-    let viewerX = event.nativeEvent.offsetX, viewerY = event.nativeEvent.offsetY;
-    let value = onMouseMove(event, this.props, this.state.value);
-    this.setState({value, viewerX, viewerY});
+    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
+    let value = onMouseMove(event, viewerCoords, this.props, this.state.value);
+    this.setState({value, viewerX: viewerCoords.x, viewerY: viewerCoords.y});
   }
 
   handlerMouseUp(event) {
-    let value = onMouseUp(event, this.props, this.state.value);
+    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
+    let value = onMouseUp(event, viewerCoords, this.props, this.state.value);
     this.setState({value});
   }
 
   handlerWheel(event) {
-    let value = onWheel(event, this.props, this.state.value);
+    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
+    let value = onWheel(event, viewerCoords, this.props, this.state.value);
     this.setState({value});
   }
 
   handlerMouseEnterOrLeave(event) {
-    let value = onMouseEnterOrLeave(event, this.props, this.state.value);
+    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
+    let value = onMouseEnterOrLeave(event, viewerCoords, this.props, this.state.value);
     this.setState({value});
   }
 
