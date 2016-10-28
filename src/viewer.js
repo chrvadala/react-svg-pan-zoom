@@ -7,11 +7,12 @@ import {getDefaultValue, isValueValid, setViewerSize, sameValues, changeTool} fr
 import If from './ui/if';
 import Selection from './ui/selection';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
+import ToolbarWrapper from './ui-toolbar/toolbar-wrapper';
 
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
-  POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
+  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from './constants';
 
 export default class ReactSVGPanZoom extends React.Component {
@@ -42,7 +43,7 @@ export default class ReactSVGPanZoom extends React.Component {
       nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
     }
 
-    if(nextProps.tool !== props.tool){
+    if (nextProps.tool !== props.tool) {
       nextValue = changeTool(nextValue, nextProps.tool);
     }
 
@@ -131,6 +132,13 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setState({value});
   }
 
+  handlerChangeTool(tool) {
+    let {state, props} = this;
+    let nextValue = changeTool(state.value, tool);
+    this.setState({value: nextValue});
+    if (props.onChange) props.onChange(nextValue);
+  }
+
   render() {
     let {props, state: {value, viewerX, viewerY}} = this;
     let style = props.style;
@@ -157,71 +165,78 @@ export default class ReactSVGPanZoom extends React.Component {
 
 
     return (
-      <svg
-        ref="Viewer"
-        width={value.viewerWidth}
-        height={value.viewerHeight}
-        style={style}
-        onMouseDown={ event => this.handleMouseDown(event)}
-        onMouseMove={ event => this.handlerMouseMove(event)}
-        onMouseUp={ event => this.handlerMouseUp(event)}
-        onWheel={ event => this.handlerWheel(event)}
-        onMouseEnter={ event => this.handlerMouseEnterOrLeave(event)}
-        onMouseLeave={ event => this.handlerMouseEnterOrLeave(event)}>
-
-
-        <rect
-          fill={props.background}
-          x={0}
-          y={0}
+      <div style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight}}>
+        <svg
+          ref="Viewer"
           width={value.viewerWidth}
           height={value.viewerHeight}
-          style={{pointerEvents: "none"}}
-        />
+          style={style}
+          onMouseDown={ event => this.handleMouseDown(event)}
+          onMouseMove={ event => this.handlerMouseMove(event)}
+          onMouseUp={ event => this.handlerMouseUp(event)}
+          onWheel={ event => this.handlerWheel(event)}
+          onMouseEnter={ event => this.handlerMouseEnterOrLeave(event)}
+          onMouseLeave={ event => this.handlerMouseEnterOrLeave(event)}>
 
-        <g
-          transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
-          style={value.tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
-          onMouseDown={ event => this.handleEvent(event)}
-          onMouseMove={event => this.handleEvent(event)}
-          onMouseUp={event => this.handleEvent(event)}
-          onClick={event => this.handleEvent(event)}
-        >
+
           <rect
-            fill={this.props.SVGBackground}
+            fill={props.background}
             x={0}
             y={0}
-            width={value.SVGWidth}
-            height={value.SVGHeight}/>
-          <g>
-            {props.children.props.children}
+            width={value.viewerWidth}
+            height={value.viewerHeight}
+            style={{pointerEvents: "none"}}
+          />
+
+          <g
+            transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
+            style={value.tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
+            onMouseDown={ event => this.handleEvent(event)}
+            onMouseMove={event => this.handleEvent(event)}
+            onMouseUp={event => this.handleEvent(event)}
+            onClick={event => this.handleEvent(event)}
+          >
+            <rect
+              fill={this.props.SVGBackground}
+              x={0}
+              y={0}
+              width={value.SVGWidth}
+              height={value.SVGHeight}/>
+            <g>
+              {props.children.props.children}
+            </g>
           </g>
-        </g>
 
-        <If condition={value.tool === TOOL_NONE && props.detectAutoPan && value.focus}>
-          <g style={{pointerEvents: "none"}}>
-            <If condition={viewerY <= 20}>
-              <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
-            </If>
+          <If condition={value.tool === TOOL_NONE && props.detectAutoPan && value.focus}>
+            <g style={{pointerEvents: "none"}}>
+              <If condition={viewerY <= 20}>
+                <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
+              </If>
 
-            <If condition={value.viewerWidth - viewerX <= 20}>
-              <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight}/>
-            </If>
+              <If condition={value.viewerWidth - viewerX <= 20}>
+                <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight}/>
+              </If>
 
-            <If condition={ value.viewerHeight - viewerY <= 20}>
-              <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight}/>
-            </If>
+              <If condition={ value.viewerHeight - viewerY <= 20}>
+                <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight}/>
+              </If>
 
-            <If condition={value.focus && viewerX <= 20}>
-              <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight}/>
-            </If>
-          </g>
+              <If condition={value.focus && viewerX <= 20}>
+                <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight}/>
+              </If>
+            </g>
+          </If>
+
+          <If condition={value.mode === MODE_ZOOMING}>
+            <Selection startX={value.startX} startY={value.startY} endX={value.endX} endY={value.endY}/>
+          </If>
+        </svg>
+
+        <If condition={props.toolbarPosition !== POSITION_NONE}>
+          <ToolbarWrapper position={props.toolbarPosition} tool={value.tool}
+                          onChangeTool={tool => this.handlerChangeTool(tool)}/>
         </If>
-
-        <If condition={value.mode === MODE_ZOOMING}>
-          <Selection startX={value.startX} startY={value.startY} endX={value.endX} endY={value.endY}/>
-        </If>
-      </svg>
+      </div>
     );
   }
 }
@@ -250,6 +265,9 @@ ReactSVGPanZoom.propTypes = {
 
   //perform PAN if the mouse is on viewer border
   detectAutoPan: PropTypes.bool,
+
+  //toolbar position
+  toolbarPosition: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
 
   //handler something changed
   onChange: PropTypes.func.isRequired,
@@ -297,5 +315,6 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   tool: TOOL_NONE,
   detectWheel: true,
-  detectAutoPan: true
+  detectAutoPan: true,
+  toolbarPosition: POSITION_RIGHT
 };
