@@ -253,9 +253,6 @@ Viewer.propTypes = {
   //handler something changed
   onChange: PropTypes.func.isRequired,
 
-  //handler viewer is ready
-  onReady: PropTypes.func,
-
   //handler click
   onClick: PropTypes.func,
 
@@ -299,6 +296,5 @@ Viewer.defaultProps = {
   SVGBackground: "#fff",
   tool: TOOL_NONE,
   detectWheel: true,
-  detectAutoPan: true,
-  onReady: null
+  detectAutoPan: true
 };
