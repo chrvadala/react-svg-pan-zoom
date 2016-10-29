@@ -136,13 +136,17 @@ export default class Demo extends React.Component {
               <button onClick={event => this.Viewer.fitToViewer()}>Fit to viewer</button>
             </li>
             <li>
-              <button onClick={event => this.Viewer.pan(0, -100)}>pan top</button>
-              <button onClick={event => this.Viewer.pan(100, 0)}>pan right</button>
-              <button onClick={event => this.Viewer.pan(0, 100)}>pan bottom</button>
-              <button onClick={event => this.Viewer.pan(-100, 0)}>pan left</button>
+              <button onClick={event => this.Viewer.pan(0, -100)}>Pan top</button>
+              <button onClick={event => this.Viewer.pan(100, 0)}>Pan right</button>
+              <button onClick={event => this.Viewer.pan(0, 100)}>Pan bottom</button>
+              <button onClick={event => this.Viewer.pan(-100, 0)}>Pan left</button>
             </li>
             <li>
               <button onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>Zoom eyes</button>
+            </li>
+            <li>
+              <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
+              <button onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>Zoom out</button>
             </li>
           </ul>
         </div>

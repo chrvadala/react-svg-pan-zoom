@@ -8,7 +8,7 @@ import If from './ui/if';
 import Selection from './ui/selection';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
 import ToolbarWrapper from './ui-toolbar/toolbar-wrapper';
-import {zoom, fitSelection, fitToViewer} from './features/zoom';
+import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
@@ -61,32 +61,38 @@ export default class ReactSVGPanZoom extends React.Component {
   setValue(nextValue) {
     if (!sameValues(this.state.value, nextValue)) {
       this.setState({value: nextValue});
-      if(this.props.onChange) this.props.onChange(nextValue);
+      if (this.props.onChange) this.props.onChange(nextValue);
     }
   }
 
   pan(SVGDeltaX, SVGDeltaY) {
     let nextValue = pan(this.state.value, SVGDeltaX, SVGDeltaY);
-    this.setState({value:nextValue});
-    if(this.props.onChange) this.props.onChange(nextValue);
+    this.setState({value: nextValue});
+    if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   zoom(SVGPointX, SVGPointY, scaleFactor) {
     let nextValue = zoom(this.state.value, SVGPointX, SVGPointY, scaleFactor);
-    this.setState({value:nextValue});
-    if(this.props.onChange) this.props.onChange(nextValue);
+    this.setState({value: nextValue});
+    if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
     let nextValue = fitSelection(this.state.value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
-    this.setState({value:nextValue});
-    if(this.props.onChange) this.props.onChange(nextValue);
+    this.setState({value: nextValue});
+    if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   fitToViewer() {
     let nextValue = fitToViewer(this.state.value);
-    this.setState({value:nextValue});
-    if(this.props.onChange) this.props.onChange(nextValue);
+    this.setState({value: nextValue});
+    if (this.props.onChange) this.props.onChange(nextValue);
+  }
+
+  zoomOnViewerCenter(scaleFactor) {
+    let nextValue = zoomOnViewerCenter(this.state.value, scaleFactor);
+    this.setState({value: nextValue});
+    if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   handleEvent(event) {

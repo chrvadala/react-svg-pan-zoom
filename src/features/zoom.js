@@ -52,6 +52,12 @@ export function fitToViewer(value) {
   return fitSelection(value, 0, 0, value.SVGWidth, value.SVGHeight);
 }
 
+export function zoomOnViewerCenter(value, scaleFactor) {
+  let {viewerWidth, viewerHeight} = value;
+  let SVGPoint = getSVGPoint(value, viewerWidth / 2, viewerHeight / 2);
+  return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+}
+
 export function startZooming(value, viewerX, viewerY) {
   return set(value, {
     mode: MODE_ZOOMING,
