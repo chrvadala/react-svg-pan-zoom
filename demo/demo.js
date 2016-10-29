@@ -33,11 +33,6 @@ export default class Demo extends React.Component {
     this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
   }
 
-  handleReset() {
-    // this.setState({value: fitToViewer(this.state.value)})
-    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
-  }
-
   debugClick(event) {
     console.log('click', event);
     console.log('X', event.x);
@@ -135,8 +130,21 @@ export default class Demo extends React.Component {
             <hr/>
           </div>
 
-          <strong>Reset pan/zoom state</strong> <br/>
-          <button onClick={event => this.handleReset(event)}>Reset view</button>
+          <strong>Programmatically perform actions</strong> <br/>
+          <ul style={{padding: "0px", margin: "0px", listStyle: "none"}}>
+            <li>
+              <button onClick={event => this.Viewer.fitToViewer()}>Fit to viewer</button>
+            </li>
+            <li>
+              <button onClick={event => this.Viewer.pan(0, -100)}>pan top</button>
+              <button onClick={event => this.Viewer.pan(100, 0)}>pan right</button>
+              <button onClick={event => this.Viewer.pan(0, 100)}>pan bottom</button>
+              <button onClick={event => this.Viewer.pan(-100, 0)}>pan left</button>
+            </li>
+            <li>
+              <button onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>Zoom eyes</button>
+            </li>
+          </ul>
         </div>
 
       </div>
