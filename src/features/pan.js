@@ -1,5 +1,5 @@
 import {MODE_IDLE, MODE_PANNING} from '../constants';
-import {getDefaultValue, set, getSVGPoint} from './common';
+import {set, getSVGPoint} from './common';
 import {Matrix} from 'transformation-matrix-js';
 
 /**
@@ -20,7 +20,7 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
   matrix = matrix.multiply(act);
 
   // apply pan limits
-  if(panLimit) {
+  if (panLimit) {
     let zoomLevel = matrix.decompose(false).scale.x;
     matrix.e = Math.min(matrix.e, value.viewerWidth - panLimit);
     matrix.e = Math.max(matrix.e, panLimit - value.SVGWidth * zoomLevel);

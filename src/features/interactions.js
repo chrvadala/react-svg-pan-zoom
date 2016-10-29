@@ -10,7 +10,6 @@ import {
 import {setFocus, setViewerCoords, getSVGPoint} from './common';
 import {startPanning, updatePanning, stopPanning} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
-import ViewerEvent from '../viewer-event';
 import {mapRange} from '../utils'
 
 

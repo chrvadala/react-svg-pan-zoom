@@ -93,7 +93,6 @@ export function setFocus(value, focus) {
 }
 
 
-
 /**
  *
  * @param value
@@ -101,7 +100,7 @@ export function setFocus(value, focus) {
  * @param viewerHeight
  * @returns {Object}
  */
-export function setViewerSize(value, viewerWidth, viewerHeight){
+export function setViewerSize(value, viewerWidth, viewerHeight) {
   return set(value, {viewerWidth, viewerHeight});
 }
 
@@ -110,7 +109,7 @@ export function setViewerSize(value, viewerWidth, viewerHeight){
  * @param value1
  * @param value2
  */
-export function sameValues(value1, value2){
+export function sameValues(value1, value2) {
   let r = true;
   let keys = Object.keys(value1);
   keys.forEach(key => r = r && value1[key] === value2[key]);
@@ -122,6 +121,6 @@ export function sameValues(value1, value2){
  * @param value
  * @param tool
  */
-export function changeTool(value, tool){
+export function changeTool(value, tool) {
   return set(value, {tool});
 }

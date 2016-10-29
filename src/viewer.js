@@ -1,14 +1,20 @@
 import React, {PropTypes} from 'react';
+
+//common
 import ViewerEvent from './viewer-event';
-import cursor from './ui/cursor';
-import BorderGradient from './ui/border-gradient';
+
+//features
 import {autoPanIfNeeded, pan} from './features/pan';
 import {getDefaultValue, isValueValid, setViewerSize, sameValues, changeTool} from './features/common';
+import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
+import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
+
+//ui
+import cursor from './ui/cursor';
+import BorderGradient from './ui/border-gradient';
 import If from './ui/if';
 import Selection from './ui/selection';
-import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
 import ToolbarWrapper from './ui-toolbar/toolbar-wrapper';
-import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,

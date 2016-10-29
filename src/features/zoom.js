@@ -1,5 +1,5 @@
 import {MODE_IDLE, MODE_ZOOMING} from '../constants';
-import {getDefaultValue, set, getSVGPoint} from './common';
+import {set, getSVGPoint} from './common';
 import {Matrix} from 'transformation-matrix-js';
 import {calculateBox} from '../utils';
 
