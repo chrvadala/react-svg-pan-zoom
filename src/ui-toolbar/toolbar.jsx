@@ -9,6 +9,8 @@ import IconPan from './icon-pan';
 import IconZoomIn from './icon-zoom-in';
 import IconZoomOut from './icon-zoom-out';
 
+import {changeTool} from '../features/common'
+
 const STYLE_TOOLBAR = {
   backgroundColor: "rgba(19, 20, 22, 0.90)",
   borderRadius: "2px",
@@ -48,13 +50,17 @@ const STYLE_ELEMENT_ORIENTED = {
 const ICON_COLOR_OFF = '#FFF';
 const ICON_COLOR_ON = '#1CA6FC';
 
-export default function Toolbar({tool, onChangeTool, orientation}) {
+export default function Toolbar({value, onChange, orientation}) {
+
+
   let handleChangeTool = (event, tool) => {
+    let nextValue = changeTool(value, tool);
+    onChange(nextValue);
     event.stopPropagation();
     event.preventDefault();
-    onChangeTool(tool)
   };
 
+  let {tool} = value;
   let styleToolbarFull = STYLE_TOOLBAR_ORIENTED[orientation];
   let styleElementFull = STYLE_ELEMENT_ORIENTED[orientation];
 
@@ -65,15 +71,15 @@ export default function Toolbar({tool, onChangeTool, orientation}) {
         <IconCursor color={(tool === TOOL_NONE) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
 
-      <a style={styleElementFull} href="javascript:;" title="Pan" onClick={ event => onChangeTool(TOOL_PAN) }>
+      <a style={styleElementFull} href="javascript:;" title="Pan" onClick={ event => handleChangeTool(event, TOOL_PAN) }>
         <IconPan color={(tool === TOOL_PAN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
 
-      <a style={styleElementFull} href="javascript:;" title="Zoom in" onClick={ event => onChangeTool(TOOL_ZOOM_IN) }>
+      <a style={styleElementFull} href="javascript:;" title="Zoom in" onClick={ event => handleChangeTool(event, TOOL_ZOOM_IN) }>
         <IconZoomIn color={(tool === TOOL_ZOOM_IN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
 
-      <a style={styleElementFull} href="javascript:;" title="Zoom out" onClick={ event => onChangeTool(TOOL_ZOOM_OUT) }>
+      <a style={styleElementFull} href="javascript:;" title="Zoom out" onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
         <IconZoomOut color={(tool === TOOL_ZOOM_OUT) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
       </a>
     </div>
@@ -81,7 +87,7 @@ export default function Toolbar({tool, onChangeTool, orientation}) {
 }
 
 Toolbar.propTypes = {
-  tool: PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
   orientation: PropTypes.oneOf([ORIENTATION_VERTICAL, ORIENTATION_HORIZONTAL]).isRequired,
-  onChangeTool: PropTypes.func.isRequired
+  value: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired
 };

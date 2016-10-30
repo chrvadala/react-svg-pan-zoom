@@ -40,16 +40,14 @@ const POSITION_2_ORIENTATION = {
   [POSITION_LEFT]: ORIENTATION_VERTICAL,
 };
 
-export default function ToolbarWrapper({position, tool, onChangeTool}) {
+export default function ToolbarWrapper({position, ...rest}) {
   return (
     <div style={STYLE_POSITION_ORIENTED[position]}>
-      <Toolbar orientation={POSITION_2_ORIENTATION[position]} tool={tool} onChangeTool={onChangeTool}/>
+      <Toolbar orientation={POSITION_2_ORIENTATION[position]} {...rest}/>
     </div>
   );
 }
 
 ToolbarWrapper.propTypes = {
-  position: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
-  tool: PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
-  onChangeTool: PropTypes.func.isRequired
+  position: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT])
 };

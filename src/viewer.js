@@ -168,13 +168,6 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setState({value});
   }
 
-  handlerChangeTool(tool) {
-    let {state, props} = this;
-    let nextValue = changeTool(state.value, tool);
-    this.setState({value: nextValue});
-    if (props.onChange) props.onChange(nextValue);
-  }
-
   render() {
     let {props, state: {value, viewerX, viewerY}} = this;
     let style = props.style;
@@ -269,8 +262,7 @@ export default class ReactSVGPanZoom extends React.Component {
         </svg>
 
         <If condition={props.toolbarPosition !== POSITION_NONE}>
-          <ToolbarWrapper position={props.toolbarPosition} tool={value.tool}
-                          onChangeTool={tool => this.handlerChangeTool(tool)}/>
+          <ToolbarWrapper position={props.toolbarPosition} value={value} onChange={value => this.setValue(value)}/>
         </If>
       </div>
     );
