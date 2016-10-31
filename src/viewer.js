@@ -283,7 +283,26 @@ ReactSVGPanZoom.propTypes = {
   SVGBackground: PropTypes.string,
 
   //value of the viewer (current point of view)
-  value: PropTypes.object,
+  value: PropTypes.shape({
+    version: PropTypes.oneOf([2]).isRequired,
+    tool: PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
+    mode: PropTypes.oneOf([MODE_IDLE, MODE_PANNING, MODE_ZOOMING]).isRequired,
+    focus: PropTypes.bool.isRequired,
+    a: PropTypes.number.isRequired,
+    b: PropTypes.number.isRequired,
+    c: PropTypes.number.isRequired,
+    d: PropTypes.number.isRequired,
+    e: PropTypes.number.isRequired,
+    f: PropTypes.number.isRequired,
+    viewerWidth: PropTypes.number.isRequired,
+    viewerHeight: PropTypes.number.isRequired,
+    SVGWidth: PropTypes.number.isRequired,
+    SVGHeight: PropTypes.number.isRequired,
+    startX: PropTypes.number.isRequired,
+    startY: PropTypes.number.isRequired,
+    endX: PropTypes.number.isRequired,
+    endY: PropTypes.number.isRequired,
+  }),
 
   //CSS style of the SVG tag
   style: PropTypes.object,
