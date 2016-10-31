@@ -29,7 +29,8 @@ export default class ReactSVGPanZoom extends React.Component {
 
     let {tool, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
-    //TODO check props.value ??
+    //TODO check props.value & props.tool ??
+    tool = tool || TOOL_NONE;
     let nextValue = getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
     this.state = {value: nextValue};
     this.setState = this.setState.bind(this);
@@ -50,7 +51,7 @@ export default class ReactSVGPanZoom extends React.Component {
       nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
     }
 
-    if (nextProps.tool !== props.tool) {
+    if (value.tool !== nextProps.tool) {
       nextValue = changeTool(nextValue, nextProps.tool);
     }
 
@@ -102,7 +103,8 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleEvent(event) {
-    let {props: {value, onClick, onMouseMove, onMouseUp, onMouseDown}} = this;
+    let {props: {onClick, onMouseMove, onMouseUp, onMouseDown}, state: {value}} = this;
+
     let eventsHandler = {
       click: onClick,
       mousemove: onMouseMove,
@@ -357,10 +359,10 @@ ReactSVGPanZoom.propTypes = {
 
 ReactSVGPanZoom.defaultProps = {
   value: null,
+  tool: null,
   style: {},
   background: "#616264",
   SVGBackground: "#fff",
-  tool: TOOL_NONE,
   detectWheel: true,
   detectAutoPan: true,
   toolbarPosition: POSITION_RIGHT

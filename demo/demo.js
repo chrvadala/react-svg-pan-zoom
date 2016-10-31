@@ -50,7 +50,7 @@ export default class Demo extends React.Component {
 
           <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
                            value={this.state.value} tool={this.state.tool}
-                           onChange={value => this.setState({value})}         //update state
+                           onChange={value => this.setState({value, tool: value.tool})}         //update state
                            toolbarPosition={this.state.toolbarPosition}
 
                            detectWheel={this.state.detectWheel}                            //detect zoom gestures
@@ -147,6 +147,12 @@ export default class Demo extends React.Component {
             <li>
               <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
               <button onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>Zoom out</button>
+            </li>
+            <li>
+              <button onClick={event => this.setState({tool: TOOL_NONE})}>Tool none</button>
+              <button onClick={event => this.setState({tool: TOOL_PAN})}>Tool pan</button>
+              <button onClick={event => this.setState({tool: TOOL_ZOOM_IN})}>Tool zoom in</button>
+              <button onClick={event => this.setState({tool: TOOL_ZOOM_OUT})}>Tool zoom out</button>
             </li>
           </ul>
         </div>
