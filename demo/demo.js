@@ -33,7 +33,7 @@ export default class Demo extends React.Component {
     this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
   }
 
-  handlerChange(value){
+  handlerChange(value) {
     console.debug('onChange', value);
     this.setState({value, tool: value.tool});
   }
@@ -154,10 +154,10 @@ export default class Demo extends React.Component {
               <button onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>Zoom out</button>
             </li>
             <li>
-              <button onClick={event => this.setState({tool: TOOL_NONE})}>Tool none</button>
-              <button onClick={event => this.setState({tool: TOOL_PAN})}>Tool pan</button>
-              <button onClick={event => this.setState({tool: TOOL_ZOOM_IN})}>Tool zoom in</button>
-              <button onClick={event => this.setState({tool: TOOL_ZOOM_OUT})}>Tool zoom out</button>
+              <button onClick={event => this.Viewer.changeTool(TOOL_NONE)}>Tool none</button>
+              <button onClick={event => this.Viewer.changeTool(TOOL_PAN)}>Tool pan</button>
+              <button onClick={event => this.Viewer.changeTool(TOOL_ZOOM_IN)}>Tool zoom in</button>
+              <button onClick={event => this.Viewer.changeTool(TOOL_ZOOM_OUT)}>Tool zoom out</button>
             </li>
           </ul>
         </div>
