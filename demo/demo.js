@@ -33,6 +33,11 @@ export default class Demo extends React.Component {
     this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
   }
 
+  handlerChange(value){
+    console.debug('onChange', value);
+    this.setState({value, tool: value.tool});
+  }
+
   debugClick(event) {
     console.log('click', event);
     console.log('X', event.x);
@@ -50,7 +55,7 @@ export default class Demo extends React.Component {
 
           <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
                            value={this.state.value} tool={this.state.tool}
-                           onChange={value => this.setState({value, tool: value.tool})}         //update state
+                           onChange={value => this.handlerChange(value)}         //update state
                            toolbarPosition={this.state.toolbarPosition}
 
                            detectWheel={this.state.detectWheel}                            //detect zoom gestures

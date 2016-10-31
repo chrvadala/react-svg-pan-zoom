@@ -27,37 +27,37 @@ export default class ReactSVGPanZoom extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    let {tool, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
+    let {tool, value, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
-    //TODO check props.value & props.tool ??
-    tool = tool || TOOL_NONE;
-    let nextValue = getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
-    this.state = {value: nextValue};
-    this.setState = this.setState.bind(this);
+
+    tool = tool !== null ? tool : TOOL_NONE;
+    value = value !== null ? value : getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
+
+    this.state = {value};
   }
 
   componentWillReceiveProps(nextProps) {
-    let {props, state: {value}} = this;
+    let {props, state} = this;
     let {onChange} = nextProps;
 
-    let nextValue = value;
+    let nextValue = state.value;
 
-
-    if (nextProps.value && isValueValid(nextProps.value) && !sameValues(value, nextProps.value)) {
+    if (nextProps.value !== null && typeof nextProps.value === 'object' && !sameValues(nextProps.value, state.value)) {
       nextValue = nextProps.value;
     }
 
-    if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
+    if (state.value.viewerWidth !== nextProps.width || state.value.viewerHeight !== nextProps.height) {
       nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
     }
 
-    if (value.tool !== nextProps.tool) {
+    if (nextProps.tool !== null && nextProps.tool !== state.value.tool) {
       nextValue = changeTool(nextValue, nextProps.tool);
     }
 
-    if (nextValue === value) return;
-    this.setState({value: nextValue});
-    onChange(nextValue);
+    if (nextValue !== state.value) {
+      this.setState({value: nextValue});
+      if(onChange) onChange(nextValue);
+    }
   }
 
 
