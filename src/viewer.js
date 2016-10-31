@@ -56,7 +56,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
     if (nextValue !== state.value) {
       this.setState({value: nextValue});
-      if(onChange) onChange(nextValue);
+      if (onChange) onChange(nextValue);
     }
   }
 
@@ -142,32 +142,54 @@ export default class ReactSVGPanZoom extends React.Component {
 
   handleMouseDown(event) {
     let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let value = onMouseDown(event, viewerCoords, this.props, this.state.value);
-    this.setState({value});
+    let nextValue = onMouseDown(event, viewerCoords, this.props, this.state.value);
+
+    if (this.state.value !== nextValue) {
+      this.setState({value: nextValue});
+      if (this.props.onChange) this.props.onChange(nextValue);
+    }
   }
 
   handlerMouseMove(event) {
     let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let value = onMouseMove(event, viewerCoords, this.props, this.state.value);
-    this.setState({value, viewerX: viewerCoords.x, viewerY: viewerCoords.y});
+    let nextValue = onMouseMove(event, viewerCoords, this.props, this.state.value);
+
+    if (this.state.value !== nextValue) {
+      this.setState({value: nextValue, viewerX: viewerCoords.x, viewerY: viewerCoords.y});
+      if (this.props.onChange) this.props.onChange(nextValue);
+    } else {
+      this.setState({viewerX: viewerCoords.x, viewerY: viewerCoords.y});
+    }
   }
 
   handlerMouseUp(event) {
     let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let value = onMouseUp(event, viewerCoords, this.props, this.state.value);
-    this.setState({value});
+    let nextValue = onMouseUp(event, viewerCoords, this.props, this.state.value);
+
+    if (this.state.value !== nextValue) {
+      this.setState({value: nextValue});
+      if (this.props.onChange) this.props.onChange(nextValue);
+    }
   }
 
   handlerWheel(event) {
     let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let value = onWheel(event, viewerCoords, this.props, this.state.value);
-    this.setState({value});
+    let nextValue = onWheel(event, viewerCoords, this.props, this.state.value);
+
+    if (this.state.value !== nextValue) {
+      this.setState({value: nextValue});
+      if (this.props.onChange) this.props.onChange(nextValue);
+    }
   }
 
   handlerMouseEnterOrLeave(event) {
     let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let value = onMouseEnterOrLeave(event, viewerCoords, this.props, this.state.value);
-    this.setState({value});
+    let nextValue = onMouseEnterOrLeave(event, viewerCoords, this.props, this.state.value);
+
+    if (this.state.value !== nextValue) {
+      this.setState({value: nextValue});
+      if (this.props.onChange) this.props.onChange(nextValue);
+    }
   }
 
   render() {

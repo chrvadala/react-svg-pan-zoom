@@ -16,7 +16,6 @@ import {mapRange} from '../utils'
 export function onMouseDown(event, viewerCoords, props, value) {
   let {x, y} = viewerCoords;
 
-  let {onChange} = props;
   let nextValue = value;
 
   switch (value.tool) {
@@ -38,7 +37,6 @@ export function onMouseDown(event, viewerCoords, props, value) {
   }
 
   event.preventDefault();
-  if (onChange) onChange(nextValue);
   return nextValue;
 }
 
@@ -46,7 +44,6 @@ export function onMouseMove(event, viewerCoords, props, value) {
   let {x, y} = viewerCoords;
 
   let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
-  let {onChange} = props;
   let nextValue = value;
 
   switch (value.tool) {
@@ -68,14 +65,12 @@ export function onMouseMove(event, viewerCoords, props, value) {
   }
 
   event.preventDefault();
-  if (onChange) onChange(nextValue);
   return nextValue;
 }
 
 export function onMouseUp(event, viewerCoords, props, value) {
   let {x, y} = viewerCoords;
 
-  let {onChange} = props;
   let nextValue = value;
 
   switch (value.tool) {
@@ -99,16 +94,13 @@ export function onMouseUp(event, viewerCoords, props, value) {
   }
 
   event.preventDefault();
-  if (onChange) onChange(nextValue);
   return nextValue;
 }
 
 export function onWheel(event, viewerCoords, props, value) {
   let {x, y} = viewerCoords;
 
-  let {onChange, detectWheel} = props;
-
-  if (!detectWheel) return value;
+  if (!props.detectWheel) return value;
 
   var delta = Math.max(-1, Math.min(1, event.deltaY));
   let scaleFactor = mapRange(delta, -1, 1, 1.06, 0.96);
@@ -117,15 +109,12 @@ export function onWheel(event, viewerCoords, props, value) {
   let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
 
   event.preventDefault();
-  if (onChange) onChange(nextValue);
   return nextValue;
 }
 
 export function onMouseEnterOrLeave(event, viewerCoords, props, value) {
-  let {onChange} = props;
-
   let nextValue = setFocus(value, event.type === 'mouseenter');
+
   event.preventDefault();
-  if (onChange) onChange(nextValue);
   return nextValue;
 }
