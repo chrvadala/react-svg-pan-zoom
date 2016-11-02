@@ -450,12 +450,26 @@ a:hover {
 }
 
 header {
-  padding-top: 40px;
-  padding-bottom: 40px;
+  padding-top: 30px;
+  padding-bottom: 30px;
   font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
   background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
   border-bottom: solid 1px #275da1;
 }
+
+footer {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-family: 'Architects Daughter', 'Helvetica Neue', Helvetica, Arial, serif;
+  background: #2e7bcf url(../images/header-bg.jpg) 0 0 repeat-x;
+  border-bottom: solid 1px #275da1;
+  margin-top: 20px;
+}
+
+footer a{
+  color: #fff;
+}
+
 
 header h1 {
   width: 540px;
@@ -485,6 +499,25 @@ header h2 strong{
   font-weight: bold;
 }
 
+header .menu{
+  margin-top: 10px;
+  list-style: circle;
+}
+
+header .menu li{
+  display: inline-block;
+}
+
+header .menu a{
+  color: #fff;
+  font-size: 20px;
+}
+
+header .menu a:hover{
+  text-decoration: underline;
+}
+
+
 .inner {
   position: relative;
   width: 940px;
@@ -492,13 +525,13 @@ header h2 strong{
 }
 
 #content-wrapper {
-  padding-top: 30px;
+  padding-top: 15px;
   border-top: solid 1px #fff;
 }
 
 #main-content {
   float: left;
-  width: 690px;
+  width: 100%;
 }
 
 #main-content img {
@@ -779,7 +812,7 @@ dl dd {
 /* Tablet Portrait size to standard 960 (devices and browsers) */
 @media only screen and (min-width: 768px) and (max-width: 959px) {
   .inner {
-    width: 740px;
+    width: 768px;
   }
   header h1, header h2 {
     width: 340px;
@@ -791,7 +824,8 @@ dl dd {
     font-size: 30px;
   }
   #main-content {
-    width: 490px;
+    /*width: 490px;*/
+    width: 100%
   }
   #main-content h1:before,
   #main-content h2:before,
@@ -879,3 +913,34 @@ dl dd {
 /* Mobile Portrait Size to Mobile Landscape Size (devices and browsers) */
 @media only screen and (max-width: 479px) { }
 
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+ul li{
+  margin-bottom: 3px;
+}
+
+
+.badge{
+  margin-bottom: 10px;
+}
+
+.doc-button{
+  height: 20px;
+  padding: 2px 4px;
+  font-size: 12px;
+  margin: 0;
+  vertical-align: top;
+  border: 1px solid #000;
+  color: #fff;
+  background: #2f7acd;
+}
+
+.doc-button:hover{
+  color: #fff;
+  text-decoration: underline;
+}

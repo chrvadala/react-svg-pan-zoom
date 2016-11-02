@@ -83,7 +83,7 @@ export default class Demo extends React.Component {
 
           <div>
             <strong>Additional features</strong> <br/>
-            <ul style={{padding: "0px", margin: "0px", listStyle: "none"}}>
+            <ul>
               <li>
                 <input type="checkbox" id="detectWheel" checked={this.state.detectWheel}
                        onChange={ event => this.setState({detectWheel: event.target.checked})}/>
@@ -100,66 +100,43 @@ export default class Demo extends React.Component {
 
           <div>
             <strong>Toolbar position</strong> <br/>
-            <ul style={{padding: "0px", margin: "0px", listStyle: "none"}}>
-              <li>
-                <input type="radio" id="pos_none" checked={this.state.toolbarPosition === POSITION_NONE}
-                       onChange={ event => this.setState({toolbarPosition: POSITION_NONE})}/>
-                <label htmlFor="pos_none">none</label>
-              </li>
-
-              <li>
-                <input type="radio" id="pos_top" checked={this.state.toolbarPosition === POSITION_TOP}
-                       onChange={ event => this.setState({toolbarPosition: POSITION_TOP})}/>
-                <label htmlFor="pos_top">top</label>
-              </li>
-
-              <li>
-                <input type="radio" id="pos_right" checked={this.state.toolbarPosition === POSITION_RIGHT}
-                       onChange={ event => this.setState({toolbarPosition: POSITION_RIGHT})}/>
-                <label htmlFor="pos_right">right</label>
-              </li>
-
-              <li>
-                <input type="radio" id="pos_bottom" checked={this.state.toolbarPosition === POSITION_BOTTOM}
-                       onChange={ event => this.setState({toolbarPosition: POSITION_BOTTOM})}/>
-                <label htmlFor="pos_bottom">bottom</label>
-              </li>
-
-              <li>
-                <input type="radio" id="pos_left" checked={this.state.toolbarPosition === POSITION_LEFT}
-                       onChange={ event => this.setState({toolbarPosition: POSITION_LEFT})}/>
-                <label htmlFor="pos_left">left</label>
-              </li>
-
-            </ul>
+            <select value={this.state.toolbarPosition} onChange={ event => this.setState({toolbarPosition: event.target.value})}>
+              <option value={POSITION_NONE}>none</option>
+              <option value={POSITION_TOP}>top</option>
+              <option value={POSITION_RIGHT}>right</option>
+              <option value={POSITION_BOTTOM}>bottom</option>
+              <option value={POSITION_LEFT}>left</option>
+            </select>
             <hr/>
           </div>
 
-          <strong>Programmatically perform actions</strong> <br/>
-          <ul style={{padding: "0px", margin: "0px", listStyle: "none"}}>
-            <li>
-              <button onClick={event => this.Viewer.fitToViewer()}>Fit to viewer</button>
-            </li>
-            <li>
-              <button onClick={event => this.Viewer.pan(0, -100)}>Pan top</button>
-              <button onClick={event => this.Viewer.pan(100, 0)}>Pan right</button>
-              <button onClick={event => this.Viewer.pan(0, 100)}>Pan bottom</button>
-              <button onClick={event => this.Viewer.pan(-100, 0)}>Pan left</button>
-            </li>
-            <li>
-              <button onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>Zoom eyes</button>
-            </li>
-            <li>
-              <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
-              <button onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>Zoom out</button>
-            </li>
-            <li>
-              <button onClick={event => this.Viewer.changeTool(TOOL_NONE)}>Tool none</button>
-              <button onClick={event => this.Viewer.changeTool(TOOL_PAN)}>Tool pan</button>
-              <button onClick={event => this.Viewer.changeTool(TOOL_ZOOM_IN)}>Tool zoom in</button>
-              <button onClick={event => this.Viewer.changeTool(TOOL_ZOOM_OUT)}>Tool zoom out</button>
-            </li>
-          </ul>
+          <div>
+            <strong>Programmatically perform actions</strong> <br/>
+            <ul>
+              <li>
+                <button onClick={event => this.Viewer.fitToViewer()}>Fit to viewer</button>
+              </li>
+              <li>
+                <button onClick={event => this.Viewer.pan(0, -100)}>Pan top</button>
+                <button onClick={event => this.Viewer.pan(100, 0)}>Pan right</button>
+                <button onClick={event => this.Viewer.pan(0, 100)}>Pan bottom</button>
+                <button onClick={event => this.Viewer.pan(-100, 0)}>Pan left</button>
+              </li>
+              <li>
+                <button onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>Zoom eyes</button>
+              </li>
+              <li>
+                <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
+                <button onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>Zoom out</button>
+              </li>
+              <li>
+                <button onClick={event => this.Viewer.changeTool(TOOL_NONE)}>Tool none</button>
+                <button onClick={event => this.Viewer.changeTool(TOOL_PAN)}>Tool pan</button>
+                <button onClick={event => this.Viewer.changeTool(TOOL_ZOOM_IN)}>Tool zoom in</button>
+                <button onClick={event => this.Viewer.changeTool(TOOL_ZOOM_OUT)}>Tool zoom out</button>
+              </li>
+            </ul>
+          </div>
         </div>
 
       </div>
