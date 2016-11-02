@@ -117,7 +117,7 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 If you need to control the state of the viewer you can use the method `onChange` and the prop `value`. With this two you
 can control React SVG Pan Zoom in the same way in which you would with an `<input>` tag ([See here how](https://facebook.github.io/react/docs/forms.html#controlled-components)).
 
-[Sample code available here](./demo1)
+[Sample code available here](./demo2)
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
