@@ -30,36 +30,44 @@ This component can work in three different modes depending on the selected tool:
 npm install --save react-svg-pan-zoom
 ```
 
-[Sample code available here](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/demo/demo.js)
+[Sample code available here](./demo1)
 ```js
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {ReactSVGPanZoom, fitToViewer} from 'react-svg-pan-zoom';
 
-class MyComponent extends React.Component {
+class Demo1 extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.Viewer = null;
   }
-
   componentDidMount() {
-    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
+    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()));
     //or simply
     this.Viewer.fitToViewer();
   }
-
   render() {
     return (
-      <Viewer width={400} height={400} ref={Viewer => this.Viewer = Viewer}
-            onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
-            onMouseUp={event => console.log('up', event.x, event.y, event.originalEvent)}
-            onMouseMove={event => console.log('move', event.x, event.y, event.originalEvent)}
-            onMouseDown={event => console.log('down', event.x, event.y, event.originalEvent)}>
+      <div>
+        <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
+        <button onClick={event => this.Viewer.fitSelection(40, 40, 200, 200)}>Zoom area 200x200</button>
+        <button onClick={event => this.Viewer.fitToViewer()}>Fit</button>
 
-        <svg width={800} height={800} >
-          <-- put here your SVG content -->
-        </svg>
+        <hr/>
 
-      </Viewer>
+        <ReactSVGPanZoom
+          style={{border: "1px solid black"}}
+          width={500} height={500} ref={Viewer => this.Viewer = Viewer}
+          onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
+          onMouseUp={event => console.log('up', event.x, event.y)}
+          onMouseMove={event => console.log('move', event.x, event.y)}
+          onMouseDown={event => console.log('down', event.x, event.y)}>
+
+          <svg width={617} height={316}>
+              <-- put here your SVG content -->
+          </svg>
+        </ReactSVGPanZoom>
+      </div>
     );
   }
 }
@@ -109,11 +117,13 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 If you need to control the state of the viewer you can use the method `onChange` and the prop `value`. With this two you
 can control React SVG Pan Zoom in the same way in which you would with an `<input>` tag ([See here how](https://facebook.github.io/react/docs/forms.html#controlled-components)).
 
+[Sample code available here](./demo1)
 ```js
 import React from 'react';
-import {ReactSVGPanZoom, pan, zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from 'react-svg-pan-zoom';
+import ReactDOM from 'react-dom';
+import {ReactSVGPanZoom, TOOL_NONE, fitSelection, zoomOnViewerCenter, fitToViewer} from 'react-svg-pan-zoom';
 
-class MyComponent extends React.Component {
+class Demo2 extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.state = {
@@ -121,38 +131,41 @@ class MyComponent extends React.Component {
       tool: TOOL_NONE
     };
   }
-
   componentDidMount() {
-    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
+    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()));
     //or simply
     this.Viewer.fitToViewer();
   }
-
   render() {
     return (
       <div>
-        <button onClick={event => this.setState({value: zoomOnViewerCenter(this.state.value, 1.1)})} >Zoom in</button>
-        <button onClick={event => this.setState({value: fitSelection(this.state.value, 40, 40, 200, 200)})} >Zoom area 200x200</button>
+        <button onClick={event => this.setState({value: zoomOnViewerCenter(this.state.value, 1.1)})}>Zoom in</button>
+        <button onClick={event => this.setState({value: fitSelection(this.state.value, 40, 40, 200, 200)})}>
+          Zoom area 200x200
+        </button>
+        <button onClick={event => this.setState({value: fitToViewer(this.state.value)})}>Fit</button>
 
-        <Viewer width={400} height={400} ref={Viewer => this.Viewer = Viewer}
-              onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
-              onMouseUp={event => console.log('up', event.x, event.y, event.originalEvent)}
-              onMouseMove={event => console.log('move', event.x, event.y, event.originalEvent)}
-              onMouseDown={event => console.log('down', event.x, event.y, event.originalEvent)}
+        <hr/>
 
-              value={this.state.value} tool={this.state.tool}
-              onChange={value => this.setState({value, tool: value.tool})} >
+        <ReactSVGPanZoom
+          style={{border: "1px solid black"}}
+          width={400} height={400} ref={Viewer => this.Viewer = Viewer}
+          onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
+          onMouseUp={event => console.log('up', event.x, event.y)}
+          onMouseMove={event => console.log('move', event.x, event.y)}
+          onMouseDown={event => console.log('down', event.x, event.y)}
 
-          <svg width={800} height={800} >
+          value={this.state.value} tool={this.state.tool}
+          onChange={value => this.setState({value, tool: value.tool})}>
+
+          <svg width={800} height={800}>
             <-- put here your SVG content -->
           </svg>
-
-        </Viewer>
-
+        </ReactSVGPanZoom>
       </div>
     );
   }
- }
+}
 ```
 
 
