@@ -347,7 +347,7 @@ ReactSVGPanZoom.propTypes = {
   toolbarPosition: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
 
   //handler something changed
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
 
   //handler click
   onClick: PropTypes.func,
