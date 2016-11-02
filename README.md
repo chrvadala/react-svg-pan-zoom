@@ -87,18 +87,18 @@ class Demo1 extends React.Component {
   - `onMouseUp` - handler for mouseup `fn(viewerEvent)`
   - `onMouseMove` - handler for mousemove `fn(viewerEvent)`
   - `onMouseDown` - handler for mousedown `fn(viewerEvent)`
-  - `value` - initial point of the view
-  - `tool` - initial tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
+  - `value` - point of the view
+  - `tool` - tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
   - `onChange` - handler for changes `fn(value)`
 
 ##  Methods
- - `setValue( nextValue )`
- - `pan( SVGDeltaX, SVGDeltaY )`
- - `zoom(SVGPointX, SVGPointY, scaleFactor)`
- - ` fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)`
- - `fitToViewer()
- - `zoomOnViewerCenter(scaleFactor)`
- - `changeTool(tool)`
+ - `setValue( nextValue )` - Through this method you can set a new value
+ - `pan( SVGDeltaX, SVGDeltaY )` - Apply a pan
+ - `zoom(SVGPointX, SVGPointY, scaleFactor)` - Zoom in or out the SVG
+ - `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)` - Fit an SVG area to viewer
+ - `fitToViewer()` - Fit all SVG to Viewer
+ - `zoomOnViewerCenter(scaleFactor)` - Zoom SVG on center
+ - `changeTool(tool)` - change current tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
 
 ## ViewerEvent attributes
 Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below).
