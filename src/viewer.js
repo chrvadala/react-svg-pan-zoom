@@ -34,6 +34,7 @@ export default class ReactSVGPanZoom extends React.Component {
     value = value !== null ? value : getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
 
     this.state = {value};
+    this.SVGViewer = null;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -122,7 +123,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
-    onEventHandler(new ViewerEvent(event, value, this.refs.Viewer));
+    onEventHandler(new ViewerEvent(event, value, this.SVGViewer));
   }
 
 
@@ -147,8 +148,11 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleMouseDown(event) {
-    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let nextValue = onMouseDown(event, viewerCoords, this.props, this.state.value);
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onMouseDown(event, {x, y}, this.props, this.state.value);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -157,20 +161,26 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseMove(event) {
-    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let nextValue = onMouseMove(event, viewerCoords, this.props, this.state.value);
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onMouseMove(event, {x, y}, this.props, this.state.value);
 
     if (this.state.value !== nextValue) {
-      this.setState({value: nextValue, viewerX: viewerCoords.x, viewerY: viewerCoords.y});
+      this.setState({value: nextValue, viewerX: x, viewerY: y});
       if (this.props.onChange) this.props.onChange(nextValue);
     } else {
-      this.setState({viewerX: viewerCoords.x, viewerY: viewerCoords.y});
+      this.setState({viewerX: x, viewerY: y});
     }
   }
 
   handlerMouseUp(event) {
-    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let nextValue = onMouseUp(event, viewerCoords, this.props, this.state.value);
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onMouseUp(event, {x, y}, this.props, this.state.value);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -179,8 +189,11 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerWheel(event) {
-    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let nextValue = onWheel(event, viewerCoords, this.props, this.state.value);
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onWheel(event, {x, y}, this.props, this.state.value);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -189,8 +202,11 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseEnterOrLeave(event) {
-    let viewerCoords = {x: event.nativeEvent.offsetX, y: event.nativeEvent.offsetY};
-    let nextValue = onMouseEnterOrLeave(event, viewerCoords, this.props, this.state.value);
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onMouseEnterOrLeave(event, {x, y}, this.props, this.state.value);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -226,7 +242,7 @@ export default class ReactSVGPanZoom extends React.Component {
     return (
       <div style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight}}>
         <svg
-          ref="Viewer"
+          ref={SVGViewer => this.SVGViewer = SVGViewer}
           width={value.viewerWidth}
           height={value.viewerHeight}
           style={style}
