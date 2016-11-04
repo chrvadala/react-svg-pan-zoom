@@ -13,10 +13,15 @@ import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import {mapRange} from '../utils'
 
 
-export function onMouseDown(event, ViewerDOM, tool, value, props) {
-  let {left, top} = ViewerDOM.getBoundingClientRect();
-  let x = event.clientX - Math.round(left);
-  let y = event.clientY - Math.round(top);
+export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null) {
+  let x, y;
+  if(coords) {
+    ({x, y} = coords);
+  }else {
+    let {left, top} = ViewerDOM.getBoundingClientRect();
+    x = event.clientX - Math.round(left);
+    y = event.clientY - Math.round(top);
+  }
 
   let nextValue = value;
 
@@ -42,10 +47,15 @@ export function onMouseDown(event, ViewerDOM, tool, value, props) {
   return nextValue;
 }
 
-export function onMouseMove(event, ViewerDOM, tool, value, props) {
-  let {left, top} = ViewerDOM.getBoundingClientRect();
-  let x = event.clientX - Math.round(left);
-  let y = event.clientY - Math.round(top);
+export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null) {
+  let x, y;
+  if(coords) {
+    ({x, y} = coords);
+  }else {
+    let {left, top} = ViewerDOM.getBoundingClientRect();
+    x = event.clientX - Math.round(left);
+    y = event.clientY - Math.round(top);
+  }
 
   let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
   let nextValue = value;
@@ -72,10 +82,15 @@ export function onMouseMove(event, ViewerDOM, tool, value, props) {
   return nextValue;
 }
 
-export function onMouseUp(event, ViewerDOM, tool, value, props) {
-  let {left, top} = ViewerDOM.getBoundingClientRect();
-  let x = event.clientX - Math.round(left);
-  let y = event.clientY - Math.round(top);
+export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
+  let x, y;
+  if(coords) {
+    ({x, y} = coords);
+  }else {
+    let {left, top} = ViewerDOM.getBoundingClientRect();
+    x = event.clientX - Math.round(left);
+    y = event.clientY - Math.round(top);
+  }
 
   let nextValue = value;
 
@@ -103,10 +118,15 @@ export function onMouseUp(event, ViewerDOM, tool, value, props) {
   return nextValue;
 }
 
-export function onWheel(event, ViewerDOM, tool, value, props) {
-  let {left, top} = ViewerDOM.getBoundingClientRect();
-  let x = event.clientX - Math.round(left);
-  let y = event.clientY - Math.round(top);
+export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
+  let x, y;
+  if(coords) {
+    ({x, y} = coords);
+  }else {
+    let {left, top} = ViewerDOM.getBoundingClientRect();
+    x = event.clientX - Math.round(left);
+    y = event.clientY - Math.round(top);
+  }
 
   if (!props.detectWheel) return value;
 
@@ -120,7 +140,7 @@ export function onWheel(event, ViewerDOM, tool, value, props) {
   return nextValue;
 }
 
-export function onMouseEnterOrLeave(event, ViewerDOM, tool, value, props) {
+export function onMouseEnterOrLeave(event, ViewerDOM, tool, value, props, coords = null) {
   let nextValue = setFocus(value, event.type === 'mouseenter');
 
   event.preventDefault();

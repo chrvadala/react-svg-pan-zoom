@@ -161,16 +161,16 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseMove(event) {
-    let nextValue = onMouseMove(event, this.SVGViewer, this.getTool(), this.getValue(), this.props);
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onMouseMove(event, this.SVGViewer, this.getTool(), this.getValue(), this.props, {x, y});
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
     }
-
-    let {left, top} = this.SVGViewer.getBoundingClientRect();
-    let x = event.clientX - Math.round(left);
-    let y = event.clientY - Math.round(top);
     this.setState({viewerX: x, viewerY: y});
   }
 
