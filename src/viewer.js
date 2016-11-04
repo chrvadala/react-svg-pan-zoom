@@ -76,32 +76,27 @@ export default class ReactSVGPanZoom extends React.Component {
 
   pan(SVGDeltaX, SVGDeltaY) {
     let nextValue = pan(this.getValue(), SVGDeltaX, SVGDeltaY);
-    this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    this.setValue(nextValue);
   }
 
   zoom(SVGPointX, SVGPointY, scaleFactor) {
     let nextValue = zoom(this.getValue(), SVGPointX, SVGPointY, scaleFactor);
-    this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    this.setValue(nextValue);
   }
 
   fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
     let nextValue = fitSelection(this.getValue(), selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
-    this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    this.setValue(nextValue);
   }
 
   fitToViewer() {
     let nextValue = fitToViewer(this.getValue());
-    this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    this.setValue(nextValue);
   }
 
   zoomOnViewerCenter(scaleFactor) {
     let nextValue = zoomOnViewerCenter(this.getValue(), scaleFactor);
-    this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    this.setValue(nextValue);
   }
 
   changeTool(tool) {
@@ -136,8 +131,7 @@ export default class ReactSVGPanZoom extends React.Component {
       let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
 
       if (this.getValue() !== nextValue) {
-        this.setState({value: nextValue});
-        if (this.props.onChange) this.props.onChange(nextValue);
+        this.setValue(nextValue);
       }
     }, 200);
   }
@@ -150,8 +144,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.getValue() !== nextValue) {
-      this.setState({value: nextValue});
-      if (this.props.onChange) this.props.onChange(nextValue);
+      this.setValue(nextValue);
     }
   }
 
@@ -163,8 +156,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
 
     if (this.getValue() !== nextValue) {
-      this.setState({value: nextValue});
-      if (this.props.onChange) this.props.onChange(nextValue);
+      this.setValue(nextValue);
     }
     this.setState({viewerX: x, viewerY: y});
   }
@@ -173,8 +165,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.getValue() !== nextValue) {
-      this.setState({value: nextValue});
-      if (this.props.onChange) this.props.onChange(nextValue);
+      this.setValue(nextValue);
     }
   }
 
@@ -182,8 +173,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.getValue() !== nextValue) {
-      this.setState({value: nextValue});
-      if (this.props.onChange) this.props.onChange(nextValue);
+      this.setValue(nextValue);
     }
   }
 
@@ -191,8 +181,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.getValue() !== nextValue) {
-      this.setState({value: nextValue});
-      if (this.props.onChange) this.props.onChange(nextValue);
+      this.setValue(nextValue);
     }
   }
 
