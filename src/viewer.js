@@ -4,9 +4,9 @@ import React, {PropTypes} from 'react';
 import ViewerEvent from './viewer-event';
 
 //features
-import {autoPanIfNeeded, pan} from './features/pan';
+import {pan} from './features/pan';
 import {getDefaultValue, setViewerSize, sameValues, changeTool} from './features/common';
-import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave} from './features/interactions';
+import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInterval} from './features/interactions';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 //ui
@@ -136,14 +136,13 @@ export default class ReactSVGPanZoom extends React.Component {
     if (props.onChange) props.onChange(state.value);
 
     this.autoPanTimer = setInterval(()=> {
-      let {props, state} = this;
-      if (!(state.value.tool === TOOL_NONE && props.detectAutoPan && state.value.focus)) return;
+      let coords = {x: this.state.viewerX, y: this.state.viewerY};
+      let nextValue = onInterval(null, this.SVGViewer, this.getTool(), this.getValue(), this.props, coords);
 
-      let nextValue = autoPanIfNeeded(state.value, state.viewerX, state.viewerY);
-
-      if (nextValue === state.value) return;
-      this.setState({value: nextValue});
-      props.onChange(nextValue);
+      if (this.state.value !== nextValue) {
+        this.setState({value: nextValue});
+        if (this.props.onChange) this.props.onChange(nextValue);
+      }
     }, 200);
   }
 

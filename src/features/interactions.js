@@ -8,16 +8,16 @@ import {
   MODE_IDLE
 } from '../constants';
 import {setFocus, setViewerCoords, getSVGPoint} from './common';
-import {startPanning, updatePanning, stopPanning} from './pan';
+import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import {mapRange} from '../utils'
 
 
 export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null) {
   let x, y;
-  if(coords) {
+  if (coords) {
     ({x, y} = coords);
-  }else {
+  } else {
     let {left, top} = ViewerDOM.getBoundingClientRect();
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
@@ -49,9 +49,9 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
 
 export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null) {
   let x, y;
-  if(coords) {
+  if (coords) {
     ({x, y} = coords);
-  }else {
+  } else {
     let {left, top} = ViewerDOM.getBoundingClientRect();
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
@@ -84,9 +84,9 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
 
 export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
   let x, y;
-  if(coords) {
+  if (coords) {
     ({x, y} = coords);
-  }else {
+  } else {
     let {left, top} = ViewerDOM.getBoundingClientRect();
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
@@ -120,9 +120,9 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
 
 export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
   let x, y;
-  if(coords) {
+  if (coords) {
     ({x, y} = coords);
-  }else {
+  } else {
     let {left, top} = ViewerDOM.getBoundingClientRect();
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
@@ -145,4 +145,14 @@ export function onMouseEnterOrLeave(event, ViewerDOM, tool, value, props, coords
 
   event.preventDefault();
   return nextValue;
+}
+
+export function onInterval(event, ViewerDOM, tool, value, props, coords = null) {
+  let {x, y} = coords;
+
+  if (tool !== TOOL_NONE) return value;
+  if (!props.detectAutoPan) return value;
+  if (!value.focus) return value;
+
+  return autoPanIfNeeded(value, x, y);
 }
