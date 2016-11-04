@@ -71,10 +71,8 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   setValue(nextValue) {
-    if (!sameValues(this.state.value, nextValue)) {
-      this.setState({value: nextValue});
-      if (this.props.onChange) this.props.onChange(nextValue);
-    }
+    this.setState({value: nextValue});
+    if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   pan(SVGDeltaX, SVGDeltaY) {
