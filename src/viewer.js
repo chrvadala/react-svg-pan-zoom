@@ -66,7 +66,7 @@ export default class ReactSVGPanZoom extends React.Component {
     return this.state.value;
   }
 
-  getTool(){
+  getTool() {
     return this.state.value.tool;
   }
 
@@ -107,7 +107,7 @@ export default class ReactSVGPanZoom extends React.Component {
     if (this.props.onChange) this.props.onChange(nextValue);
   }
 
-  changeTool(tool){
+  changeTool(tool) {
     let nextValue = changeTool(this.state.value, tool);
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
@@ -161,18 +161,17 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseMove(event) {
-    let {left, top} = this.SVGViewer.getBoundingClientRect();
-    let x = event.clientX - Math.round(left);
-    let y = event.clientY - Math.round(top);
-
     let nextValue = onMouseMove(event, this.SVGViewer, this.getTool(), this.getValue(), this.props);
 
     if (this.state.value !== nextValue) {
-      this.setState({value: nextValue, viewerX: x, viewerY: y});
+      this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
-    } else {
-      this.setState({viewerX: x, viewerY: y});
     }
+
+    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+    this.setState({viewerX: x, viewerY: y});
   }
 
   handlerMouseUp(event) {
