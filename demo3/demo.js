@@ -35,7 +35,12 @@ export default class Demo extends React.Component {
 
   handlerChange(value) {
     console.debug('onChange', value);
-    this.setState({value, tool: value.tool});
+    this.setState({value});
+  }
+
+  handlerChangeTool(tool) {
+    console.debug('onChangeTool', tool);
+    this.setState({tool});
   }
 
   debugClick(event) {
@@ -54,8 +59,11 @@ export default class Demo extends React.Component {
         <div style={{border: '1px solid black'}}>
 
           <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
-                           value={this.state.value} tool={this.state.tool}
                            onChange={value => this.handlerChange(value)}         //update state
+
+                           tool={this.state.tool}                               //lock tool
+                           onChangeTool={tool => this.handlerChangeTool(tool)}  //update tool on request
+
                            toolbarPosition={this.state.toolbarPosition}
 
                            detectWheel={this.state.detectWheel}                            //detect zoom gestures

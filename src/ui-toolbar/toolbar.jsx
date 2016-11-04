@@ -50,17 +50,14 @@ const STYLE_ELEMENT_ORIENTED = {
 const ICON_COLOR_OFF = '#FFF';
 const ICON_COLOR_ON = '#1CA6FC';
 
-export default function Toolbar({value, onChange, orientation}) {
-
+export default function Toolbar({tool, value, onChange, onChangeTool, orientation}) {
 
   let handleChangeTool = (event, tool) => {
-    let nextValue = changeTool(value, tool);
-    onChange(nextValue);
+    onChangeTool(tool);
     event.stopPropagation();
     event.preventDefault();
   };
 
-  let {tool} = value;
   let styleToolbarFull = STYLE_TOOLBAR_ORIENTED[orientation];
   let styleElementFull = STYLE_ELEMENT_ORIENTED[orientation];
 
@@ -88,6 +85,8 @@ export default function Toolbar({value, onChange, orientation}) {
 
 Toolbar.propTypes = {
   orientation: PropTypes.oneOf([ORIENTATION_VERTICAL, ORIENTATION_HORIZONTAL]).isRequired,
+  tool: PropTypes.string.isRequired,
   value: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  onChangeTool: PropTypes.func.isRequired,
 };

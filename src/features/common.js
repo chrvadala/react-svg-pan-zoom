@@ -5,10 +5,9 @@ import {Matrix} from 'transformation-matrix-js';
  * Obtain default value
  * @returns {Object}
  */
-export function getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
+export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
   return set({}, {
     version: 2,
-    tool,
     mode: MODE_IDLE,
     focus: false,
     a: 1,
@@ -111,7 +110,6 @@ export function setViewerSize(value, viewerWidth, viewerHeight) {
  */
 export function sameValues(value1, value2) {
   return value1.version === value2.version
-    && value1.tool === value2.tool
     && value1.mode === value2.mode
     && value1.focus === value2.focus
     && value1.a === value2.a
@@ -128,13 +126,4 @@ export function sameValues(value1, value2) {
     && value1.startY === value2.startY
     && value1.endX === value2.endX
     && value1.endY === value2.endY;
-}
-
-/**
- *
- * @param value
- * @param tool
- */
-export function changeTool(value, tool) {
-  return set(value, {tool});
 }

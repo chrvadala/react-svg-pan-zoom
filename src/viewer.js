@@ -30,44 +30,43 @@ export default class ReactSVGPanZoom extends React.Component {
     let {tool, value, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
 
-    tool = tool !== null ? tool : TOOL_NONE;
-    value = value !== null ? value : getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
+    value = value !== null ? value : getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight);
 
-    this.state = {value};
+    this.state = {value, tool: tool ? tool : TOOL_NONE};
     this.ViewerDOM = null;
   }
 
   componentWillReceiveProps(nextProps) {
-    let {props, state} = this;
-    let {onChange} = nextProps;
+    // let {props, state} = this;
+    // let {onChange} = nextProps;
 
-    let nextValue = state.value;
+    // let nextValue = state.value;
 
-    if (nextProps.value !== null && typeof nextProps.value === 'object' && !sameValues(nextProps.value, state.value)) {
-      nextValue = nextProps.value;
-    }
-
-    if (state.value.viewerWidth !== nextProps.width || state.value.viewerHeight !== nextProps.height) {
-      nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
-    }
-
-    if (nextProps.tool !== null && nextProps.tool !== state.value.tool) {
-      nextValue = changeTool(nextValue, nextProps.tool);
-    }
-
-    if (nextValue !== state.value) {
-      this.setState({value: nextValue});
-      if (onChange) onChange(nextValue);
-    }
+    // if (nextProps.value !== null && typeof nextProps.value === 'object' && !sameValues(nextProps.value, state.value)) {
+    //   nextValue = nextProps.value;
+    // }
+    //
+    // if (state.value.viewerWidth !== nextProps.width || state.value.viewerHeight !== nextProps.height) {
+    //   nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
+    // }
+    //
+    // if (nextProps.tool !== null && nextProps.tool !== state.value.tool) {
+    //   nextValue = changeTool(nextValue, nextProps.tool);
+    // }
+    //
+    // if (nextValue !== state.value) {
+    //   this.setState({value: nextValue});
+    //   if (onChange) onChange(nextValue);
+    // }
   }
 
 
   getValue() {
-    return this.state.value;
+    return this.props.value ? this.props.value : this.state.value;
   }
 
   getTool() {
-    return this.state.value.tool;
+    return this.props.tool ? this.props.tool : this.state.tool;
   }
 
   setValue(nextValue) {
@@ -106,9 +105,8 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   changeTool(tool) {
-    let nextValue = changeTool(this.getValue(), tool);
-    this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    this.setState({tool});
+    if (this.props.onChangeTool) this.props.onChangeTool(tool);
   }
 
   handleEvent(event) {
@@ -293,7 +291,12 @@ export default class ReactSVGPanZoom extends React.Component {
         </svg>
 
         <If condition={props.toolbarPosition !== POSITION_NONE}>
-          <ToolbarWrapper position={props.toolbarPosition} value={value} onChange={value => this.setValue(value)}/>
+          <ToolbarWrapper
+            position={props.toolbarPosition}
+            value={value}
+            onChange={value => this.setValue(value)}
+            tool={tool}
+            onChangeTool={tool => this.changeTool(tool)}/>
         </If>
       </div>
     );
@@ -349,6 +352,9 @@ ReactSVGPanZoom.propTypes = {
 
   //handler something changed
   onChange: PropTypes.func,
+
+  //handler tool changed
+  onChangeTool: PropTypes.func,
 
   //handler click
   onClick: PropTypes.func,
