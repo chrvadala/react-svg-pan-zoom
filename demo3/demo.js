@@ -8,8 +8,7 @@ import {
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
   fitToViewer
 } from '../src/index';
-import SnakeSVG from './svg/snake';
-import If from './if';
+import Snake from './svg/snake';
 
 export default class Demo extends React.Component {
 
@@ -30,7 +29,7 @@ export default class Demo extends React.Component {
   }
 
   componentDidMount() {
-    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()))
+    this.Viewer.fitToViewer()
   }
 
   handlerChange(value) {
@@ -41,6 +40,10 @@ export default class Demo extends React.Component {
   handlerChangeTool(tool) {
     console.debug('onChangeTool', tool);
     this.setState({tool});
+  }
+
+  handlerSetPosition(x, y) {
+    this.setState({x, y});
   }
 
   debugClick(event) {
@@ -56,40 +59,38 @@ export default class Demo extends React.Component {
   render() {
     return (
       <div style={{display: "flex"}}>
-        <div style={{border: '1px solid black'}}>
+        <ReactSVGPanZoom
+          width={500} height={500}
+          ref={Viewer => this.Viewer = Viewer}
 
-          <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
+          value={this.state.value}                                        //lock value
+          onChangeValue={value => this.handlerChange(value)}              //update state
 
-                           value={this.state.value}
-                           onChangeValue={value => this.handlerChange(value)}         //update state
+          tool={this.state.tool}                                          //lock tool
+          onChangeTool={tool => this.handlerChangeTool(tool)}             //update tool
 
-                           tool={this.state.tool}                               //lock tool
-                           onChangeTool={tool => this.handlerChangeTool(tool)}  //update tool on request
+          toolbarPosition={this.state.toolbarPosition}
 
-                           toolbarPosition={this.state.toolbarPosition}
+          detectWheel={this.state.detectWheel}                            //detect zoom gestures
+          detectAutoPan={this.state.detectAutoPan}                        //perform auto pan
 
-                           detectWheel={this.state.detectWheel}                            //detect zoom gestures
-                           detectAutoPan={this.state.detectAutoPan}                        //perform auto pan
+          onClick={event => this.debugClick(event)}                        //display click on console
+          onMouseMove={event => this.handlerSetPosition(event.x, event.y)} //display mouse position on window
+          onMouseUp={event => console.info('up', event.x, event.y)}        //print mouseup on console
+          onMouseDown={event => console.info('down', event.x, event.y)}    //print mousedown on console
 
-                           onClick={event => this.debugClick(event)}                       //display click on console
-                           onMouseMove={event => this.setState({
-                             x: event.x,
-                             y: event.y
-                           })} //display mouse position on window
-                           onMouseUp={event => console.info('up', event.x, event.y)}       //print mouseup on console
-                           onMouseDown={event => console.info('down', event.x, event.y)}   //print mousedown on console
-          >
-            {SnakeSVG}
-          </ReactSVGPanZoom>
-        </div>
+          style={{border: '1px solid black'}}
+        >
+          <svg width={ 1440 } height={ 1440 }>
+            <Snake />
+          </svg>
+        </ReactSVGPanZoom>
 
         <div style={{paddingLeft: "15px"}}>
-          <If condition={this.state.tool === TOOL_NONE}>
-            <strong>SVG Mouse Position</strong> <br/>
-            x: {Number(this.state.x).toFixed(4)} <br/>
-            y: {Number(this.state.y).toFixed(4)}
-            <hr/>
-          </If>
+          <strong>SVG Mouse Position</strong> <br/>
+          x: {Number(this.state.x).toFixed(4)} <br/>
+          y: {Number(this.state.y).toFixed(4)}
+          <hr/>
 
           <div>
             <strong>Additional features</strong> <br/>
