@@ -59,6 +59,8 @@ export default class Demo extends React.Component {
         <div style={{border: '1px solid black'}}>
 
           <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
+
+                           value={this.state.value}
                            onChange={value => this.handlerChange(value)}         //update state
 
                            tool={this.state.tool}                               //lock tool
@@ -108,7 +110,8 @@ export default class Demo extends React.Component {
 
           <div>
             <strong>Toolbar position</strong> <br/>
-            <select value={this.state.toolbarPosition} onChange={ event => this.setState({toolbarPosition: event.target.value})}>
+            <select value={this.state.toolbarPosition}
+                    onChange={ event => this.setState({toolbarPosition: event.target.value})}>
               <option value={POSITION_NONE}>none</option>
               <option value={POSITION_TOP}>top</option>
               <option value={POSITION_RIGHT}>right</option>

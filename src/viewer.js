@@ -30,34 +30,19 @@ export default class ReactSVGPanZoom extends React.Component {
     let {tool, value, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
 
-    value = value !== null ? value : getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight);
-
-    this.state = {value, tool: tool ? tool : TOOL_NONE};
+    this.state = {
+      value: value ? value : getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight),
+      tool: tool ? tool : TOOL_NONE
+    };
     this.ViewerDOM = null;
   }
 
   componentWillReceiveProps(nextProps) {
-    // let {props, state} = this;
-    // let {onChange} = nextProps;
-
-    // let nextValue = state.value;
-
-    // if (nextProps.value !== null && typeof nextProps.value === 'object' && !sameValues(nextProps.value, state.value)) {
-    //   nextValue = nextProps.value;
-    // }
-    //
-    // if (state.value.viewerWidth !== nextProps.width || state.value.viewerHeight !== nextProps.height) {
-    //   nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
-    // }
-    //
-    // if (nextProps.tool !== null && nextProps.tool !== state.value.tool) {
-    //   nextValue = changeTool(nextValue, nextProps.tool);
-    // }
-    //
-    // if (nextValue !== state.value) {
-    //   this.setState({value: nextValue});
-    //   if (onChange) onChange(nextValue);
-    // }
+    let value = this.getValue();
+    if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
+      let nextValue = setViewerSize(value, nextProps.width, nextProps.height);
+      this.setValue(nextValue);
+    }
   }
 
 
@@ -308,7 +293,6 @@ ReactSVGPanZoom.propTypes = {
   //value of the viewer (current point of view)
   value: PropTypes.shape({
     version: PropTypes.oneOf([2]).isRequired,
-    tool: PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
     mode: PropTypes.oneOf([MODE_IDLE, MODE_PANNING, MODE_ZOOMING]).isRequired,
     focus: PropTypes.bool.isRequired,
     a: PropTypes.number.isRequired,
