@@ -13,12 +13,14 @@ import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import {mapRange} from '../utils'
 
 
-export function onMouseDown(event, viewerCoords, props, value) {
-  let {x, y} = viewerCoords;
+export function onMouseDown(event, ViewerDOM, tool, value, props) {
+  let {left, top} = ViewerDOM.getBoundingClientRect();
+  let x = event.clientX - Math.round(left);
+  let y = event.clientY - Math.round(top);
 
   let nextValue = value;
 
-  switch (value.tool) {
+  switch (tool) {
     case TOOL_NONE:
       return value;
 
@@ -40,13 +42,15 @@ export function onMouseDown(event, viewerCoords, props, value) {
   return nextValue;
 }
 
-export function onMouseMove(event, viewerCoords, props, value) {
-  let {x, y} = viewerCoords;
+export function onMouseMove(event, ViewerDOM, tool, value, props) {
+  let {left, top} = ViewerDOM.getBoundingClientRect();
+  let x = event.clientX - Math.round(left);
+  let y = event.clientY - Math.round(top);
 
   let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
   let nextValue = value;
 
-  switch (value.tool) {
+  switch (tool) {
     case TOOL_NONE:
       return value;
 
@@ -68,12 +72,14 @@ export function onMouseMove(event, viewerCoords, props, value) {
   return nextValue;
 }
 
-export function onMouseUp(event, viewerCoords, props, value) {
-  let {x, y} = viewerCoords;
+export function onMouseUp(event, ViewerDOM, tool, value, props) {
+  let {left, top} = ViewerDOM.getBoundingClientRect();
+  let x = event.clientX - Math.round(left);
+  let y = event.clientY - Math.round(top);
 
   let nextValue = value;
 
-  switch (value.tool) {
+  switch (tool) {
     case TOOL_NONE:
       return value;
 
@@ -97,8 +103,10 @@ export function onMouseUp(event, viewerCoords, props, value) {
   return nextValue;
 }
 
-export function onWheel(event, viewerCoords, props, value) {
-  let {x, y} = viewerCoords;
+export function onWheel(event, ViewerDOM, tool, value, props) {
+  let {left, top} = ViewerDOM.getBoundingClientRect();
+  let x = event.clientX - Math.round(left);
+  let y = event.clientY - Math.round(top);
 
   if (!props.detectWheel) return value;
 
@@ -112,7 +120,7 @@ export function onWheel(event, viewerCoords, props, value) {
   return nextValue;
 }
 
-export function onMouseEnterOrLeave(event, viewerCoords, props, value) {
+export function onMouseEnterOrLeave(event, ViewerDOM, tool, value, props) {
   let nextValue = setFocus(value, event.type === 'mouseenter');
 
   event.preventDefault();
