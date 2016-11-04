@@ -15,9 +15,9 @@ export default class Demo extends React.Component {
 
   constructor(props) {
     super(props);
-    let defaultValue = null;
+
     this.state = {
-      value: defaultValue,
+      value: null,
       tool: TOOL_NONE,
       x: 0,
       y: 0,
@@ -34,7 +34,7 @@ export default class Demo extends React.Component {
   }
 
   handlerChange(value) {
-    console.debug('onChange', value);
+    console.debug('onChangeValue', value);
     this.setState({value});
   }
 
@@ -61,7 +61,7 @@ export default class Demo extends React.Component {
           <ReactSVGPanZoom width={500} height={500} ref={Viewer => this.Viewer = Viewer}
 
                            value={this.state.value}
-                           onChange={value => this.handlerChange(value)}         //update state
+                           onChangeValue={value => this.handlerChange(value)}         //update state
 
                            tool={this.state.tool}                               //lock tool
                            onChangeTool={tool => this.handlerChangeTool(tool)}  //update tool on request

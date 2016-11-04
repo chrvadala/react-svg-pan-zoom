@@ -27,7 +27,7 @@ export default class ReactSVGPanZoom extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    let {tool, value, onChange, onReady, width: viewerWidth, height: viewerHeight, children} = this.props;
+    let {tool, value, width: viewerWidth, height: viewerHeight, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
 
     this.state = {
@@ -56,7 +56,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
   setValue(nextValue) {
     this.setState({value: nextValue});
-    if (this.props.onChange) this.props.onChange(nextValue);
+    if (this.props.onChangeValue) this.props.onChangeValue(nextValue);
   }
 
   pan(SVGDeltaX, SVGDeltaY) {
@@ -109,7 +109,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
   componentDidMount() {
     let {props, state} = this;
-    if (props.onChange) props.onChange(state.value);
+    if (props.onChangeValue) props.onChangeValue(state.value);
 
     this.autoPanTimer = setInterval(()=> {
       let coords = {x: this.state.viewerX, y: this.state.viewerY};
@@ -268,7 +268,7 @@ export default class ReactSVGPanZoom extends React.Component {
           <ToolbarWrapper
             position={props.toolbarPosition}
             value={value}
-            onChange={value => this.setValue(value)}
+            onChangeValue={value => this.setValue(value)}
             tool={tool}
             onChangeTool={tool => this.changeTool(tool)}/>
         </If>
@@ -324,7 +324,7 @@ ReactSVGPanZoom.propTypes = {
   toolbarPosition: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
 
   //handler something changed
-  onChange: PropTypes.func,
+  onChangeValue: PropTypes.func,
 
   //handler tool changed
   onChangeTool: PropTypes.func,

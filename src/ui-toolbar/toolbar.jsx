@@ -50,7 +50,7 @@ const STYLE_ELEMENT_ORIENTED = {
 const ICON_COLOR_OFF = '#FFF';
 const ICON_COLOR_ON = '#1CA6FC';
 
-export default function Toolbar({tool, value, onChange, onChangeTool, orientation}) {
+export default function Toolbar({tool, value, onChangeValue, onChangeTool, orientation}) {
 
   let handleChangeTool = (event, tool) => {
     onChangeTool(tool);
@@ -87,6 +87,6 @@ Toolbar.propTypes = {
   orientation: PropTypes.oneOf([ORIENTATION_VERTICAL, ORIENTATION_HORIZONTAL]).isRequired,
   tool: PropTypes.string.isRequired,
   value: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChangeValue: PropTypes.func.isRequired,
   onChangeTool: PropTypes.func.isRequired,
 };
