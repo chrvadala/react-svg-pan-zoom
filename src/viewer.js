@@ -78,37 +78,37 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   pan(SVGDeltaX, SVGDeltaY) {
-    let nextValue = pan(this.state.value, SVGDeltaX, SVGDeltaY);
+    let nextValue = pan(this.getValue(), SVGDeltaX, SVGDeltaY);
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   zoom(SVGPointX, SVGPointY, scaleFactor) {
-    let nextValue = zoom(this.state.value, SVGPointX, SVGPointY, scaleFactor);
+    let nextValue = zoom(this.getValue(), SVGPointX, SVGPointY, scaleFactor);
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-    let nextValue = fitSelection(this.state.value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
+    let nextValue = fitSelection(this.getValue(), selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   fitToViewer() {
-    let nextValue = fitToViewer(this.state.value);
+    let nextValue = fitToViewer(this.getValue());
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   zoomOnViewerCenter(scaleFactor) {
-    let nextValue = zoomOnViewerCenter(this.state.value, scaleFactor);
+    let nextValue = zoomOnViewerCenter(this.getValue(), scaleFactor);
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
   }
 
   changeTool(tool) {
-    let nextValue = changeTool(this.state.value, tool);
+    let nextValue = changeTool(this.getValue(), tool);
     this.setState({value: nextValue});
     if (this.props.onChange) this.props.onChange(nextValue);
   }
@@ -123,7 +123,7 @@ export default class ReactSVGPanZoom extends React.Component {
       mousedown: onMouseDown
     };
 
-    if (value.tool !== TOOL_NONE) return;
+    if (this.getTool() !== TOOL_NONE) return;
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
@@ -139,7 +139,7 @@ export default class ReactSVGPanZoom extends React.Component {
       let coords = {x: this.state.viewerX, y: this.state.viewerY};
       let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
 
-      if (this.state.value !== nextValue) {
+      if (this.getValue() !== nextValue) {
         this.setState({value: nextValue});
         if (this.props.onChange) this.props.onChange(nextValue);
       }
@@ -153,7 +153,7 @@ export default class ReactSVGPanZoom extends React.Component {
   handleMouseDown(event) {
     let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
-    if (this.state.value !== nextValue) {
+    if (this.getValue() !== nextValue) {
       this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
     }
@@ -166,7 +166,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
     let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
 
-    if (this.state.value !== nextValue) {
+    if (this.getValue() !== nextValue) {
       this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
     }
@@ -176,7 +176,7 @@ export default class ReactSVGPanZoom extends React.Component {
   handlerMouseUp(event) {
     let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
-    if (this.state.value !== nextValue) {
+    if (this.getValue() !== nextValue) {
       this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
     }
@@ -185,7 +185,7 @@ export default class ReactSVGPanZoom extends React.Component {
   handlerWheel(event) {
     let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
-    if (this.state.value !== nextValue) {
+    if (this.getValue() !== nextValue) {
       this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
     }
@@ -194,7 +194,7 @@ export default class ReactSVGPanZoom extends React.Component {
   handlerMouseEnterOrLeave(event) {
     let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
-    if (this.state.value !== nextValue) {
+    if (this.getValue() !== nextValue) {
       this.setState({value: nextValue});
       if (this.props.onChange) this.props.onChange(nextValue);
     }
@@ -203,22 +203,23 @@ export default class ReactSVGPanZoom extends React.Component {
   render() {
     let {props, state: {value, viewerX, viewerY}} = this;
     let style = props.style;
+    let tool = this.getTool();
 
-    if (value.tool === TOOL_PAN)
+    if (tool === TOOL_PAN)
       style = {
         cursor: cursor(value.mode === MODE_PANNING ? 'grabbing' : 'grab'),
         ...style
       };
 
 
-    if (value.tool === TOOL_ZOOM_IN)
+    if (tool === TOOL_ZOOM_IN)
       style = {
         cursor: 'zoom-in',
         ...style
       };
 
 
-    if (value.tool === TOOL_ZOOM_OUT)
+    if (tool === TOOL_ZOOM_OUT)
       style = {
         cursor: 'zoom-out',
         ...style
@@ -251,7 +252,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
           <g
             transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
-            style={value.tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
+            style={tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
             onMouseDown={ event => this.handleEvent(event)}
             onMouseMove={event => this.handleEvent(event)}
             onMouseUp={event => this.handleEvent(event)}
@@ -268,7 +269,7 @@ export default class ReactSVGPanZoom extends React.Component {
             </g>
           </g>
 
-          <If condition={value.tool === TOOL_NONE && props.detectAutoPan && value.focus}>
+          <If condition={tool === TOOL_NONE && props.detectAutoPan && value.focus}>
             <g style={{pointerEvents: "none"}}>
               <If condition={viewerY <= 20}>
                 <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
