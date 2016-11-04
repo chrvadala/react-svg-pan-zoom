@@ -5,7 +5,7 @@ import ViewerEvent from './viewer-event';
 
 //features
 import {pan} from './features/pan';
-import {getDefaultValue, setViewerSize, sameValues, changeTool} from './features/common';
+import {getDefaultValue, setViewerSize} from './features/common';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInterval} from './features/interactions';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
