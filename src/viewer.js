@@ -34,7 +34,7 @@ export default class ReactSVGPanZoom extends React.Component {
     value = value !== null ? value : getDefaultValue(tool, viewerWidth, viewerHeight, SVGWidth, SVGHeight);
 
     this.state = {value};
-    this.SVGViewer = null;
+    this.ViewerDOM = null;
   }
 
   componentWillReceiveProps(nextProps) {
@@ -127,7 +127,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
-    onEventHandler(new ViewerEvent(event, value, this.SVGViewer));
+    onEventHandler(new ViewerEvent(event, value, this.ViewerDOM));
   }
 
 
@@ -137,7 +137,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
     this.autoPanTimer = setInterval(()=> {
       let coords = {x: this.state.viewerX, y: this.state.viewerY};
-      let nextValue = onInterval(null, this.SVGViewer, this.getTool(), this.getValue(), this.props, coords);
+      let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
 
       if (this.state.value !== nextValue) {
         this.setState({value: nextValue});
@@ -151,7 +151,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleMouseDown(event) {
-    let nextValue = onMouseDown(event, this.SVGViewer, this.getTool(), this.getValue(), this.props);
+    let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -160,11 +160,11 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseMove(event) {
-    let {left, top} = this.SVGViewer.getBoundingClientRect();
+    let {left, top} = this.ViewerDOM.getBoundingClientRect();
     let x = event.clientX - Math.round(left);
     let y = event.clientY - Math.round(top);
 
-    let nextValue = onMouseMove(event, this.SVGViewer, this.getTool(), this.getValue(), this.props, {x, y});
+    let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -174,11 +174,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseUp(event) {
-    let {left, top} = this.SVGViewer.getBoundingClientRect();
-    let x = event.clientX - Math.round(left);
-    let y = event.clientY - Math.round(top);
-
-    let nextValue = onMouseUp(event, this.SVGViewer, this.getTool(), this.getValue(), this.props);
+    let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -187,7 +183,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerWheel(event) {
-    let nextValue = onWheel(event, this.SVGViewer, this.getTool(), this.getValue(), this.props);
+    let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -196,7 +192,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handlerMouseEnterOrLeave(event) {
-    let nextValue = onMouseEnterOrLeave(event, this.SVGViewer, this.getTool(), this.getValue(), this.props);
+    let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
 
     if (this.state.value !== nextValue) {
       this.setState({value: nextValue});
@@ -232,7 +228,7 @@ export default class ReactSVGPanZoom extends React.Component {
     return (
       <div style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight}}>
         <svg
-          ref={SVGViewer => this.SVGViewer = SVGViewer}
+          ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
           width={value.viewerWidth}
           height={value.viewerHeight}
           style={style}
