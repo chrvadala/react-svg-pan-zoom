@@ -4,6 +4,7 @@
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
+![licence-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
@@ -30,20 +31,18 @@ This component can work in three different modes depending on the selected tool:
 npm install --save react-svg-pan-zoom
 ```
 
-[Sample code available here](./demo1)
+[Sample code available here](https://github.com/chrvadala/svg-viewer-examples/blob/master/1-basic/example1.jsx)
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {ReactSVGPanZoom, fitToViewer} from 'react-svg-pan-zoom';
+import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 
 class Demo1 extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.Viewer = null;
   }
-  componentDidMount() {
-    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()));
-    //or simply
+  componentDidMount() {    
     this.Viewer.fitToViewer();
   }
   render() {
@@ -63,7 +62,7 @@ class Demo1 extends React.Component {
           onMouseMove={event => console.log('move', event.x, event.y)}
           onMouseDown={event => console.log('down', event.x, event.y)}>
 
-          <svg width={617} height={316}>
+          <svg width={900} height={800}>
               <-- put here your SVG content -->
           </svg>
         </ReactSVGPanZoom>
@@ -78,96 +77,46 @@ class Demo1 extends React.Component {
   - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))
   - `background` – background of the viewer (default color: dark grey)
   - `style` - CSS style of the viewer
-  - `specialKeys` - array of keys used in zoom mode to switch between zoom-in and zoom-out (default binding: Win/Cmd, Ctrl)
   - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `SVGBackground` - background of the SVG (default color: white)
-  - `onClick` - handler for click `fn(viewerEvent)`
-  - `onMouseUp` - handler for mouseup `fn(viewerEvent)`
-  - `onMouseMove` - handler for mousemove `fn(viewerEvent)`
-  - `onMouseDown` - handler for mousedown `fn(viewerEvent)`
-  - `value` - point of the view
-  - `tool` - tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
-  - `onChange` - handler for changes `fn(value)`
+  - `onClick` - handler for click `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
+  - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
+  - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
+  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
+  - `value` - inject and lock the viewer to a specific value
+  - `onChangeValue` - callback called when the viewer changes its value `fn(value)`
+  - `tool` - inject and lock the viewer to a specific tool ( one of `none`, `pan`, `zoom-in`, `zoom-out` )
+  - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool)`
 
 ##  Methods
- - `setValue( nextValue )` - Through this method you can set a new value
  - `pan( SVGDeltaX, SVGDeltaY )` - Apply a pan
  - `zoom(SVGPointX, SVGPointY, scaleFactor)` - Zoom in or out the SVG
  - `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)` - Fit an SVG area to viewer
  - `fitToViewer()` - Fit all SVG to Viewer
  - `zoomOnViewerCenter(scaleFactor)` - Zoom SVG on center
- - `changeTool(tool)` - change current tool ( one of `none`, `pan`, `zoom`, `zoom-in`, `zoom-out` )
+ - `getValue()` - Get current viewer value
+ - `setValue(value)` - Through this method you can set a new value
+ - `getTool()` - Get current tool
+ - `setTool(tool)` - Set a tool (one of `none`,`pan`,`zoom-in`,`zoom-out`)
 
 ## ViewerEvent attributes
 Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below).
-If, for your purpose, you need the original React event instance (`SyntheticEvent), you can get it through `event.originalEvent`.
+If, for your purpose, you need the original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`.
 
-  - `SyntheticEvent originalEvent` - The original React event
-  - `SVGSVGElement SVGViewer` - Reference to SVGViewer
-  - `object` - coordinates (x,y) of the event mapped to SVG coordinates
-  - `number x` - x coordinate of the event mapped to SVG coordinates
-  - `number y` - y coordinate of the event mapped to SVG coordinates
-  - `number scaleFactor` - zoom level
-  - `number translationX` - x delta from the viewer origin
-  - `number translationY` - y delta from the viewer origin
+  - `originalEvent: SyntheticEvent` - The original React event
+  - `SVGViewer: SVGSVGElement ` - Reference to SVGViewer
+  - `point: object ` - coordinates (x,y) of the event mapped to SVG coordinates
+  - `x: number ` - x coordinate of the event mapped to SVG coordinates
+  - `y: number ` - y coordinate of the event mapped to SVG coordinates
+  - `scaleFactor: number ` - zoom level
+  - `translationX: number ` - x delta from the viewer origin
+  - `translationY: number ` - y delta from the viewer origin
 
 ## Advanced usage
-If you need to control the state of the viewer you can use the method `onChange` and the prop `value`. With this two you
-can control React SVG Pan Zoom in the same way in which you would with an `<input>` tag ([See here how](https://facebook.github.io/react/docs/forms.html#controlled-components)).
-
-[Sample code available here](./demo2)
-```js
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {ReactSVGPanZoom, TOOL_NONE, fitSelection, zoomOnViewerCenter, fitToViewer} from 'react-svg-pan-zoom';
-
-class Demo2 extends React.Component {
-  constructor(props, context) {
-    super(props, context);
-    this.state = {
-      value: null,
-      tool: TOOL_NONE
-    };
-  }
-  componentDidMount() {
-    this.Viewer.setValue(fitToViewer(this.Viewer.getValue()));
-    //or simply
-    this.Viewer.fitToViewer();
-  }
-  render() {
-    return (
-      <div>
-        <button onClick={event => this.setState({value: zoomOnViewerCenter(this.state.value, 1.1)})}>Zoom in</button>
-        <button onClick={event => this.setState({value: fitSelection(this.state.value, 40, 40, 200, 200)})}>
-          Zoom area 200x200
-        </button>
-        <button onClick={event => this.setState({value: fitToViewer(this.state.value)})}>Fit</button>
-
-        <hr/>
-
-        <ReactSVGPanZoom
-          style={{border: "1px solid black"}}
-          width={400} height={400} ref={Viewer => this.Viewer = Viewer}
-          onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
-          onMouseUp={event => console.log('up', event.x, event.y)}
-          onMouseMove={event => console.log('move', event.x, event.y)}
-          onMouseDown={event => console.log('down', event.x, event.y)}
-
-          value={this.state.value} tool={this.state.tool}
-          onChange={value => this.setState({value, tool: value.tool})}>
-
-          <svg width={800} height={800}>
-            <-- put here your SVG content -->
-          </svg>
-        </ReactSVGPanZoom>
-      </div>
-    );
-  }
-}
-```
-
+If you need to control the state of the viewer from the parent - in the same way that you would with an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)) - you can use props `tool` and `value` to lock the viewer to a specific state and use methods `onChangeValue` and `onChangeTool` to change your state when requested.
+A full demo is available at [2-controlled-state](https://github.com/chrvadala/svg-viewer-examples/tree/master/2-controlled-state).
 
 ## Autosize
 **React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its child element.
