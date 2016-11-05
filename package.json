@@ -5,14 +5,14 @@
   "main": "./lib/index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
-    "start": "webpack-dev-server --inline --config demo3/webpack.config.dev.js",
+    "start": "webpack-dev-server --inline --config demo/webpack.config.dev.js",
     "build": "npm run build:lib && npm run build:dist && npm run build:demo",
     "build:lib": "rm -R lib && babel src --out-dir lib && git add -A lib ",
     "build:dist": "webpack && git add -A dist",
-    "build:demo": "webpack --config demo3/webpack.config.dev.js && git add -A demo3/build",
+    "build:demo": "webpack --config demo/webpack.config.dev.js && git add -A demo/build",
     "version": "npm run build",
     "postpublish": "npm run website:update",
-    "website:update": "gh-pages -m 'Update gh-pages' -d ./demo3/build/"
+    "website:update": "gh-pages -m 'Update gh-pages' -d ./demo/build/"
   },
   "repository": {
     "type": "git",
