@@ -10,7 +10,7 @@ import {
 console.info("react-svg-pan-zoom started"); //MIT LICENSE COMPLIANT
 
 const Viewer = () => {
-  let msg = "HEY! You are trying to use and older version of ReactSVGPanZoom. "
+  let msg = "HEY! You are trying to use an older version of ReactSVGPanZoom. "
    + "Read here https://github.com/chrvadala/react-svg-pan-zoom/wiki/Migrate-v1-to-v2";
 
   console.error(msg);
