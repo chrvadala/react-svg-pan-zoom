@@ -1,6 +1,7 @@
 "use strict";
 
 import React from 'react';
+import ReactDOM from 'react-dom';
 import {
   ReactSVGPanZoom,
   Toolbar,
@@ -8,7 +9,7 @@ import {
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
   fitToViewer
 } from '../src/index';
-import Snake from './svg/snake';
+import Snake from './snake.svg';
 
 export default class Demo extends React.Component {
 
@@ -155,3 +156,9 @@ export default class Demo extends React.Component {
     )
   }
 }
+
+
+ReactDOM.render(
+  <Demo />,
+  document.getElementById('app')
+);
