@@ -9,10 +9,10 @@
     "build": "npm run build:lib && npm run build:dist && npm run build:demo",
     "build:lib": "rm -R lib && babel src --out-dir lib && git add -A lib ",
     "build:dist": "webpack && git add -A dist",
-    "build:demo": "webpack --config demo/webpack.config.dev.js && git add -A demo/build",
+    "build:demo": "webpack --config demo/webpack.config.dev.js && git add -A demo",
     "version": "npm run build",
     "postpublish": "npm run website:update",
-    "website:update": "gh-pages -m 'Update gh-pages' -d ./demo/build/"
+    "website:update": "gh-pages -m 'Update gh-pages' -d demo"
   },
   "repository": {
     "type": "git",
