@@ -171,9 +171,10 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   render() {
-    let {props, state: {value, viewerX, viewerY}} = this;
+    let {props, state: {viewerX, viewerY}} = this;
     let style = props.style;
     let tool = this.getTool();
+    let value = this.getValue();
 
     if (tool === TOOL_PAN)
       style = {
