@@ -31,13 +31,13 @@ This component can work in three different modes depending on the selected tool:
 npm install --save react-svg-pan-zoom
 ```
 
-[Sample code available here](https://github.com/chrvadala/svg-viewer-examples/blob/master/1-basic/example1.jsx)
+[Sample code available here](examples/1-basic/example1.jsx)
 ```js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 
-class Demo1 extends React.Component {
+class Demo extends React.Component {
   constructor(props, context) {
     super(props, context);
     this.Viewer = null;
@@ -49,7 +49,7 @@ class Demo1 extends React.Component {
     return (
       <div>
         <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
-        <button onClick={event => this.Viewer.fitSelection(40, 40, 200, 200)}>Zoom area 200x200</button>
+        <button onClick={event => this.Viewer.fitSelection(40, 40, 200, 200)}>Zoom area</button>
         <button onClick={event => this.Viewer.fitToViewer()}>Fit</button>
 
         <hr/>
@@ -114,9 +114,14 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
   - `translationX: number ` - x delta from the viewer origin
   - `translationY: number ` - y delta from the viewer origin
 
-## Advanced usage
-If you need to control the state of the viewer from the parent - in the same way that you would with an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)) - you can use props `tool` and `value` to lock the viewer to a specific state and use methods `onChangeValue` and `onChangeTool` to change your state when requested.
-A full demo is available at [2-controlled-state](https://github.com/chrvadala/svg-viewer-examples/tree/master/2-controlled-state).
+## Examples
+| Example          |  Description |
+| ---------------- |  ----------- |
+|[Basic](examples/1-basic/) | This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.|
+|[Controlled state](examples/2-controlled-state/) | This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).|
+|[Redux](examples/3-redux/) | This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.|
+|[React Planner](https://cvdlab.github.io/react-planner/) | This is a React project that use this component.|
+
 
 ## Autosize
 **React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its child element.
