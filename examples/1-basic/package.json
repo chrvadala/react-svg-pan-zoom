@@ -1,0 +1,29 @@
+{
+  "name": "1-basic",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "webpack-dev-server"
+  },
+  "dependencies": {
+    "babel-core": "^6.18.2",
+    "babel-loader": "^6.2.5",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-es2015": "^6.14.0",
+    "babel-preset-react": "^6.11.1",
+    "open-browser-webpack-plugin": "0.0.3",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-svg-pan-zoom": "chrvadala/react-svg-pan-zoom#fd3b819b88a49005f41893f49cf3371099bbcbb1",
+    "webpack": "^1.13.3",
+    "webpack-dev-server": "^1.16.2"
+  },
+  "babel": {
+    "plugins": [
+      "transform-object-rest-spread"
+    ],
+    "presets": [
+      "es2015",
+      "react"
+    ]
+  }
+}
