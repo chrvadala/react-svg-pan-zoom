@@ -13,7 +13,7 @@
     "open-browser-webpack-plugin": "0.0.3",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
-    "react-svg-pan-zoom": "chrvadala/react-svg-pan-zoom#fd3b819b88a49005f41893f49cf3371099bbcbb1",
+    "react-svg-pan-zoom": "^2.0.0",
     "webpack": "^1.13.3",
     "webpack-dev-server": "^1.16.2"
   },
