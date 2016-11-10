@@ -133,6 +133,11 @@ cd react-svg-pan-zoom
 npm install && npm start
 ```
 
+## Changelog
+| V | Changes |
+|---| ------- |
+|2.0| Project refactor. Follow [this guide](/docs/migrate-from-v1-to-v2.md) for migration instructions.|
+
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
 
