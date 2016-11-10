@@ -436,6 +436,7 @@ body {
   line-height: 1.5;
   color: #666;
   background: #fafafa url(../images/body-bg.jpg) 0 0 repeat;
+  padding-bottom: 40px;
 }
 
 p {
@@ -642,12 +643,13 @@ table {
 }
 
 th {
-  font-weight: 500;
+  font-weight: bold;
 }
 
 td {
+  padding: 5px;
   font-weight: 300;
-  text-align: center;
+  text-align: left;
   border: 1px solid #ebebeb;
 }
 
@@ -943,4 +945,9 @@ ul li{
 .doc-button:hover{
   color: #fff;
   text-decoration: underline;
+}
+
+
+.doc ul{
+  list-style: circle;
 }

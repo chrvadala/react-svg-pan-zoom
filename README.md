@@ -6,10 +6,12 @@
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 ![licence-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 
+<!-- START_NO_WEB -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Live Demo
 available at [http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
+<!-- END_NO_WEB -->
 
 ## Features
 This component can work in three different modes depending on the selected tool:
@@ -17,7 +19,7 @@ This component can work in three different modes depending on the selected tool:
 - With the tool **zoom** the user can scale the image either with a point click or selecting a region to zoom the specified area
 - With the tool **none** the user can interact with the SVG content and trigger browser events
 
-##Additional Features
+## Additional Features
 - Zoom detection performed through pinch and scroll (optional)
 - *Autopan* when the mouse is close to the edge of the viewer (optional)
 - Each callback function receives (x,y) coords mapped to the real size of the SVG
@@ -42,7 +44,7 @@ class Demo extends React.Component {
     super(props, context);
     this.Viewer = null;
   }
-  componentDidMount() {    
+  componentDidMount() {
     this.Viewer.fitToViewer();
   }
   render() {
