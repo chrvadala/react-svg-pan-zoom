@@ -17,5 +17,9 @@ Change `onChange={event => this.setState({value: event.value})}`
 
 with `onChangeValue={value => this.setState({value})}`
 
+## Change wheel detection (if you are using it)
+Change `detectPinch={true}`
 
-A full working example is available here https://github.com/chrvadala/svg-viewer-examples/tree/master/2-controlled-state
+with `detectWheel={true}`
+
+[Working examples](../examples)
