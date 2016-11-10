@@ -9,7 +9,7 @@
     "build": "npm run build:lib && npm run build:dist && npm run build:demo",
     "build:lib": "rm -R lib && babel src --out-dir lib && git add -A lib ",
     "build:dist": "webpack && git add -A dist",
-    "build:demo": "build:demodoc && webpack --config demo/webpack.config.dev.js && git add -A demo",
+    "build:demo": "npm run build:demodoc && webpack --config demo/webpack.config.dev.js && git add -A demo",
     "build:demodoc": "node demo/builddoc.js",
     "version": "npm run build",
     "postpublish": "npm run website:update",
