@@ -97,6 +97,8 @@ class Demo extends React.Component {
  - `zoom(SVGPointX, SVGPointY, scaleFactor)` - Zoom in or out the SVG
  - `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)` - Fit an SVG area to viewer
  - `fitToViewer()` - Fit all SVG to Viewer
+ - `setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)` - Set a point on Viewer center
+ - `reset()` - Reset Viewer view to default
  - `zoomOnViewerCenter(scaleFactor)` - Zoom SVG on center
  - `getValue()` - Get current viewer value
  - `setValue(value)` - Through this method you can set a new value
