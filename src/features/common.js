@@ -130,3 +130,22 @@ export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
     f: matrix.f
   });
 }
+
+/**
+ *
+ * @param value
+ * @returns {Object}
+ */
+export function reset(value) {
+  let matrix = new Matrix();
+
+  return set(value, {
+    mode: MODE_IDLE,
+    a: matrix.a,
+    b: matrix.b,
+    c: matrix.c,
+    d: matrix.d,
+    e: matrix.e,
+    f: matrix.f
+  });
+}

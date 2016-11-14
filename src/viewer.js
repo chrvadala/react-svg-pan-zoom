@@ -5,7 +5,7 @@ import ViewerEvent from './viewer-event';
 
 //features
 import {pan} from './features/pan';
-import {getDefaultValue, setViewerSize, setPointOnViewerCenter} from './features/common';
+import {getDefaultValue, setViewerSize, setPointOnViewerCenter, reset} from './features/common';
 import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInterval} from './features/interactions';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
@@ -86,6 +86,11 @@ export default class ReactSVGPanZoom extends React.Component {
 
   setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
     let nextValue = setPointOnViewerCenter(this.getValue(), SVGPointX, SVGPointY, zoomLevel);
+    this.setValue(nextValue);
+  }
+
+  reset() {
+    let nextValue = reset(this.getValue());
     this.setValue(nextValue);
   }
 
