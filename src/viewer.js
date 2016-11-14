@@ -100,7 +100,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleEvent(event) {
-    let {props: {onClick, onMouseMove, onMouseUp, onMouseDown}, state: {value}} = this;
+    let {props: {onClick, onMouseMove, onMouseUp, onMouseDown}, state: {value}, ViewerDOM} = this;
 
     let eventsHandler = {
       click: onClick,
@@ -110,10 +110,12 @@ export default class ReactSVGPanZoom extends React.Component {
     };
 
     if (this.getTool() !== TOOL_NONE) return;
+    if (event.target === ViewerDOM) return;
+
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
-    onEventHandler(new ViewerEvent(event, value, this.ViewerDOM));
+    onEventHandler(new ViewerEvent(event, value, ViewerDOM));
   }
 
 
@@ -216,9 +218,19 @@ export default class ReactSVGPanZoom extends React.Component {
           width={value.viewerWidth}
           height={value.viewerHeight}
           style={style}
-          onMouseDown={ event => this.handleMouseDown(event)}
-          onMouseMove={ event => this.handlerMouseMove(event)}
-          onMouseUp={ event => this.handlerMouseUp(event)}
+          onMouseDown={ event => {
+            this.handleMouseDown(event);
+            this.handleEvent(event);
+          }}
+          onMouseMove={ event => {
+            this.handlerMouseMove(event);
+            this.handleEvent(event);
+          }}
+          onMouseUp={ event => {
+            this.handlerMouseUp(event);
+            this.handleEvent(event);
+          }}
+          onClick={event => this.handleEvent(event)}
           onWheel={ event => this.handlerWheel(event)}
           onMouseEnter={ event => this.handlerMouseEnterOrLeave(event)}
           onMouseLeave={ event => this.handlerMouseEnterOrLeave(event)}>
@@ -235,12 +247,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
           <g
             transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
-            style={tool === TOOL_NONE ? {} : {pointerEvents: "none"}}
-            onMouseDown={ event => this.handleEvent(event)}
-            onMouseMove={event => this.handleEvent(event)}
-            onMouseUp={event => this.handleEvent(event)}
-            onClick={event => this.handleEvent(event)}
-          >
+            style={tool === TOOL_NONE ? {} : {pointerEvents: "none"}}>
             <rect
               fill={this.props.SVGBackground}
               x={0}
