@@ -26,7 +26,7 @@ let html = `<div><h1>react-svg-pan-zoom</h1>
 <h2>Usage</h2>
 <pre><code>npm install --save react-svg-pan-zoom
 </code></pre>
-<p><a href="examples/1-basic/example1.jsx">Sample code available here</a></p>
+<p><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/example1.jsx">Sample code available here</a></p>
 <pre><code class="language-js">import React from 'react';
 import ReactDOM from 'react-dom';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
@@ -71,6 +71,7 @@ class Demo extends React.Component {
 <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to omit this see  <a href="#autosize">Autosize</a>)</li>
 <li><code>background</code> – background of the viewer (default color: dark grey)</li>
 <li><code>style</code> - CSS style of the viewer</li>
+<li><code>className</code> - CSS class of the viewer</li>
 <li><code>detectWheel</code> - detect zoom operation performed through pinch gesture or mouse scroll</li>
 <li><code>detectAutoPan</code> - perform PAN if the mouse is on the border of the viewer</li>
 <li><code>toolbarPosition</code> - toolbar position (one of <code>none</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>)</li>
@@ -90,6 +91,8 @@ class Demo extends React.Component {
 <li><code>zoom(SVGPointX, SVGPointY, scaleFactor)</code> - Zoom in or out the SVG</li>
 <li><code>fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)</code> - Fit an SVG area to viewer</li>
 <li><code>fitToViewer()</code> - Fit all SVG to Viewer</li>
+<li><code>setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)</code> - Set a point on Viewer center</li>
+<li><code>reset()</code> - Reset Viewer view to default</li>
 <li><code>zoomOnViewerCenter(scaleFactor)</code> - Zoom SVG on center</li>
 <li><code>getValue()</code> - Get current viewer value</li>
 <li><code>setValue(value)</code> - Through this method you can set a new value</li>
@@ -115,9 +118,9 @@ If, for your purpose, you need the original React event instance (<code>Syntheti
 <tr><th>Example</th><th>Description</th></tr>
 </thead>
 <tbody>
-<tr><td><a href="examples/1-basic/">Basic</a></td><td>This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.</td></tr>
-<tr><td><a href="examples/2-controlled-state/">Controlled state</a></td><td>This advanced project show a scenario in which the parent component has a full control of the svg viewer. <em>The state is owned by the parent</em> and injected on the viewer throught <code>props</code>. Any state change request is performed by two callbacks <code>onChangeValue(value)</code> and <code>onChangeTool(tool)</code>. This demo apply the same pattern of an <code>&lt;input&gt;</code> tag (<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">React Controlled Components</a>).</td></tr>
-<tr><td><a href="examples/3-redux/">Redux</a></td><td>This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.</td></tr>
+<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/">Basic</a></td><td>This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.</td></tr>
+<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/2-controlled-state/">Controlled state</a></td><td>This advanced project show a scenario in which the parent component has a full control of the svg viewer. <em>The state is owned by the parent</em> and injected on the viewer throught <code>props</code>. Any state change request is performed by two callbacks <code>onChangeValue(value)</code> and <code>onChangeTool(tool)</code>. This demo apply the same pattern of an <code>&lt;input&gt;</code> tag (<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">React Controlled Components</a>).</td></tr>
+<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/3-redux/">Redux</a></td><td>This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.</td></tr>
 <tr><td><a href="https://cvdlab.github.io/react-planner/">React Planner</a></td><td>This is a React project that use this component.</td></tr>
 </tbody>
 </table>
@@ -134,7 +137,7 @@ npm install &amp;&amp; npm start
 <tr><th>V</th><th>Changes</th></tr>
 </thead>
 <tbody>
-<tr><td>2.0</td><td>Project refactor. Follow <a href="/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</td></tr>
+<tr><td>2.0</td><td>Project refactor. Follow <a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</td></tr>
 </tbody>
 </table>
 <h2>Contributing</h2>

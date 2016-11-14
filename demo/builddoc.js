@@ -10,6 +10,7 @@ let md = new Remarkable();
 let readme = fs.readFileSync(README_FILE, 'utf8');
 
 readme = readme.replace(/<!-- START_NO_WEB -->[\w\W]*<!-- END_NO_WEB -->/, '');
+readme = readme.replace(/\.\//g, 'https://github.com/chrvadala/react-svg-pan-zoom/tree/master/');
 
 let rendered = md.render(readme);
 
