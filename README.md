@@ -142,6 +142,7 @@ npm install && npm start
 | V | Changes |
 |---| ------- |
 |2.0| Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.|
+|2.1| Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props|
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
