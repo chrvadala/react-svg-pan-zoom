@@ -241,7 +241,6 @@ export default class ReactSVGPanZoom extends React.Component {
             onMouseUp={event => this.handleEvent(event)}
             onClick={event => this.handleEvent(event)}
           >
-            <circle cx="0" cy="0" r="5" fill="orange" />
             <rect
               fill={this.props.SVGBackground}
               x={0}
