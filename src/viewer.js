@@ -208,7 +208,9 @@ export default class ReactSVGPanZoom extends React.Component {
 
 
     return (
-      <div style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight}}>
+      <div
+        style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight}}
+        className={this.props.className}>
         <svg
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
           width={value.viewerWidth}
@@ -323,8 +325,11 @@ ReactSVGPanZoom.propTypes = {
     endY: PropTypes.number.isRequired,
   }),
 
-  //CSS style of the SVG tag
+  //CSS style of the Viewer
   style: PropTypes.object,
+
+  //className of the Viewer
+  className: PropTypes.string,
 
   //detect zoom operation performed trough pinch gesture or mouse scroll
   detectWheel: PropTypes.bool,

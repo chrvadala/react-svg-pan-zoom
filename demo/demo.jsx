@@ -83,6 +83,7 @@ export default class Demo extends React.Component {
             onMouseDown={event => console.info('down', event.x, event.y)}    //print mousedown on console
 
             style={{border: '1px solid black'}}
+            className="viewerSVG"
           >
             <svg width={ 1440 } height={ 1440 }>
               <Snake />
