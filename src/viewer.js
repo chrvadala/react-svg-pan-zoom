@@ -10,7 +10,7 @@ import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInt
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 //ui
-import cursor from './ui/cursor';
+import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
 import If from './ui/if';
 import Selection from './ui/selection';
@@ -184,40 +184,29 @@ export default class ReactSVGPanZoom extends React.Component {
 
   render() {
     let {props, state: {viewerX, viewerY}} = this;
-    let style = props.style;
     let tool = this.getTool();
     let value = this.getValue();
 
-    if (tool === TOOL_PAN)
-      style = {
-        cursor: cursor(value.mode === MODE_PANNING ? 'grabbing' : 'grab'),
-        ...style
-      };
+    let cursor;
 
+    if (tool === TOOL_PAN)
+      cursor = cursorPolyfill(value.mode === MODE_PANNING ? 'grabbing' : 'grab');
 
     if (tool === TOOL_ZOOM_IN)
-      style = {
-        cursor: 'zoom-in',
-        ...style
-      };
-
+      cursor = cursorPolyfill('zoom-in');
 
     if (tool === TOOL_ZOOM_OUT)
-      style = {
-        cursor: 'zoom-out',
-        ...style
-      };
-
+      cursor = cursorPolyfill('zoom-out');
 
     return (
       <div
-        style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight}}
+        style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight, ...props.style}}
         className={this.props.className}>
         <svg
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
           width={value.viewerWidth}
           height={value.viewerHeight}
-          style={style}
+          style={cursor ? {cursor} : {}}
           onMouseDown={ event => {
             this.handleMouseDown(event);
             this.handleEvent(event);
