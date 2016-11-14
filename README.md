@@ -79,6 +79,7 @@ class Demo extends React.Component {
   - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))
   - `background` – background of the viewer (default color: dark grey)
   - `style` - CSS style of the viewer
+  - `className` - CSS class of the viewer
   - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
