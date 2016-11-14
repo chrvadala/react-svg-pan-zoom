@@ -7,8 +7,6 @@ import {
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from './constants';
 
-console.info("react-svg-pan-zoom started"); //MIT LICENSE COMPLIANT
-
 const Viewer = () => {
   let msg = "HEY! You are trying to use an older version of ReactSVGPanZoom. "
    + "Read here https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/migrate-from-v1-to-v2.md";
