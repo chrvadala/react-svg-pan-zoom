@@ -1,5 +1,6 @@
 import ReactSVGPanZoom from './viewer';
 import Toolbar from './ui-toolbar/toolbar';
+import {setPointOnViewerCenter} from './features/common';
 import {pan} from './features/pan';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 import {
@@ -19,7 +20,7 @@ const Viewer = () => {
 export {
   Viewer, //deprecated
   ReactSVGPanZoom, Toolbar,
-  pan, zoom, fitSelection, fitToViewer, zoomOnViewerCenter,
+  pan, zoom, fitSelection, fitToViewer, zoomOnViewerCenter, setPointOnViewerCenter,
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 };

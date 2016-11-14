@@ -103,3 +103,30 @@ export function setViewerSize(value, viewerWidth, viewerHeight) {
   return set(value, {viewerWidth, viewerHeight});
 }
 
+/**
+ *
+ * @param value
+ * @param SVGPointX
+ * @param SVGPointY
+ * @param zoomLevel
+ * @returns {Object}
+ */
+export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
+  let {viewerWidth, viewerHeight} = value;
+
+  let matrix = new Matrix()
+    .translate(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2)   //4
+    .translate(SVGPointX, SVGPointY)                                          //3
+    .scaleU(zoomLevel)                                                        //2
+    .translate(-SVGPointX, -SVGPointY);                                       //1
+
+  return set(value, {
+    mode: MODE_IDLE,
+    a: matrix.a,
+    b: matrix.b,
+    c: matrix.c,
+    d: matrix.d,
+    e: matrix.e,
+    f: matrix.f
+  });
+}

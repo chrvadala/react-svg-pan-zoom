@@ -86,6 +86,7 @@ export default class Demo extends React.Component {
           >
             <svg width={ 1440 } height={ 1440 }>
               <Snake />
+              <circle cx="525" cy="780" r="10" fill="yellow" />
             </svg>
           </ReactSVGPanZoom>
 
@@ -138,11 +139,13 @@ export default class Demo extends React.Component {
                   <button onClick={event => this.Viewer.pan(-100, 0)}>Pan left</button>
                 </li>
                 <li>
-                  <button onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>Zoom eyes</button>
+                  <button onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>Zoom eyes area</button>
                 </li>
                 <li>
                   <button onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
                   <button onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>Zoom out</button>
+                  <button onClick={event => this.Viewer.setPointOnViewerCenter(525, 780, 2)}>Set point yellow on center</button>
+
                 </li>
                 <li>
                   <button onClick={event => this.Viewer.changeTool(TOOL_NONE)}>Tool none</button>
