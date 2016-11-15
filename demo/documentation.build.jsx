@@ -26,6 +26,8 @@ let html = `<div><h1>react-svg-pan-zoom</h1>
 <h2>Usage</h2>
 <pre><code>npm install --save react-svg-pan-zoom
 </code></pre>
+<pre><code>bower install react-svg-pan-zoom
+</code></pre>
 <p><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/example1.jsx">Sample code available here</a></p>
 <pre><code class="language-js">import React from 'react';
 import ReactDOM from 'react-dom';
@@ -138,6 +140,7 @@ npm install &amp;&amp; npm start
 </thead>
 <tbody>
 <tr><td>2.0</td><td>Project refactor. Follow <a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</td></tr>
+<tr><td>2.1</td><td>Adds <code>setPointOnViewerCenter</code>, <code>reset</code> methods and <code>className</code>, <code>style</code> props</td></tr>
 </tbody>
 </table>
 <h2>Contributing</h2>
