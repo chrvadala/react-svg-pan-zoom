@@ -32,6 +32,9 @@ This component can work in three different modes depending on the selected tool:
 ```
 npm install --save react-svg-pan-zoom
 ```
+```
+bower install react-svg-pan-zoom
+```
 
 [Sample code available here](./examples/1-basic/example1.jsx)
 ```js
