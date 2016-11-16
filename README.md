@@ -123,12 +123,10 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
   - `translationY: number ` - y delta from the viewer origin
 
 ## Examples
-| Example          |  Description |
-| ---------------- |  ----------- |
-|[Basic](./examples/1-basic/) | This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.|
-|[Controlled state](./examples/2-controlled-state/) | This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).|
-|[Redux](./examples/3-redux/) | This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.|
-|[React Planner](https://cvdlab.github.io/react-planner/) | This is a React project that use this component.|
+- [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
+- [**Controlled state**](./examples/2-controlled-state/) - This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).
+- [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
+- [**React Planner**](https://cvdlab.github.io/react-planner/) - This is an open source React project that use this component.
 
 
 ## Autosize
@@ -142,10 +140,8 @@ npm install && npm start
 ```
 
 ## Changelog
-| V | Changes |
-|---| ------- |
-|2.0| Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.|
-|2.1| Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props|
+- **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
+- **v2.1** - Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
