@@ -6,7 +6,7 @@ import ViewerEvent from './viewer-event';
 //features
 import {pan} from './features/pan';
 import {getDefaultValue, setViewerSize, setPointOnViewerCenter, reset} from './features/common';
-import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInterval} from './features/interactions';
+import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInterval, onDoubleClick} from './features/interactions';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 //ui
@@ -185,6 +185,10 @@ export default class ReactSVGPanZoom extends React.Component {
             this.handleEvent(event);
           }}
           onClick={event => this.handleEvent(event)}
+          onDoubleClick={ event => {
+            let nextValue = onDoubleClick(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
           onWheel={ event => {
             let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
@@ -327,7 +331,7 @@ ReactSVGPanZoom.propTypes = {
   onMouseDown: PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
-  tool: PropTypes.oneOf([TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
+  tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
 
   //accept only one node SVG
   children: function (props, propName, componentName) {

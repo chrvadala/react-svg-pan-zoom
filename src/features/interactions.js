@@ -1,4 +1,5 @@
 import {
+  TOOL_AUTO,
   TOOL_NONE,
   TOOL_PAN,
   TOOL_ZOOM_IN,
@@ -26,9 +27,6 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
   let nextValue = value;
 
   switch (tool) {
-    case TOOL_NONE:
-      return value;
-
     case TOOL_ZOOM_OUT:
       let SVGPoint = getSVGPoint(value, x, y);
       nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 0.8);
@@ -41,6 +39,9 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
     case TOOL_PAN:
       nextValue = startPanning(value, x, y);
       break;
+
+    default:
+      return value;
   }
 
   event.preventDefault();
@@ -61,12 +62,6 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
   let nextValue = value;
 
   switch (tool) {
-    case TOOL_NONE:
-      return value;
-
-    case TOOL_ZOOM_OUT:
-      return value;
-
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
         nextValue = forceExit ? stopZooming(value, x, y, 1.1) : updateZooming(value, x, y);
@@ -76,6 +71,9 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
       if (value.mode === MODE_PANNING)
         nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, 20);
       break;
+
+    default:
+      return value;
   }
 
   event.preventDefault();
@@ -95,9 +93,6 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
   let nextValue = value;
 
   switch (tool) {
-    case TOOL_NONE:
-      return value;
-
     case TOOL_ZOOM_OUT:
       if (value.mode === MODE_ZOOMING)
         nextValue = stopZooming(value, x, y, 0.8);
@@ -112,6 +107,37 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
       if (value.mode === MODE_PANNING)
         nextValue = stopPanning(value, x, y);
       break;
+
+    default:
+      return value;
+  }
+
+  event.preventDefault();
+  return nextValue;
+}
+
+export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = null) {
+  let x, y;
+  if (coords) {
+    ({x, y} = coords);
+  } else {
+    let {left, top} = ViewerDOM.getBoundingClientRect();
+    x = event.clientX - Math.round(left);
+    y = event.clientY - Math.round(top);
+  }
+
+  let nextValue = value;
+
+  switch (tool) {
+    case TOOL_AUTO:
+      let SVGPoint = getSVGPoint(value, x, y);
+      let modifierKeyEnabled = event.getModifierState('Shift');
+      let scaleFactor = modifierKeyEnabled ? 0.8 : 1.1;
+      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+      break;
+
+    default:
+      return value;
   }
 
   event.preventDefault();
