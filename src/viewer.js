@@ -333,6 +333,9 @@ ReactSVGPanZoom.propTypes = {
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
 
+  //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
+  modifierKeys: PropTypes.array,
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -362,5 +365,6 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   detectWheel: true,
   detectAutoPan: true,
-  toolbarPosition: POSITION_RIGHT
+  toolbarPosition: POSITION_RIGHT,
+  modifierKeys: ["Alt", "Shift", "Control"]
 };

@@ -131,8 +131,9 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = nul
   switch (tool) {
     case TOOL_AUTO:
       let SVGPoint = getSVGPoint(value, x, y);
-      let modifierKeyEnabled = event.getModifierState('Shift');
-      let scaleFactor = modifierKeyEnabled ? 0.8 : 1.1;
+      let modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
+      let modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
+      let scaleFactor = modifierKeyActive ? 0.8 : 1.1;
       nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
       break;
 
