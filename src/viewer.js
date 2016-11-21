@@ -337,8 +337,8 @@ ReactSVGPanZoom.propTypes = {
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
     //credits: http://www.mattzabriskie.com/blog/react-validating-children
-    var prop = props[propName];
-    var types = ['svg'];
+    let prop = props[propName];
+    let types = ['svg'];
     if (React.Children.count(prop) !== 1 ||
       types.indexOf(prop.type) === -1) {
       return new Error(
