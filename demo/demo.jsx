@@ -87,7 +87,7 @@ export default class Demo extends React.Component {
           >
             <svg width={ 1440 } height={ 1440 }>
               <Snake />
-              <circle cx="525" cy="780" r="10" fill="yellow"/>
+              <circle cx="525" cy="780" r="10" fill="yellow" onClick={event => alert('hi!')}/>
             </svg>
           </ReactSVGPanZoom>
 
