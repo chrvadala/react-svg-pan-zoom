@@ -114,18 +114,30 @@ export default class Demo extends React.Component {
               <hr/>
             </div>
 
-            <div>
-              <strong>Toolbar position</strong> <br/>
-              <select value={this.state.toolbarPosition}
-                      onChange={ event => this.setState({toolbarPosition: event.target.value})}>
-                <option value={POSITION_NONE}>none</option>
-                <option value={POSITION_TOP}>top</option>
-                <option value={POSITION_RIGHT}>right</option>
-                <option value={POSITION_BOTTOM}>bottom</option>
-                <option value={POSITION_LEFT}>left</option>
-              </select>
-              <hr/>
+            <div style={{display: 'flex'}}>
+              <div style={{width: "49%"}}>
+                <strong>Toolbar position</strong> <br/>
+                <select value={this.state.toolbarPosition}
+                        onChange={ event => this.setState({toolbarPosition: event.target.value})}>
+                  <option value={POSITION_NONE}>none</option>
+                  <option value={POSITION_TOP}>top</option>
+                  <option value={POSITION_RIGHT}>right</option>
+                  <option value={POSITION_BOTTOM}>bottom</option>
+                  <option value={POSITION_LEFT}>left</option>
+                </select>
+              </div>
+              <div style={{width: "49%"}}>
+                <strong>Tool</strong> <br/>
+                <select value={this.state.toolbarPosition}
+                        onChange={ event => this.setState({tool: event.target.value})}>
+                  <option value={TOOL_NONE}>none</option>
+                  <option value={TOOL_PAN}>pan</option>
+                  <option value={TOOL_ZOOM_IN}>zoom in</option>
+                  <option value={TOOL_ZOOM_OUT}>zoom out</option>
+                </select>
+              </div>
             </div>
+            <hr/>
 
             <div>
               <strong>Programmatically perform actions</strong> <br/>
