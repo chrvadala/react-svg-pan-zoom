@@ -137,51 +137,6 @@ export default class ReactSVGPanZoom extends React.Component {
     clearTimeout(this.autoPanTimer);
   }
 
-  handleMouseDown(event) {
-    let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-
-    if (this.getValue() !== nextValue) {
-      this.setValue(nextValue);
-    }
-  }
-
-  handlerMouseMove(event) {
-    let {left, top} = this.ViewerDOM.getBoundingClientRect();
-    let x = event.clientX - Math.round(left);
-    let y = event.clientY - Math.round(top);
-
-    let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
-
-    if (this.getValue() !== nextValue) {
-      this.setValue(nextValue);
-    }
-    this.setState({viewerX: x, viewerY: y});
-  }
-
-  handlerMouseUp(event) {
-    let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-
-    if (this.getValue() !== nextValue) {
-      this.setValue(nextValue);
-    }
-  }
-
-  handlerWheel(event) {
-    let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-
-    if (this.getValue() !== nextValue) {
-      this.setValue(nextValue);
-    }
-  }
-
-  handlerMouseEnterOrLeave(event) {
-    let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-
-    if (this.getValue() !== nextValue) {
-      this.setValue(nextValue);
-    }
-  }
-
   render() {
     let {props, state: {viewerX, viewerY}} = this;
     let tool = this.getTool();
@@ -210,22 +165,38 @@ export default class ReactSVGPanZoom extends React.Component {
           height={value.viewerHeight}
           style={cursor ? {cursor} : {}}
           onMouseDown={ event => {
-            this.handleMouseDown(event);
+            let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleEvent(event);
           }}
           onMouseMove={ event => {
-            this.handlerMouseMove(event);
+            let {left, top} = this.ViewerDOM.getBoundingClientRect();
+            let x = event.clientX - Math.round(left);
+            let y = event.clientY - Math.round(top);
+
+            let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+            this.setState({viewerX: x, viewerY: y});
             this.handleEvent(event);
           }}
           onMouseUp={ event => {
-            this.handlerMouseUp(event);
+            let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleEvent(event);
           }}
           onClick={event => this.handleEvent(event)}
-          onWheel={ event => this.handlerWheel(event)}
-          onMouseEnter={ event => this.handlerMouseEnterOrLeave(event)}
-          onMouseLeave={ event => this.handlerMouseEnterOrLeave(event)}>
-
+          onWheel={ event => {
+            let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
+          onMouseEnter={ event => {
+            let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
+          onMouseLeave={ event => {
+            let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}>
 
           <rect
             fill={props.background}
