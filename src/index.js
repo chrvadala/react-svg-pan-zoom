@@ -4,7 +4,7 @@ import {setPointOnViewerCenter, reset} from './features/common';
 import {pan} from './features/pan';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 import {
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from './constants';
 
@@ -21,6 +21,6 @@ export {
   Viewer, //deprecated
   ReactSVGPanZoom, Toolbar,
   pan, zoom, fitSelection, fitToViewer, zoomOnViewerCenter, setPointOnViewerCenter, reset,
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 };

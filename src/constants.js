@@ -2,6 +2,7 @@ export const MODE_IDLE = 'idle';
 export const MODE_PANNING = 'panning';
 export const MODE_ZOOMING = 'zooming';
 
+export const TOOL_AUTO = 'auto';
 export const TOOL_NONE = 'none';
 export const TOOL_PAN = 'pan';
 export const TOOL_ZOOM_IN = 'zoom-in';

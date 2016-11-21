@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {
   ReactSVGPanZoom,
   Toolbar,
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
   fitToViewer
 } from '../src/index';
@@ -128,8 +128,9 @@ export default class Demo extends React.Component {
               </div>
               <div style={{width: "49%"}}>
                 <strong>Tool</strong> <br/>
-                <select value={this.state.toolbarPosition}
+                <select value={this.state.tool}
                         onChange={ event => this.setState({tool: event.target.value})}>
+                  <option value={TOOL_AUTO}>auto</option>
                   <option value={TOOL_NONE}>none</option>
                   <option value={TOOL_PAN}>pan</option>
                   <option value={TOOL_ZOOM_IN}>zoom in</option>

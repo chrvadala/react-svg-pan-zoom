@@ -17,7 +17,7 @@ import Selection from './ui/selection';
 import ToolbarWrapper from './ui-toolbar/toolbar-wrapper';
 
 import {
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from './constants';
@@ -123,7 +123,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state} = this;
     if (props.onChangeValue) props.onChangeValue(state.value);
 
-    this.autoPanTimer = setInterval(()=> {
+    this.autoPanTimer = setInterval(() => {
       let coords = {x: this.state.viewerX, y: this.state.viewerY};
       let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
 
@@ -198,6 +198,8 @@ export default class ReactSVGPanZoom extends React.Component {
     if (tool === TOOL_ZOOM_OUT)
       cursor = cursorPolyfill('zoom-out');
 
+    let blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].includes(tool);
+
     return (
       <div
         style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight, ...props.style}}
@@ -236,7 +238,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
           <g
             transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
-            style={tool === TOOL_NONE ? {} : {pointerEvents: "none"}}>
+            style={blockChildEvents ? {pointerEvents: "none"} : {}}>
             <rect
               fill={this.props.SVGBackground}
               x={0}
