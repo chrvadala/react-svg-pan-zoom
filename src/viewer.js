@@ -6,7 +6,15 @@ import ViewerEvent from './viewer-event';
 //features
 import {pan} from './features/pan';
 import {getDefaultValue, setViewerSize, setPointOnViewerCenter, reset} from './features/common';
-import {onMouseDown, onMouseMove, onMouseUp, onWheel, onMouseEnterOrLeave, onInterval, onDoubleClick} from './features/interactions';
+import {
+  onMouseDown,
+  onMouseMove,
+  onMouseUp,
+  onWheel,
+  onMouseEnterOrLeave,
+  onInterval,
+  onDoubleClick
+} from './features/interactions';
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 //ui
@@ -109,7 +117,7 @@ export default class ReactSVGPanZoom extends React.Component {
       mousedown: onMouseDown
     };
 
-    if (this.getTool() !== TOOL_NONE) return;
+    if (![TOOL_NONE, TOOL_AUTO].includes(this.getTool())) return;
     if (event.target === ViewerDOM) return;
 
     let onEventHandler = eventsHandler[event.type];
