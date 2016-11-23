@@ -115,17 +115,12 @@ If, for your purpose, you need the original React event instance (<code>Syntheti
 <li><code>translationY: number</code> - y delta from the viewer origin</li>
 </ul>
 <h2>Examples</h2>
-<table>
-<thead>
-<tr><th>Example</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/">Basic</a></td><td>This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.</td></tr>
-<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/2-controlled-state/">Controlled state</a></td><td>This advanced project show a scenario in which the parent component has a full control of the svg viewer. <em>The state is owned by the parent</em> and injected on the viewer throught <code>props</code>. Any state change request is performed by two callbacks <code>onChangeValue(value)</code> and <code>onChangeTool(tool)</code>. This demo apply the same pattern of an <code>&lt;input&gt;</code> tag (<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">React Controlled Components</a>).</td></tr>
-<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/3-redux/">Redux</a></td><td>This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.</td></tr>
-<tr><td><a href="https://cvdlab.github.io/react-planner/">React Planner</a></td><td>This is a React project that use this component.</td></tr>
-</tbody>
-</table>
+<ul>
+<li><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/"><strong>Basic</strong></a> - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.</li>
+<li><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/2-controlled-state/"><strong>Controlled state</strong></a> - This advanced project show a scenario in which the parent component has a full control of the svg viewer. <em>The state is owned by the parent</em> and injected on the viewer throught <code>props</code>. Any state change request is performed by two callbacks <code>onChangeValue(value)</code> and <code>onChangeTool(tool)</code>. This demo apply the same pattern of an <code>&lt;input&gt;</code> tag (<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">React Controlled Components</a>).</li>
+<li><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/3-redux/"><strong>Redux</strong></a> - This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.</li>
+<li><a href="https://cvdlab.github.io/react-planner/"><strong>React Planner</strong></a> - This is an open source React project that use this component.</li>
+</ul>
 <h2>Autosize</h2>
 <p><strong>React SVG Pan Zoom</strong> requires the properties <code>width</code> and <code>height</code> to be set in order to work properly. If you need an autosized component you can use <a href="https://github.com/digidem/react-dimensions">ReactDimension</a> to get the dimensions of a wrapper element and pass them as properties to its child element.</p>
 <h2>Start local demo</h2>
@@ -134,15 +129,10 @@ cd react-svg-pan-zoom
 npm install &amp;&amp; npm start
 </code></pre>
 <h2>Changelog</h2>
-<table>
-<thead>
-<tr><th>V</th><th>Changes</th></tr>
-</thead>
-<tbody>
-<tr><td>2.0</td><td>Project refactor. Follow <a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</td></tr>
-<tr><td>2.1</td><td>Adds <code>setPointOnViewerCenter</code>, <code>reset</code> methods and <code>className</code>, <code>style</code> props</td></tr>
-</tbody>
-</table>
+<ul>
+<li><strong>v2.0</strong> - Project refactor. Follow <a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</li>
+<li><strong>v2.1</strong> - Adds <code>setPointOnViewerCenter</code>, <code>reset</code> methods and <code>className</code>, <code>style</code> props</li>
+</ul>
 <h2>Contributing</h2>
 <p>Your contributions (issues and pull request) are very appreciated!</p>
 <h2>Author</h2>
