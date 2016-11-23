@@ -21,7 +21,11 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
     c: matrix.c,
     d: matrix.d,
     e: matrix.e,
-    f: matrix.f
+    f: matrix.f,
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
   });
 }
 
@@ -44,7 +48,11 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
     c: matrix.c,
     d: matrix.d,
     e: matrix.e,
-    f: matrix.f
+    f: matrix.f,
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
   });
 }
 
