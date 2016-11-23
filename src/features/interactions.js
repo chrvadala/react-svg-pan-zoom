@@ -36,6 +36,7 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
       nextValue = startZooming(value, x, y);
       break;
 
+    case TOOL_AUTO:
     case TOOL_PAN:
       nextValue = startPanning(value, x, y);
       break;
@@ -67,6 +68,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
         nextValue = forceExit ? stopZooming(value, x, y, 1.1) : updateZooming(value, x, y);
       break;
 
+    case TOOL_AUTO:
     case TOOL_PAN:
       if (value.mode === MODE_PANNING)
         nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, 20);
@@ -103,6 +105,7 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
         nextValue = stopZooming(value, x, y, 1.1);
       break;
 
+    case TOOL_AUTO:
     case TOOL_PAN:
       if (value.mode === MODE_PANNING)
         nextValue = stopPanning(value, x, y);
