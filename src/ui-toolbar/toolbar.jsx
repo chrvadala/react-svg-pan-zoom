@@ -32,22 +32,6 @@ const STYLE_TOOLBAR_ORIENTED = {
   }
 };
 
-const STYLE_ELEMENT = {
-  display: "block",
-  width: "24px",
-  height: "24px"
-};
-
-const STYLE_ELEMENT_ORIENTED = {
-  [ORIENTATION_HORIZONTAL]: {
-    ...STYLE_ELEMENT,
-    padding: "1px 2px"
-  },
-  [ORIENTATION_VERTICAL]: {
-    ...STYLE_ELEMENT,
-    padding: "2px 1px"
-  }
-};
 
 let calcElementStyle = (orientation, active, hover) => {
   return {
