@@ -44,16 +44,18 @@ export function startPanning(value, viewerX, viewerY) {
   return set(value, {
     mode: MODE_PANNING,
     startX: viewerX,
-    startY: viewerY
+    startY: viewerY,
+    endX: viewerX,
+    endY: viewerY
   });
 }
 
 export function updatePanning(value, viewerX, viewerY, panLimit) {
   if (value.mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + value.mode);
 
-  let {startX, startY} = value;
+  let {endX, endY} = value;
 
-  let start = getSVGPoint(value, startX, startY);
+  let start = getSVGPoint(value, endX, endY);
   let end = getSVGPoint(value, viewerX, viewerY);
 
   let deltaX = end.x - start.x;
@@ -62,16 +64,18 @@ export function updatePanning(value, viewerX, viewerY, panLimit) {
   let nextValue = pan(value, deltaX, deltaY, panLimit);
   return set(nextValue, {
     mode: MODE_PANNING,
-    startX: viewerX,
-    startY: viewerY,
+    endX: viewerX,
+    endY: viewerY,
   });
 }
 
 export function stopPanning(value) {
   return set(value, {
       mode: MODE_IDLE,
-      viewerStartX: null,
-      viewerStartY: null
+      startX: null,
+      startY: null,
+      endX: null,
+      endY: null
     }
   );
 }
