@@ -308,10 +308,10 @@ ReactSVGPanZoom.propTypes = {
     viewerHeight: PropTypes.number.isRequired,
     SVGWidth: PropTypes.number.isRequired,
     SVGHeight: PropTypes.number.isRequired,
-    startX: PropTypes.number.isRequired,
-    startY: PropTypes.number.isRequired,
-    endX: PropTypes.number.isRequired,
-    endY: PropTypes.number.isRequired,
+    startX: PropTypes.number,
+    startY: PropTypes.number,
+    endX: PropTypes.number,
+    endY: PropTypes.number,
   }),
 
   //CSS style of the Viewer

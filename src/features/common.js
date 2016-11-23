@@ -20,10 +20,10 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) 
     viewerHeight,
     SVGWidth,
     SVGHeight,
-    startX: 0,
-    startY: 0,
-    endX: 0,
-    endY: 0
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
   });
 }
 
