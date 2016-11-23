@@ -33,7 +33,8 @@ const STYLE_TOOLBAR_ORIENTED = {
 const STYLE_ELEMENT = {
   display: "block",
   width: "24px",
-  height: "24px"
+  height: "24px",
+  transition: "color 150ms ease-in"
 };
 
 const STYLE_ELEMENT_ORIENTED = {
@@ -47,6 +48,7 @@ const STYLE_ELEMENT_ORIENTED = {
   }
 };
 
+//https://css-tricks.com/cascading-svg-fill-color/
 const ICON_COLOR_OFF = '#FFF';
 const ICON_COLOR_ON = '#1CA6FC';
 
@@ -63,21 +65,28 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, orien
 
   return (
     <div style={styleToolbarFull}>
-      <a style={styleElementFull} href="javascript:;" title="Selection"
+      <a style={{...styleElementFull, color: tool === TOOL_NONE ? ICON_COLOR_ON : ICON_COLOR_OFF}}
+         href="javascript:;" title="Selection"
          onClick={ event => handleChangeTool(event, TOOL_NONE) }>
-        <IconCursor color={(tool === TOOL_NONE) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
+        <IconCursor/>
       </a>
 
-      <a style={styleElementFull} href="javascript:;" title="Pan" onClick={ event => handleChangeTool(event, TOOL_PAN) }>
-        <IconPan color={(tool === TOOL_PAN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
+      <a style={{...styleElementFull, color: tool === TOOL_PAN ? ICON_COLOR_ON : ICON_COLOR_OFF}}
+         href="javascript:;" title="Pan"
+         onClick={ event => handleChangeTool(event, TOOL_PAN) }>
+        <IconPan/>
       </a>
 
-      <a style={styleElementFull} href="javascript:;" title="Zoom in" onClick={ event => handleChangeTool(event, TOOL_ZOOM_IN) }>
-        <IconZoomIn color={(tool === TOOL_ZOOM_IN) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
+      <a style={{...styleElementFull, color: tool === TOOL_ZOOM_IN ? ICON_COLOR_ON : ICON_COLOR_OFF}}
+         href="javascript:;" title="Zoom in"
+         onClick={ event => handleChangeTool(event, TOOL_ZOOM_IN) }>
+        <IconZoomIn/>
       </a>
 
-      <a style={styleElementFull} href="javascript:;" title="Zoom out" onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
-        <IconZoomOut color={(tool === TOOL_ZOOM_OUT) ? ICON_COLOR_ON : ICON_COLOR_OFF}/>
+      <a style={{...styleElementFull, color: tool === TOOL_ZOOM_OUT ? ICON_COLOR_ON : ICON_COLOR_OFF}}
+         href="javascript:;" title="Zoom out"
+         onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
+        <IconZoomOut/>
       </a>
     </div>
   )
