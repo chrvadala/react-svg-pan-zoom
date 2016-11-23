@@ -22,7 +22,7 @@ import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
 import If from './ui/if';
 import Selection from './ui/selection';
-import ToolbarWrapper from './ui-toolbar/toolbar-wrapper';
+import Toolbar from './ui-toolbar/toolbar';
 
 import {
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
@@ -270,7 +270,7 @@ export default class ReactSVGPanZoom extends React.Component {
         </svg>
 
         <If condition={props.toolbarPosition !== POSITION_NONE}>
-          <ToolbarWrapper
+          <Toolbar
             position={props.toolbarPosition}
             value={value}
             onChangeValue={value => this.setValue(value)}

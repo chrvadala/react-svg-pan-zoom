@@ -13,6 +13,3 @@ export const POSITION_TOP = 'top';
 export const POSITION_RIGHT = 'right';
 export const POSITION_BOTTOM = 'bottom';
 export const POSITION_LEFT = 'left';
-
-export const ORIENTATION_HORIZONTAL = 'horizontal';
-export const ORIENTATION_VERTICAL = 'vertical';
