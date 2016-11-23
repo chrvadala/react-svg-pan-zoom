@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 
+//https://material.io/icons/#ic_zoom_in
+
 export default function IconZoomIn() {
   return (
     <svg width={24} height={24}>

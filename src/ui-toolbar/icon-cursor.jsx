@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 
+//credits https://materialdesignicons.com/icon/cursor-default-outline
 
 export default function IconCursor() {
   return (

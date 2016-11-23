@@ -1,5 +1,7 @@
 import React, {PropTypes} from 'react';
 
+//https://materialdesignicons.com/icon/cursor-move
+
 export default function IconPan() {
   return (
     <svg width={24} height={24}>
