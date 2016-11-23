@@ -180,7 +180,7 @@ export function onMouseEnterOrLeave(event, ViewerDOM, tool, value, props, coords
 export function onInterval(event, ViewerDOM, tool, value, props, coords = null) {
   let {x, y} = coords;
 
-  if (tool !== TOOL_NONE) return value;
+  if (![TOOL_NONE, TOOL_AUTO].includes(tool)) return value;
   if (!props.detectAutoPan) return value;
   if (!value.focus) return value;
 
