@@ -150,6 +150,11 @@ export default class ReactSVGPanZoom extends React.Component {
     let tool = this.getTool();
     let value = this.getValue();
 
+    let panningWithToolAuto = tool === TOOL_AUTO
+      && value.mode === MODE_PANNING
+      && value.startX !== value.endX
+      && value.startY !== value.endY;
+
     let cursor;
 
     if (tool === TOOL_PAN)
@@ -161,10 +166,11 @@ export default class ReactSVGPanZoom extends React.Component {
     if (tool === TOOL_ZOOM_OUT)
       cursor = cursorPolyfill('zoom-out');
 
-    if(tool === TOOL_AUTO && value.mode === MODE_PANNING && value.startX !== value.endX && value.startY !== value.endY)
+    if(panningWithToolAuto)
       cursor = cursorPolyfill('grabbing');
 
     let blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].includes(tool);
+    blockChildEvents = blockChildEvents || panningWithToolAuto;
 
     return (
       <div
