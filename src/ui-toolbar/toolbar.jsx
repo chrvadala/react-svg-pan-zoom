@@ -4,10 +4,12 @@ import {
   ORIENTATION_VERTICAL, ORIENTATION_HORIZONTAL
 } from '../constants';
 
+import {fitToViewer} from '../features/zoom';
 import IconCursor from './icon-cursor';
 import IconPan from './icon-pan';
 import IconZoomIn from './icon-zoom-in';
 import IconZoomOut from './icon-zoom-out';
+import IconFit from './icon-fit';
 
 import Link from '../ui/link';
 
@@ -66,6 +68,12 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, orien
     event.preventDefault();
   };
 
+  let handleFit = event => {
+    onChangeValue(fitToViewer(value));
+    event.stopPropagation();
+    event.preventDefault();
+  };
+
   let styleToolbarFull = STYLE_TOOLBAR_ORIENTED[orientation];
 
   return (
@@ -100,6 +108,14 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, orien
         title="Zoom out"
         onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
         <IconZoomOut/>
+      </Link>
+
+      <Link
+        style={calcElementStyle(orientation, false, false)}
+        styleHover={calcElementStyle(orientation, false, true)}
+        title="Fit to viewer"
+        onClick={ event => handleFit(event) }>
+        <IconFit/>
       </Link>
     </div>
   )
