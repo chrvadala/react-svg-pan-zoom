@@ -150,6 +150,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {viewerX, viewerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
+    let CustomToolbar = props.customToolbar;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -167,7 +168,7 @@ export default class ReactSVGPanZoom extends React.Component {
     if (tool === TOOL_ZOOM_OUT)
       cursor = cursorPolyfill('zoom-out');
 
-    if(panningWithToolAuto)
+    if (panningWithToolAuto)
       cursor = cursorPolyfill('grabbing');
 
     let blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].includes(tool);
@@ -270,7 +271,7 @@ export default class ReactSVGPanZoom extends React.Component {
         </svg>
 
         <If condition={props.toolbarPosition !== POSITION_NONE}>
-          <Toolbar
+          <CustomToolbar
             position={props.toolbarPosition}
             value={value}
             onChangeValue={value => this.setValue(value)}
@@ -355,6 +356,9 @@ ReactSVGPanZoom.propTypes = {
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: PropTypes.array,
 
+  //override default toolbar component
+  customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -385,5 +389,6 @@ ReactSVGPanZoom.defaultProps = {
   detectWheel: true,
   detectAutoPan: true,
   toolbarPosition: POSITION_RIGHT,
-  modifierKeys: ["Alt", "Shift", "Control"]
+  modifierKeys: ["Alt", "Shift", "Control"],
+  customToolbar: Toolbar
 };
