@@ -9,7 +9,7 @@ import IconPan from './icon-pan';
 import IconZoomIn from './icon-zoom-in';
 import IconZoomOut from './icon-zoom-out';
 
-import {changeTool} from '../features/common'
+import Link from '../ui/link';
 
 const STYLE_TOOLBAR = {
   backgroundColor: "rgba(19, 20, 22, 0.90)",
@@ -33,8 +33,7 @@ const STYLE_TOOLBAR_ORIENTED = {
 const STYLE_ELEMENT = {
   display: "block",
   width: "24px",
-  height: "24px",
-  transition: "color 150ms ease-in"
+  height: "24px"
 };
 
 const STYLE_ELEMENT_ORIENTED = {
@@ -48,9 +47,16 @@ const STYLE_ELEMENT_ORIENTED = {
   }
 };
 
-//https://css-tricks.com/cascading-svg-fill-color/
-const ICON_COLOR_OFF = '#FFF';
-const ICON_COLOR_ON = '#1CA6FC';
+let calcElementStyle = (orientation, active, hover) => {
+  return {
+    display: "block",
+    width: "24px",
+    height: "24px",
+    padding: orientation === ORIENTATION_HORIZONTAL ? "1px 2px" : "2px 1px",
+    color: active || hover ? '#1CA6FC' : '#FFF',
+    transition: hover ? "color 200ms ease" : "unset"
+  };
+};
 
 export default function Toolbar({tool, value, onChangeValue, onChangeTool, orientation}) {
 
@@ -61,33 +67,40 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, orien
   };
 
   let styleToolbarFull = STYLE_TOOLBAR_ORIENTED[orientation];
-  let styleElementFull = STYLE_ELEMENT_ORIENTED[orientation];
 
   return (
     <div style={styleToolbarFull}>
-      <a style={{...styleElementFull, color: tool === TOOL_NONE ? ICON_COLOR_ON : ICON_COLOR_OFF}}
-         href="javascript:;" title="Selection"
-         onClick={ event => handleChangeTool(event, TOOL_NONE) }>
+      <Link
+        style={calcElementStyle(orientation, tool === TOOL_NONE, false)}
+        styleHover={calcElementStyle(orientation, tool === TOOL_NONE, true)}
+        title="Selection"
+        onClick={ event => handleChangeTool(event, TOOL_NONE) }>
         <IconCursor/>
-      </a>
+      </Link>
 
-      <a style={{...styleElementFull, color: tool === TOOL_PAN ? ICON_COLOR_ON : ICON_COLOR_OFF}}
-         href="javascript:;" title="Pan"
-         onClick={ event => handleChangeTool(event, TOOL_PAN) }>
+      <Link
+        style={calcElementStyle(orientation, tool === TOOL_PAN, false)}
+        styleHover={calcElementStyle(orientation, tool === TOOL_PAN, true)}
+        title="Pan"
+        onClick={ event => handleChangeTool(event, TOOL_PAN) }>
         <IconPan/>
-      </a>
+      </Link>
 
-      <a style={{...styleElementFull, color: tool === TOOL_ZOOM_IN ? ICON_COLOR_ON : ICON_COLOR_OFF}}
-         href="javascript:;" title="Zoom in"
-         onClick={ event => handleChangeTool(event, TOOL_ZOOM_IN) }>
+      <Link
+        style={calcElementStyle(orientation, tool === TOOL_ZOOM_IN, false)}
+        styleHover={calcElementStyle(orientation, tool === TOOL_ZOOM_IN, true)}
+        title="Zoom in"
+        onClick={ event => handleChangeTool(event, TOOL_ZOOM_IN) }>
         <IconZoomIn/>
-      </a>
+      </Link>
 
-      <a style={{...styleElementFull, color: tool === TOOL_ZOOM_OUT ? ICON_COLOR_ON : ICON_COLOR_OFF}}
-         href="javascript:;" title="Zoom out"
-         onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
+      <Link
+        style={calcElementStyle(orientation, tool === TOOL_ZOOM_OUT, false)}
+        styleHover={calcElementStyle(orientation, tool === TOOL_ZOOM_OUT, true)}
+        title="Zoom out"
+        onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
         <IconZoomOut/>
-      </a>
+      </Link>
     </div>
   )
 }
