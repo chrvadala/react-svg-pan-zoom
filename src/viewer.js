@@ -108,13 +108,14 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleEvent(event) {
-    let {props: {onClick, onMouseMove, onMouseUp, onMouseDown}, state: {value}, ViewerDOM} = this;
+    let {props: {onClick, onMouseMove, onMouseUp, onMouseDown, onDoubleClick}, state: {value}, ViewerDOM} = this;
 
     let eventsHandler = {
       click: onClick,
       mousemove: onMouseMove,
       mouseup: onMouseUp,
-      mousedown: onMouseDown
+      mousedown: onMouseDown,
+      dblclick: onDoubleClick,
     };
 
     if (![TOOL_NONE, TOOL_AUTO].includes(this.getTool())) return;
@@ -205,6 +206,7 @@ export default class ReactSVGPanZoom extends React.Component {
           onDoubleClick={ event => {
             let nextValue = onDoubleClick(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
+            this.handleEvent(event);
           }}
           onWheel={ event => {
             let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);

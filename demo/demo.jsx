@@ -81,6 +81,7 @@ export default class Demo extends React.Component {
             onMouseMove={event => this.handlerSetPosition(event.x, event.y)} //display mouse position on window
             onMouseUp={event => console.info('up', event.x, event.y)}        //print mouseup on console
             onMouseDown={event => console.info('down', event.x, event.y)}    //print mousedown on console
+            onDoubleClick={event => console.info('dblclick', event.x, event.y)}    //print doubleclick on console
 
             style={{border: '1px solid black'}}
             className="viewerSVG"
