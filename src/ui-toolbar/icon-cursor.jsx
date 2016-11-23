@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 
+
 export default function IconCursor() {
   return (
     <svg width={24} height={24}>
