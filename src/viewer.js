@@ -341,6 +341,9 @@ ReactSVGPanZoom.propTypes = {
   //handler click
   onClick: PropTypes.func,
 
+  //handler double click
+  onDoubleClick: PropTypes.func,
+
   //handler mouseup
   onMouseUp: PropTypes.func,
 
