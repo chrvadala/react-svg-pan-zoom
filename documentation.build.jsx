@@ -6,13 +6,14 @@ let html = `<div><h1>react-svg-pan-zoom</h1>
 <p><a href="https://www.npmjs.com/package/react-svg-pan-zoom"><img src="https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic" alt="npm"></a>
 <img src="https://img.shields.io/badge/javascript-ES6-fbde34.svg" alt="javascript">
 <img src="https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg" alt="react-version">
-<img src="https://img.shields.io/badge/license-MIT-42cd00.svg" alt="licence-mit"></p>
+<img src="https://img.shields.io/badge/license-MIT-42cd00.svg" alt="license-mit"></p>
 <h2>Features</h2>
-<p>This component can work in three different modes depending on the selected tool:</p>
+<p>This component can work in four different modes depending on the selected tool:</p>
 <ul>
-<li>With the tool <strong>pan</strong> the user can move the image and drag it around within the viewer</li>
-<li>With the tool <strong>zoom</strong> the user can scale the image either with a point click or selecting a region to zoom the specified area</li>
-<li>With the tool <strong>none</strong> the user can interact with the SVG content and trigger browser events</li>
+<li>With the tool <strong>pan</strong> the user can move the image and drag it around within the viewer, but can't interact with SVG child elements.</li>
+<li>With the tool <strong>zoom</strong> the user can scale the image either with a point click or selecting a region to zoom the specified area, but can't interact with SVG child elements.</li>
+<li>With the tool <strong>none</strong> the user can interact with SVG child elements and trigger events.</li>
+<li>With the tool <strong>auto</strong> the user can interact with SVG child elements, perform <em>pan</em> (dragging the image), <em>zoom in</em> (double click), <em>zoom out</em> (double click + shift).</li>
 </ul>
 <h2>Additional Features</h2>
 <ul>
@@ -78,14 +79,17 @@ class Demo extends React.Component {
 <li><code>detectAutoPan</code> - perform PAN if the mouse is on the border of the viewer</li>
 <li><code>toolbarPosition</code> - toolbar position (one of <code>none</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>)</li>
 <li><code>SVGBackground</code> - background of the SVG (default color: white)</li>
-<li><code>onClick</code> - handler for click <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code>)</em></li>
-<li><code>onMouseUp</code> - handler for mouseup <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code>)</em></li>
-<li><code>onMouseMove</code> - handler for mousemove <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code>)</em></li>
-<li><code>onMouseDown</code> - handler for mousedown <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code>)</em></li>
+<li><code>onClick</code> - handler for click <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onDoubleClick</code> - handler for dblclick <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onMouseUp</code> - handler for mouseup <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onMouseMove</code> - handler for mousemove <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onMouseDown</code> - handler for mousedown <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 <li><code>value</code> - inject and lock the viewer to a specific value</li>
 <li><code>onChangeValue</code> - callback called when the viewer changes its value <code>fn(value)</code></li>
-<li><code>tool</code> - inject and lock the viewer to a specific tool ( one of <code>none</code>, <code>pan</code>, <code>zoom-in</code>, <code>zoom-out</code> )</li>
+<li><code>tool</code> - inject and lock the viewer to a specific tool ( one of <code>none</code>, <code>pan</code>, <code>zoom-in</code>, <code>zoom-out</code>, <code>auto</code> )</li>
 <li><code>onChangeTool</code> - callback called when the viewer changes the used tool <code>fn(tool)</code></li>
+<li><code>modifierKeys</code> - array with modifier keys used with the tool <code>auto</code> to swap zoom in and zoom out (<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState">Accepted value</a>)</li>
+<li><code>customToolbar</code> - React component with custom toolbar.</li>
 </ul>
 <h2>Methods</h2>
 <ul>
@@ -99,11 +103,11 @@ class Demo extends React.Component {
 <li><code>getValue()</code> - Get current viewer value</li>
 <li><code>setValue(value)</code> - Through this method you can set a new value</li>
 <li><code>getTool()</code> - Get current tool</li>
-<li><code>setTool(tool)</code> - Set a tool (one of <code>none</code>,<code>pan</code>,<code>zoom-in</code>,<code>zoom-out</code>)</li>
+<li><code>setTool(tool)</code> - Set a tool (one of <code>none</code>,<code>pan</code>,<code>zoom-in</code>,<code>zoom-out</code>,<code>auto</code>)</li>
 </ul>
 <h2>ViewerEvent attributes</h2>
-<p>Your event handlers will be passed instances of <code>ViewerEvent</code>. It has some useful attributes (See below).
-If, for your purpose, you need the original React event instance (<code>SyntheticEvent</code>), you can get it through <code>event.originalEvent</code>.</p>
+<p>Your event handlers will be passed instances of <code>ViewerEvent</code>. It has some useful attributes.
+If, for your purpose, you need the original React event instance (<code>SyntheticEvent</code>), you can get it through <code>event.originalEvent</code>. You can't use event in async way, see <a href="https://facebook.github.io/react/docs/events.html#event-pooling">React Event Pooling</a>.</p>
 <ul>
 <li><code>originalEvent: SyntheticEvent</code> - The original React event</li>
 <li><code>SVGViewer: SVGSVGElement</code> - Reference to SVGViewer</li>
@@ -113,19 +117,16 @@ If, for your purpose, you need the original React event instance (<code>Syntheti
 <li><code>scaleFactor: number</code> - zoom level</li>
 <li><code>translationX: number</code> - x delta from the viewer origin</li>
 <li><code>translationY: number</code> - y delta from the viewer origin</li>
+<li><code>preventDefault(): void</code> - alias <code>originalEvent.preventDefault()</code></li>
+<li><code>stopPropagation(): void</code> - alias <code>originalEvent.stopPropagation()</code></li>
 </ul>
 <h2>Examples</h2>
-<table>
-<thead>
-<tr><th>Example</th><th>Description</th></tr>
-</thead>
-<tbody>
-<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/">Basic</a></td><td>This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.</td></tr>
-<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/2-controlled-state/">Controlled state</a></td><td>This advanced project show a scenario in which the parent component has a full control of the svg viewer. <em>The state is owned by the parent</em> and injected on the viewer throught <code>props</code>. Any state change request is performed by two callbacks <code>onChangeValue(value)</code> and <code>onChangeTool(tool)</code>. This demo apply the same pattern of an <code>&lt;input&gt;</code> tag (<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">React Controlled Components</a>).</td></tr>
-<tr><td><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/3-redux/">Redux</a></td><td>This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.</td></tr>
-<tr><td><a href="https://cvdlab.github.io/react-planner/">React Planner</a></td><td>This is a React project that use this component.</td></tr>
-</tbody>
-</table>
+<ul>
+<li><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/1-basic/"><strong>Basic</strong></a> - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.</li>
+<li><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/2-controlled-state/"><strong>Controlled state</strong></a> - This advanced project show a scenario in which the parent component has a full control of the svg viewer. <em>The state is owned by the parent</em> and injected on the viewer throught <code>props</code>. Any state change request is performed by two callbacks <code>onChangeValue(value)</code> and <code>onChangeTool(tool)</code>. This demo apply the same pattern of an <code>&lt;input&gt;</code> tag (<a href="https://facebook.github.io/react/docs/forms.html#controlled-components">React Controlled Components</a>).</li>
+<li><a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/examples/3-redux/"><strong>Redux</strong></a> - This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.</li>
+<li><a href="https://cvdlab.github.io/react-planner/"><strong>React Planner</strong></a> - This is an open source React project that use this component.</li>
+</ul>
 <h2>Autosize</h2>
 <p><strong>React SVG Pan Zoom</strong> requires the properties <code>width</code> and <code>height</code> to be set in order to work properly. If you need an autosized component you can use <a href="https://github.com/digidem/react-dimensions">ReactDimension</a> to get the dimensions of a wrapper element and pass them as properties to its child element.</p>
 <h2>Start local demo</h2>
@@ -134,15 +135,11 @@ cd react-svg-pan-zoom
 npm install &amp;&amp; npm start
 </code></pre>
 <h2>Changelog</h2>
-<table>
-<thead>
-<tr><th>V</th><th>Changes</th></tr>
-</thead>
-<tbody>
-<tr><td>2.0</td><td>Project refactor. Follow <a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</td></tr>
-<tr><td>2.1</td><td>Adds <code>setPointOnViewerCenter</code>, <code>reset</code> methods and <code>className</code>, <code>style</code> props</td></tr>
-</tbody>
-</table>
+<ul>
+<li><strong>v2.0</strong> - Project refactor. Follow <a href="https://github.com/chrvadala/react-svg-pan-zoom/tree/master/docs/migrate-from-v1-to-v2.md">this guide</a> for migration instructions.</li>
+<li><strong>v2.1</strong> - Adds <code>setPointOnViewerCenter</code>, <code>reset</code> methods and <code>className</code>, <code>style</code> props</li>
+<li><strong>v2.2</strong> - Introduce tool <code>auto</code>, improve default toolbar</li>
+</ul>
 <h2>Contributing</h2>
 <p>Your contributions (issues and pull request) are very appreciated!</p>
 <h2>Author</h2>

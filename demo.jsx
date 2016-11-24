@@ -5,7 +5,7 @@ import ReactDOM from 'react-dom';
 import {
   ReactSVGPanZoom,
   Toolbar,
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
   fitToViewer
 } from '../src/index';
@@ -81,13 +81,14 @@ export default class Demo extends React.Component {
             onMouseMove={event => this.handlerSetPosition(event.x, event.y)} //display mouse position on window
             onMouseUp={event => console.info('up', event.x, event.y)}        //print mouseup on console
             onMouseDown={event => console.info('down', event.x, event.y)}    //print mousedown on console
+            onDoubleClick={event => console.info('dblclick', event.x, event.y)}    //print doubleclick on console
 
             style={{border: '1px solid black'}}
             className="viewerSVG"
           >
             <svg width={ 1440 } height={ 1440 }>
               <Snake />
-              <circle cx="525" cy="780" r="10" fill="yellow"/>
+              <circle cx="525" cy="780" r="10" fill="yellow" onClick={event => alert('hi!')}/>
             </svg>
           </ReactSVGPanZoom>
 
@@ -114,18 +115,31 @@ export default class Demo extends React.Component {
               <hr/>
             </div>
 
-            <div>
-              <strong>Toolbar position</strong> <br/>
-              <select value={this.state.toolbarPosition}
-                      onChange={ event => this.setState({toolbarPosition: event.target.value})}>
-                <option value={POSITION_NONE}>none</option>
-                <option value={POSITION_TOP}>top</option>
-                <option value={POSITION_RIGHT}>right</option>
-                <option value={POSITION_BOTTOM}>bottom</option>
-                <option value={POSITION_LEFT}>left</option>
-              </select>
-              <hr/>
+            <div style={{display: 'flex'}}>
+              <div style={{width: "49%"}}>
+                <strong>Toolbar position</strong> <br/>
+                <select value={this.state.toolbarPosition}
+                        onChange={ event => this.setState({toolbarPosition: event.target.value})}>
+                  <option value={POSITION_NONE}>none</option>
+                  <option value={POSITION_TOP}>top</option>
+                  <option value={POSITION_RIGHT}>right</option>
+                  <option value={POSITION_BOTTOM}>bottom</option>
+                  <option value={POSITION_LEFT}>left</option>
+                </select>
+              </div>
+              <div style={{width: "49%"}}>
+                <strong>Tool</strong> <br/>
+                <select value={this.state.tool}
+                        onChange={ event => this.setState({tool: event.target.value})}>
+                  <option value={TOOL_AUTO}>auto</option>
+                  <option value={TOOL_NONE}>none</option>
+                  <option value={TOOL_PAN}>pan</option>
+                  <option value={TOOL_ZOOM_IN}>zoom in</option>
+                  <option value={TOOL_ZOOM_OUT}>zoom out</option>
+                </select>
+              </div>
             </div>
+            <hr/>
 
             <div>
               <strong>Programmatically perform actions</strong> <br/>
