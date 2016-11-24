@@ -97,7 +97,7 @@ class Demo extends React.Component {
   - `onChangeValue` - callback called when the viewer changes its value `fn(value)`
   - `tool` - inject and lock the viewer to a specific tool ( one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` )
   - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool)`
-  - `modifierKeys` - array with modifier keys used with the tool `auto` to swap zoom in and zoom out [Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)
+  - `modifierKeys` - array with modifier keys used with the tool `auto` to swap zoom in and zoom out ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
   - `customToolbar` - React component with custom toolbar.
 
 ##  Methods
@@ -149,6 +149,7 @@ npm install && npm start
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
 - **v2.1** - Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props
+- **v2.2** - Introduce tool `auto`, improve default toolbar
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
