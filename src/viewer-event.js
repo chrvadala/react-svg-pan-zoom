@@ -43,4 +43,13 @@ export default class ViewerEvent {
     this._cacheDecomposedValue = this._cacheDecomposedValue || decompose(this.value);
     return this._cacheDecomposedValue.translationY;
   }
+
+  preventDefault(){
+    this.originalEvent.preventDefault();
+  }
+
+  stopPropagation(){
+    this.originalEvent.stopPropagation();
+  }
+
 }
