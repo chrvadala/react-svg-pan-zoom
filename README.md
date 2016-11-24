@@ -4,7 +4,7 @@
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 ![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
-![licence-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
+![license-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 
 <!-- START_NO_WEB -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
@@ -14,10 +14,11 @@ available at [http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.g
 <!-- END_NO_WEB -->
 
 ## Features
-This component can work in three different modes depending on the selected tool:
-- With the tool **pan** the user can move the image and drag it around within the viewer
-- With the tool **zoom** the user can scale the image either with a point click or selecting a region to zoom the specified area
-- With the tool **none** the user can interact with the SVG content and trigger browser events
+This component can work in four different modes depending on the selected tool:
+- With the tool **pan** the user can move the image and drag it around within the viewer, but can't interact with SVG child elements.
+- With the tool **zoom** the user can scale the image either with a point click or selecting a region to zoom the specified area, but can't interact with SVG child elements.
+- With the tool **none** the user can interact with SVG child elements and trigger events.
+- With the tool **auto** the user can interact with SVG child elements, perform *pan* (dragging the image), *zoom in* (double click), *zoom out* (double click + shift).
 
 ## Additional Features
 - Zoom detection performed through pinch and scroll (optional)
@@ -87,14 +88,17 @@ class Demo extends React.Component {
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `SVGBackground` - background of the SVG (default color: white)
-  - `onClick` - handler for click `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
-  - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
-  - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
-  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerEvent)` *(available with the tool `none`)*
+  - `onClick` - handler for click `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
+  - `onDoubleClick` - handler for dblclick `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
+  - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
+  - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
+  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
   - `value` - inject and lock the viewer to a specific value
   - `onChangeValue` - callback called when the viewer changes its value `fn(value)`
-  - `tool` - inject and lock the viewer to a specific tool ( one of `none`, `pan`, `zoom-in`, `zoom-out` )
+  - `tool` - inject and lock the viewer to a specific tool ( one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` )
   - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool)`
+  - `modifierKeys` - array with modifier keys used with the tool `auto` to swap zoom in and zoom out [Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)
+  - `customToolbar` - React component with custom toolbar.
 
 ##  Methods
  - `pan( SVGDeltaX, SVGDeltaY )` - Apply a pan
@@ -107,11 +111,11 @@ class Demo extends React.Component {
  - `getValue()` - Get current viewer value
  - `setValue(value)` - Through this method you can set a new value
  - `getTool()` - Get current tool
- - `setTool(tool)` - Set a tool (one of `none`,`pan`,`zoom-in`,`zoom-out`)
+ - `setTool(tool)` - Set a tool (one of `none`,`pan`,`zoom-in`,`zoom-out`,`auto`)
 
 ## ViewerEvent attributes
-Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes (See below).
-If, for your purpose, you need the original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`.
+Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes.
+If, for your purpose, you need the original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`. You can't use event in async way, see [React Event Pooling](https://facebook.github.io/react/docs/events.html#event-pooling).
 
   - `originalEvent: SyntheticEvent` - The original React event
   - `SVGViewer: SVGSVGElement ` - Reference to SVGViewer
@@ -121,6 +125,9 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
   - `scaleFactor: number ` - zoom level
   - `translationX: number ` - x delta from the viewer origin
   - `translationY: number ` - y delta from the viewer origin
+  - `preventDefault(): void ` - alias `originalEvent.preventDefault()` 
+  - `stopPropagation(): void ` - alias `originalEvent.stopPropagation()`
+ 
 
 ## Examples
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
