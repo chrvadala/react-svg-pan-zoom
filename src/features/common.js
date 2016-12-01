@@ -106,6 +106,17 @@ export function setViewerSize(value, viewerWidth, viewerHeight) {
 /**
  *
  * @param value
+ * @param SVGWidth
+ * @param SVGHeight
+ * @returns {Object}
+ */
+export function setSVGSize(value, SVGWidth, SVGHeight) {
+  return set(value, {SVGWidth, SVGHeight});
+}
+
+/**
+ *
+ * @param value
  * @param SVGPointX
  * @param SVGPointY
  * @param zoomLevel
