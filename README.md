@@ -80,27 +80,22 @@ class Demo extends React.Component {
 
 ## Props
   - `width` – **required** – width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))
-  - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))
-  
+  - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))  
   - `value` - inject and lock the viewer to a specific value
   - `onChangeValue` - callback called when the viewer changes its value `fn(value: object)`
   - `tool` - inject and lock the viewer to a specific tool ( one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` )
-  - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool: string)`
-  
+  - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool: string)`  
   - `SVGBackground` - background of the SVG (default color: white)
   - `background` – background of the viewer (default color: dark grey)
   - `style` - CSS style of the viewer
-  - `className` - CSS class of the viewer
-  
+  - `className` - CSS class of the viewer  
   - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
-
   - `onClick` - handler for click `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
   - `onDoubleClick` - handler for dblclick `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
   - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
   - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
-  
+  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*  
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `customToolbar` - React component with custom toolbar
   - `modifierKeys` - array with modifier keys used with the tool `auto` to swap zoom in and zoom out ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
