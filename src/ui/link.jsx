@@ -1,21 +1,41 @@
 import React, {PropTypes, Component} from 'react';
 
 export default class Link extends Component {
-
   constructor(props) {
     super(props);
     this.state = {hover: false};
   }
 
+  change(event) {
+    event.preventDefault();
+    event.stopPropagation();
+
+    switch (event.type) {
+      case 'mouseenter':
+        this.setState({hover: true});
+        break;
+      case 'mouseleave':
+        this.setState({hover: false});
+        break;
+    }
+  }
+
   render() {
     return (
       <a
-        onMouseEnter={e => this.setState({hover: true})}
-        onMouseLeave={e => this.setState({hover: false})}
+        onMouseEnter={e => this.change(e)}
+        onMouseLeave={e => this.change(e)}
+
         onClick={this.props.onClick}
+        onTouchStart={e => {
+          e.preventDefault();
+          this.props.onClick(e);
+        }}
+
         style={this.state.hover ? this.props.styleHover : this.props.style}
         title={this.props.title}
         href="javascript:;"
+
       >{this.props.children}</a>
     )
   }
