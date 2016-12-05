@@ -160,3 +160,18 @@ export function reset(value) {
     f: matrix.f
   });
 }
+
+/**
+ *
+ * @param value
+ * @returns {Object}
+ */
+export function resetMode(value) {
+  return set(value, {
+    mode: MODE_IDLE,
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
+  })
+}

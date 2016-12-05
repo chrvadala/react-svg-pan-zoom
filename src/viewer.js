@@ -15,6 +15,13 @@ import {
   onInterval,
   onDoubleClick
 } from './features/interactions';
+import {
+  onTouchStart,
+  onTouchMove,
+  onTouchEnd,
+  onTouchCancel
+}from './features/interactions-touch';
+
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 
 //ui
@@ -210,22 +217,42 @@ export default class ReactSVGPanZoom extends React.Component {
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleEvent(event);
           }}
+
           onClick={event => this.handleEvent(event)}
           onDoubleClick={ event => {
             let nextValue = onDoubleClick(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleEvent(event);
           }}
+
           onWheel={ event => {
             let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
+
           onMouseEnter={ event => {
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
           onMouseLeave={ event => {
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
+
+          onTouchStart={ event => {
+            let nextValue = onTouchStart(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
+          onTouchMove={ event => {
+            let nextValue = onTouchMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
+          onTouchEnd={ event => {
+            let nextValue = onTouchEnd(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            if (this.getValue() !== nextValue) this.setValue(nextValue);
+          }}
+          onTouchCancel={ event => {
+            let nextValue = onTouchCancel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}>
 
