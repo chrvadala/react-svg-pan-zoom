@@ -12,9 +12,12 @@ export default class Link extends Component {
 
     switch (event.type) {
       case 'mouseenter':
+      case 'touchstart':
         this.setState({hover: true});
         break;
       case 'mouseleave':
+      case 'touchend':
+      case 'touchcancel':
         this.setState({hover: false});
         break;
     }
@@ -26,11 +29,14 @@ export default class Link extends Component {
         onMouseEnter={e => this.change(e)}
         onMouseLeave={e => this.change(e)}
 
-        onClick={this.props.onClick}
         onTouchStart={e => {
-          e.preventDefault();
+          this.change(e);
           this.props.onClick(e);
         }}
+        onTouchEnd={e => this.change(e)}
+        onTouchCancel={e => this.change(e)}
+
+        onClick={this.props.onClick}
 
         style={this.state.hover ? this.props.styleHover : this.props.style}
         title={this.props.title}
