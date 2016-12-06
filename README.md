@@ -91,7 +91,7 @@ class Demo extends React.Component {
   - `className` - CSS class of the viewer  
   - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
-   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
+  - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `customToolbar` - React component with custom toolbar
   - `modifierKeys` - array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
   - `onClick` - handler for click `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
