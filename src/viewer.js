@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 
-//common
-import ViewerEvent from './viewer-event';
+//events
+import eventFactory from './events/event-factory';
 
 //features
 import {pan} from './features/pan';
@@ -123,23 +123,24 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   handleEvent(event) {
-    let {props: {onClick, onMouseMove, onMouseUp, onMouseDown, onDoubleClick}, state: {value}, ViewerDOM} = this;
-
-    let eventsHandler = {
-      click: onClick,
-      mousemove: onMouseMove,
-      mouseup: onMouseUp,
-      mousedown: onMouseDown,
-      dblclick: onDoubleClick,
-    };
+    let {props, state: {value}, ViewerDOM} = this;
 
     if (![TOOL_NONE, TOOL_AUTO].includes(this.getTool())) return;
     if (event.target === ViewerDOM) return;
 
+    let eventsHandler = {
+      click: props.onClick,
+      dblclick: props.onDoubleClick,
+
+      mousemove: props.onMouseMove,
+      mouseup: props.onMouseUp,
+      mousedown: props.onMouseDown,
+    };
+
     let onEventHandler = eventsHandler[event.type];
     if (!onEventHandler) return;
 
-    onEventHandler(new ViewerEvent(event, value, ViewerDOM));
+    onEventHandler(eventFactory(event, value, ViewerDOM));
   }
 
 
