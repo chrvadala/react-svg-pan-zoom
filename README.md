@@ -91,14 +91,18 @@ class Demo extends React.Component {
   - `className` - CSS class of the viewer  
   - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
-  - `onClick` - handler for click `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
-  - `onDoubleClick` - handler for dblclick `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerEvent)` *(available with the tool `none` or `auto`)*  
-  - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
+   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `customToolbar` - React component with custom toolbar
-  - `modifierKeys` - array with modifier keys used with the tool `auto` to swap zoom in and zoom out ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
+  - `modifierKeys` - array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
+  - `onClick` - handler for click `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
+  - `onDoubleClick` - handler for dblclick `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
+  - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
+  - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
+  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)* 
+  - `onTouchStart` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)*
+  - `onTouchMove` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)* 
+  - `onTouchEnd` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)*
+  - `onTouchCancel` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)*  
 
 ##  Methods
  - `pan( SVGDeltaX, SVGDeltaY )` - Apply a pan
@@ -113,10 +117,11 @@ class Demo extends React.Component {
  - `getTool()` - Get current tool
  - `setTool(tool)` - Set a tool (one of `none`,`pan`,`zoom-in`,`zoom-out`,`auto`)
 
-## ViewerEvent attributes
-Your event handlers will be passed instances of `ViewerEvent`. It has some useful attributes.
-If, for your purpose, you need the original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`. You can't use event in async way, see [React Event Pooling](https://facebook.github.io/react/docs/events.html#event-pooling).
+## Event attributes
+To your event handlers will be passed an instance of `ViewerMouseEvent` or `ViewerTouchEvent` (as the case). They have some useful attributes that map event positions to SVG coords.
+If, for your purpose, you need the original React event instance (`SyntheticEvent`), you can get it through `event.originalEvent`. You can't use event in async way, see [React Event Pooling](https://facebook.github.io/react/docs/events.html#event-pooling) for more information.
 
+### Viewer Mouse Event
   - `originalEvent: SyntheticEvent` - The original React event
   - `SVGViewer: SVGSVGElement ` - Reference to SVGViewer
   - `point: object ` - coordinates (x,y) of the event mapped to SVG coordinates
@@ -128,6 +133,16 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
   - `preventDefault(): void ` - alias `originalEvent.preventDefault()` 
   - `stopPropagation(): void ` - alias `originalEvent.stopPropagation()`
  
+### Viewer Touch Event
+  - `originalEvent: SyntheticEvent` - The original React event
+  - `SVGViewer: SVGSVGElement ` - Reference to SVGViewer
+  - `points: array[{x, y, identifier}] ` - array with coordinates (x, y, identifier) of the touches mapped to SVG coordinates
+  - `changedPoints: array[{x, y, identifier}] ` - coordinates (x, y, identifier) of the changed touches mapped to SVG coordinates
+  - `scaleFactor: number ` - zoom level
+  - `translationX: number ` - x delta from the viewer origin
+  - `translationY: number ` - y delta from the viewer origin
+  - `preventDefault(): void ` - alias `originalEvent.preventDefault()` 
+  - `stopPropagation(): void ` - alias `originalEvent.stopPropagation()`
 
 ## Examples
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
