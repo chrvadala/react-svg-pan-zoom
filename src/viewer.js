@@ -122,7 +122,7 @@ export default class ReactSVGPanZoom extends React.Component {
     if (this.props.onChangeTool) this.props.onChangeTool(tool);
   }
 
-  handleEvent(event) {
+  handleViewerEvent(event) {
     let {props, state: {value}, ViewerDOM} = this;
 
     if (![TOOL_NONE, TOOL_AUTO].includes(this.getTool())) return;
@@ -199,10 +199,11 @@ export default class ReactSVGPanZoom extends React.Component {
           width={value.viewerWidth}
           height={value.viewerHeight}
           style={cursor ? {cursor} : {}}
+
           onMouseDown={ event => {
             let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleEvent(event);
+            this.handleViewerEvent(event);
           }}
           onMouseMove={ event => {
             let {left, top} = this.ViewerDOM.getBoundingClientRect();
@@ -212,19 +213,21 @@ export default class ReactSVGPanZoom extends React.Component {
             let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.setState({viewerX: x, viewerY: y});
-            this.handleEvent(event);
+            this.handleViewerEvent(event);
           }}
           onMouseUp={ event => {
             let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleEvent(event);
+            this.handleViewerEvent(event);
           }}
 
-          onClick={event => this.handleEvent(event)}
+          onClick={event => {
+            this.handleViewerEvent(event)
+          }}
           onDoubleClick={ event => {
             let nextValue = onDoubleClick(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleEvent(event);
+            this.handleViewerEvent(event);
           }}
 
           onWheel={ event => {
@@ -233,7 +236,7 @@ export default class ReactSVGPanZoom extends React.Component {
           }}
 
           onMouseEnter={ event => {
-            if(detectTouch()) return;
+            if (detectTouch()) return;
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
