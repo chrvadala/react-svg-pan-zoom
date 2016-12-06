@@ -30,6 +30,7 @@ import BorderGradient from './ui/border-gradient';
 import If from './ui/if';
 import Selection from './ui/selection';
 import Toolbar from './ui-toolbar/toolbar';
+import detectTouch from './ui/detect-touch';
 
 import {
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
@@ -231,6 +232,7 @@ export default class ReactSVGPanZoom extends React.Component {
           }}
 
           onMouseEnter={ event => {
+            if(detectTouch()) return;
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
