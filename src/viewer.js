@@ -277,14 +277,14 @@ export default class ReactSVGPanZoom extends React.Component {
           </If>
         </svg>
 
-        <If condition={props.toolbarPosition !== POSITION_NONE}>
+        {props.toolbarPosition === POSITION_NONE ? null :
           <CustomToolbar
             position={props.toolbarPosition}
             value={value}
             onChangeValue={value => this.setValue(value)}
             tool={tool}
-            onChangeTool={tool => this.changeTool(tool)}/>
-        </If>
+            onChangeTool={tool => this.changeTool(tool)}/> }
+
       </div>
     );
   }
