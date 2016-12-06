@@ -1,6 +1,6 @@
 {
   "name": "react-svg-pan-zoom",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./lib/index.js",
   "scripts": {
