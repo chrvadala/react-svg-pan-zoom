@@ -83,6 +83,19 @@ export default class Demo extends React.Component {
             onMouseDown={event => console.info('down', event.x, event.y)}    //print mousedown on console
             onDoubleClick={event => console.info('dblclick', event.x, event.y)}    //print doubleclick on console
 
+            onTouchStart={event => {
+              event.preventDefault();
+              console.info('touchstart', 'points' + event.points.map(({x, y, identifier}) => `${x} ${y} ${identifier}`))
+            }}
+            onTouchEnd={event => {
+              event.preventDefault();
+              console.info('touchend', 'changedPoints' + event.changedPoints.map(({x, y, identifier}) => `${x} ${y} ${identifier}`))
+            }}
+            onTouchMove={event => {
+              event.preventDefault();
+              this.handlerSetPosition(event.points[0].x, event.points[0].y)
+            }}
+
             style={{border: '1px solid black'}}
             className="viewerSVG"
           >

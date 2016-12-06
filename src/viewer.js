@@ -135,6 +135,11 @@ export default class ReactSVGPanZoom extends React.Component {
       mousemove: props.onMouseMove,
       mouseup: props.onMouseUp,
       mousedown: props.onMouseDown,
+
+      touchstart: props.onTouchStart,
+      touchmove: props.onTouchMove,
+      touchend: props.onTouchEnd,
+      touchcancel: props.onTouchCancel,
     };
 
     let onEventHandler = eventsHandler[event.type];
@@ -248,18 +253,22 @@ export default class ReactSVGPanZoom extends React.Component {
           onTouchStart={ event => {
             let nextValue = onTouchStart(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
+            this.handleViewerEvent(event);
           }}
           onTouchMove={ event => {
             let nextValue = onTouchMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
+            this.handleViewerEvent(event);
           }}
           onTouchEnd={ event => {
             let nextValue = onTouchEnd(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
+            this.handleViewerEvent(event);
           }}
           onTouchCancel={ event => {
             let nextValue = onTouchCancel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
+            this.handleViewerEvent(event);
           }}>
 
           <rect
