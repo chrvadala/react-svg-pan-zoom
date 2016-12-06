@@ -72,24 +72,24 @@ class Demo extends React.Component {
 <ul>
 <li><code>width</code> – <strong>required</strong> – width of the viewer displayed on screen (if you want to omit this see <a href="#autosize">Autosize</a>)</li>
 <li><code>height</code> – <strong>required</strong> – height of the viewer displayed on screen (if you want to omit this see  <a href="#autosize">Autosize</a>)</li>
+<li><code>value</code> - inject and lock the viewer to a specific value</li>
+<li><code>onChangeValue</code> - callback called when the viewer changes its value <code>fn(value: object)</code></li>
+<li><code>tool</code> - inject and lock the viewer to a specific tool ( one of <code>none</code>, <code>pan</code>, <code>zoom-in</code>, <code>zoom-out</code>, <code>auto</code> )</li>
+<li><code>onChangeTool</code> - callback called when the viewer changes the used tool <code>fn(tool: string)</code></li>
+<li><code>SVGBackground</code> - background of the SVG (default color: white)</li>
 <li><code>background</code> – background of the viewer (default color: dark grey)</li>
 <li><code>style</code> - CSS style of the viewer</li>
 <li><code>className</code> - CSS class of the viewer</li>
 <li><code>detectWheel</code> - detect zoom operation performed through pinch gesture or mouse scroll</li>
 <li><code>detectAutoPan</code> - perform PAN if the mouse is on the border of the viewer</li>
-<li><code>toolbarPosition</code> - toolbar position (one of <code>none</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>)</li>
-<li><code>SVGBackground</code> - background of the SVG (default color: white)</li>
 <li><code>onClick</code> - handler for click <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 <li><code>onDoubleClick</code> - handler for dblclick <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 <li><code>onMouseUp</code> - handler for mouseup <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 <li><code>onMouseMove</code> - handler for mousemove <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 <li><code>onMouseDown</code> - handler for mousedown <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
-<li><code>value</code> - inject and lock the viewer to a specific value</li>
-<li><code>onChangeValue</code> - callback called when the viewer changes its value <code>fn(value)</code></li>
-<li><code>tool</code> - inject and lock the viewer to a specific tool ( one of <code>none</code>, <code>pan</code>, <code>zoom-in</code>, <code>zoom-out</code>, <code>auto</code> )</li>
-<li><code>onChangeTool</code> - callback called when the viewer changes the used tool <code>fn(tool)</code></li>
+<li><code>toolbarPosition</code> - toolbar position (one of <code>none</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>)</li>
+<li><code>customToolbar</code> - React component with custom toolbar</li>
 <li><code>modifierKeys</code> - array with modifier keys used with the tool <code>auto</code> to swap zoom in and zoom out (<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState">Accepted value</a>)</li>
-<li><code>customToolbar</code> - React component with custom toolbar.</li>
 </ul>
 <h2>Methods</h2>
 <ul>
