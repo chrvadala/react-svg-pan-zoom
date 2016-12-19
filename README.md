@@ -165,6 +165,7 @@ npm install && npm start
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
 - **v2.1** - Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props
 - **v2.2** - Introduce tool `auto`, improve default toolbar
+- **v2.3** - Adds touch events support
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
