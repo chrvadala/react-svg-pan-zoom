@@ -82,14 +82,18 @@ class Demo extends React.Component {
 <li><code>className</code> - CSS class of the viewer</li>
 <li><code>detectWheel</code> - detect zoom operation performed through pinch gesture or mouse scroll</li>
 <li><code>detectAutoPan</code> - perform PAN if the mouse is on the border of the viewer</li>
-<li><code>onClick</code> - handler for click <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
-<li><code>onDoubleClick</code> - handler for dblclick <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
-<li><code>onMouseUp</code> - handler for mouseup <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
-<li><code>onMouseMove</code> - handler for mousemove <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
-<li><code>onMouseDown</code> - handler for mousedown <code>fn(viewerEvent: ViewerEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 <li><code>toolbarPosition</code> - toolbar position (one of <code>none</code>, <code>top</code>, <code>right</code>, <code>bottom</code>, <code>left</code>)</li>
 <li><code>customToolbar</code> - React component with custom toolbar</li>
-<li><code>modifierKeys</code> - array with modifier keys used with the tool <code>auto</code> to swap zoom in and zoom out (<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState">Accepted value</a>)</li>
+<li><code>modifierKeys</code> - array with modifier keys used with the tool <code>auto</code> to swap <code>zoom in</code> and <code>zoom out</code> (<a href="https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState">Accepted value</a>)</li>
+<li><code>onClick</code> - handler for click <code>fn(viewerEvent: ViewerMouseEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onDoubleClick</code> - handler for dblclick <code>fn(viewerEvent: ViewerMouseEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onMouseUp</code> - handler for mouseup <code>fn(viewerEvent: ViewerMouseEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onMouseMove</code> - handler for mousemove <code>fn(viewerEvent: ViewerMouseEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onMouseDown</code> - handler for mousedown <code>fn(viewerEvent: ViewerMouseEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onTouchStart</code> - handler for mousedown <code>fn(viewerEvent: ViewerTouchEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onTouchMove</code> - handler for mousedown <code>fn(viewerEvent: ViewerTouchEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onTouchEnd</code> - handler for mousedown <code>fn(viewerEvent: ViewerTouchEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
+<li><code>onTouchCancel</code> - handler for mousedown <code>fn(viewerEvent: ViewerTouchEvent)</code> <em>(available with the tool <code>none</code> or <code>auto</code>)</em></li>
 </ul>
 <h2>Methods</h2>
 <ul>
@@ -105,15 +109,28 @@ class Demo extends React.Component {
 <li><code>getTool()</code> - Get current tool</li>
 <li><code>setTool(tool)</code> - Set a tool (one of <code>none</code>,<code>pan</code>,<code>zoom-in</code>,<code>zoom-out</code>,<code>auto</code>)</li>
 </ul>
-<h2>ViewerEvent attributes</h2>
-<p>Your event handlers will be passed instances of <code>ViewerEvent</code>. It has some useful attributes.
-If, for your purpose, you need the original React event instance (<code>SyntheticEvent</code>), you can get it through <code>event.originalEvent</code>. You can't use event in async way, see <a href="https://facebook.github.io/react/docs/events.html#event-pooling">React Event Pooling</a>.</p>
+<h2>Event attributes</h2>
+<p>To your event handlers will be passed an instance of <code>ViewerMouseEvent</code> or <code>ViewerTouchEvent</code> (as the case). They have some useful attributes that map event positions to SVG coords.
+If, for your purpose, you need the original React event instance (<code>SyntheticEvent</code>), you can get it through <code>event.originalEvent</code>. You can't use event in async way, see <a href="https://facebook.github.io/react/docs/events.html#event-pooling">React Event Pooling</a> for more information.</p>
+<h3>Viewer Mouse Event</h3>
 <ul>
 <li><code>originalEvent: SyntheticEvent</code> - The original React event</li>
 <li><code>SVGViewer: SVGSVGElement</code> - Reference to SVGViewer</li>
 <li><code>point: object</code> - coordinates (x,y) of the event mapped to SVG coordinates</li>
 <li><code>x: number</code> - x coordinate of the event mapped to SVG coordinates</li>
 <li><code>y: number</code> - y coordinate of the event mapped to SVG coordinates</li>
+<li><code>scaleFactor: number</code> - zoom level</li>
+<li><code>translationX: number</code> - x delta from the viewer origin</li>
+<li><code>translationY: number</code> - y delta from the viewer origin</li>
+<li><code>preventDefault(): void</code> - alias <code>originalEvent.preventDefault()</code></li>
+<li><code>stopPropagation(): void</code> - alias <code>originalEvent.stopPropagation()</code></li>
+</ul>
+<h3>Viewer Touch Event</h3>
+<ul>
+<li><code>originalEvent: SyntheticEvent</code> - The original React event</li>
+<li><code>SVGViewer: SVGSVGElement</code> - Reference to SVGViewer</li>
+<li><code>points: array[{x, y, identifier}]</code> - array with coordinates (x, y, identifier) of the touches mapped to SVG coordinates</li>
+<li><code>changedPoints: array[{x, y, identifier}]</code> - coordinates (x, y, identifier) of the changed touches mapped to SVG coordinates</li>
 <li><code>scaleFactor: number</code> - zoom level</li>
 <li><code>translationX: number</code> - x delta from the viewer origin</li>
 <li><code>translationY: number</code> - y delta from the viewer origin</li>
