@@ -94,15 +94,17 @@ class Demo extends React.Component {
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `customToolbar` - React component with custom toolbar
   - `modifierKeys` - array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
-  - `onClick` - handler for click `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
-  - `onDoubleClick` - handler for dblclick `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseUp` - handler for mouseup `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseMove` - handler for mousemove `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)*
-  - `onMouseDown` - handler for mousedown `fn(viewerEvent: ViewerMouseEvent)` *(available with the tool `none` or `auto`)* 
-  - `onTouchStart` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)*
-  - `onTouchMove` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)* 
-  - `onTouchEnd` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)*
-  - `onTouchCancel` - handler for mousedown `fn(viewerEvent: ViewerTouchEvent)` *(available with the tool `none` or `auto`)*  
+  - `onClick` - handler* for click `fn(viewerEvent: ViewerMouseEvent)`
+  - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`
+  - `onMouseUp` - handler* for mouseup `fn(viewerEvent: ViewerMouseEvent)`
+  - `onMouseMove` - handler* for mousemove `fn(viewerEvent: ViewerMouseEvent)`
+  - `onMouseDown` - handler* for mousedown `fn(viewerEvent: ViewerMouseEvent)` 
+  - `onTouchStart` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
+  - `onTouchMove` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
+  - `onTouchEnd` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
+  - `onTouchCancel` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)` 
+  
+\* handler available only with the tool `none` or `auto`
 
 ##  Methods
  - `pan( SVGDeltaX, SVGDeltaY )` - Apply a pan
