@@ -30,7 +30,7 @@ let calcToolbarStyle = position => {
     borderRadius: "2px",
     display: "flex",
     flexDirection: isHorizontal(position) ? "row" : "column",
-    padding: isHorizontal(position) ? "3px 5px 3px 3px" : "5px 3px 3px 3px"
+    padding: isHorizontal(position) ? "1px 2px" : "2px 1px"
   };
 };
 
@@ -39,7 +39,7 @@ let calcElementStyle = (position, active, hover) => {
     display: "block",
     width: "24px",
     height: "24px",
-    padding: isHorizontal(position) ? "2px 1px" : "1px 2px",
+    margin: isHorizontal(position) ? "2px 1px" : "1px 2px",
     color: active || hover ? '#1CA6FC' : '#FFF',
     transition: hover ? "color 200ms ease" : "unset"
   };
