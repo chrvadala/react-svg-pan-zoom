@@ -1,7 +1,7 @@
 {
   "name": "react-svg-pan-zoom",
   "description": "A React component that adds pan and zoom features to SVG",
-  "main": "./dist/react-svg-pan-zoom.js",
+  "main": "./dist/react-svg-pan-zoom.min.js",
   "authors": [
     "chrvadala"
   ],

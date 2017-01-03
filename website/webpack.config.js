@@ -9,7 +9,7 @@ const webpack = require('webpack');
  */
 
 const PAGE_TITLE = "react-svg-pan-zoom - A React component that adds pan and zoom features to SVG";
-const VENDORS_LIBRARIES = ['react', 'react-dom'];
+const VENDORS_LIBRARIES = ['react', 'react-dom', 'prismjs', 'remarkable'];
 
 module.exports = function (env) {
   let isProduction = env && env.hasOwnProperty('production');
@@ -45,6 +45,16 @@ module.exports = function (env) {
         use: [
           {
             loader: 'babel-loader',
+            options: {
+              "compact": false,
+              "plugins": [
+                "transform-object-rest-spread"
+              ],
+              "presets": [
+                "es2015-webpack2",
+                "react"
+              ]
+            }
           }
         ]
       }, {

@@ -1,29 +1,50 @@
-var path = require('path');
+const path = require('path');
+const webpack = require('webpack');
 
-module.exports = {
-  entry: {
-    ReactSVGPanZoom: path.resolve(__dirname, 'src', 'index.js')
-  },
-  output: {
-    path: __dirname + "/dist",
-    filename: "react-svg-pan-zoom.js",
-    library: "ReactSVGPanZoom"
-  },
-  externals: {
-    "react": "React",
-    "react-dom": "ReactDOM"
-  },
-  devtool: "eval",
-  resolve: {
-    extensions: ['', '.js', '.jsx']
-  },
-  module: {
-    loaders: [
-      {
-        test: /\.(jsx|js)$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel'
-      }
-    ]
-  }
+module.exports = function (env) {
+
+  let minimize = env && env.hasOwnProperty('minimize');
+
+  let config = {
+    entry: {
+      ReactSVGPanZoom: path.resolve(__dirname, 'src', 'index.js')
+    },
+    output: {
+      path: path.join(__dirname, 'dist'),
+      filename: `react-svg-pan-zoom${minimize ? '.min' : ''}.js`,
+      library: "ReactSVGPanZoom",
+      libraryTarget: "var"
+    },
+    externals: ["react", "react-dom"],
+    devtool: "source-map",
+    resolve: {
+      extensions: ['.js', '.jsx']
+    },
+    module: {
+      rules: [{
+        test: /\.(js|jsx)$/,
+        exclude: /node_modules/,
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              "compact": false,
+              "plugins": [
+                "transform-object-rest-spread"
+              ],
+              "presets": [
+                "es2015-webpack2",
+                "react"
+              ]
+            }
+          }
+        ]
+      }]
+    },
+    plugins: [],
+  };
+
+  if (minimize) config.plugins.push(new webpack.optimize.UglifyJsPlugin());
+
+  return config;
 };
