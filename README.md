@@ -1,8 +1,8 @@
 # react-svg-pan-zoom
 **react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features to the **SVG images**. It helps to display big SVG images in a small space.
 
-[![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
-![javascript](https://img.shields.io/badge/javascript-ES6-fbde34.svg)
+[![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom) 
+![es-next-compliant](https://img.shields.io/badge/es:next-compliant-fbde34.svg) 
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 ![license-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 
@@ -168,6 +168,7 @@ npm install && npm start
 - **v2.1** - Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props
 - **v2.2** - Introduce tool `auto`, improve default toolbar
 - **v2.3** - Adds touch events support
+- **v2.4** - Adds es:next support, deploy new website
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
