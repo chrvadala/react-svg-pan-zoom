@@ -1,3 +1,4 @@
+<!-- START_NO_WEB -->
 # react-svg-pan-zoom
 **react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features to the **SVG images**. It helps to display big SVG images in a small space.
 
@@ -6,7 +7,6 @@
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 ![license-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 
-<!-- START_NO_WEB -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Live Demo
@@ -30,17 +30,16 @@ This component can work in four different modes depending on the selected tool:
 
 
 ## Usage
-```
+```sh
 npm install --save react-svg-pan-zoom
 ```
-```
+```sh
 bower install react-svg-pan-zoom
 ```
 
 [Sample code available here](./examples/1-basic/example1.jsx)
 ```js
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 
 class Demo extends React.Component {
@@ -61,7 +60,7 @@ class Demo extends React.Component {
         <hr/>
 
         <ReactSVGPanZoom
-          style={{border: "1px solid black"}}
+          style={{outline: "1px solid black"}}
           width={500} height={500} ref={Viewer => this.Viewer = Viewer}
           onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
           onMouseUp={event => console.log('up', event.x, event.y)}
@@ -80,15 +79,15 @@ class Demo extends React.Component {
 
 ## Props
   - `width` – **required** – width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))
-  - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))  
+  - `height` – **required** – height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))
   - `value` - inject and lock the viewer to a specific value
   - `onChangeValue` - callback called when the viewer changes its value `fn(value: object)`
   - `tool` - inject and lock the viewer to a specific tool ( one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` )
-  - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool: string)`  
+  - `onChangeTool` - callback called when the viewer changes the used tool `fn(tool: string)`
   - `SVGBackground` - background of the SVG (default color: white)
   - `background` – background of the viewer (default color: dark grey)
   - `style` - CSS style of the viewer
-  - `className` - CSS class of the viewer  
+  - `className` - CSS class of the viewer
   - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
@@ -98,12 +97,12 @@ class Demo extends React.Component {
   - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`
   - `onMouseUp` - handler* for mouseup `fn(viewerEvent: ViewerMouseEvent)`
   - `onMouseMove` - handler* for mousemove `fn(viewerEvent: ViewerMouseEvent)`
-  - `onMouseDown` - handler* for mousedown `fn(viewerEvent: ViewerMouseEvent)` 
+  - `onMouseDown` - handler* for mousedown `fn(viewerEvent: ViewerMouseEvent)`
   - `onTouchStart` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
   - `onTouchMove` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
   - `onTouchEnd` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
-  - `onTouchCancel` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)` 
-  
+  - `onTouchCancel` - handler* for mousedown `fn(viewerEvent: ViewerTouchEvent)`
+
 \* handler available only with the tool `none` or `auto`
 
 ##  Methods
@@ -132,9 +131,9 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
   - `scaleFactor: number ` - zoom level
   - `translationX: number ` - x delta from the viewer origin
   - `translationY: number ` - y delta from the viewer origin
-  - `preventDefault(): void ` - alias `originalEvent.preventDefault()` 
+  - `preventDefault(): void ` - alias `originalEvent.preventDefault()`
   - `stopPropagation(): void ` - alias `originalEvent.stopPropagation()`
- 
+
 ### Viewer Touch Event
   - `originalEvent: SyntheticEvent` - The original React event
   - `SVGViewer: SVGSVGElement ` - Reference to SVGViewer
@@ -143,7 +142,7 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
   - `scaleFactor: number ` - zoom level
   - `translationX: number ` - x delta from the viewer origin
   - `translationY: number ` - y delta from the viewer origin
-  - `preventDefault(): void ` - alias `originalEvent.preventDefault()` 
+  - `preventDefault(): void ` - alias `originalEvent.preventDefault()`
   - `stopPropagation(): void ` - alias `originalEvent.stopPropagation()`
 
 ## Examples
@@ -157,7 +156,7 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 **React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its child element.
 
 ## Start local demo
-```
+```sh
 git clone https://github.com/chrvadala/react-svg-pan-zoom.git
 cd react-svg-pan-zoom
 npm install && npm start
