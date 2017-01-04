@@ -4,9 +4,16 @@ import esShield from '../images/es.svg';
 import licenseShield from '../images/license.svg';
 import reactVersionShield from '../images/react-version.svg';
 
+const MEDIA_STYLE = `
+  @media (max-width: 767px) {
+    .jumbotron h1{ font-size: 2rem; }
+   }
+`;
+
 export default function Jumbotron(props) {
   return (
     <div style={{marginTop: "0rem"}}>
+      <style>{MEDIA_STYLE}</style>
       <div className="jumbotron" style={{backgroundColor: "#e7e7e7"}}>
         <h1 className="display-3 text-sm-center" style={{fontWeight: 100}}>react-svg-pan-zoom</h1>
         <p className="lead text-sm-center" style={{fontWeight: 100}}>
