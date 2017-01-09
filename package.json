@@ -13,7 +13,7 @@
     "build-es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build-dist": "webpack && webpack --env.minimize",
     "build": "npm run clean && npm run build-website && npm run build-commonjs && npm run build-es && npm run build-dist",
-    "add-build-to-vcs": "git add -A es && git add -A lib && git add -A website/dist",
+    "add-build-to-vcs": "git add -A dist && git add -A es && git add -A lib && git add -A website/dist",
     "clean": "rimraf lib es website/dist dist",
     "website-update": "gh-pages -m 'Update gh-pages' -d ./website/dist/",
     "version": "npm run build && npm run add-build-to-vcs",
