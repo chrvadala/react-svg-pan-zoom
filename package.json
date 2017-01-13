@@ -66,8 +66,8 @@
     "react-dom": "^15.4.1",
     "remarkable": "^1.7.1",
     "rimraf": "^2.5.4",
-    "webpack": "webpack/webpack#2.2.0-rc.3",
-    "webpack-dev-server": "webpack/webpack-dev-server#2.2.0-rc.0"
+    "webpack": "2.2.0-rc.4",
+    "webpack-dev-server": "2.2.0-rc.0"
   },
   "peerDependencies": {
     "react": ">=15.0.0",
