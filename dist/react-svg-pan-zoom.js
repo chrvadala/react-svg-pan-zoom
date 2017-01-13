@@ -69,28 +69,28 @@ var ReactSVGPanZoom =
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ (function(module, exports) {
 
 module.exports = react;
 
-/***/ },
+/***/ }),
 /* 1 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony export (binding) */ __webpack_require__.d(exports, "k", function() { return MODE_IDLE; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "m", function() { return MODE_PANNING; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "l", function() { return MODE_ZOOMING; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return TOOL_AUTO; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return TOOL_NONE; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return TOOL_PAN; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return TOOL_ZOOM_IN; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "f", function() { return TOOL_ZOOM_OUT; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "g", function() { return POSITION_NONE; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "h", function() { return POSITION_TOP; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "i", function() { return POSITION_RIGHT; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "j", function() { return POSITION_BOTTOM; });
-/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return POSITION_LEFT; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "a", function() { return TOOL_AUTO; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "b", function() { return TOOL_NONE; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "c", function() { return TOOL_PAN; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "d", function() { return TOOL_ZOOM_IN; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "e", function() { return TOOL_ZOOM_OUT; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "f", function() { return POSITION_NONE; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "g", function() { return POSITION_TOP; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "h", function() { return POSITION_RIGHT; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "i", function() { return POSITION_BOTTOM; });
+/* harmony export (binding) */ __webpack_require__.d(exports, "j", function() { return POSITION_LEFT; });
 var MODE_IDLE = 'idle';
 var MODE_PANNING = 'panning';
 var MODE_ZOOMING = 'zooming';
@@ -107,9 +107,9 @@ var POSITION_RIGHT = 'right';
 var POSITION_BOTTOM = 'bottom';
 var POSITION_LEFT = 'left';
 
-/***/ },
+/***/ }),
 /* 2 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
@@ -316,9 +316,9 @@ function resetMode(value) {
   });
 }
 
-/***/ },
+/***/ }),
 /* 3 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
@@ -328,8 +328,8 @@ function resetMode(value) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils__ = __webpack_require__(5);
 /* harmony export (immutable) */ exports["a"] = zoom;
 /* harmony export (immutable) */ exports["b"] = fitSelection;
-/* harmony export (immutable) */ exports["d"] = fitToViewer;
-/* harmony export (immutable) */ exports["c"] = zoomOnViewerCenter;
+/* harmony export (immutable) */ exports["c"] = fitToViewer;
+/* harmony export (immutable) */ exports["d"] = zoomOnViewerCenter;
 /* harmony export (immutable) */ exports["e"] = startZooming;
 /* harmony export (immutable) */ exports["g"] = updateZooming;
 /* harmony export (immutable) */ exports["f"] = stopZooming;
@@ -449,9 +449,9 @@ function stopZooming(value, viewerX, viewerY, scaleFactor) {
   }
 }
 
-/***/ },
+/***/ }),
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
@@ -565,9 +565,9 @@ function autoPanIfNeeded(value, viewerX, viewerY) {
   return deltaX === 0 && deltaY === 0 ? value : pan(value, deltaX, deltaY);
 }
 
-/***/ },
+/***/ }),
 /* 5 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ exports["a"] = calculateBox;
@@ -608,9 +608,9 @@ function mapRange(value, low1, high1, low2, high2) {
   return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
 }
 
-/***/ },
+/***/ }),
 /* 6 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 /*!
 	2D Transformation Matrix v2.7.0
@@ -1685,9 +1685,9 @@ Matrix.prototype = {
 if (true) exports.Matrix = Matrix;
 
 
-/***/ },
+/***/ }),
 /* 7 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -1714,18 +1714,18 @@ if (true) exports.Matrix = Matrix;
 
 
 var isHorizontal = function isHorizontal(position) {
-  return [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */]].includes(position);
+  return [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position);
 };
 
 var calcToolbarStyle = function calcToolbarStyle(position) {
   return {
     //position
     position: "absolute",
-    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */]].includes(position) ? "translate(-50%, 0px)" : "none",
-    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["a" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */]].includes(position) ? "5px" : "unset",
-    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */]].includes(position) ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* POSITION_LEFT */] === position ? "5px" : "unset",
-    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_RIGHT */]].includes(position) ? "5px" : "unset",
-    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */]].includes(position) ? "5px" : "unset",
+    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position) ? "translate(-50%, 0px)" : "none",
+    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */]].includes(position) ? "5px" : "unset",
+    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position) ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */] === position ? "5px" : "unset",
+    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */]].includes(position) ? "5px" : "unset",
+    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position) ? "5px" : "unset",
 
     //inner styling
     backgroundColor: "rgba(19, 20, 22, 0.90)",
@@ -1762,7 +1762,7 @@ function Toolbar(_ref) {
   };
 
   var handleFit = function handleFit(event) {
-    onChangeValue(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__features_zoom__["d" /* fitToViewer */])(value));
+    onChangeValue(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__features_zoom__["c" /* fitToViewer */])(value));
     event.stopPropagation();
     event.preventDefault();
   };
@@ -1773,44 +1773,44 @@ function Toolbar(_ref) {
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_NONE */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_NONE */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* TOOL_NONE */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* TOOL_NONE */], true),
         title: 'Selection',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_NONE */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* TOOL_NONE */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__icon_cursor__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_PAN */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_PAN */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_PAN */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_PAN */], true),
         title: 'Pan',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_PAN */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_PAN */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__icon_pan__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_IN */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_IN */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_ZOOM_IN */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_ZOOM_IN */], true),
         title: 'Zoom in',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_IN */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_ZOOM_IN */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__icon_zoom_in__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_ZOOM_OUT */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_ZOOM_OUT */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_OUT */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_OUT */], true),
         title: 'Zoom out',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_ZOOM_OUT */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_OUT */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__icon_zoom_out__["a" /* default */], null)
     ),
@@ -1829,16 +1829,16 @@ function Toolbar(_ref) {
 }
 
 Toolbar.propTypes = {
-  position: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* POSITION_LEFT */]]).isRequired,
+  position: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */]]).isRequired,
   tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].string.isRequired,
   value: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].object.isRequired,
   onChangeValue: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func.isRequired,
   onChangeTool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func.isRequired
 };
 
-/***/ },
+/***/ }),
 /* 8 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__features_common__ = __webpack_require__(2);
@@ -1892,9 +1892,9 @@ var ViewerEvent = function () {
 
 /* harmony default export */ exports["a"] = ViewerEvent;
 
-/***/ },
+/***/ }),
 /* 9 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
@@ -1935,17 +1935,17 @@ function onMouseDown(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
       var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, x, y);
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, SVGPoint.x, SVGPoint.y, 0.8);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["e" /* startZooming */])(value, x, y);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["b" /* startPanning */])(value, x, y);
       break;
 
@@ -1978,12 +1978,12 @@ function onMouseMove(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
       if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1.1) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["g" /* updateZooming */])(value, x, y);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
       if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, 20);
       break;
 
@@ -2015,16 +2015,16 @@ function onMouseUp(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
       if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 0.8);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
       if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1.1);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
       if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value, x, y);
       break;
 
@@ -2056,7 +2056,7 @@ function onDoubleClick(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
       var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, x, y);
       var modifierKeysReducer = function modifierKeysReducer(current, modifierKey) {
         return current || event.getModifierState(modifierKey);
@@ -2118,16 +2118,16 @@ function onInterval(event, ViewerDOM, tool, value, props) {
       y = coords.y;
 
 
-  if (![__WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]].includes(tool)) return value;
+  if (![__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]].includes(tool)) return value;
   if (!props.detectAutoPan) return value;
   if (!value.focus) return value;
 
   return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["e" /* autoPanIfNeeded */])(value, x, y);
 }
 
-/***/ },
+/***/ }),
 /* 10 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -2199,7 +2199,7 @@ var ReactSVGPanZoom = function (_React$Component) {
 
     _this.state = {
       value: value ? value : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_common__["e" /* getDefaultValue */])(viewerWidth, viewerHeight, SVGWidth, SVGHeight),
-      tool: tool ? tool : __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_NONE */]
+      tool: tool ? tool : __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */]
     };
     _this.ViewerDOM = null;
     return _this;
@@ -2261,13 +2261,13 @@ var ReactSVGPanZoom = function (_React$Component) {
   }, {
     key: 'fitToViewer',
     value: function fitToViewer() {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["d" /* fitToViewer */])(this.getValue());
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["c" /* fitToViewer */])(this.getValue());
       this.setValue(nextValue);
     }
   }, {
     key: 'zoomOnViewerCenter',
     value: function zoomOnViewerCenter(scaleFactor) {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["c" /* zoomOnViewerCenter */])(this.getValue(), scaleFactor);
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["d" /* zoomOnViewerCenter */])(this.getValue(), scaleFactor);
       this.setValue(nextValue);
     }
   }, {
@@ -2296,7 +2296,7 @@ var ReactSVGPanZoom = function (_React$Component) {
           ViewerDOM = this.ViewerDOM;
 
 
-      if (![__WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_AUTO */]].includes(this.getTool())) return;
+      if (![__WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */]].includes(this.getTool())) return;
       if (event.target === ViewerDOM) return;
 
       var eventsHandler = {
@@ -2356,19 +2356,19 @@ var ReactSVGPanZoom = function (_React$Component) {
       var value = this.getValue();
       var CustomToolbar = props.customToolbar;
 
-      var panningWithToolAuto = tool === __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_AUTO */] && value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */] && value.startX !== value.endX && value.startY !== value.endY;
+      var panningWithToolAuto = tool === __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */] && value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */] && value.startX !== value.endX && value.startY !== value.endY;
 
       var cursor = void 0;
 
-      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_PAN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])(value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */] ? 'grabbing' : 'grab');
+      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])(value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */] ? 'grabbing' : 'grab');
 
-      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_IN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('zoom-in');
+      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('zoom-in');
 
-      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["f" /* TOOL_ZOOM_OUT */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('zoom-out');
+      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('zoom-out');
 
       if (panningWithToolAuto) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('grabbing');
 
-      var blockChildEvents = [__WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["f" /* TOOL_ZOOM_OUT */]].includes(tool);
+      var blockChildEvents = [__WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]].includes(tool);
       blockChildEvents = blockChildEvents || panningWithToolAuto;
 
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
@@ -2481,29 +2481,29 @@ var ReactSVGPanZoom = function (_React$Component) {
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
-            { condition: tool === __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_NONE */] && props.detectAutoPan && value.focus },
+            { condition: tool === __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */] && props.detectAutoPan && value.focus },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'g',
               { style: { pointerEvents: "none" } },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
                 { condition: viewerY <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_TOP */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["g" /* POSITION_TOP */], width: value.viewerWidth, height: value.viewerHeight })
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
                 { condition: value.viewerWidth - viewerX <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_RIGHT */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */], width: value.viewerWidth, height: value.viewerHeight })
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
                 { condition: value.viewerHeight - viewerY <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["j" /* POSITION_BOTTOM */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_BOTTOM */], width: value.viewerWidth, height: value.viewerHeight })
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
                 __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
                 { condition: value.focus && viewerX <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* POSITION_LEFT */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["j" /* POSITION_LEFT */], width: value.viewerWidth, height: value.viewerHeight })
               )
             )
           ),
@@ -2513,7 +2513,7 @@ var ReactSVGPanZoom = function (_React$Component) {
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__ui_selection__["a" /* default */], { startX: value.startX, startY: value.startY, endX: value.endX, endY: value.endY })
           )
         ),
-        props.toolbarPosition === __WEBPACK_IMPORTED_MODULE_13__constants__["g" /* POSITION_NONE */] ? null : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CustomToolbar, {
+        props.toolbarPosition === __WEBPACK_IMPORTED_MODULE_13__constants__["f" /* POSITION_NONE */] ? null : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CustomToolbar, {
           position: props.toolbarPosition,
           value: value,
           onChangeValue: function onChangeValue(value) {
@@ -2580,7 +2580,7 @@ ReactSVGPanZoom.propTypes = {
   detectAutoPan: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool,
 
   //toolbar position
-  toolbarPosition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["g" /* POSITION_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_13__constants__["j" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* POSITION_LEFT */]]),
+  toolbarPosition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["f" /* POSITION_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_13__constants__["j" /* POSITION_LEFT */]]),
 
   //handler something changed
   onChangeValue: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func,
@@ -2604,7 +2604,7 @@ ReactSVGPanZoom.propTypes = {
   onMouseDown: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
-  tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_AUTO */], __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["f" /* TOOL_ZOOM_OUT */]]),
+  tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */], __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]]),
 
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].array,
@@ -2635,14 +2635,14 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   detectWheel: true,
   detectAutoPan: true,
-  toolbarPosition: __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_RIGHT */],
+  toolbarPosition: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */],
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */]
 };
 
-/***/ },
+/***/ }),
 /* 11 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__viewer_mouse_event__ = __webpack_require__(12);
@@ -2673,9 +2673,9 @@ ReactSVGPanZoom.defaultProps = {
   }
 };
 
-/***/ },
+/***/ }),
 /* 12 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__features_common__ = __webpack_require__(2);
@@ -2733,9 +2733,9 @@ var ViewerMouseEvent = function (_ViewerEvent) {
 
 /* harmony default export */ exports["a"] = ViewerMouseEvent;
 
-/***/ },
+/***/ }),
 /* 13 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__features_common__ = __webpack_require__(2);
@@ -2800,9 +2800,9 @@ var ViewerTouchEvent = function (_ViewerEvent) {
 
 /* harmony default export */ exports["a"] = ViewerTouchEvent;
 
-/***/ },
+/***/ }),
 /* 14 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
@@ -2833,10 +2833,10 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
   }
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["b" /* onMouseDown */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
@@ -2859,10 +2859,10 @@ function onTouchMove(event, ViewerDOM, tool, value, props) {
   var y = touchPosition.clientY - Math.round(top);
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["c" /* onMouseMove */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
@@ -2885,10 +2885,10 @@ function onTouchEnd(event, ViewerDOM, tool, value, props) {
   var y = touchPosition.clientY - Math.round(top);
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["d" /* onMouseUp */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
@@ -2905,9 +2905,9 @@ function onTouchCancel(event, ViewerDOM, tool, value, props) {
   return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
 }
 
-/***/ },
+/***/ }),
 /* 15 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -2928,9 +2928,9 @@ function IconCursor() {
 
 IconCursor.propTypes = {};
 
-/***/ },
+/***/ }),
 /* 16 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -2951,9 +2951,9 @@ function IconFit() {
 
 IconFit.propTypes = {};
 
-/***/ },
+/***/ }),
 /* 17 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -2974,9 +2974,9 @@ function IconPan() {
 
 IconPan.propTypes = {};
 
-/***/ },
+/***/ }),
 /* 18 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -3002,9 +3002,9 @@ function IconZoomIn() {
 
 IconZoomIn.propTypes = {};
 
-/***/ },
+/***/ }),
 /* 19 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -3025,9 +3025,9 @@ function IconZoomOut() {
 
 IconZoomOut.propTypes = {};
 
-/***/ },
+/***/ }),
 /* 20 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -3046,19 +3046,19 @@ function BorderGradient(_ref) {
   var transform = void 0;
 
   switch (direction) {
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */]:
       transform = 'translate(' + width + ', 0) rotate(90)';
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_RIGHT */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */]:
       transform = 'translate(' + width + ', ' + height + ') rotate(180)';
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]:
       transform = 'translate(0, ' + height + ') rotate(270)';
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* POSITION_LEFT */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */]:
       transform = " ";
       break;
   }
@@ -3088,14 +3088,14 @@ function BorderGradient(_ref) {
 }
 
 BorderGradient.propTypes = {
-  direction: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* POSITION_LEFT */]]).isRequired,
+  direction: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */]]).isRequired,
   width: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number.isRequired,
   height: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number.isRequired
 };
 
-/***/ },
+/***/ }),
 /* 21 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 //specs: https://developer.mozilla.org/en-US/docs/Web/CSS/cursor
@@ -3119,9 +3119,9 @@ var isWebkit = function isWebkit() {
   if (isWebkit()) return '-webkit-' + cursor;
 };
 
-/***/ },
+/***/ }),
 /* 22 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ exports["a"] = isTouchDevice;
@@ -3132,9 +3132,9 @@ function isTouchDevice() {
   || navigator.maxTouchPoints; // works on IE10/11 and Surface
 };
 
-/***/ },
+/***/ }),
 /* 23 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -3156,9 +3156,9 @@ If.propTypes = {
   condition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool.isRequired
 };
 
-/***/ },
+/***/ }),
 /* 24 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -3254,9 +3254,9 @@ Link.propTypes = {
   onClick: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func.isRequired
 };
 
-/***/ },
+/***/ }),
 /* 25 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
@@ -3295,9 +3295,9 @@ Selection.propTypes = {
   endY: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number
 };
 
-/***/ },
+/***/ }),
 /* 26 */
-/***/ function(module, exports, __webpack_require__) {
+/***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -3312,20 +3312,20 @@ Object.defineProperty(exports, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "pan", function() { return __WEBPACK_IMPORTED_MODULE_3__features_pan__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "zoom", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "fitSelection", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_LEFT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "zoomOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "fitToViewer", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "zoomOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["d"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "setPointOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(exports, "reset", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_AUTO", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_PAN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["d"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_ZOOM_IN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["e"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_ZOOM_OUT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["f"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["g"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_TOP", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["h"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_RIGHT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["i"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_BOTTOM", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["j"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(exports, "fitToViewer", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["d"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_AUTO", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_PAN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_ZOOM_IN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["d"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "TOOL_ZOOM_OUT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["e"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["f"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_TOP", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["g"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_RIGHT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["h"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_BOTTOM", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["i"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(exports, "POSITION_LEFT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["j"]; });
 /* harmony export (binding) */ __webpack_require__.d(exports, "Viewer", function() { return Viewer; });
 
 
@@ -3343,6 +3343,6 @@ var Viewer = function Viewer() {
 
 
 
-/***/ }
+/***/ })
 /******/ ]);
 //# sourceMappingURL=react-svg-pan-zoom.js.map
