@@ -1,4 +1,5 @@
 {
+  "author": "chrvadala",
   "name": "react-svg-pan-zoom",
   "version": "2.4.2",
   "description": "A React component that adds pan and zoom features to SVG",
@@ -23,7 +24,6 @@
     "type": "git",
     "url": "git+https://github.com/chrvadala/react-svg-pan-zoom.git"
   },
-  "author": "chrvadala",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/chrvadala/react-svg-pan-zoom/issues"
@@ -35,7 +35,7 @@
     "svg",
     "pan",
     "zoom",
-    "react.js",
+    "react",
     "ui",
     "user",
     "interface",
