@@ -15,7 +15,10 @@ module.exports = function (env) {
       library: "ReactSVGPanZoom",
       libraryTarget: "var"
     },
-    externals: ["react", "react-dom"],
+    externals: {
+      "react": "React",
+      "react-dom": "ReactDOM"
+    },
     devtool: "source-map",
     resolve: {
       extensions: ['.js', '.jsx']
