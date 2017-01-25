@@ -39,7 +39,8 @@
     "ui",
     "user",
     "interface",
-    "component"
+    "component",
+    "web-components"
   ],
   "dependencies": {
     "transformation-matrix-js": "^2.7.0"
