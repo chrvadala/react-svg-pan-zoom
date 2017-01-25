@@ -2,8 +2,8 @@
 # react-svg-pan-zoom
 **react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features to the **SVG images**. It helps to display big SVG images in a small space.
 
-[![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom) 
-![es-next-compliant](https://img.shields.io/badge/es:next-compliant-fbde34.svg) 
+[![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
+![es-next-compliant](https://img.shields.io/badge/es:next-compliant-fbde34.svg)
 ![react-version](https://img.shields.io/badge/react%20version-15.0.0%20or%20later-61dafb.svg)
 ![license-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 
@@ -153,7 +153,7 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 
 ## Some projects using react-svg-pan-zoom
 - [**React Planner**](https://github.com/cvdlab/react-planner)
-- https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories
+- [**Others...**](https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories)
 
 ## Autosize
 **React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its child element.
