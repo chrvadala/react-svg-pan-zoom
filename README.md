@@ -152,7 +152,7 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 - [**Bower**](./examples/4-bower/) - This project show how to use this component by mean of bower.
 
 ## Some projects using react-svg-pan-zoom
-- [**React Planner**](https://cvdlab.github.io/react-planner/)
+- [**React Planner**](https://github.com/cvdlab/react-planner)
 - https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories
 
 ## Autosize
