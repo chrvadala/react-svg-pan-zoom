@@ -149,8 +149,11 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
 - [**Controlled state**](./examples/2-controlled-state/) - This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).
 - [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
-- [**React Planner**](https://cvdlab.github.io/react-planner/) - This is an open source React project that use this component.
+- [**Bower**](./examples/4-bower/) - This project show how to use this component by mean of bower.
 
+## Some projects using react-svg-pan-zoom
+- [**React Planner**](https://cvdlab.github.io/react-planner/)
+- https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories
 
 ## Autosize
 **React SVG Pan Zoom** requires the properties `width` and `height` to be set in order to work properly. If you need an autosized component you can use [ReactDimension](https://github.com/digidem/react-dimensions) to get the dimensions of a wrapper element and pass them as properties to its child element.
