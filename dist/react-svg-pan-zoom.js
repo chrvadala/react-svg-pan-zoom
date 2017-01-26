@@ -2829,7 +2829,11 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
   } else {
-    if ([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].includes(value.mode)) return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
+    if ([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].includes(value.mode)) {
+      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
+    } else if ([__WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */]].includes(value.mode)) {
+      return value;
+    }
   }
 
   switch (tool) {

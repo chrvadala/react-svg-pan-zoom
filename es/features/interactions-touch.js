@@ -15,7 +15,11 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
   } else {
-    if ([MODE_PANNING, MODE_ZOOMING].includes(value.mode)) return resetMode(value);
+    if ([MODE_PANNING, MODE_ZOOMING].includes(value.mode)) {
+      return resetMode(value);
+    } else if ([MODE_IDLE].includes(value.mode)) {
+      return value;
+    }
   }
 
   switch (tool) {
