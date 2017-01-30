@@ -63,9 +63,7 @@ class Demo extends React.Component {
           style={{outline: "1px solid black"}}
           width={500} height={500} ref={Viewer => this.Viewer = Viewer}
           onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
-          onMouseUp={event => console.log('up', event.x, event.y)}
-          onMouseMove={event => console.log('move', event.x, event.y)}
-          onMouseDown={event => console.log('down', event.x, event.y)}>
+          onMouseMove={event => console.log('move', event.x, event.y)} >
 
           <svg width={900} height={800}>
               <-- put here your SVG content -->
