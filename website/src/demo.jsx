@@ -26,7 +26,8 @@ export default class Demo extends React.Component {
       y: 0,
       detectAutoPan: true,
       detectWheel: true,
-      toolbarPosition: POSITION_RIGHT
+      toolbarPosition: POSITION_RIGHT,
+      preventPanOutside: true,
     };
 
     this.Viewer = null;
@@ -81,6 +82,7 @@ export default class Demo extends React.Component {
 
               detectWheel={this.state.detectWheel}
               detectAutoPan={this.state.detectAutoPan}
+              preventPanOutside={this.state.preventPanOutside}
 
               onClick={event => this.debugClick(event)}
               onMouseMove={event => this.setState({x: event.x, y: event.y})}
@@ -128,6 +130,13 @@ export default class Demo extends React.Component {
                 <label className="form-check-label">
                   <input className="form-check-input" type="checkbox" checked={this.state.detectAutoPan}
                          onChange={ event => this.setState({detectAutoPan: event.target.checked})}/> detectAutoPan
+                </label>
+              </div>
+
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input className="form-check-input" type="checkbox" checked={this.state.preventPanOutside}
+                         onChange={ event => this.setState({preventPanOutside: event.target.checked})}/> preventPanOutside
                 </label>
               </div>
             </div>
