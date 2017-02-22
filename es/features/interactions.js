@@ -73,7 +73,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props) {
 
     case TOOL_AUTO:
     case TOOL_PAN:
-      if (value.mode === MODE_PANNING) nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, 20);
+      if (value.mode === MODE_PANNING) nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, props.preventPanOutside ? 20 : undefined);
       break;
 
     default:

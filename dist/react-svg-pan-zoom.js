@@ -1984,7 +1984,7 @@ function onMouseMove(event, ViewerDOM, tool, value, props) {
 
     case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
     case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, 20);
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, props.preventPanOutside ? 20 : undefined);
       break;
 
     default:
@@ -2603,6 +2603,9 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func,
 
+  //if disabled the user can move the image outside the viewer
+  preventPanOutside: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool,
+
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */], __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]]),
 
@@ -2637,7 +2640,8 @@ ReactSVGPanZoom.defaultProps = {
   detectAutoPan: true,
   toolbarPosition: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */],
   modifierKeys: ["Alt", "Shift", "Control"],
-  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */]
+  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */],
+  preventPanOutside: true
 };
 
 /***/ }),
