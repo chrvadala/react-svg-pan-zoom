@@ -1937,7 +1937,7 @@ function onMouseDown(event, ViewerDOM, tool, value, props) {
   switch (tool) {
     case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
       var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, x, y);
-      nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, SVGPoint.x, SVGPoint.y, 0.8);
+      nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
       break;
 
     case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
@@ -1979,7 +1979,7 @@ function onMouseMove(event, ViewerDOM, tool, value, props) {
 
   switch (tool) {
     case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1.1) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["g" /* updateZooming */])(value, x, y);
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, props.scaleFactor) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["g" /* updateZooming */])(value, x, y);
       break;
 
     case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
@@ -2016,11 +2016,11 @@ function onMouseUp(event, ViewerDOM, tool, value, props) {
 
   switch (tool) {
     case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 0.8);
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1 / props.scaleFactor);
       break;
 
     case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1.1);
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, props.scaleFactor);
       break;
 
     case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
@@ -2062,7 +2062,7 @@ function onDoubleClick(event, ViewerDOM, tool, value, props) {
         return current || event.getModifierState(modifierKey);
       };
       var modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
-      var scaleFactor = modifierKeyActive ? 0.8 : 1.1;
+      var scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, SVGPoint.x, SVGPoint.y, scaleFactor);
       break;
 
@@ -2603,6 +2603,9 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func,
 
+  //how much scale in or out
+  scaleFactor: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number,
+
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */], __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]]),
 
@@ -2637,7 +2640,8 @@ ReactSVGPanZoom.defaultProps = {
   detectAutoPan: true,
   toolbarPosition: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */],
   modifierKeys: ["Alt", "Shift", "Control"],
-  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */]
+  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */],
+  scaleFactor: 1.1
 };
 
 /***/ }),
