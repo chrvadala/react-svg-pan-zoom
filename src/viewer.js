@@ -402,6 +402,9 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: PropTypes.func,
 
+  //how much scale in or out
+  scaleFactor: PropTypes.number,
+
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
 
@@ -442,5 +445,6 @@ ReactSVGPanZoom.defaultProps = {
   detectAutoPan: true,
   toolbarPosition: POSITION_RIGHT,
   modifierKeys: ["Alt", "Shift", "Control"],
-  customToolbar: Toolbar
+  customToolbar: Toolbar,
+  scaleFactor: 1.1
 };
