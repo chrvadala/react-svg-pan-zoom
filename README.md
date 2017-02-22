@@ -91,6 +91,7 @@ class Demo extends React.Component {
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `customToolbar` - React component with custom toolbar
   - `modifierKeys` - array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
+  - `scaleFactor` - how much scale in or out (default: 1.1 = 110%)
   - `onClick` - handler* for click `fn(viewerEvent: ViewerMouseEvent)`
   - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`
   - `onMouseUp` - handler* for mouseup `fn(viewerEvent: ViewerMouseEvent)`
