@@ -405,6 +405,9 @@ ReactSVGPanZoom.propTypes = {
   //if disabled the user can move the image outside the viewer
   preventPanOutside: PropTypes.bool,
 
+  //how much scale in or out
+  scaleFactor: PropTypes.number,
+
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
 
@@ -447,4 +450,6 @@ ReactSVGPanZoom.defaultProps = {
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
   preventPanOutside: true,
+  customToolbar: Toolbar,
+  scaleFactor: 1.1
 };

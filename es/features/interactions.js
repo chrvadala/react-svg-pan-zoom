@@ -26,7 +26,7 @@ export function onMouseDown(event, ViewerDOM, tool, value, props) {
   switch (tool) {
     case TOOL_ZOOM_OUT:
       var SVGPoint = getSVGPoint(value, x, y);
-      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 0.8);
+      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
       break;
 
     case TOOL_ZOOM_IN:
@@ -68,7 +68,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props) {
 
   switch (tool) {
     case TOOL_ZOOM_IN:
-      if (value.mode === MODE_ZOOMING) nextValue = forceExit ? stopZooming(value, x, y, 1.1) : updateZooming(value, x, y);
+      if (value.mode === MODE_ZOOMING) nextValue = forceExit ? stopZooming(value, x, y, props.scaleFactor) : updateZooming(value, x, y);
       break;
 
     case TOOL_AUTO:
@@ -105,11 +105,11 @@ export function onMouseUp(event, ViewerDOM, tool, value, props) {
 
   switch (tool) {
     case TOOL_ZOOM_OUT:
-      if (value.mode === MODE_ZOOMING) nextValue = stopZooming(value, x, y, 0.8);
+      if (value.mode === MODE_ZOOMING) nextValue = stopZooming(value, x, y, 1 / props.scaleFactor);
       break;
 
     case TOOL_ZOOM_IN:
-      if (value.mode === MODE_ZOOMING) nextValue = stopZooming(value, x, y, 1.1);
+      if (value.mode === MODE_ZOOMING) nextValue = stopZooming(value, x, y, props.scaleFactor);
       break;
 
     case TOOL_AUTO:
@@ -151,7 +151,7 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props) {
         return current || event.getModifierState(modifierKey);
       };
       var modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
-      var scaleFactor = modifierKeyActive ? 0.8 : 1.1;
+      var scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
       nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
       break;
 
