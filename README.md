@@ -171,6 +171,7 @@ npm install && npm start
 - **v2.2** - Introduce tool `auto`, improve default toolbar
 - **v2.3** - Adds touch events support
 - **v2.4** - Adds es:next support, deploy new website
+- **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
