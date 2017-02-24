@@ -613,8 +613,8 @@ function mapRange(value, low1, high1, low2, high2) {
 /***/ (function(module, exports, __webpack_require__) {
 
 /*!
-	2D Transformation Matrix v2.7.0
-	(c) Epistemex.com 2014-2016
+	2D Transformation Matrix v2.7.1
+	(c) Epistemex.com 2014-2017
 	License: MIT, header required.
 */
 
@@ -1427,7 +1427,7 @@ Matrix.prototype = {
 	applyToElement: function(element, use3D) {
 		var me = this;
 		if (!me._px) me._px = me._getPX();
-		element.style[me._px] = use3D ? me.getCSS3D() : me.getCSS();
+		element.style[me._px] = use3D ? me.toCSS3D() : me.toCSS();
 		return me
 	},
 
@@ -1984,7 +1984,7 @@ function onMouseMove(event, ViewerDOM, tool, value, props) {
 
     case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
     case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, 20);
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, props.preventPanOutside ? 20 : undefined);
       break;
 
     default:
@@ -2603,6 +2603,9 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func,
 
+  //if disabled the user can move the image outside the viewer
+  preventPanOutside: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool,
+
   //how much scale in or out
   scaleFactor: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number,
 
@@ -2640,6 +2643,8 @@ ReactSVGPanZoom.defaultProps = {
   detectAutoPan: true,
   toolbarPosition: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */],
   modifierKeys: ["Alt", "Shift", "Control"],
+  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */],
+  preventPanOutside: true,
   customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */],
   scaleFactor: 1.1
 };

@@ -1,6 +1,10 @@
+var _ReactSVGPanZoom$defa;
+
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -456,6 +460,9 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: PropTypes.func,
 
+  //if disabled the user can move the image outside the viewer
+  preventPanOutside: PropTypes.bool,
+
   //how much scale in or out
   scaleFactor: PropTypes.number,
 
@@ -483,7 +490,7 @@ ReactSVGPanZoom.propTypes = {
   }
 };
 
-ReactSVGPanZoom.defaultProps = {
+ReactSVGPanZoom.defaultProps = (_ReactSVGPanZoom$defa = {
   value: null,
   tool: null,
   style: {},
@@ -494,5 +501,5 @@ ReactSVGPanZoom.defaultProps = {
   toolbarPosition: POSITION_RIGHT,
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
-  scaleFactor: 1.1
-};
+  preventPanOutside: true
+}, _defineProperty(_ReactSVGPanZoom$defa, 'customToolbar', Toolbar), _defineProperty(_ReactSVGPanZoom$defa, 'scaleFactor', 1.1), _ReactSVGPanZoom$defa);
