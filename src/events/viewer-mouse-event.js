@@ -1,4 +1,4 @@
-import {getSVGPoint, decompose} from '../features/common'
+import {getSVGPoint} from '../features/common'
 import ViewerEvent from './viewer-event';
 
 export default class ViewerMouseEvent extends ViewerEvent{

@@ -1,6 +1,6 @@
 import {MODE_IDLE, MODE_PANNING} from '../constants';
 import {set, getSVGPoint} from './common';
-import {Matrix} from 'transformation-matrix-js';
+import {fromObject, translate, transform} from 'transformation-matrix';
 
 /**
  *
@@ -11,17 +11,16 @@ import {Matrix} from 'transformation-matrix-js';
  * @returns {Object}
  */
 export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
-  let {a, b, c, d, e, f} = value;
-  let matrix = Matrix.from(a, b, c, d, e, f);
 
-  let act = new Matrix();
-  act = act.translate(SVGDeltaX, SVGDeltaY);
-
-  matrix = matrix.multiply(act);
+  let matrix = transform(
+    fromObject(value),              //2
+    translate(SVGDeltaX, SVGDeltaY) //1
+  );
 
   // apply pan limits
   if (panLimit) {
-    let zoomLevel = matrix.decompose(false).scale.x;
+    //TODO
+    let zoomLevel = matrix.a;
     matrix.e = Math.min(matrix.e, value.viewerWidth - panLimit);
     matrix.e = Math.max(matrix.e, panLimit - value.SVGWidth * zoomLevel);
 
@@ -31,12 +30,7 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
 
   return set(value, {
     mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
+    ...matrix,
   });
 }
 

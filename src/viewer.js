@@ -1,4 +1,5 @@
 import React, {PropTypes} from 'react';
+import {toSVG} from 'transformation-matrix';
 
 //events
 import eventFactory from './events/event-factory';
@@ -281,7 +282,7 @@ export default class ReactSVGPanZoom extends React.Component {
           />
 
           <g
-            transform={`matrix(${value.a}, ${value.b}, ${value.c}, ${value.d}, ${value.e}, ${value.f})`}
+            transform={toSVG(value)}
             style={blockChildEvents ? {pointerEvents: "none"} : {}}>
             <rect
               fill={this.props.SVGBackground}
@@ -450,6 +451,5 @@ ReactSVGPanZoom.defaultProps = {
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
   preventPanOutside: true,
-  customToolbar: Toolbar,
   scaleFactor: 1.1
 };

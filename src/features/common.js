@@ -1,5 +1,13 @@
 import {TOOL_NONE, MODE_IDLE} from '../constants';
-import {Matrix} from 'transformation-matrix-js';
+import {
+  identity,
+  fromObject,
+  inverse,
+  applyToPoint,
+  transform,
+  translate,
+  scale
+} from 'transformation-matrix';
 
 /**
  * Obtain default value
@@ -7,15 +15,10 @@ import {Matrix} from 'transformation-matrix-js';
  */
 export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
   return set({}, {
+    ...identity(),
     version: 2,
     mode: MODE_IDLE,
     focus: false,
-    a: 1,
-    b: 0,
-    c: 0,
-    d: 1,
-    e: 0,
-    f: 0,
     viewerWidth,
     viewerHeight,
     SVGWidth,
@@ -56,11 +59,10 @@ export function isValueValid(value) {
  * @returns {*|{x, y}|{x: number, y: number}}
  */
 export function getSVGPoint(value, viewerX, viewerY) {
-  let {a, b, c, d, e, f} = value;
-  let matrix = Matrix.from(a, b, c, d, e, f);
+  let matrix = fromObject(value);
 
-  let inverseMatrix = matrix.inverse();
-  return inverseMatrix.applyToPoint(viewerX, viewerY);
+  let inverseMatrix = inverse(matrix);
+  return applyToPoint(inverseMatrix, {x: viewerX, y: viewerY});
 }
 
 /**
@@ -69,15 +71,12 @@ export function getSVGPoint(value, viewerX, viewerY) {
  * @returns {{scaleFactor: number, translationX: number, translationY: number}}
  */
 export function decompose(value) {
-  let {a, b, c, d, e, f} = value;
-  let matrix = Matrix.from(a, b, c, d, e, f);
-
-  let decompose = matrix.decompose(false);
+  let matrix = fromObject(value);
 
   return {
-    scaleFactor: decompose.scale.x,
-    translationX: decompose.translate.x,
-    translationY: decompose.translate.y
+    scaleFactor: matrix.a,
+    translationX: matrix.e,
+    translationY: matrix.f
   }
 }
 
@@ -125,20 +124,16 @@ export function setSVGSize(value, SVGWidth, SVGHeight) {
 export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
   let {viewerWidth, viewerHeight} = value;
 
-  let matrix = new Matrix()
-    .translate(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2)   //4
-    .translate(SVGPointX, SVGPointY)                                          //3
-    .scaleU(zoomLevel)                                                        //2
-    .translate(-SVGPointX, -SVGPointY);                                       //1
+  let matrix = transform(
+    translate(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2),   //4
+    translate(SVGPointX, SVGPointY),                                          //3
+    scale(zoomLevel, zoomLevel),                                              //2
+    translate(-SVGPointX, -SVGPointY)                                         //1
+  );
 
   return set(value, {
     mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
+    ...matrix,
   });
 }
 
@@ -148,16 +143,9 @@ export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
  * @returns {Object}
  */
 export function reset(value) {
-  let matrix = new Matrix();
-
   return set(value, {
     mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
+    ...identity()
   });
 }
 

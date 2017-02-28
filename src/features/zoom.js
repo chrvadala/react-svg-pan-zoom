@@ -1,27 +1,21 @@
+import {transform, fromObject, translate, scale} from 'transformation-matrix';
+
 import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
-import {Matrix} from 'transformation-matrix-js';
 import {calculateBox} from '../utils';
 
 export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
-  let {a, b, c, d, e, f} = value;
-  let matrix = Matrix.from(a, b, c, d, e, f);
 
-  let act = new Matrix();
-  act = act.translate(SVGPointX, SVGPointY);
-  act = act.scaleU(scaleFactor);
-  act = act.translate(-SVGPointX, -SVGPointY);
-
-  matrix = matrix.multiply(act);
+  let matrix = transform(
+    fromObject(value),
+    translate(SVGPointX, SVGPointY),
+    scale(scaleFactor, scaleFactor),
+    translate(-SVGPointX, -SVGPointY)
+  )
 
   return set(value, {
     mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f,
+    ...matrix,
     startX: null,
     startY: null,
     endX: null,
@@ -35,20 +29,16 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
   let scaleX = viewerWidth / selectionWidth;
   let scaleY = viewerHeight / selectionHeight;
 
-  let scale = Math.min(scaleX, scaleY);
+  let scaleLevel = Math.min(scaleX, scaleY);
 
-  let matrix = new Matrix();
-  matrix = matrix.scaleU(scale);
-  matrix = matrix.translate(-selectionSVGPointX, -selectionSVGPointY);
+  let matrix = transform(
+    scale(scaleLevel, scaleLevel),                      //2
+    translate(-selectionSVGPointX, -selectionSVGPointY) //1
+  );
 
   return set(value, {
     mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f,
+    ...matrix,
     startX: null,
     startY: null,
     endX: null,
