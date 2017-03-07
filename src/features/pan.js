@@ -1,6 +1,6 @@
 import {MODE_IDLE, MODE_PANNING} from '../constants';
 import {set, getSVGPoint} from './common';
-import {fromObject, translate, transform} from 'transformation-matrix';
+import {fromObject, translate, transform, applyToPoints, inverse} from 'transformation-matrix';
 
 /**
  *
@@ -19,13 +19,29 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
 
   // apply pan limits
   if (panLimit) {
-    //TODO
-    let zoomLevel = matrix.a;
-    matrix.e = Math.min(matrix.e, value.viewerWidth - panLimit);
-    matrix.e = Math.max(matrix.e, panLimit - value.SVGWidth * zoomLevel);
+    let [{x:x1, y:y1}, {x:x2, y:y2}] = applyToPoints(matrix, [
+      {x: panLimit, y: panLimit},
+      {x: value.SVGWidth - panLimit, y: value.SVGHeight - panLimit}
+    ]);
 
-    matrix.f = Math.min(matrix.f, value.viewerHeight - panLimit);
-    matrix.f = Math.max(matrix.f, panLimit - value.SVGHeight * zoomLevel);
+    //x limit
+    let moveX = 0;
+    if (value.viewerWidth - x1 < 0)
+      moveX = value.viewerWidth - x1;
+    else if (x2 < 0) moveX = -x2;
+
+
+    //y limit
+    let moveY = 0;
+    if (value.viewerHeight - y1 < 0)
+      moveY = value.viewerHeight - y1;
+    else if (y2 < 0) moveY = -y2;
+
+    //apply limits
+    matrix = transform(
+      translate(moveX, moveY),
+      matrix
+    )
   }
 
   return set(value, {
