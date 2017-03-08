@@ -12,12 +12,13 @@
     "build-website": "webpack --config website/webpack.config.js --env.production",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build-es": "cross-env BABEL_ENV=es babel src --out-dir es",
-    "build-dist": "webpack && webpack --env.minimize",
-    "build": "npm run clean && npm run build-website && npm run build-commonjs && npm run build-es && npm run build-dist",
+    "build-dist-min": "webpack --env.minimize",
+    "build-dist": "webpack",
+    "build": "npm-run-all clean build-website build-commonjs build-es build-dist build-dist-min",
     "add-build-to-vcs": "git add -A dist && git add -A es && git add -A lib && git add -A website/dist",
     "clean": "del lib es website/dist dist",
     "website-update": "gh-pages -m 'Update gh-pages' -d ./website/dist/",
-    "version": "npm run build && npm run add-build-to-vcs",
+    "version": "npm-run-all build add-build-to-vcs",
     "postpublish": "npm run website-update"
   },
   "repository": {
@@ -46,7 +47,6 @@
     "transformation-matrix": "^0.0.6"
   },
   "devDependencies": {
-    "del-cli": "^0.2.1",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
@@ -57,10 +57,12 @@
     "bootstrap": "4.0.0-alpha.5",
     "chai": "^3.5.0",
     "cross-env": "^3.1.4",
+    "del-cli": "^0.2.1",
     "file-loader": "^0.10.1",
     "gh-pages": "^0.12.0",
     "html-webpack-plugin": "^2.28.0",
     "mocha": "^3.2.0",
+    "npm-run-all": "^4.0.2",
     "open-browser-webpack-plugin": "0.0.3",
     "prismjs": "^1.6.0",
     "raw-loader": "^0.5.1",
