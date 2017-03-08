@@ -1,8 +1,7 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import {ReactSVGPanZoom, fitToViewer} from 'react-svg-pan-zoom';
+import React, { Component } from 'react';
+import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 
-class Example1 extends React.Component {
+class App extends Component {
   constructor(props, context) {
     super(props, context);
     this.Viewer = null;
@@ -45,7 +44,4 @@ class Example1 extends React.Component {
   }
 }
 
-ReactDOM.render(
-  <Example1 />,
-  document.getElementById('app')
-);
+export default App;
