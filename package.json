@@ -15,7 +15,7 @@
     "build-dist": "webpack && webpack --env.minimize",
     "build": "npm run clean && npm run build-website && npm run build-commonjs && npm run build-es && npm run build-dist",
     "add-build-to-vcs": "git add -A dist && git add -A es && git add -A lib && git add -A website/dist",
-    "clean": "rimraf lib es website/dist dist",
+    "clean": "del lib es website/dist dist",
     "website-update": "gh-pages -m 'Update gh-pages' -d ./website/dist/",
     "version": "npm run build && npm run add-build-to-vcs",
     "postpublish": "npm run website-update"
@@ -46,6 +46,7 @@
     "transformation-matrix": "^0.0.6"
   },
   "devDependencies": {
+    "del-cli": "^0.2.1",
     "babel-cli": "^6.23.0",
     "babel-core": "^6.23.1",
     "babel-loader": "^6.3.2",
@@ -66,7 +67,6 @@
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "remarkable": "^1.7.1",
-    "rimraf": "^2.6.1",
     "webpack": "2.2.1",
     "webpack-dev-server": "2.4.1"
   },
