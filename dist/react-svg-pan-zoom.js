@@ -1714,18 +1714,18 @@ if (true) exports.Matrix = Matrix;
 
 
 var isHorizontal = function isHorizontal(position) {
-  return [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position);
+  return [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0;
 };
 
 var calcToolbarStyle = function calcToolbarStyle(position) {
   return {
     //position
     position: "absolute",
-    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position) ? "translate(-50%, 0px)" : "none",
-    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */]].includes(position) ? "5px" : "unset",
-    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position) ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */] === position ? "5px" : "unset",
-    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */]].includes(position) ? "5px" : "unset",
-    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].includes(position) ? "5px" : "unset",
+    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
+    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */]].indexOf(position) >= 0 ? "5px" : "unset",
+    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */] === position ? "5px" : "unset",
+    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */]].indexOf(position) >= 0 ? "5px" : "unset",
+    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "5px" : "unset",
 
     //inner styling
     backgroundColor: "rgba(19, 20, 22, 0.90)",
@@ -2118,7 +2118,7 @@ function onInterval(event, ViewerDOM, tool, value, props) {
       y = coords.y;
 
 
-  if (![__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]].includes(tool)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]].indexOf(tool) >= 0)) return value;
   if (!props.detectAutoPan) return value;
   if (!value.focus) return value;
 
@@ -2296,7 +2296,7 @@ var ReactSVGPanZoom = function (_React$Component) {
           ViewerDOM = this.ViewerDOM;
 
 
-      if (![__WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */]].includes(this.getTool())) return;
+      if (!([__WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */]].indexOf(this.getTool()) >= 0)) return;
       if (event.target === ViewerDOM) return;
 
       var eventsHandler = {
@@ -2368,8 +2368,10 @@ var ReactSVGPanZoom = function (_React$Component) {
 
       if (panningWithToolAuto) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('grabbing');
 
-      var blockChildEvents = [__WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]].includes(tool);
+      var blockChildEvents = [__WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]].indexOf(tool) >= 0;
+      window.deneme1 = blockChildEvents;
       blockChildEvents = blockChildEvents || panningWithToolAuto;
+      window.deneme2 = blockChildEvents;
 
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
@@ -2838,9 +2840,9 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
   } else {
-    if ([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].includes(value.mode)) {
+    if ([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0) {
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
-    } else if ([__WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */]].includes(value.mode)) {
+    } else if ([__WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */]].indexOf(value.mode) >= 0) {
       return value;
     }
   }
@@ -2860,7 +2862,7 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
 }
 
 function onTouchMove(event, ViewerDOM, tool, value, props) {
-  if (![__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].includes(value.mode)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
 
   var touchPosition = event.touches[0];
 
@@ -2886,7 +2888,7 @@ function onTouchMove(event, ViewerDOM, tool, value, props) {
 }
 
 function onTouchEnd(event, ViewerDOM, tool, value, props) {
-  if (![__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].includes(value.mode)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
 
   var touchPosition = event.changedTouches[0];
 

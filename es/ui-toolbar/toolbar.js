@@ -11,18 +11,18 @@ import IconFit from './icon-fit';
 import Link from '../ui/link';
 
 var isHorizontal = function isHorizontal(position) {
-  return [POSITION_TOP, POSITION_BOTTOM].includes(position);
+  return [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0;
 };
 
 var calcToolbarStyle = function calcToolbarStyle(position) {
   return {
     //position
     position: "absolute",
-    transform: [POSITION_TOP, POSITION_BOTTOM].includes(position) ? "translate(-50%, 0px)" : "none",
-    top: [POSITION_LEFT, POSITION_RIGHT, POSITION_TOP].includes(position) ? "5px" : "unset",
-    left: [POSITION_TOP, POSITION_BOTTOM].includes(position) ? "50%" : POSITION_LEFT === position ? "5px" : "unset",
-    right: [POSITION_RIGHT].includes(position) ? "5px" : "unset",
-    bottom: [POSITION_BOTTOM].includes(position) ? "5px" : "unset",
+    transform: [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
+    top: [POSITION_LEFT, POSITION_RIGHT, POSITION_TOP].indexOf(position) >= 0 ? "5px" : "unset",
+    left: [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0 ? "50%" : POSITION_LEFT === position ? "5px" : "unset",
+    right: [POSITION_RIGHT].indexOf(position) >= 0 ? "5px" : "unset",
+    bottom: [POSITION_BOTTOM].indexOf(position) >= 0 ? "5px" : "unset",
 
     //inner styling
     backgroundColor: "rgba(19, 20, 22, 0.90)",
