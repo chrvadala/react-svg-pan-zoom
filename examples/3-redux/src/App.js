@@ -1,7 +1,10 @@
 import React, {PropTypes} from 'react';
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 
-export default function View({state, actions}) {
+export function App({state, actions}) {
+
+  let viewerValue = state.get('viewerValue') ? state.get('viewerValue').toJS() : null;
+  let viewerTool = state.get('viewerTool');
 
   return (
     <div style={{margin: "20px"}}>
@@ -19,12 +22,12 @@ export default function View({state, actions}) {
       <button onClick={e => actions.selectToolZoomIn()}>Select tool zoom in</button>
       <button onClick={e => actions.selectToolZoomOut()}>Select tool zoom out</button>
       <br/>
-      
+
       <ReactSVGPanZoom
         width={500} height={500}
-        value={state.value ? state.value.toJS() : null} onChangeValue={value => actions.setValue(value)}
-        tool={state.tool} onChangeTool={tool => actions.selectTool(tool)}
-        style={{border: "1px solid black"}}>
+        value={viewerValue} onChangeValue={value => actions.setValue(value)}
+        tool={viewerTool} onChangeTool={tool => actions.selectTool(tool)}
+        style={{outline: "1px solid black"}}>
 
         <svg width={800} height={800}>
           <rect x="400" y="40" width="100" height="200" fill="#4286f4" stroke="#f4f142"/>
@@ -38,9 +41,10 @@ export default function View({state, actions}) {
   )
 }
 
-View.propTypes = {
+
+App.propTypes = {
   state: PropTypes.object.isRequired,
   actions: PropTypes.object.isRequired
 };
 
-
+export default App;
