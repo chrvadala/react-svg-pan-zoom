@@ -15,7 +15,7 @@
     "build-dist-min": "webpack --env.minimize",
     "build-dist": "webpack",
     "build": "npm-run-all clean build-website build-commonjs build-es build-dist build-dist-min",
-    "add-build-to-vcs": "git add -A dist && git add -A es && git add -A lib && git add -A website/dist",
+    "add-build-to-vcs": "git add -A dist es lib website/dist",
     "clean": "del lib es website/dist dist",
     "website-update": "gh-pages -m 'Update gh-pages' -d ./website/dist/",
     "version": "npm-run-all build add-build-to-vcs",
