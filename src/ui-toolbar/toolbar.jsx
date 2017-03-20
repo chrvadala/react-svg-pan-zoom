@@ -46,7 +46,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
   };
 
   return (
-    <div style={style}>
+    <div style={style} role="toolbar">
       <ToolbarButton
         toolbarPosition={position}
         active={tool === TOOL_NONE}
