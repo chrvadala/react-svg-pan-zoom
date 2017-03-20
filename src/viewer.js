@@ -194,9 +194,7 @@ export default class ReactSVGPanZoom extends React.Component {
       cursor = cursorPolyfill('grabbing');
 
     let blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0;
-      window.deneme1 = blockChildEvents
     blockChildEvents = blockChildEvents || panningWithToolAuto;
-      window.deneme2 = blockChildEvents
 
     return (
       <div
