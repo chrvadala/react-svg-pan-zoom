@@ -153,7 +153,7 @@ var ReactSVGPanZoom = function (_React$Component) {
           ViewerDOM = this.ViewerDOM;
 
 
-      if (![TOOL_NONE, TOOL_AUTO].includes(this.getTool())) return;
+      if (!([TOOL_NONE, TOOL_AUTO].indexOf(this.getTool()) >= 0)) return;
       if (event.target === ViewerDOM) return;
 
       var eventsHandler = {
@@ -225,8 +225,10 @@ var ReactSVGPanZoom = function (_React$Component) {
 
       if (panningWithToolAuto) cursor = cursorPolyfill('grabbing');
 
-      var blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].includes(tool);
+      var blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0;
+      window.deneme1 = blockChildEvents;
       blockChildEvents = blockChildEvents || panningWithToolAuto;
+      window.deneme2 = blockChildEvents;
 
       return React.createElement(
         'div',

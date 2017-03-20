@@ -207,7 +207,7 @@ export function onInterval(event, ViewerDOM, tool, value, props) {
       y = coords.y;
 
 
-  if (![TOOL_NONE, TOOL_AUTO].includes(tool)) return value;
+  if (!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0)) return value;
   if (!props.detectAutoPan) return value;
   if (!value.focus) return value;
 

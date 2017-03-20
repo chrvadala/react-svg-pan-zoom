@@ -15,9 +15,9 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
   } else {
-    if ([MODE_PANNING, MODE_ZOOMING].includes(value.mode)) {
+    if ([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0) {
       return resetMode(value);
-    } else if ([MODE_IDLE].includes(value.mode)) {
+    } else if ([MODE_IDLE].indexOf(value.mode) >= 0) {
       return value;
     }
   }
@@ -37,7 +37,7 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
 }
 
 export function onTouchMove(event, ViewerDOM, tool, value, props) {
-  if (![MODE_PANNING, MODE_ZOOMING].includes(value.mode)) return value;
+  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
 
   var touchPosition = event.touches[0];
 
@@ -63,7 +63,7 @@ export function onTouchMove(event, ViewerDOM, tool, value, props) {
 }
 
 export function onTouchEnd(event, ViewerDOM, tool, value, props) {
-  if (![MODE_PANNING, MODE_ZOOMING].includes(value.mode)) return value;
+  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
 
   var touchPosition = event.changedTouches[0];
 
