@@ -69,6 +69,7 @@ export default class Demo extends React.Component {
           <div className="col-md-6" style={{marginBottom: "1rem"}}>
 
             <ReactSVGPanZoom
+              className="react-svg-pan-zoom"
               width={330} height={330}
               ref={Viewer => this.Viewer = Viewer}
 
@@ -104,7 +105,6 @@ export default class Demo extends React.Component {
               }}
 
               style={{outline: '1px solid black'}}
-              className="viewerSVG"
             >
               <svg width={ 1440 } height={ 1440 }>
                 <Snake />
@@ -121,21 +121,21 @@ export default class Demo extends React.Component {
               <h6>Additional features</h6>
               <div className="form-check">
                 <label className="form-check-label">
-                  <input className="form-check-input" type="checkbox" checked={this.state.detectWheel}
+                  <input className="form-check-input" type="checkbox" checked={this.state.detectWheel} name="detectWheel"
                          onChange={ event => this.setState({detectWheel: event.target.checked})}/> detectWheel
                 </label>
               </div>
 
               <div className="form-check">
                 <label className="form-check-label">
-                  <input className="form-check-input" type="checkbox" checked={this.state.detectAutoPan}
+                  <input className="form-check-input" type="checkbox" checked={this.state.detectAutoPan} name="detectAutoPan"
                          onChange={ event => this.setState({detectAutoPan: event.target.checked})}/> detectAutoPan
                 </label>
               </div>
 
               <div className="form-check">
                 <label className="form-check-label">
-                  <input className="form-check-input" type="checkbox" checked={this.state.preventPanOutside}
+                  <input className="form-check-input" type="checkbox" checked={this.state.preventPanOutside} name="preventPanOutside"
                          onChange={ event => this.setState({preventPanOutside: event.target.checked})}/> preventPanOutside
                 </label>
               </div>
@@ -147,7 +147,7 @@ export default class Demo extends React.Component {
               <div className="col-sm-6">
                 <h6>Toolbar position</h6>
                 <div className="form-group">
-                  <select value={this.state.toolbarPosition} className="form-control"
+                  <select value={this.state.toolbarPosition} className="form-control" name="toolbarPosition"
                           onChange={ event => this.setState({toolbarPosition: event.target.value})}>
                     <option value={POSITION_NONE}>none</option>
                     <option value={POSITION_TOP}>top</option>
@@ -161,7 +161,7 @@ export default class Demo extends React.Component {
               <div className="col-sm-6">
                 <h6>Tool</h6>
                 <div className="form-group">
-                  <select value={this.state.tool} className="form-control"
+                  <select value={this.state.tool} className="form-control" name="tool"
                           onChange={ event => this.setState({tool: event.target.value})}>
                     <option value={TOOL_AUTO}>auto</option>
                     <option value={TOOL_NONE}>none</option>
@@ -179,52 +179,52 @@ export default class Demo extends React.Component {
               <h6>Programmatically perform actions</h6>
 
               <div>
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="fit-btn"
                         onClick={event => this.Viewer.fitToViewer()}>
                   Fit to viewer
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="reset-btn"
                         onClick={event => this.Viewer.reset()}>
                   Reset
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-area-btn"
                         onClick={event => this.Viewer.fitSelection(725, 40, 200, 120)}>
                   Zoom area
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-in-btn"
                         onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>
                   Zoom in
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-out-btn"
                         onClick={event => this.Viewer.zoomOnViewerCenter(0.9)}>
                   Zoom out
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-point-btn"
                         onClick={event => this.Viewer.setPointOnViewerCenter(525, 780, 2)}>
                   Zoom point
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-pan-top-btn"
                         onClick={event => this.Viewer.pan(0, -100)}>
                   Pan top
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-pan-right-btn"
                         onClick={event => this.Viewer.pan(100, 0)}>
                   Pan right
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-pan-bottom-btn"
                         onClick={event => this.Viewer.pan(0, 100)}>
                   Pan bottom
                 </button>
 
-                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-primary btn-sm" style={STYLE_BUTTON} name="zoom-pan-left-btn"
                         onClick={event => this.Viewer.pan(-100, 0)}>
                   Pan left
                 </button>
@@ -234,23 +234,23 @@ export default class Demo extends React.Component {
               <div style={{marginBottom: "3px"}}>
                 <div>Select tool:</div>
 
-                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON} name="select-tool-auto-btn"
                         onClick={event => this.Viewer.changeTool(TOOL_AUTO)}> auto
                 </button>
 
-                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON} name="select-tool-none-btn"
                         onClick={event => this.Viewer.changeTool(TOOL_NONE)}> none
                 </button>
 
-                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON} name="select-tool-pan-btn"
                         onClick={event => this.Viewer.changeTool(TOOL_PAN)}> pan
                 </button>
 
-                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON} name="select-tool-zoom-in-btn"
                         onClick={event => this.Viewer.changeTool(TOOL_ZOOM_IN)}> zoom in
                 </button>
 
-                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON} name="select-tool-zoom-out-btn"
                         onClick={event => this.Viewer.changeTool(TOOL_ZOOM_OUT)}> zoom out
                 </button>
               </div>
