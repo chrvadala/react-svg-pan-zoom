@@ -1,23 +1,19 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 import { TOOL_NONE, MODE_IDLE } from '../constants';
-import { Matrix } from 'transformation-matrix-js';
+import { identity, fromObject, inverse, applyToPoint, transform, translate, scale } from 'transformation-matrix';
 
 /**
  * Obtain default value
  * @returns {Object}
  */
 export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
-  return set({}, {
+  return set({}, _extends({}, identity(), {
     version: 2,
     mode: MODE_IDLE,
     focus: false,
-    a: 1,
-    b: 0,
-    c: 0,
-    d: 1,
-    e: 0,
-    f: 0,
     viewerWidth: viewerWidth,
     viewerHeight: viewerHeight,
     SVGWidth: SVGWidth,
@@ -26,7 +22,7 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) 
     startY: null,
     endX: null,
     endY: null
-  });
+  }));
 }
 
 /**
@@ -56,17 +52,10 @@ export function isValueValid(value) {
  * @returns {*|{x, y}|{x: number, y: number}}
  */
 export function getSVGPoint(value, viewerX, viewerY) {
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
+  var matrix = fromObject(value);
 
-  var matrix = Matrix.from(a, b, c, d, e, f);
-
-  var inverseMatrix = matrix.inverse();
-  return inverseMatrix.applyToPoint(viewerX, viewerY);
+  var inverseMatrix = inverse(matrix);
+  return applyToPoint(inverseMatrix, { x: viewerX, y: viewerY });
 }
 
 /**
@@ -75,21 +64,12 @@ export function getSVGPoint(value, viewerX, viewerY) {
  * @returns {{scaleFactor: number, translationX: number, translationY: number}}
  */
 export function decompose(value) {
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
-
-  var matrix = Matrix.from(a, b, c, d, e, f);
-
-  var decompose = matrix.decompose(false);
+  var matrix = fromObject(value);
 
   return {
-    scaleFactor: decompose.scale.x,
-    translationX: decompose.translate.x,
-    translationY: decompose.translate.y
+    scaleFactor: matrix.a,
+    translationX: matrix.e,
+    translationY: matrix.f
   };
 }
 
@@ -138,20 +118,15 @@ export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
       viewerHeight = value.viewerHeight;
 
 
-  var matrix = new Matrix().translate(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2) //4
-  .translate(SVGPointX, SVGPointY) //3
-  .scaleU(zoomLevel) //2
-  .translate(-SVGPointX, -SVGPointY); //1
+  var matrix = transform(translate(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2), //4
+  translate(SVGPointX, SVGPointY), //3
+  scale(zoomLevel, zoomLevel), //2
+  translate(-SVGPointX, -SVGPointY) //1
+  );
 
-  return set(value, {
-    mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
-  });
+  return set(value, _extends({
+    mode: MODE_IDLE
+  }, matrix));
 }
 
 /**
@@ -160,17 +135,9 @@ export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
  * @returns {Object}
  */
 export function reset(value) {
-  var matrix = new Matrix();
-
-  return set(value, {
-    mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
-  });
+  return set(value, _extends({
+    mode: MODE_IDLE
+  }, identity()));
 }
 
 /**

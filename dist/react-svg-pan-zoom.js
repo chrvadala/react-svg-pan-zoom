@@ -78,19 +78,19 @@ module.exports = React;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return MODE_IDLE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return MODE_PANNING; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return MODE_ZOOMING; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return TOOL_AUTO; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return TOOL_NONE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return TOOL_PAN; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return TOOL_ZOOM_IN; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TOOL_ZOOM_OUT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return POSITION_NONE; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return POSITION_TOP; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return POSITION_RIGHT; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return POSITION_BOTTOM; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return POSITION_LEFT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return MODE_IDLE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "b", function() { return MODE_PANNING; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "c", function() { return MODE_ZOOMING; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "d", function() { return TOOL_AUTO; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "e", function() { return TOOL_NONE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "f", function() { return TOOL_PAN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "g", function() { return TOOL_ZOOM_IN; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "h", function() { return TOOL_ZOOM_OUT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "i", function() { return POSITION_NONE; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "j", function() { return POSITION_TOP; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "k", function() { return POSITION_RIGHT; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "l", function() { return POSITION_BOTTOM; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "m", function() { return POSITION_LEFT; });
 var MODE_IDLE = 'idle';
 var MODE_PANNING = 'panning';
 var MODE_ZOOMING = 'zooming';
@@ -113,8 +113,7 @@ var POSITION_LEFT = 'left';
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_transformation_matrix__ = __webpack_require__(4);
 /* harmony export (immutable) */ __webpack_exports__["e"] = getDefaultValue;
 /* harmony export (immutable) */ __webpack_exports__["c"] = set;
 /* unused harmony export isValueValid */
@@ -128,6 +127,8 @@ var POSITION_LEFT = 'left';
 /* harmony export (immutable) */ __webpack_exports__["h"] = resetMode;
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
 
 
 
@@ -136,16 +137,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * @returns {Object}
  */
 function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
-  return set({}, {
+  return set({}, _extends({}, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["e" /* identity */])(), {
     version: 2,
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     focus: false,
-    a: 1,
-    b: 0,
-    c: 0,
-    d: 1,
-    e: 0,
-    f: 0,
     viewerWidth: viewerWidth,
     viewerHeight: viewerHeight,
     SVGWidth: SVGWidth,
@@ -154,7 +149,7 @@ function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
     startY: null,
     endX: null,
     endY: null
-  });
+  }));
 }
 
 /**
@@ -184,17 +179,10 @@ function isValueValid(value) {
  * @returns {*|{x, y}|{x: number, y: number}}
  */
 function getSVGPoint(value, viewerX, viewerY) {
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["b" /* fromObject */])(value);
 
-  var matrix = __WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js__["Matrix"].from(a, b, c, d, e, f);
-
-  var inverseMatrix = matrix.inverse();
-  return inverseMatrix.applyToPoint(viewerX, viewerY);
+  var inverseMatrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["f" /* inverse */])(matrix);
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["g" /* applyToPoint */])(inverseMatrix, { x: viewerX, y: viewerY });
 }
 
 /**
@@ -203,21 +191,12 @@ function getSVGPoint(value, viewerX, viewerY) {
  * @returns {{scaleFactor: number, translationX: number, translationY: number}}
  */
 function decompose(value) {
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
-
-  var matrix = __WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js__["Matrix"].from(a, b, c, d, e, f);
-
-  var decompose = matrix.decompose(false);
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["b" /* fromObject */])(value);
 
   return {
-    scaleFactor: decompose.scale.x,
-    translationX: decompose.translate.x,
-    translationY: decompose.translate.y
+    scaleFactor: matrix.a,
+    translationX: matrix.e,
+    translationY: matrix.f
   };
 }
 
@@ -266,20 +245,15 @@ function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
       viewerHeight = value.viewerHeight;
 
 
-  var matrix = new __WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js__["Matrix"]().translate(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2) //4
-  .translate(SVGPointX, SVGPointY) //3
-  .scaleU(zoomLevel) //2
-  .translate(-SVGPointX, -SVGPointY); //1
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["a" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["c" /* translate */])(-SVGPointX + viewerWidth / 2, -SVGPointY + viewerHeight / 2), //4
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["c" /* translate */])(SVGPointX, SVGPointY), //3
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["d" /* scale */])(zoomLevel, zoomLevel), //2
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["c" /* translate */])(-SVGPointX, -SVGPointY) //1
+  );
 
-  return set(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
-  });
+  return set(value, _extends({
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */]
+  }, matrix));
 }
 
 /**
@@ -288,17 +262,9 @@ function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
  * @returns {Object}
  */
 function reset(value) {
-  var matrix = new __WEBPACK_IMPORTED_MODULE_1_transformation_matrix_js__["Matrix"]();
-
-  return set(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
-  });
+  return set(value, _extends({
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */]
+  }, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["e" /* identity */])()));
 }
 
 /**
@@ -308,7 +274,7 @@ function reset(value) {
  */
 function resetMode(value) {
   return set(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     startX: null,
     startY: null,
     endX: null,
@@ -321,11 +287,10 @@ function resetMode(value) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_transformation_matrix__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils__ = __webpack_require__(6);
 /* harmony export (immutable) */ __webpack_exports__["a"] = zoom;
 /* harmony export (immutable) */ __webpack_exports__["b"] = fitSelection;
 /* harmony export (immutable) */ __webpack_exports__["c"] = fitToViewer;
@@ -333,41 +298,26 @@ function resetMode(value) {
 /* harmony export (immutable) */ __webpack_exports__["e"] = startZooming;
 /* harmony export (immutable) */ __webpack_exports__["g"] = updateZooming;
 /* harmony export (immutable) */ __webpack_exports__["f"] = stopZooming;
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
 
 
 
 
 
 function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
 
-  var matrix = __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__["Matrix"].from(a, b, c, d, e, f);
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["a" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["b" /* fromObject */])(value), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["c" /* translate */])(SVGPointX, SVGPointY), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["d" /* scale */])(scaleFactor, scaleFactor), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["c" /* translate */])(-SVGPointX, -SVGPointY));
 
-  var act = new __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__["Matrix"]();
-  act = act.translate(SVGPointX, SVGPointY);
-  act = act.scaleU(scaleFactor);
-  act = act.translate(-SVGPointX, -SVGPointY);
-
-  matrix = matrix.multiply(act);
-
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f,
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, _extends({
+    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MODE_IDLE */]
+  }, matrix, {
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  });
+  }));
 }
 
 function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
@@ -378,25 +328,20 @@ function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWi
   var scaleX = viewerWidth / selectionWidth;
   var scaleY = viewerHeight / selectionHeight;
 
-  var scale = Math.min(scaleX, scaleY);
+  var scaleLevel = Math.min(scaleX, scaleY);
 
-  var matrix = new __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__["Matrix"]();
-  matrix = matrix.scaleU(scale);
-  matrix = matrix.translate(-selectionSVGPointX, -selectionSVGPointY);
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["a" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["d" /* scale */])(scaleLevel, scaleLevel), //2
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["c" /* translate */])(-selectionSVGPointX, -selectionSVGPointY) //1
+  );
 
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f,
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, _extends({
+    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MODE_IDLE */]
+  }, matrix, {
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  });
+  }));
 }
 
 function fitToViewer(value) {
@@ -407,13 +352,13 @@ function zoomOnViewerCenter(value, scaleFactor) {
   var viewerWidth = value.viewerWidth,
       viewerHeight = value.viewerHeight;
 
-  var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, viewerWidth / 2, viewerHeight / 2);
+  var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, viewerWidth / 2, viewerHeight / 2);
   return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
 }
 
 function startZooming(value, viewerX, viewerY) {
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */],
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, {
+    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* MODE_ZOOMING */],
     startX: viewerX,
     startY: viewerY,
     endX: viewerX,
@@ -422,9 +367,9 @@ function startZooming(value, viewerX, viewerY) {
 }
 
 function updateZooming(value, viewerX, viewerY) {
-  if (value.mode !== __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) throw new Error('update selection not allowed in this mode ' + value.mode);
+  if (value.mode !== __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* MODE_ZOOMING */]) throw new Error('update selection not allowed in this mode ' + value.mode);
 
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, {
     endX: viewerX,
     endY: viewerY
   });
@@ -437,14 +382,14 @@ function stopZooming(value, viewerX, viewerY, scaleFactor) {
       endY = value.endY;
 
 
-  var start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, startX, startY);
-  var end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, endX, endY);
+  var start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, startX, startY);
+  var end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, endX, endY);
 
   if (Math.abs(startX - endX) > 7 && Math.abs(startY - endY) > 7) {
     var box = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils__["a" /* calculateBox */])(start, end);
     return fitSelection(value, box.x, box.y, box.width, box.height);
   } else {
-    var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, viewerX, viewerY);
+    var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, viewerX, viewerY);
     return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
   }
 }
@@ -454,15 +399,282 @@ function stopZooming(value, viewerX, viewerY, scaleFactor) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (immutable) */ __webpack_exports__["e"] = identity;
+/* harmony export (immutable) */ __webpack_exports__["a"] = transform;
+/* harmony export (immutable) */ __webpack_exports__["f"] = inverse;
+/* harmony export (immutable) */ __webpack_exports__["c"] = translate;
+/* harmony export (immutable) */ __webpack_exports__["d"] = scale;
+/* unused harmony export rotate */
+/* unused harmony export rotateDEG */
+/* harmony export (immutable) */ __webpack_exports__["g"] = applyToPoint;
+/* harmony export (immutable) */ __webpack_exports__["h"] = applyToPoints;
+/* unused harmony export toCSS */
+/* harmony export (immutable) */ __webpack_exports__["i"] = toSVG;
+/* unused harmony export toString */
+/* unused harmony export fromString */
+/* unused harmony export isAffineMatrix */
+/* harmony export (immutable) */ __webpack_exports__["b"] = fromObject;
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
+
+var cos = Math.cos,
+    sin = Math.sin,
+    PI = Math.PI;
+/**
+ * @ignore
+ * @type {RegExp}
+ */
+
+var matrixRegex = /^matrix\( *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *\)$/i;
+
+/**
+ * Identity matrix
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function identity() {
+  return {
+    a: 1, c: 0, e: 0,
+    b: 0, d: 1, f: 0
+  };
+}
+
+/**
+ * Merge multiple matrices into one
+ * @param matrices {...object} list of matrices
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function transform() {
+  for (var _len = arguments.length, matrices = Array(_len), _key = 0; _key < _len; _key++) {
+    matrices[_key] = arguments[_key];
+  }
+
+  matrices = Array.isArray(matrices[0]) ? matrices[0] : matrices;
+
+  var multiply = function multiply(m1, m2) {
+    return {
+      a: m1.a * m2.a + m1.c * m2.b, c: m1.a * m2.c + m1.c * m2.d, e: m1.a * m2.e + m1.c * m2.f + m1.e,
+      b: m1.b * m2.a + m1.d * m2.b, d: m1.b * m2.c + m1.d * m2.d, f: m1.b * m2.e + m1.d * m2.f + m1.f
+    };
+  };
+
+  switch (matrices.length) {
+    case 0:
+      throw new Error('no matrices provided');
+
+    case 1:
+      return matrices[0];
+
+    case 2:
+      return multiply(matrices[0], matrices[1]);
+
+    default:
+      var _matrices = matrices,
+          _matrices2 = _toArray(_matrices),
+          m1 = _matrices2[0],
+          m2 = _matrices2[1],
+          rest = _matrices2.slice(2);
+
+      var m = multiply(m1, m2);
+      return transform.apply(undefined, [m].concat(_toConsumableArray(rest)));
+  }
+}
+
+/**
+ * Calculate a matrix that is the inverse of the provided matrix
+ * @param matrix Affine matrix
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function inverse(matrix) {
+  //http://www.wolframalpha.com/input/?i=Inverse+%5B%7B%7Ba,c,e%7D,%7Bb,d,f%7D,%7B0,0,1%7D%7D%5D
+
+  var a = matrix.a,
+      b = matrix.b,
+      c = matrix.c,
+      d = matrix.d,
+      e = matrix.e,
+      f = matrix.f;
+
+
+  var denom = a * d - b * c;
+
+  return {
+    a: d / denom,
+    b: b / -denom,
+    c: c / -denom,
+    d: a / denom,
+    e: (d * e - c * f) / -denom,
+    f: (b * e - a * f) / denom
+  };
+}
+
+/**
+ * Calculate a translate matrix
+ * @param tx Translation on axis x
+ * @param ty Translation on axis y
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function translate(tx, ty) {
+  return {
+    a: 1, c: 0, e: tx,
+    b: 0, d: 1, f: ty
+  };
+}
+
+/**
+ * Calculate a scaling matrix
+ * @param sx Scaling on axis x
+ * @param sy Scaling on axis y
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function scale(sx, sy) {
+  return {
+    a: sx, c: 0, e: 0,
+    b: 0, d: sy, f: 0
+  };
+}
+
+/**
+ * Calculate a rotation matrix
+ * @param angle Angle in radians
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix *
+ */
+function rotate(angle) {
+  var cosAngle = cos(angle);
+  var sinAngle = sin(angle);
+  return {
+    a: cosAngle, c: -sinAngle, e: 0,
+    b: sinAngle, d: cosAngle, f: 0
+  };
+}
+
+/**
+ * Calculate a rotation matrix with a DEG angle
+ * @param angle Angle in degree
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function rotateDEG(angle) {
+  return rotate(angle * PI / 180);
+}
+
+/**
+ * Calculate a point transformed with an affine matrix
+ * @param matrix Affine matrix
+ * @param point Point
+ * @returns {{x: number, y: number}} Point
+ */
+function applyToPoint(matrix, point) {
+  return {
+    x: matrix.a * point.x + matrix.c * point.y + matrix.e,
+    y: matrix.b * point.x + matrix.d * point.y + matrix.f
+  };
+}
+
+/**
+ * Calculate an array of points transformed with an affine matrix
+ * @param matrix Affine matrix
+ * @param points Array of points
+ * @returns {array} Array of points
+ */
+function applyToPoints(matrix, points) {
+  return points.map(function (point) {
+    return applyToPoint(matrix, point);
+  });
+}
+
+/**
+ * Serialize the matrix to a string that can be used with CSS or SVG
+ * @param matrix Affine matrix
+ * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toCSS(matrix) {
+  return toString(matrix);
+}
+
+/**
+ * Serialize the matrix to a string that can be used with CSS or SVG
+ * @param matrix Affine matrix
+ * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toSVG(matrix) {
+  return toString(matrix);
+}
+
+/**
+ * Serialize the matrix to a string that can be used with CSS or SVG
+ * @param matrix Affine matrix
+ * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toString(matrix) {
+  return 'matrix(' + matrix.a + ',' + matrix.b + ',' + matrix.c + ',' + matrix.d + ',' + matrix.e + ',' + matrix.f + ')';
+}
+
+/**
+ * Parse a string matrix formatted as matrix(a,b,c,d,e,f)
+ * @param string String with a matrix
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function fromString(string) {
+  var parsed = string.match(matrixRegex);
+  if (parsed === null || parsed.length < 7) throw new Error('\'' + string + '\' is not a matrix');
+  return {
+    a: parseFloat(parsed[1]),
+    b: parseFloat(parsed[2]),
+    c: parseFloat(parsed[3]),
+    d: parseFloat(parsed[4]),
+    e: parseFloat(parsed[5]),
+    f: parseFloat(parsed[6])
+  };
+}
+
+/**
+ * Check if the object contain an affine matrix
+ * @param object
+ * @return {boolean}
+ */
+function isAffineMatrix(object) {
+  var isNumeric = function isNumeric(n) {
+    return typeof n === 'number' && !isNaN(n) && isFinite(n);
+  };
+  return (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object.hasOwnProperty('a') && isNumeric(object.a) && object.hasOwnProperty('b') && isNumeric(object.b) && object.hasOwnProperty('c') && isNumeric(object.c) && object.hasOwnProperty('d') && isNumeric(object.d) && object.hasOwnProperty('e') && isNumeric(object.e) && object.hasOwnProperty('f') && isNumeric(object.f);
+}
+
+/**
+ * Extract an affine matrix from an object that contains a,b,c,d,e,f keys
+ * Each value could be a float or a string that contains a float
+ * @param object
+ * @return {{a: *, b: *, c: *, e: *, d: *, f: *}}}
+ */
+function fromObject(object) {
+  return {
+    a: parseFloat(object.a),
+    b: parseFloat(object.b),
+    c: parseFloat(object.c),
+    d: parseFloat(object.d),
+    e: parseFloat(object.e),
+    f: parseFloat(object.f)
+  };
+}
+
+/***/ }),
+/* 5 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix__ = __webpack_require__(4);
 /* harmony export (immutable) */ __webpack_exports__["a"] = pan;
 /* harmony export (immutable) */ __webpack_exports__["b"] = startPanning;
 /* harmony export (immutable) */ __webpack_exports__["d"] = updatePanning;
 /* harmony export (immutable) */ __webpack_exports__["c"] = stopPanning;
 /* harmony export (immutable) */ __webpack_exports__["e"] = autoPanIfNeeded;
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
+
 
 
 
@@ -477,44 +689,45 @@ function stopZooming(value, viewerX, viewerY, scaleFactor) {
  */
 function pan(value, SVGDeltaX, SVGDeltaY) {
   var panLimit = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : undefined;
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
 
-  var matrix = __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__["Matrix"].from(a, b, c, d, e, f);
 
-  var act = new __WEBPACK_IMPORTED_MODULE_2_transformation_matrix_js__["Matrix"]();
-  act = act.translate(SVGDeltaX, SVGDeltaY);
-
-  matrix = matrix.multiply(act);
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix__["a" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix__["b" /* fromObject */])(value), //2
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix__["c" /* translate */])(SVGDeltaX, SVGDeltaY) //1
+  );
 
   // apply pan limits
   if (panLimit) {
-    var zoomLevel = matrix.decompose(false).scale.x;
-    matrix.e = Math.min(matrix.e, value.viewerWidth - panLimit);
-    matrix.e = Math.max(matrix.e, panLimit - value.SVGWidth * zoomLevel);
+    var _applyToPoints = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix__["h" /* applyToPoints */])(matrix, [{ x: panLimit, y: panLimit }, { x: value.SVGWidth - panLimit, y: value.SVGHeight - panLimit }]),
+        _applyToPoints2 = _slicedToArray(_applyToPoints, 2),
+        _applyToPoints2$ = _applyToPoints2[0],
+        x1 = _applyToPoints2$.x,
+        y1 = _applyToPoints2$.y,
+        _applyToPoints2$2 = _applyToPoints2[1],
+        x2 = _applyToPoints2$2.x,
+        y2 = _applyToPoints2$2.y;
 
-    matrix.f = Math.min(matrix.f, value.viewerHeight - panLimit);
-    matrix.f = Math.max(matrix.f, panLimit - value.SVGHeight * zoomLevel);
+    //x limit
+
+
+    var moveX = 0;
+    if (value.viewerWidth - x1 < 0) moveX = value.viewerWidth - x1;else if (x2 < 0) moveX = -x2;
+
+    //y limit
+    var moveY = 0;
+    if (value.viewerHeight - y1 < 0) moveY = value.viewerHeight - y1;else if (y2 < 0) moveY = -y2;
+
+    //apply limits
+    matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix__["a" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2_transformation_matrix__["c" /* translate */])(moveX, moveY), matrix);
   }
 
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f
-  });
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, _extends({
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */]
+  }, matrix));
 }
 
 function startPanning(value, viewerX, viewerY) {
   return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */],
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */],
     startX: viewerX,
     startY: viewerY,
     endX: viewerX,
@@ -523,7 +736,7 @@ function startPanning(value, viewerX, viewerY) {
 }
 
 function updatePanning(value, viewerX, viewerY, panLimit) {
-  if (value.mode !== __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) throw new Error('update pan not allowed in this mode ' + value.mode);
+  if (value.mode !== __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */]) throw new Error('update pan not allowed in this mode ' + value.mode);
 
   var endX = value.endX,
       endY = value.endY;
@@ -537,7 +750,7 @@ function updatePanning(value, viewerX, viewerY, panLimit) {
 
   var nextValue = pan(value, deltaX, deltaY, panLimit);
   return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(nextValue, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */],
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */],
     endX: viewerX,
     endY: viewerY
   });
@@ -545,7 +758,7 @@ function updatePanning(value, viewerX, viewerY, panLimit) {
 
 function stopPanning(value) {
   return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */],
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     startX: null,
     startY: null,
     endX: null,
@@ -566,7 +779,7 @@ function autoPanIfNeeded(value, viewerX, viewerY) {
 }
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -609,1083 +822,6 @@ function mapRange(value, low1, high1, low2, high2) {
 }
 
 /***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-/*!
-	2D Transformation Matrix v2.7.1
-	(c) Epistemex.com 2014-2017
-	License: MIT, header required.
-*/
-
-/**
- * 2D transformation matrix object initialized with identity matrix.
- *
- * The matrix can synchronize a canvas 2D context by supplying the context
- * as an argument, or later apply current absolute transform to an
- * existing context.
- *
- * To synchronize a DOM element you can use [`toCSS()`]{@link Matrix#toCSS} or [`toCSS3D()`]{@link Matrix#toCSS3D}.
- *
- * @param {CanvasRenderingContext2D} [context] - Optional context to sync with Matrix
- * @param {HTMLElement} [element=null] - DOM Element to synchronize
- * @prop {number} a - scale x
- * @prop {number} b - shear y
- * @prop {number} c - shear x
- * @prop {number} d - scale y
- * @prop {number} e - translate x
- * @prop {number} f - translate y
- * @prop {CanvasRenderingContext2D} [context] - set or get current synchronized 2D context
- * @prop {HTMLElement} [element] - get current synchronized DOM element
- * @prop {boolean} [useCSS3D=false] - is a DOM element is defined for sync., choose whether to use 2D (false) or 3D (true) matrix to sync it.
- * @constructor
- * @license MIT license (header required)
- * @copyright Epistemex.com 2014-2016
- */
-function Matrix(context, element) {
-
-	var me = this, _el;
-	me._t = me.transform;
-
-	me.a = me.d = 1;
-	me.b = me.c = me.e = me.f = 0;
-
-	// sync context
-	if (context)
-		(me.context = context).setTransform(1, 0, 0, 1, 0, 0);
-
-	// sync DOM element
-	Object.defineProperty(me, "element", {
-		get: function() {return _el},
-		set: function(el) {
-			if (!_el) {
-				me._px = me._getPX();
-				me.useCSS3D = false
-			}
-			_el = el;
-			(me._st = _el.style)[me._px] = me.toCSS();
-		}
-	});
-
-	if (element) me.element = element
-}
-
-/**
- * Returns a new matrix that transforms a triangle `t1` into another triangle
- * `t2`, or throws an exception if it is impossible.
- *
- * Note: the method can take both arrays as well as literal objects.
- * Just make sure that both arguments (`t1`, `t2`) are of the same type.
- *
- * @param {{px: number, py: number, qx: number, qy: number, rx: number, ry: number}|Array} t1 - Object or array containing the three points for the triangle.
- * For object use obj.px, obj.py, obj.qx, obj.qy, obj.rx and obj.ry. For arrays provide the points in the order [px, py, qx, qy, rx, ry], or as point array [{x:,y:}, {x:,y:}, {x:,y:}]
- * @param {{px: number, py: number, qx: number, qy: number, rx: number, ry: number}|Array} t2 - See description for t1.
- * @param {CanvasRenderingContext2D} [context] - optional canvas 2D context to use for the matrix
- * @returns {Matrix}
- * @throws Exception is matrix becomes not invertible
- * @static
- */
-Matrix.fromTriangles = function(t1, t2, context) {
-
-	var m1 = new Matrix(),
-		m2 = new Matrix(context),
-		r1, r2, rx1, ry1, rx2, ry2;
-
-	if (Array.isArray(t1)) {
-		if (typeof t1[0] === "number") {
-			rx1 = t1[4]; ry1 = t1[5]; rx2 = t2[4]; ry2 = t2[5];
-			r1 = [t1[0] - rx1, t1[1] - ry1, t1[2] - rx1, t1[3] - ry1, rx1, ry1];
-			r2 = [t2[0] - rx2, t2[1] - ry2, t2[2] - rx2, t2[3] - ry2, rx2, ry2]
-		}
-		else {
-			rx1 = t1[2].x; ry1 = t1[2].y; rx2 = t2[2].x; ry2 = t2[2].y;
-			r1 = [t1[0].x - rx1, t1[0].y - ry1, t1[1].x - rx1, t1[1].y - ry1, rx1, ry1];
-			r2 = [t2[0].x - rx2, t2[0].y - ry2, t2[1].x - rx2, t2[1].y - ry2, rx2, ry2]
-		}
-	}
-	else {
-		r1 = [t1.px - t1.rx, t1.py - t1.ry, t1.qx - t1.rx, t1.qy - t1.ry, t1.rx, t1.ry];
-		r2 = [t2.px - t2.rx, t2.py - t2.ry, t2.qx - t2.rx, t2.qy - t2.ry, t2.rx, t2.ry]
-	}
-
-	m1.setTransform.apply(m1, r1);
-	m2.setTransform.apply(m2, r2);
-
-	return m2.multiply(m1.inverse())
-};
-
-/**
- * Create a matrix from a transform list from an SVG shape. The list
- * can be for example baseVal (i.e. `shape.transform.baseVal`).
- *
- * The resulting matrix has all transformations from that list applied
- * in the same order as the list.
- *
- * @param {SVGTransformList} tList - transform list from an SVG shape.
- * @param {CanvasRenderingContext2D} [context] - optional canvas 2D context to use for the matrix
- * @param {HTMLElement} [dom] - optional DOM element to use for the matrix
- * @returns {Matrix}
- * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/SVGTransformList|MDN / SVGTransformList}
- */
-Matrix.fromSVGTransformList = function(tList, context, dom) {
-
-	var m = new Matrix(context, dom),
-		i = 0;
-
-	while(i < tList.length)
-		m.multiply(tList[i++].matrix);
-
-	return m
-};
-
-/**
- * Create and transform a new matrix based on given matrix values, or
- * provide SVGMatrix or a (2D) DOMMatrix or another instance of a Matrix
- * (in fact, any 2D matrix object using properties a-f can be used as source).
- *
- * @example
- *
- * var m = Matrix.from(1, 0.2, 0, 2, 120, 97);
- * var m = Matrix.from(domMatrix, ctx);
- * var m = Matrix.from(svgMatrix);
- * var m = Matrix.from(matrix);
- * var m = Matrix.from(vector [,pre-x] [,pre-y] [,doScale]);
- *
- * @param {*} a - number representing a in [a-f], or a Matrix object containing properties a-f. Vector is given as an object with properties x and y.
- * @param {*} [b] - b property if a is not a matrix object, or optional canvas 2D context.
- * If vector is input this will be pre-translate for x.
- * @param {number} [c] - If vector is input this will be pre-translate for y.
- * @param {number} [d] - If vector is input, set this to true to use scale and translate of 1,
- * false to use hypotenuse as translate distance instead and no scale.
- * @param {number} [e]
- * @param {number} [f]
- * @param {CanvasRenderingContext2D} [context] - optional canvas context to synchronize
- * @param {HTMLElement} [dom] - optional DOM element to use for the matrix
- * @returns {Matrix}
- * @static
- */
-Matrix.from = function(a, b, c, d, e, f, context, dom) {
-
-	var m = new Matrix(context, dom), scale, dist, q;
-
-	if (typeof a === "number")
-		m.setTransform(a, b, c, d, e, f);
-
-	else if (typeof a.x === "number") {		// vector
-
-		q = Math.sqrt(a.x*a.x + a.y*a.y);
-		scale = dist = 1;
-
-		if (d) scale = q;
-		else dist = q;
-
-		m
-			.translate(b || 0, c || 0)
-			.rotateFromVector(a)
-			.scaleU(scale)
-			.translate(dist, 0);
-
-	}
-	else {
-		if (typeof a.is2D === "boolean" && !a.is2D) throw "Cannot use 3D DOMMatrix.";
-		if (b) m.context = b;
-		if (c) m.element = c;
-		m.multiply(a)
-	}
-
-	return m
-};
-
-Matrix.prototype = {
-
-	_getPX: function() {
-
-		var lst   = ["t", "oT", "msT", "mozT", "webkitT", "khtmlT"], i = 0, p,
-			style = document.createElement("div").style;
-
-		while(p = lst[i++])
-			if (typeof style[p + "ransform"] !== "undefined") return p + "ransform";
-	},
-
-	/**
-	 * Concatenates transforms of this matrix onto the given child matrix and
-	 * returns a new matrix. This instance is used on left side.
-	 *
-	 * @param {Matrix|SVGMatrix} cm - child matrix to apply concatenation to
-	 * @returns {Matrix} - new Matrix instance
-	 */
-	concat: function(cm) {
-		return this.clone().multiply(cm)
-	},
-
-	/**
-	 * Flips the horizontal values.
-	 * @returns {Matrix}
-	 */
-	flipX: function() {
-		return this._t(-1, 0, 0, 1, 0, 0)
-	},
-
-	/**
-	 * Flips the vertical values.
-	 * @returns {Matrix}
-	 */
-	flipY: function() {
-		return this._t(1, 0, 0, -1, 0, 0)
-	},
-
-	/**
-	 * Reflects incoming (velocity) vector on the normal which will be the
-	 * current transformed x axis. Call when a trigger condition is met.
-	 *
-	 * @param {number} x - vector end point for x (start = 0)
-	 * @param {number} y - vector end point for y (start = 0)
-	 * @returns {{x: number, y: number}}
-	 */
-	reflectVector: function(x, y) {
-
-		var v = this.applyToPoint(0, 1),
-			d = (v.x * x + v.y * y) * 2;
-
-		x -= d * v.x;
-		y -= d * v.y;
-
-		return {x: x, y: y}
-	},
-
-	/**
-	 * Short-hand to reset current matrix to an identity matrix.
-	 * @returns {Matrix}
-	 */
-	reset: function() {
-		return this.setTransform(1, 0, 0, 1, 0, 0)
-	},
-
-	/**
-	 * Rotates current matrix by angle (accumulative).
-	 * @param {number} angle - angle in radians
-	 * @returns {Matrix}
-	 */
-	rotate: function(angle) {
-		var cos = Math.cos(angle),
-			sin = Math.sin(angle);
-		return this._t(cos, sin, -sin, cos, 0, 0)
-	},
-
-	/**
-	 * Converts a vector given as `x` and `y` to angle, and
-	 * rotates (accumulative). x can instead contain an object with
-	 * properties x and y and if so, y parameter will be ignored.
-	 * @param {number|*} x
-	 * @param {number} [y]
-	 * @returns {Matrix}
-	 */
-	rotateFromVector: function(x, y) {
-		return this.rotate(typeof x === "number" ? Math.atan2(y, x) : Math.atan2(x.y, x.x))
-	},
-
-	/**
-	 * Helper method to make a rotation based on an angle in degrees.
-	 * @param {number} angle - angle in degrees
-	 * @returns {Matrix}
-	 */
-	rotateDeg: function(angle) {
-		return this.rotate(angle * Math.PI / 180)
-	},
-
-	/**
-	 * Scales current matrix uniformly and accumulative.
-	 * @param {number} f - scale factor for both x and y (1 does nothing)
-	 * @returns {Matrix}
-	 */
-	scaleU: function(f) {
-		return this._t(f, 0, 0, f, 0, 0)
-	},
-
-	/**
-	 * Scales current matrix accumulative.
-	 * @param {number} sx - scale factor x (1 does nothing)
-	 * @param {number} sy - scale factor y (1 does nothing)
-	 * @returns {Matrix}
-	 */
-	scale: function(sx, sy) {
-		return this._t(sx, 0, 0, sy, 0, 0)
-	},
-
-	/**
-	 * Scales current matrix on x axis accumulative.
-	 * @param {number} sx - scale factor x (1 does nothing)
-	 * @returns {Matrix}
-	 */
-	scaleX: function(sx) {
-		return this._t(sx, 0, 0, 1, 0, 0)
-	},
-
-	/**
-	 * Scales current matrix on y axis accumulative.
-	 * @param {number} sy - scale factor y (1 does nothing)
-	 * @returns {Matrix}
-	 */
-	scaleY: function(sy) {
-		return this._t(1, 0, 0, sy, 0, 0)
-	},
-
-	/**
-	 * Converts a vector given as `x` and `y` to normalized scale.
-	 * @param x
-	 * @param y
-	 * @returns {Matrix}
-	 */
-	scaleFromVector: function(x, y) {
-		return this.scaleU(Math.sqrt(x*x + y*y))
-	},
-
-	/**
-	 * Apply shear to the current matrix accumulative.
-	 * @param {number} sx - amount of shear for x
-	 * @param {number} sy - amount of shear for y
-	 * @returns {Matrix}
-	 */
-	shear: function(sx, sy) {
-		return this._t(1, sy, sx, 1, 0, 0)
-	},
-
-	/**
-	 * Apply shear for x to the current matrix accumulative.
-	 * @param {number} sx - amount of shear for x
-	 * @returns {Matrix}
-	 */
-	shearX: function(sx) {
-		return this._t(1, 0, sx, 1, 0, 0)
-	},
-
-	/**
-	 * Apply shear for y to the current matrix accumulative.
-	 * @param {number} sy - amount of shear for y
-	 * @returns {Matrix}
-	 */
-	shearY: function(sy) {
-		return this._t(1, sy, 0, 1, 0, 0)
-	},
-
-	/**
-	 * Apply skew to the current matrix accumulative. Angles in radians.
-	 * Also see [`skewDeg()`]{@link Matrix#skewDeg}.
-	 * @param {number} ax - angle of skew for x
-	 * @param {number} ay - angle of skew for y
-	 * @returns {Matrix}
-	 */
-	skew: function(ax, ay) {
-		return this.shear(Math.tan(ax), Math.tan(ay))
-	},
-
-	/**
-	 * Apply skew to the current matrix accumulative. Angles in degrees.
-	 * Also see [`skew()`]{@link Matrix#skew}.
-	 * @param {number} ax - angle of skew for x
-	 * @param {number} ay - angle of skew for y
-	 * @returns {Matrix}
-	 */
-	skewDeg: function(ax, ay) {
-		return this.shear(Math.tan(ax / 180 * Math.PI), Math.tan(ay / 180 * Math.PI))
-	},
-
-	/**
-	 * Apply skew for x to the current matrix accumulative. Angles in radians.
-	 * Also see [`skewDeg()`]{@link Matrix#skewDeg}.
-	 * @param {number} ax - angle of skew for x
-	 * @returns {Matrix}
-	 */
-	skewX: function(ax) {
-		return this.shearX(Math.tan(ax))
-	},
-
-	/**
-	 * Apply skew for y to the current matrix accumulative. Angles in radians.
-	 * Also see [`skewDeg()`]{@link Matrix#skewDeg}.
-	 * @param {number} ay - angle of skew for y
-	 * @returns {Matrix}
-	 */
-	skewY: function(ay) {
-		return this.shearY(Math.tan(ay))
-	},
-
-	/**
-	 * Set current matrix to new absolute matrix.
-	 * @param {number} a - scale x
-	 * @param {number} b - shear y
-	 * @param {number} c - shear x
-	 * @param {number} d - scale y
-	 * @param {number} e - translate x
-	 * @param {number} f - translate y
-	 * @returns {Matrix}
-	 */
-	setTransform: function(a, b, c, d, e, f) {
-		var me = this;
-		me.a = a;
-		me.b = b;
-		me.c = c;
-		me.d = d;
-		me.e = e;
-		me.f = f;
-		return me._x()
-	},
-
-	/**
-	 * Translate current matrix accumulative.
-	 * @param {number} tx - translation for x
-	 * @param {number} ty - translation for y
-	 * @returns {Matrix}
-	 */
-	translate: function(tx, ty) {
-		return this._t(1, 0, 0, 1, tx, ty)
-	},
-
-	/**
-	 * Translate current matrix on x axis accumulative.
-	 * @param {number} tx - translation for x
-	 * @returns {Matrix}
-	 */
-	translateX: function(tx) {
-		return this._t(1, 0, 0, 1, tx, 0)
-	},
-
-	/**
-	 * Translate current matrix on y axis accumulative.
-	 * @param {number} ty - translation for y
-	 * @returns {Matrix}
-	 */
-	translateY: function(ty) {
-		return this._t(1, 0, 0, 1, 0, ty)
-	},
-
-	/**
-	 * Multiplies current matrix with new matrix values. Also see [`multiply()`]{@link Matrix#multiply}.
-	 *
-	 * @param {number} a2 - scale x
-	 * @param {number} b2 - skew y
-	 * @param {number} c2 - skew x
-	 * @param {number} d2 - scale y
-	 * @param {number} e2 - translate x
-	 * @param {number} f2 - translate y
-	 * @returns {Matrix}
-	 */
-	transform: function(a2, b2, c2, d2, e2, f2) {
-
-		var me = this,
-			a1 = me.a,
-			b1 = me.b,
-			c1 = me.c,
-			d1 = me.d,
-			e1 = me.e,
-			f1 = me.f;
-
-		/* matrix column order is:
-		 *   a c e
-		 *   b d f
-		 *   0 0 1
-		 */
-		me.a = a1 * a2 + c1 * b2;
-		me.b = b1 * a2 + d1 * b2;
-		me.c = a1 * c2 + c1 * d2;
-		me.d = b1 * c2 + d1 * d2;
-		me.e = a1 * e2 + c1 * f2 + e1;
-		me.f = b1 * e2 + d1 * f2 + f1;
-
-		return me._x()
-	},
-
-	/**
-	 * Multiplies current matrix with source matrix.
-	 * @param {Matrix|DOMMatrix|SVGMatrix} m - source matrix to multiply with.
-	 * @returns {Matrix}
-	 */
-	multiply: function(m) {
-		return this._t(m.a, m.b, m.c, m.d, m.e, m.f)
-	},
-
-	/**
-	 * Divide this matrix on input matrix which must be invertible.
-	 * @param {Matrix} m - matrix to divide on (divisor)
-	 * @throws Exception if input matrix is not invertible
-	 * @returns {Matrix}
-	 */
-	divide: function(m) {
-		return this.multiply(m.inverse())
-	},
-
-	/**
-	 * Divide current matrix on scalar value != 0.
-	 * @param {number} d - divisor
-	 * @throws Exception if divisor is zero
-	 * @returns {Matrix}
-	 */
-	divideScalar: function(d) {
-
-		var me = this;
-
-		if (!d) throw "Division on zero";
-
-		me.a /= d;
-		me.b /= d;
-		me.c /= d;
-		me.d /= d;
-		me.e /= d;
-		me.f /= d;
-
-		return me._x()
-	},
-
-	/**
-	 * Get an inverse matrix of current matrix. The method returns a new
-	 * matrix with values you need to use to get to an identity matrix.
-	 * Context from parent matrix is not applied to the returned matrix.
-	 *
-	 * @param {boolean} [cloneContext=false] - clone current context to resulting matrix
-	 * @param {boolean} [cloneDOM=false] - clone current DOM element to resulting matrix
-	 * @throws Exception is input matrix is not invertible
-	 * @returns {Matrix} - new Matrix instance
-	 */
-	inverse: function(cloneContext, cloneDOM) {
-
-		var me = this,
-			m  = new Matrix(cloneContext ? me.context : null, cloneDOM ? me.element : null),
-			dt = me.determinant();
-
-		if (me._q(dt, 0))
-			throw "Matrix not invertible.";
-
-		m.a = me.d / dt;
-		m.b = -me.b / dt;
-		m.c = -me.c / dt;
-		m.d = me.a / dt;
-		m.e = (me.c * me.f - me.d * me.e) / dt;
-		m.f = -(me.a * me.f - me.b * me.e) / dt;
-
-		return m
-	},
-
-	/**
-	 * Interpolate this matrix with another and produce a new matrix.
-	 * `t` is a value in the range [0.0, 1.0] where 0 is this instance and
-	 * 1 is equal to the second matrix. The `t` value is not clamped.
-	 *
-	 * Context from parent matrix is not applied to the returned matrix.
-	 *
-	 * Note: this interpolation is naive. For animation containing rotation,
-	 * shear or skew use the [`interpolateAnim()`]{@link Matrix#interpolateAnim} method instead
-	 * to avoid unintended flipping.
-	 *
-	 * @param {Matrix|SVGMatrix} m2 - the matrix to interpolate with.
-	 * @param {number} t - interpolation [0.0, 1.0]
-	 * @param {CanvasRenderingContext2D} [context] - optional context to affect
-	 * @param {HTMLElement} [dom] - optional DOM element to use for the matrix
-	 * @returns {Matrix} - new Matrix instance with the interpolated result
-	 */
-	interpolate: function(m2, t, context, dom) {
-
-		var me = this,
-			m  = new Matrix(context, dom);
-
-		m.a = me.a + (m2.a - me.a) * t;
-		m.b = me.b + (m2.b - me.b) * t;
-		m.c = me.c + (m2.c - me.c) * t;
-		m.d = me.d + (m2.d - me.d) * t;
-		m.e = me.e + (m2.e - me.e) * t;
-		m.f = me.f + (m2.f - me.f) * t;
-
-		return m._x()
-	},
-
-	/**
-	 * Interpolate this matrix with another and produce a new matrix.
-	 * `t` is a value in the range [0.0, 1.0] where 0 is this instance and
-	 * 1 is equal to the second matrix. The `t` value is not constrained.
-	 *
-	 * Context from parent matrix is not applied to the returned matrix.
-	 *
-	 * To obtain easing `t` can be preprocessed using easing-functions
-	 * before being passed to this method.
-	 *
-	 * Note: this interpolation method uses decomposition which makes
-	 * it suitable for animations (in particular where rotation takes
-	 * places).
-	 *
-	 * @param {Matrix} m2 - the matrix to interpolate with.
-	 * @param {number} t - interpolation [0.0, 1.0]
-	 * @param {CanvasRenderingContext2D} [context] - optional context to affect
-	 * @param {HTMLElement} [dom] - optional DOM element to use for the matrix
-	 * @returns {Matrix} - new Matrix instance with the interpolated result
-	 */
-	interpolateAnim: function(m2, t, context, dom) {
-
-		var m          = new Matrix(context, dom),
-			d1         = this.decompose(),
-			d2         = m2.decompose(),
-			t1         = d1.translate,
-			t2         = d2.translate,
-			s1         = d1.scale;
-
-		// QR order (t-r-s-sk)
-		m.translate(t1.x + (t2.x - t1.x) * t, t1.y + (t2.y - t1.y) * t);
-		m.rotate(d1.rotation + (d2.rotation - d1.rotation) * t);
-		m.scale(s1.x + (d2.scale.x - s1.x) * t, s1.y + (d2.scale.y - s1.y) * t);
-		//todo test skew scenarios
-
-		return m._x()
-	},
-
-	/**
-	 * Decompose the current matrix into simple transforms using either
-	 * QR (default) or LU decomposition.
-	 *
-	 * @param {boolean} [useLU=false] - set to true to use LU rather than QR decomposition
-	 * @returns {*} - an object containing current decomposed values (translate, rotation, scale, skew)
-	 * @see {@link http://www.maths-informatique-jeux.com/blog/frederic/?post/2013/12/01/Decomposition-of-2D-transform-matrices|Adoption based on this code}
-	 * @see {@link https://en.wikipedia.org/wiki/QR_decomposition|More on QR decomposition}
-	 * @see {@link https://en.wikipedia.org/wiki/LU_decomposition|More on LU decomposition}
-	 */
-	decompose: function(useLU) {
-
-		var me        = this,
-			a         = me.a,
-			b         = me.b,
-			c         = me.c,
-			d         = me.d,
-			acos      = Math.acos,
-			atan      = Math.atan,
-			sqrt      = Math.sqrt,
-			pi        = Math.PI,
-
-			translate = {x: me.e, y: me.f},
-			rotation  = 0,
-			scale     = {x: 1, y: 1},
-			skew      = {x: 0, y: 0},
-
-			determ    = a * d - b * c;	// determinant(), skip DRY here...
-
-		if (useLU) {
-			if (a) {
-				skew = {x: atan(c / a), y: atan(b / a)};
-				scale = {x: a, y: determ / a};
-			}
-			else if (b) {
-				rotation = pi * 0.5;
-				scale = {x: b, y: determ / b};
-				skew.x = atan(d / b);
-			}
-			else { // a = b = 0
-				scale = {x: c, y: d};
-				skew.x = pi * 0.25;
-			}
-		}
-		else {
-			// Apply the QR-like decomposition.
-			if (a || b) {
-				var r = sqrt(a * a + b * b);
-				rotation = b > 0 ? acos(a / r) : -acos(a / r);
-				scale = {x: r, y: determ / r};
-				skew.x = atan((a * c + b * d) / (r * r));
-			}
-			else if (c || d) {
-				var s = sqrt(c * c + d * d);
-				rotation = pi * 0.5 - (d > 0 ? acos(-c / s) : -acos(c / s));
-				scale = {x: determ / s, y: s};
-				skew.y = atan((a * c + b * d) / (s * s));
-			}
-			else { // a = b = c = d = 0
-				scale = {x: 0, y: 0};
-			}
-		}
-
-		return {
-			translate: translate,
-			rotation : rotation,
-			scale    : scale,
-			skew     : skew
-		}
-	},
-
-	/**
-	 * Returns the determinant of the current matrix.
-	 * @returns {number}
-	 */
-	determinant: function() {
-		return this.a * this.d - this.b * this.c
-	},
-
-	/**
-	 * Apply current matrix to `x` and `y` of a point.
-	 * Returns a point object.
-	 *
-	 * @param {number} x - value for x
-	 * @param {number} y - value for y
-	 * @returns {{x: number, y: number}} A new transformed point object
-	 */
-	applyToPoint: function(x, y) {
-
-		var me = this;
-
-		return {
-			x: x * me.a + y * me.c + me.e,
-			y: x * me.b + y * me.d + me.f
-		}
-	},
-
-	/**
-	 * Apply current matrix to array with point objects or point pairs.
-	 * Returns a new array with points in the same format as the input array.
-	 *
-	 * A point object is an object literal:
-	 *
-	 *     {x: x, y: y}
-	 *
-	 * so an array would contain either:
-	 *
-	 *     [{x: x1, y: y1}, {x: x2, y: y2}, ... {x: xn, y: yn}]
-	 *
-	 * or
-	 *
-	 *     [x1, y1, x2, y2, ... xn, yn]
-	 *
-	 * @param {Array} points - array with point objects or pairs
-	 * @returns {Array} A new array with transformed points
-	 */
-	applyToArray: function(points) {
-
-		var i = 0, p, l,
-			mxPoints = [];
-
-		if (typeof points[0] === 'number') {
-
-			l = points.length;
-
-			while(i < l) {
-				p = this.applyToPoint(points[i++], points[i++]);
-				mxPoints.push(p.x, p.y);
-			}
-		}
-		else {
-			while(p = points[i++]) {
-				mxPoints.push(this.applyToPoint(p.x, p.y));
-			}
-		}
-
-		return mxPoints
-	},
-
-	/**
-	 * Apply current matrix to a typed array with point pairs. Although
-	 * the input array may be an ordinary array, this method is intended
-	 * for more performant use where typed arrays are used. The returned
-	 * array is regardless always returned as a `Float32Array`.
-	 *
-	 * @param {*} points - (typed) array with point pairs [x1, y1, ..., xn, yn]
-	 * @param {boolean} [use64=false] - use Float64Array instead of Float32Array
-	 * @returns {*} A new typed array with transformed points
-	 */
-	applyToTypedArray: function(points, use64) {
-
-		var i = 0, p,
-			l = points.length,
-			mxPoints = use64 ? new Float64Array(l) : new Float32Array(l);
-
-		while(i < l) {
-			p = this.applyToPoint(points[i], points[i + 1]);
-			mxPoints[i++] = p.x;
-			mxPoints[i++] = p.y;
-		}
-
-		return mxPoints
-	},
-
-	/**
-	 * Apply to any canvas 2D context object. This does not affect the
-	 * context that optionally was referenced in constructor unless it is
-	 * the same context.
-	 *
-	 * @param {CanvasRenderingContext2D} context - target context
-	 * @returns {Matrix}
-	 */
-	applyToContext: function(context) {
-		var me = this;
-		context.setTransform(me.a, me.b, me.c, me.d, me.e, me.f);
-		return me
-	},
-
-	/**
-	 * Apply to any DOM element. This does not affect the DOM element
-	 * that optionally was referenced in constructor unless it is
-	 * the same element.
-	 *
-	 * The method will auto-detect the correct browser prefix if any.
-	 *
-	 * @param {HTMLElement} element - target DOM element
-	 * @param {boolean} [use3D=false] - use 3D transformation matrix instead of 2D
-	 * @returns {Matrix}
-	 */
-	applyToElement: function(element, use3D) {
-		var me = this;
-		if (!me._px) me._px = me._getPX();
-		element.style[me._px] = use3D ? me.toCSS3D() : me.toCSS();
-		return me
-	},
-
-	/**
-	 * Instead of creating a new instance of a Matrix, DOMMatrix or SVGMatrix
-	 * the current settings of this instance can be applied to an external
-	 * object of a different (or same) type. You can also pass in an
-	 * empty literal object.
-	 *
-	 * Note that the properties a-f will be set regardless of if they
-	 * already exist or not.
-	 *
-	 * @param {*} obj - target object.
-	 * @returns {Matrix}
-	 */
-	applyToObject: function(obj) {
-		var me = this;
-		obj.a = me.a;
-		obj.b = me.b;
-		obj.c = me.c;
-		obj.d = me.d;
-		obj.e = me.e;
-		obj.f = me.f;
-		return me
-	},
-
-	/**
-	 * Returns true if matrix is an identity matrix (no transforms applied).
-	 * @returns {boolean}
-	 */
-	isIdentity: function() {
-		var me = this;
-		return me._q(me.a, 1) &&
-			me._q(me.b, 0) &&
-			me._q(me.c, 0) &&
-			me._q(me.d, 1) &&
-			me._q(me.e, 0) &&
-			me._q(me.f, 0)
-	},
-
-	/**
-	 * Returns true if matrix is invertible
-	 * @returns {boolean}
-	 */
-	isInvertible: function() {
-		return !this._q(this.determinant(), 0)
-	},
-
-	/**
-	 * The method is intended for situations where scale is accumulated
-	 * via multiplications, to detect situations where scale becomes
-	 * "trapped" with a value of zero. And in which case scale must be
-	 * set explicitly to a non-zero value.
-	 *
-	 * @returns {boolean}
-	 */
-	isValid: function() {
-		return !(this.a * this.d)
-	},
-
-	/**
-	 * Compares current matrix with another matrix. Returns true if equal
-	 * (within epsilon tolerance).
-	 * @param {Matrix|SVGMatrix} m - matrix to compare this matrix with
-	 * @returns {boolean}
-	 */
-	isEqual: function(m) {
-
-		var me = this,
-			q = me._q;
-
-		return  q(me.a, m.a) &&
-				q(me.b, m.b) &&
-				q(me.c, m.c) &&
-				q(me.d, m.d) &&
-				q(me.e, m.e) &&
-				q(me.f, m.f)
-	},
-
-	/**
-	 * Clones current instance and returning a new matrix.
-	 * @param {boolean} [noContext=false] don't clone context reference if true
-	 * @returns {Matrix} - a new Matrix instance with identical transformations as this instance
-	 */
-	clone: function(noContext) {
-		return new Matrix(noContext ? null : this.context).multiply(this)
-	},
-
-	/**
-	 * Returns an array with current matrix values.
-	 * @returns {Array}
-	 */
-	toArray: function() {
-		var me = this;
-		return [me.a, me.b, me.c, me.d, me.e, me.f]
-	},
-
-	/**
-	 * Returns a binary typed array, either as 32-bit (default) or
-	 * 64-bit.
-	 * @param {boolean} [use64=false] chose whether to use 32-bit or 64-bit typed array
-	 * @returns {*}
-	 */
-	toTypedArray: function(use64) {
-
-		var a  = use64 ? new Float64Array(6) : new Float32Array(6),
-			me = this;
-
-		a[0] = me.a;
-		a[1] = me.b;
-		a[2] = me.c;
-		a[3] = me.d;
-		a[4] = me.e;
-		a[5] = me.f;
-
-		return a
-	},
-
-	/**
-	 * Generates a string that can be used with CSS `transform`.
-	 * @example
-	 *     element.style.transform = m.toCSS();
-	 * @returns {string}
-	 */
-	toCSS: function() {
-		return "matrix(" + this.toArray() + ")"
-	},
-
-	/**
-	 * Generates a `matrix3d()` string that can be used with CSS `transform`.
-	 * Although the matrix is for 2D use you may see performance benefits
-	 * on some devices using a 3D CSS transform instead of a 2D.
-	 * @example
-	 *     element.style.transform = m.toCSS3D();
-	 * @returns {string}
-	 */
-	toCSS3D: function() {
-		var me = this;
-		return "matrix3d(" + me.a + "," + me.b + ",0,0," + me.c + "," + me.d + ",0,0,0,0,1,0," + me.e + "," + me.f + ",0,1)"
-	},
-
-	/**
-	 * Returns a JSON compatible string of current matrix.
-	 * @returns {string}
-	 */
-	toJSON: function() {
-		var me = this;
-		return '{"a":' + me.a + ',"b":' + me.b + ',"c":' + me.c + ',"d":' + me.d + ',"e":' + me.e + ',"f":' + me.f + '}'
-	},
-
-	/**
-	 * Returns a string with current matrix as comma-separated list.
-	 * @param {number} [fixLen=4] - truncate decimal values to number of digits
-	 * @returns {string}
-	 */
-	toString: function(fixLen) {
-		var me = this;
-		fixLen = fixLen || 4;
-		return 	 "a=" + me.a.toFixed(fixLen) +
-				" b=" + me.b.toFixed(fixLen) +
-				" c=" + me.c.toFixed(fixLen) +
-				" d=" + me.d.toFixed(fixLen) +
-				" e=" + me.e.toFixed(fixLen) +
-				" f=" + me.f.toFixed(fixLen)
-	},
-
-	/**
-	 * Returns a string with current matrix as comma-separated values
-	 * string with line-end (CR+LF).
-	 * @returns {string}
-	 */
-	toCSV: function() {
-		return this.toArray().join() + "\r\n"
-	},
-
-	/**
-	 * Convert current matrix into a `DOMMatrix`. If `DOMMatrix` is not
-	 * supported, a `null` is returned.
-	 *
-	 * @returns {DOMMatrix}
-	 * @see {@link https://drafts.fxtf.org/geometry/#dommatrix|MDN / SVGMatrix}
-	 */
-	toDOMMatrix: function() {
-		var m = null;
-		if ("DOMMatrix" in window) {
-			m = new DOMMatrix();
-			m.a = this.a;
-			m.b = this.b;
-			m.c = this.c;
-			m.d = this.d;
-			m.e = this.e;
-			m.f = this.f;
-		}
-		return m
-	},
-
-	/**
-	 * Convert current matrix into a `SVGMatrix`. If `SVGMatrix` is not
-	 * supported, a `null` is returned.
-	 *
-	 * @returns {SVGMatrix}
-	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/SVGMatrix|MDN / SVGMatrix}
-	 */
-	toSVGMatrix: function() {
-
-		var	me = this,
-			svg = document.createElementNS("http://www.w3.org/2000/svg", "svg"),
-			svgMatrix = null;
-
-		if (svg) {
-			svgMatrix = svg.createSVGMatrix();
-			svgMatrix.a = me.a;
-			svgMatrix.b = me.b;
-			svgMatrix.c = me.c;
-			svgMatrix.d = me.d;
-			svgMatrix.e = me.e;
-			svgMatrix.f = me.f;
-		}
-
-		return svgMatrix
-	},
-
-	/**
-	 * Compares floating point values with some tolerance (epsilon)
-	 * @param {number} f1 - float 1
-	 * @param {number} f2 - float 2
-	 * @returns {boolean}
-	 * @private
-	 */
-	_q: function(f1, f2) {
-		return Math.abs(f1 - f2) < 1e-14
-	},
-
-	/**
-	 * Apply current absolute matrix to context if defined, to sync it.
-	 * Apply current absolute matrix to element if defined, to sync it.
-	 * @returns {Matrix}
-	 * @private
-	 */
-	_x: function() {
-
-		var me = this;
-
-		if (me.context)
-			me.context.setTransform(me.a, me.b, me.c, me.d, me.e, me.f);
-
-		if (me._st)
-			me._st[me._px] = me.useCSS3D ? me.toCSS3D() : me.toCSS();	// can be optimized pre-storing func ref.
-
-		return me
-	}
-};
-
-// Node support
-if (true) exports.Matrix = Matrix;
-
-
-/***/ }),
 /* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1714,18 +850,18 @@ if (true) exports.Matrix = Matrix;
 
 
 var isHorizontal = function isHorizontal(position) {
-  return [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0;
+  return [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0;
 };
 
 var calcToolbarStyle = function calcToolbarStyle(position) {
   return {
     //position
     position: "absolute",
-    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
-    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */]].indexOf(position) >= 0 ? "5px" : "unset",
-    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */] === position ? "5px" : "unset",
-    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */]].indexOf(position) >= 0 ? "5px" : "unset",
-    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "5px" : "unset",
+    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
+    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */]].indexOf(position) >= 0 ? "5px" : "unset",
+    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */] === position ? "5px" : "unset",
+    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */]].indexOf(position) >= 0 ? "5px" : "unset",
+    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "5px" : "unset",
 
     //inner styling
     backgroundColor: "rgba(19, 20, 22, 0.90)",
@@ -1773,44 +909,44 @@ function Toolbar(_ref) {
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* TOOL_NONE */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* TOOL_NONE */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */], true),
         title: 'Selection',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["b" /* TOOL_NONE */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__icon_cursor__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_PAN */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_PAN */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */], true),
         title: 'Pan',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* TOOL_PAN */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__icon_pan__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_ZOOM_IN */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_ZOOM_IN */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */], true),
         title: 'Zoom in',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["d" /* TOOL_ZOOM_IN */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__icon_zoom_in__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
       __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_OUT */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_OUT */], true),
+        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */], false),
+        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */], true),
         title: 'Zoom out',
         onClick: function onClick(event) {
-          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_ZOOM_OUT */]);
+          return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */]);
         } },
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__icon_zoom_out__["a" /* default */], null)
     ),
@@ -1829,7 +965,7 @@ function Toolbar(_ref) {
 }
 
 Toolbar.propTypes = {
-  position: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */]]).isRequired,
+  position: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */]]).isRequired,
   tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].string.isRequired,
   value: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].object.isRequired,
   onChangeValue: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func.isRequired,
@@ -1899,9 +1035,9 @@ var ViewerEvent = function () {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pan__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pan__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__zoom__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(6);
 /* harmony export (immutable) */ __webpack_exports__["b"] = onMouseDown;
 /* harmony export (immutable) */ __webpack_exports__["c"] = onMouseMove;
 /* harmony export (immutable) */ __webpack_exports__["d"] = onMouseUp;
@@ -1935,17 +1071,17 @@ function onMouseDown(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
       var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, x, y);
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["e" /* startZooming */])(value, x, y);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
       nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["b" /* startPanning */])(value, x, y);
       break;
 
@@ -1978,13 +1114,13 @@ function onMouseMove(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, props.scaleFactor) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["g" /* updateZooming */])(value, x, y);
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, props.scaleFactor) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["g" /* updateZooming */])(value, x, y);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, props.preventPanOutside ? 20 : undefined);
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */]) nextValue = forceExit ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value) : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["d" /* updatePanning */])(value, x, y, props.preventPanOutside ? 20 : undefined);
       break;
 
     default:
@@ -2015,17 +1151,17 @@ function onMouseUp(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1 / props.scaleFactor);
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, 1 / props.scaleFactor);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, props.scaleFactor);
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["f" /* stopZooming */])(value, x, y, props.scaleFactor);
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
-      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value, x, y);
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
+      if (value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */]) nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__pan__["c" /* stopPanning */])(value, x, y);
       break;
 
     default:
@@ -2056,7 +1192,7 @@ function onDoubleClick(event, ViewerDOM, tool, value, props) {
   var nextValue = value;
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
       var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, x, y);
       var modifierKeysReducer = function modifierKeysReducer(current, modifierKey) {
         return current || event.getModifierState(modifierKey);
@@ -2118,7 +1254,7 @@ function onInterval(event, ViewerDOM, tool, value, props) {
       y = coords.y;
 
 
-  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]].indexOf(tool) >= 0)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]].indexOf(tool) >= 0)) return value;
   if (!props.detectAutoPan) return value;
   if (!value.focus) return value;
 
@@ -2132,19 +1268,20 @@ function onInterval(event, ViewerDOM, tool, value, props) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__events_event_factory__ = __webpack_require__(11);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__features_pan__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_interactions__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__features_interactions_touch__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__features_zoom__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ui_if__ = __webpack_require__(23);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_selection__ = __webpack_require__(25);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ui_detect_touch__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__constants__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_transformation_matrix__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__events_event_factory__ = __webpack_require__(11);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_pan__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_common__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__features_interactions__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__features_zoom__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_if__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ui_selection__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ui_toolbar_toolbar__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ui_detect_touch__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__constants__ = __webpack_require__(1);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -2154,6 +1291,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 
 
 
@@ -2198,8 +1336,8 @@ var ReactSVGPanZoom = function (_React$Component) {
 
 
     _this.state = {
-      value: value ? value : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_common__["e" /* getDefaultValue */])(viewerWidth, viewerHeight, SVGWidth, SVGHeight),
-      tool: tool ? tool : __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */]
+      value: value ? value : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_common__["e" /* getDefaultValue */])(viewerWidth, viewerHeight, SVGWidth, SVGHeight),
+      tool: tool ? tool : __WEBPACK_IMPORTED_MODULE_14__constants__["e" /* TOOL_NONE */]
     };
     _this.ViewerDOM = null;
     return _this;
@@ -2211,7 +1349,7 @@ var ReactSVGPanZoom = function (_React$Component) {
       var value = this.getValue();
 
       if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
-        var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_common__["f" /* setViewerSize */])(value, nextProps.width, nextProps.height);
+        var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_common__["f" /* setViewerSize */])(value, nextProps.width, nextProps.height);
         this.setValue(nextValue);
       }
 
@@ -2220,7 +1358,7 @@ var ReactSVGPanZoom = function (_React$Component) {
           SVGHeight = _nextProps$children$p.height;
 
       if (value.SVGWidth !== SVGWidth || value.SVGHeight !== SVGHeight) {
-        var _nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_common__["g" /* setSVGSize */])(value, SVGWidth, SVGHeight);
+        var _nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_common__["g" /* setSVGSize */])(value, SVGWidth, SVGHeight);
         this.setValue(_nextValue);
       }
     }
@@ -2243,43 +1381,43 @@ var ReactSVGPanZoom = function (_React$Component) {
   }, {
     key: 'pan',
     value: function pan(SVGDeltaX, SVGDeltaY) {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__features_pan__["a" /* pan */])(this.getValue(), SVGDeltaX, SVGDeltaY);
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_pan__["a" /* pan */])(this.getValue(), SVGDeltaX, SVGDeltaY);
       this.setValue(nextValue);
     }
   }, {
     key: 'zoom',
     value: function zoom(SVGPointX, SVGPointY, scaleFactor) {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["a" /* zoom */])(this.getValue(), SVGPointX, SVGPointY, scaleFactor);
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__features_zoom__["a" /* zoom */])(this.getValue(), SVGPointX, SVGPointY, scaleFactor);
       this.setValue(nextValue);
     }
   }, {
     key: 'fitSelection',
     value: function fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["b" /* fitSelection */])(this.getValue(), selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__features_zoom__["b" /* fitSelection */])(this.getValue(), selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
       this.setValue(nextValue);
     }
   }, {
     key: 'fitToViewer',
     value: function fitToViewer() {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["c" /* fitToViewer */])(this.getValue());
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__features_zoom__["c" /* fitToViewer */])(this.getValue());
       this.setValue(nextValue);
     }
   }, {
     key: 'zoomOnViewerCenter',
     value: function zoomOnViewerCenter(scaleFactor) {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_zoom__["d" /* zoomOnViewerCenter */])(this.getValue(), scaleFactor);
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__features_zoom__["d" /* zoomOnViewerCenter */])(this.getValue(), scaleFactor);
       this.setValue(nextValue);
     }
   }, {
     key: 'setPointOnViewerCenter',
     value: function setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_common__["a" /* setPointOnViewerCenter */])(this.getValue(), SVGPointX, SVGPointY, zoomLevel);
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_common__["a" /* setPointOnViewerCenter */])(this.getValue(), SVGPointX, SVGPointY, zoomLevel);
       this.setValue(nextValue);
     }
   }, {
     key: 'reset',
     value: function reset() {
-      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__features_common__["b" /* reset */])(this.getValue());
+      var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_common__["b" /* reset */])(this.getValue());
       this.setValue(nextValue);
     }
   }, {
@@ -2296,7 +1434,7 @@ var ReactSVGPanZoom = function (_React$Component) {
           ViewerDOM = this.ViewerDOM;
 
 
-      if (!([__WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */]].indexOf(this.getTool()) >= 0)) return;
+      if (!([__WEBPACK_IMPORTED_MODULE_14__constants__["e" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_14__constants__["d" /* TOOL_AUTO */]].indexOf(this.getTool()) >= 0)) return;
       if (event.target === ViewerDOM) return;
 
       var eventsHandler = {
@@ -2316,7 +1454,7 @@ var ReactSVGPanZoom = function (_React$Component) {
       var onEventHandler = eventsHandler[event.type];
       if (!onEventHandler) return;
 
-      onEventHandler(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__events_event_factory__["a" /* default */])(event, value, ViewerDOM));
+      onEventHandler(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__events_event_factory__["a" /* default */])(event, value, ViewerDOM));
     }
   }, {
     key: 'componentDidMount',
@@ -2330,7 +1468,7 @@ var ReactSVGPanZoom = function (_React$Component) {
 
       this.autoPanTimer = setInterval(function () {
         var coords = { x: _this2.state.viewerX, y: _this2.state.viewerY };
-        var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["a" /* onInterval */])(null, _this2.ViewerDOM, _this2.getTool(), _this2.getValue(), _this2.props, coords);
+        var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["a" /* onInterval */])(null, _this2.ViewerDOM, _this2.getTool(), _this2.getValue(), _this2.props, coords);
 
         if (_this2.getValue() !== nextValue) {
           _this2.setValue(nextValue);
@@ -2356,22 +1494,20 @@ var ReactSVGPanZoom = function (_React$Component) {
       var value = this.getValue();
       var CustomToolbar = props.customToolbar;
 
-      var panningWithToolAuto = tool === __WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */] && value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */] && value.startX !== value.endX && value.startY !== value.endY;
+      var panningWithToolAuto = tool === __WEBPACK_IMPORTED_MODULE_14__constants__["d" /* TOOL_AUTO */] && value.mode === __WEBPACK_IMPORTED_MODULE_14__constants__["b" /* MODE_PANNING */] && value.startX !== value.endX && value.startY !== value.endY;
 
       var cursor = void 0;
 
-      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])(value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */] ? 'grabbing' : 'grab');
+      if (tool === __WEBPACK_IMPORTED_MODULE_14__constants__["f" /* TOOL_PAN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__["a" /* default */])(value.mode === __WEBPACK_IMPORTED_MODULE_14__constants__["b" /* MODE_PANNING */] ? 'grabbing' : 'grab');
 
-      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('zoom-in');
+      if (tool === __WEBPACK_IMPORTED_MODULE_14__constants__["g" /* TOOL_ZOOM_IN */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__["a" /* default */])('zoom-in');
 
-      if (tool === __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('zoom-out');
+      if (tool === __WEBPACK_IMPORTED_MODULE_14__constants__["h" /* TOOL_ZOOM_OUT */]) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__["a" /* default */])('zoom-out');
 
-      if (panningWithToolAuto) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_7__ui_cursor_polyfill__["a" /* default */])('grabbing');
+      if (panningWithToolAuto) cursor = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__["a" /* default */])('grabbing');
 
-      var blockChildEvents = [__WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]].indexOf(tool) >= 0;
-      window.deneme1 = blockChildEvents;
+      var blockChildEvents = [__WEBPACK_IMPORTED_MODULE_14__constants__["f" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_14__constants__["g" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_14__constants__["h" /* TOOL_ZOOM_OUT */]].indexOf(tool) >= 0;
       blockChildEvents = blockChildEvents || panningWithToolAuto;
-      window.deneme2 = blockChildEvents;
 
       return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
         'div',
@@ -2389,7 +1525,7 @@ var ReactSVGPanZoom = function (_React$Component) {
             style: cursor ? { cursor: cursor } : {},
 
             onMouseDown: function onMouseDown(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["b" /* onMouseDown */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["b" /* onMouseDown */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             },
@@ -2401,13 +1537,13 @@ var ReactSVGPanZoom = function (_React$Component) {
               var x = event.clientX - Math.round(left);
               var y = event.clientY - Math.round(top);
 
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["c" /* onMouseMove */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props, { x: x, y: y });
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["c" /* onMouseMove */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props, { x: x, y: y });
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.setState({ viewerX: x, viewerY: y });
               _this3.handleViewerEvent(event);
             },
             onMouseUp: function onMouseUp(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["d" /* onMouseUp */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["d" /* onMouseUp */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             },
@@ -2416,43 +1552,43 @@ var ReactSVGPanZoom = function (_React$Component) {
               _this3.handleViewerEvent(event);
             },
             onDoubleClick: function onDoubleClick(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["e" /* onDoubleClick */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["e" /* onDoubleClick */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             },
 
             onWheel: function onWheel(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["f" /* onWheel */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["f" /* onWheel */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
             },
 
             onMouseEnter: function onMouseEnter(event) {
-              if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_12__ui_detect_touch__["a" /* default */])()) return;
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["g" /* onMouseEnterOrLeave */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              if (__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_13__ui_detect_touch__["a" /* default */])()) return;
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["g" /* onMouseEnterOrLeave */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
             },
             onMouseLeave: function onMouseLeave(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_4__features_interactions__["g" /* onMouseEnterOrLeave */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions__["g" /* onMouseEnterOrLeave */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
             },
 
             onTouchStart: function onTouchStart(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions_touch__["a" /* onTouchStart */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__["a" /* onTouchStart */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             },
             onTouchMove: function onTouchMove(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions_touch__["b" /* onTouchMove */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__["b" /* onTouchMove */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             },
             onTouchEnd: function onTouchEnd(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions_touch__["c" /* onTouchEnd */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__["c" /* onTouchEnd */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             },
             onTouchCancel: function onTouchCancel(event) {
-              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_5__features_interactions_touch__["d" /* onTouchCancel */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
+              var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__["d" /* onTouchCancel */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
               if (_this3.getValue() !== nextValue) _this3.setValue(nextValue);
               _this3.handleViewerEvent(event);
             } },
@@ -2467,7 +1603,7 @@ var ReactSVGPanZoom = function (_React$Component) {
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'g',
             {
-              transform: 'matrix(' + value.a + ', ' + value.b + ', ' + value.c + ', ' + value.d + ', ' + value.e + ', ' + value.f + ')',
+              transform: __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_transformation_matrix__["i" /* toSVG */])(value),
               style: blockChildEvents ? { pointerEvents: "none" } : {} },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('rect', {
               fill: this.props.SVGBackground,
@@ -2482,40 +1618,40 @@ var ReactSVGPanZoom = function (_React$Component) {
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
-            { condition: tool === __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */] && props.detectAutoPan && value.focus },
+            __WEBPACK_IMPORTED_MODULE_10__ui_if__["a" /* default */],
+            { condition: tool === __WEBPACK_IMPORTED_MODULE_14__constants__["e" /* TOOL_NONE */] && props.detectAutoPan && value.focus },
             __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
               'g',
               { style: { pointerEvents: "none" } },
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
+                __WEBPACK_IMPORTED_MODULE_10__ui_if__["a" /* default */],
                 { condition: viewerY <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["g" /* POSITION_TOP */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_14__constants__["j" /* POSITION_TOP */], width: value.viewerWidth, height: value.viewerHeight })
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
+                __WEBPACK_IMPORTED_MODULE_10__ui_if__["a" /* default */],
                 { condition: value.viewerWidth - viewerX <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_14__constants__["k" /* POSITION_RIGHT */], width: value.viewerWidth, height: value.viewerHeight })
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
+                __WEBPACK_IMPORTED_MODULE_10__ui_if__["a" /* default */],
                 { condition: value.viewerHeight - viewerY <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_BOTTOM */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_14__constants__["l" /* POSITION_BOTTOM */], width: value.viewerWidth, height: value.viewerHeight })
               ),
               __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-                __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
+                __WEBPACK_IMPORTED_MODULE_10__ui_if__["a" /* default */],
                 { condition: value.focus && viewerX <= 20 },
-                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_8__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_13__constants__["j" /* POSITION_LEFT */], width: value.viewerWidth, height: value.viewerHeight })
+                __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__["a" /* default */], { direction: __WEBPACK_IMPORTED_MODULE_14__constants__["m" /* POSITION_LEFT */], width: value.viewerWidth, height: value.viewerHeight })
               )
             )
           ),
           __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-            __WEBPACK_IMPORTED_MODULE_9__ui_if__["a" /* default */],
-            { condition: value.mode === __WEBPACK_IMPORTED_MODULE_13__constants__["l" /* MODE_ZOOMING */] },
-            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_10__ui_selection__["a" /* default */], { startX: value.startX, startY: value.startY, endX: value.endX, endY: value.endY })
+            __WEBPACK_IMPORTED_MODULE_10__ui_if__["a" /* default */],
+            { condition: value.mode === __WEBPACK_IMPORTED_MODULE_14__constants__["c" /* MODE_ZOOMING */] },
+            __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_11__ui_selection__["a" /* default */], { startX: value.startX, startY: value.startY, endX: value.endX, endY: value.endY })
           )
         ),
-        props.toolbarPosition === __WEBPACK_IMPORTED_MODULE_13__constants__["f" /* POSITION_NONE */] ? null : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CustomToolbar, {
+        props.toolbarPosition === __WEBPACK_IMPORTED_MODULE_14__constants__["i" /* POSITION_NONE */] ? null : __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(CustomToolbar, {
           position: props.toolbarPosition,
           value: value,
           onChangeValue: function onChangeValue(value) {
@@ -2551,7 +1687,7 @@ ReactSVGPanZoom.propTypes = {
   //value of the viewer (current point of view)
   value: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].shape({
     version: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([2]).isRequired,
-    mode: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["k" /* MODE_IDLE */], __WEBPACK_IMPORTED_MODULE_13__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_13__constants__["l" /* MODE_ZOOMING */]]).isRequired,
+    mode: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_14__constants__["a" /* MODE_IDLE */], __WEBPACK_IMPORTED_MODULE_14__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_14__constants__["c" /* MODE_ZOOMING */]]).isRequired,
     focus: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool.isRequired,
     a: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number.isRequired,
     b: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number.isRequired,
@@ -2582,7 +1718,7 @@ ReactSVGPanZoom.propTypes = {
   detectAutoPan: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool,
 
   //toolbar position
-  toolbarPosition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["f" /* POSITION_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_13__constants__["i" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_13__constants__["j" /* POSITION_LEFT */]]),
+  toolbarPosition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_14__constants__["i" /* POSITION_NONE */], __WEBPACK_IMPORTED_MODULE_14__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_14__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_14__constants__["l" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_14__constants__["m" /* POSITION_LEFT */]]),
 
   //handler something changed
   onChangeValue: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func,
@@ -2612,7 +1748,7 @@ ReactSVGPanZoom.propTypes = {
   scaleFactor: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
-  tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_13__constants__["a" /* TOOL_AUTO */], __WEBPACK_IMPORTED_MODULE_13__constants__["b" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_13__constants__["c" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_13__constants__["d" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_13__constants__["e" /* TOOL_ZOOM_OUT */]]),
+  tool: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_14__constants__["d" /* TOOL_AUTO */], __WEBPACK_IMPORTED_MODULE_14__constants__["e" /* TOOL_NONE */], __WEBPACK_IMPORTED_MODULE_14__constants__["f" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_14__constants__["g" /* TOOL_ZOOM_IN */], __WEBPACK_IMPORTED_MODULE_14__constants__["h" /* TOOL_ZOOM_OUT */]]),
 
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].array,
@@ -2643,11 +1779,10 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   detectWheel: true,
   detectAutoPan: true,
-  toolbarPosition: __WEBPACK_IMPORTED_MODULE_13__constants__["h" /* POSITION_RIGHT */],
+  toolbarPosition: __WEBPACK_IMPORTED_MODULE_14__constants__["k" /* POSITION_RIGHT */],
   modifierKeys: ["Alt", "Shift", "Control"],
-  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */],
+  customToolbar: __WEBPACK_IMPORTED_MODULE_12__ui_toolbar_toolbar__["a" /* default */],
   preventPanOutside: true,
-  customToolbar: __WEBPACK_IMPORTED_MODULE_11__ui_toolbar_toolbar__["a" /* default */],
   scaleFactor: 1.1
 };
 
@@ -2840,18 +1975,18 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
   } else {
-    if ([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0) {
+    if ([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0) {
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
-    } else if ([__WEBPACK_IMPORTED_MODULE_0__constants__["k" /* MODE_IDLE */]].indexOf(value.mode) >= 0) {
+    } else if ([__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */]].indexOf(value.mode) >= 0) {
       return value;
     }
   }
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["b" /* onMouseDown */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
@@ -2862,7 +1997,7 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
 }
 
 function onTouchMove(event, ViewerDOM, tool, value, props) {
-  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
 
   var touchPosition = event.touches[0];
 
@@ -2874,10 +2009,10 @@ function onTouchMove(event, ViewerDOM, tool, value, props) {
   var y = touchPosition.clientY - Math.round(top);
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["c" /* onMouseMove */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
@@ -2888,7 +2023,7 @@ function onTouchMove(event, ViewerDOM, tool, value, props) {
 }
 
 function onTouchEnd(event, ViewerDOM, tool, value, props) {
-  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["m" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["l" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
 
   var touchPosition = event.changedTouches[0];
 
@@ -2900,10 +2035,10 @@ function onTouchEnd(event, ViewerDOM, tool, value, props) {
   var y = touchPosition.clientY - Math.round(top);
 
   switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["e" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* TOOL_PAN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["d" /* onMouseUp */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
@@ -3061,19 +2196,19 @@ function BorderGradient(_ref) {
   var transform = void 0;
 
   switch (direction) {
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */]:
       transform = 'translate(' + width + ', 0) rotate(90)';
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */]:
       transform = 'translate(' + width + ', ' + height + ') rotate(180)';
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]:
       transform = 'translate(0, ' + height + ') rotate(270)';
       break;
 
-    case __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */]:
+    case __WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */]:
       transform = " ";
       break;
   }
@@ -3103,7 +2238,7 @@ function BorderGradient(_ref) {
 }
 
 BorderGradient.propTypes = {
-  direction: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["g" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["i" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_LEFT */]]).isRequired,
+  direction: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].oneOf([__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */]]).isRequired,
   width: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number.isRequired,
   height: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].number.isRequired
 };
@@ -3276,7 +2411,7 @@ Link.propTypes = {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__utils__ = __webpack_require__(6);
 /* harmony export (immutable) */ __webpack_exports__["a"] = Selection;
 
 
@@ -3317,30 +2452,33 @@ Selection.propTypes = {
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__viewer__ = __webpack_require__(10);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__features_common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_pan__ = __webpack_require__(4);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_zoom__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants__ = __webpack_require__(1);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactSVGPanZoom", function() { return __WEBPACK_IMPORTED_MODULE_0__viewer__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__ = __webpack_require__(7);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Toolbar", function() { return __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__features_common__ = __webpack_require__(2);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "setPointOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "reset", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_pan__ = __webpack_require__(5);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "pan", function() { return __WEBPACK_IMPORTED_MODULE_3__features_pan__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_zoom__ = __webpack_require__(3);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoom", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitSelection", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitToViewer", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["c"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoomOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["d"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "setPointOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "reset", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TOOL_AUTO", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TOOL_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TOOL_PAN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_IN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["d"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_OUT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["e"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "POSITION_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["f"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "POSITION_TOP", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["g"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "POSITION_RIGHT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["h"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "POSITION_BOTTOM", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["i"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "POSITION_LEFT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["j"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants__ = __webpack_require__(1);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_IDLE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_PANNING", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_ZOOMING", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_AUTO", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_PAN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_IN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_OUT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_TOP", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_RIGHT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_BOTTOM", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_LEFT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["m"]; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Viewer", function() { return Viewer; });
 
 
@@ -3355,8 +2493,6 @@ var Viewer = function Viewer() {
   console.error(msg);
   return null;
 };
-
-
 
 /***/ })
 /******/ ]);

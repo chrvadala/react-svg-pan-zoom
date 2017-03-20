@@ -1,38 +1,23 @@
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+import { transform, fromObject, translate, scale } from 'transformation-matrix';
+
 import { MODE_IDLE, MODE_ZOOMING } from '../constants';
 import { set, getSVGPoint } from './common';
-import { Matrix } from 'transformation-matrix-js';
 import { calculateBox } from '../utils';
 
 export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
-  var a = value.a,
-      b = value.b,
-      c = value.c,
-      d = value.d,
-      e = value.e,
-      f = value.f;
 
-  var matrix = Matrix.from(a, b, c, d, e, f);
+  var matrix = transform(fromObject(value), translate(SVGPointX, SVGPointY), scale(scaleFactor, scaleFactor), translate(-SVGPointX, -SVGPointY));
 
-  var act = new Matrix();
-  act = act.translate(SVGPointX, SVGPointY);
-  act = act.scaleU(scaleFactor);
-  act = act.translate(-SVGPointX, -SVGPointY);
-
-  matrix = matrix.multiply(act);
-
-  return set(value, {
-    mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f,
+  return set(value, _extends({
+    mode: MODE_IDLE
+  }, matrix, {
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  });
+  }));
 }
 
 export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
@@ -43,25 +28,20 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
   var scaleX = viewerWidth / selectionWidth;
   var scaleY = viewerHeight / selectionHeight;
 
-  var scale = Math.min(scaleX, scaleY);
+  var scaleLevel = Math.min(scaleX, scaleY);
 
-  var matrix = new Matrix();
-  matrix = matrix.scaleU(scale);
-  matrix = matrix.translate(-selectionSVGPointX, -selectionSVGPointY);
+  var matrix = transform(scale(scaleLevel, scaleLevel), //2
+  translate(-selectionSVGPointX, -selectionSVGPointY) //1
+  );
 
-  return set(value, {
-    mode: MODE_IDLE,
-    a: matrix.a,
-    b: matrix.b,
-    c: matrix.c,
-    d: matrix.d,
-    e: matrix.e,
-    f: matrix.f,
+  return set(value, _extends({
+    mode: MODE_IDLE
+  }, matrix, {
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  });
+  }));
 }
 
 export function fitToViewer(value) {
