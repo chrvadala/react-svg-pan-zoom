@@ -44,33 +44,33 @@
     "web-components"
   ],
   "dependencies": {
-    "transformation-matrix": "^0.0.6"
+    "transformation-matrix": "^1.0.0"
   },
   "devDependencies": {
-    "babel-cli": "^6.23.0",
-    "babel-core": "^6.23.1",
-    "babel-loader": "^6.3.2",
+    "babel-cli": "^6.24.0",
+    "babel-core": "^6.24.0",
+    "babel-loader": "^6.4.1",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-es2015": "^6.24.0",
     "babel-preset-es2015-webpack2": "^1.0.0",
     "babel-preset-react": "^6.23.0",
     "bootstrap": "4.0.0-alpha.5",
     "chai": "^3.5.0",
-    "cross-env": "^3.1.4",
+    "cross-env": "^3.2.4",
     "del-cli": "^0.2.1",
     "file-loader": "^0.10.1",
     "gh-pages": "^0.12.0",
     "html-webpack-plugin": "^2.28.0",
     "mocha": "^3.2.0",
     "npm-run-all": "^4.0.2",
-    "open-browser-webpack-plugin": "0.0.3",
+    "open-browser-webpack-plugin": "0.0.5",
     "prismjs": "^1.6.0",
     "raw-loader": "^0.5.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "remarkable": "^1.7.1",
     "webpack": "2.2.1",
-    "webpack-dev-server": "2.4.1"
+    "webpack-dev-server": "2.4.2"
   },
   "peerDependencies": {
     "react": ">=15.0.0",
