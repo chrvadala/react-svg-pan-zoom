@@ -1,6 +1,9 @@
 import React, {PropTypes, Component} from 'react';
+import {
+  POSITION_TOP, POSITION_BOTTOM
+} from '../constants';
 
-export default class Link extends Component {
+export default class ToolbarButton extends Component {
   constructor(props) {
     super(props);
     this.state = {hover: false};
@@ -24,8 +27,22 @@ export default class Link extends Component {
   }
 
   render() {
+    let style = {
+      display: "block",
+      width: "24px",
+      height: "24px",
+      margin: [POSITION_TOP, POSITION_BOTTOM].indexOf(this.props.toolbarPosition) >= 0 ? "2px 1px" : "1px 2px",
+      color: this.props.active || this.state.hover ? '#1CA6FC' : '#FFF',
+      transition: "color 200ms ease",
+      background: "none",
+      padding: "0px",
+      border: "0px",
+      outline: "0px",
+      cursor: "pointer"
+    };
+
     return (
-      <a
+      <button
         onMouseEnter={e => this.change(e)}
         onMouseLeave={e => this.change(e)}
 
@@ -38,19 +55,21 @@ export default class Link extends Component {
 
         onClick={this.props.onClick}
 
-        style={this.state.hover ? this.props.styleHover : this.props.style}
+        style={style}
         title={this.props.title}
-        href="javascript:;"
+        name={this.props.name}
+        role="button"
 
-      >{this.props.children}</a>
+      >{this.props.children}</button>
     )
   }
 
 }
 
-Link.propTypes = {
-  style: PropTypes.object.isRequired,
-  styleHover: PropTypes.object.isRequired,
+ToolbarButton.propTypes = {
   title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  toolbarPosition: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired
 };

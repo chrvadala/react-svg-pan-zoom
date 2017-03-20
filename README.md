@@ -172,7 +172,7 @@ npm install && npm start
 - **v2.3** - Adds touch events support
 - **v2.4** - Adds es:next support, deploy new website
 - **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
-- **v2.6** - Introduce [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduce bundle size thanks to three shaking, Fix pan limit behaviour, minor improvements
+- **v2.6** - Introduce [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduce bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
