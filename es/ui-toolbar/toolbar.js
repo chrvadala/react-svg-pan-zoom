@@ -7,42 +7,7 @@ import IconPan from './icon-pan';
 import IconZoomIn from './icon-zoom-in';
 import IconZoomOut from './icon-zoom-out';
 import IconFit from './icon-fit';
-
-import Link from '../ui/link';
-
-var isHorizontal = function isHorizontal(position) {
-  return [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0;
-};
-
-var calcToolbarStyle = function calcToolbarStyle(position) {
-  return {
-    //position
-    position: "absolute",
-    transform: [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
-    top: [POSITION_LEFT, POSITION_RIGHT, POSITION_TOP].indexOf(position) >= 0 ? "5px" : "unset",
-    left: [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0 ? "50%" : POSITION_LEFT === position ? "5px" : "unset",
-    right: [POSITION_RIGHT].indexOf(position) >= 0 ? "5px" : "unset",
-    bottom: [POSITION_BOTTOM].indexOf(position) >= 0 ? "5px" : "unset",
-
-    //inner styling
-    backgroundColor: "rgba(19, 20, 22, 0.90)",
-    borderRadius: "2px",
-    display: "flex",
-    flexDirection: isHorizontal(position) ? "row" : "column",
-    padding: isHorizontal(position) ? "1px 2px" : "2px 1px"
-  };
-};
-
-var calcElementStyle = function calcElementStyle(position, active, hover) {
-  return {
-    display: "block",
-    width: "24px",
-    height: "24px",
-    margin: isHorizontal(position) ? "2px 1px" : "1px 2px",
-    color: active || hover ? '#1CA6FC' : '#FFF',
-    transition: hover ? "color 200ms ease" : "unset"
-  };
-};
+import ToolbarButton from './toolbar-button';
 
 export default function Toolbar(_ref) {
   var tool = _ref.tool,
@@ -64,14 +29,34 @@ export default function Toolbar(_ref) {
     event.preventDefault();
   };
 
+  var isHorizontal = [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0;
+
+  var style = {
+    //position
+    position: "absolute",
+    transform: [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
+    top: [POSITION_LEFT, POSITION_RIGHT, POSITION_TOP].indexOf(position) >= 0 ? "5px" : "unset",
+    left: [POSITION_TOP, POSITION_BOTTOM].indexOf(position) >= 0 ? "50%" : POSITION_LEFT === position ? "5px" : "unset",
+    right: [POSITION_RIGHT].indexOf(position) >= 0 ? "5px" : "unset",
+    bottom: [POSITION_BOTTOM].indexOf(position) >= 0 ? "5px" : "unset",
+
+    //inner styling
+    backgroundColor: "rgba(19, 20, 22, 0.90)",
+    borderRadius: "2px",
+    display: "flex",
+    flexDirection: isHorizontal ? "row" : "column",
+    padding: isHorizontal ? "1px 2px" : "2px 1px"
+  };
+
   return React.createElement(
     'div',
-    { style: calcToolbarStyle(position) },
+    { style: style, role: 'toolbar' },
     React.createElement(
-      Link,
+      ToolbarButton,
       {
-        style: calcElementStyle(position, tool === TOOL_NONE, false),
-        styleHover: calcElementStyle(position, tool === TOOL_NONE, true),
+        toolbarPosition: position,
+        active: tool === TOOL_NONE,
+        name: 'unselect-tools',
         title: 'Selection',
         onClick: function onClick(event) {
           return handleChangeTool(event, TOOL_NONE);
@@ -79,10 +64,11 @@ export default function Toolbar(_ref) {
       React.createElement(IconCursor, null)
     ),
     React.createElement(
-      Link,
+      ToolbarButton,
       {
-        style: calcElementStyle(position, tool === TOOL_PAN, false),
-        styleHover: calcElementStyle(position, tool === TOOL_PAN, true),
+        toolbarPosition: position,
+        active: tool === TOOL_PAN,
+        name: 'select-tool-pan',
         title: 'Pan',
         onClick: function onClick(event) {
           return handleChangeTool(event, TOOL_PAN);
@@ -90,10 +76,11 @@ export default function Toolbar(_ref) {
       React.createElement(IconPan, null)
     ),
     React.createElement(
-      Link,
+      ToolbarButton,
       {
-        style: calcElementStyle(position, tool === TOOL_ZOOM_IN, false),
-        styleHover: calcElementStyle(position, tool === TOOL_ZOOM_IN, true),
+        toolbarPosition: position,
+        active: tool === TOOL_ZOOM_IN,
+        name: 'select-tool-zoom-in',
         title: 'Zoom in',
         onClick: function onClick(event) {
           return handleChangeTool(event, TOOL_ZOOM_IN);
@@ -101,10 +88,11 @@ export default function Toolbar(_ref) {
       React.createElement(IconZoomIn, null)
     ),
     React.createElement(
-      Link,
+      ToolbarButton,
       {
-        style: calcElementStyle(position, tool === TOOL_ZOOM_OUT, false),
-        styleHover: calcElementStyle(position, tool === TOOL_ZOOM_OUT, true),
+        toolbarPosition: position,
+        active: tool === TOOL_ZOOM_OUT,
+        name: 'select-tool-zoom-out',
         title: 'Zoom out',
         onClick: function onClick(event) {
           return handleChangeTool(event, TOOL_ZOOM_OUT);
@@ -112,10 +100,11 @@ export default function Toolbar(_ref) {
       React.createElement(IconZoomOut, null)
     ),
     React.createElement(
-      Link,
+      ToolbarButton,
       {
-        style: calcElementStyle(position, false, false),
-        styleHover: calcElementStyle(position, false, true),
+        toolbarPosition: position,
+        active: false,
+        name: 'fit-to-viewer',
         title: 'Fit to viewer',
         onClick: function onClick(event) {
           return handleFit(event);

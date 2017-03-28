@@ -1,16 +1,4 @@
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -18,19 +6,22 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var Link = function (_Component) {
-  _inherits(Link, _Component);
+import React, { PropTypes, Component } from 'react';
+import { POSITION_TOP, POSITION_BOTTOM } from '../constants';
 
-  function Link(props) {
-    _classCallCheck(this, Link);
+var ToolbarButton = function (_Component) {
+  _inherits(ToolbarButton, _Component);
 
-    var _this = _possibleConstructorReturn(this, (Link.__proto__ || Object.getPrototypeOf(Link)).call(this, props));
+  function ToolbarButton(props) {
+    _classCallCheck(this, ToolbarButton);
+
+    var _this = _possibleConstructorReturn(this, (ToolbarButton.__proto__ || Object.getPrototypeOf(ToolbarButton)).call(this, props));
 
     _this.state = { hover: false };
     return _this;
   }
 
-  _createClass(Link, [{
+  _createClass(ToolbarButton, [{
     key: 'change',
     value: function change(event) {
       event.preventDefault();
@@ -53,8 +44,22 @@ var Link = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      return _react2.default.createElement(
-        'a',
+      var style = {
+        display: "block",
+        width: "24px",
+        height: "24px",
+        margin: [POSITION_TOP, POSITION_BOTTOM].indexOf(this.props.toolbarPosition) >= 0 ? "2px 1px" : "1px 2px",
+        color: this.props.active || this.state.hover ? '#1CA6FC' : '#FFF',
+        transition: "color 200ms ease",
+        background: "none",
+        padding: "0px",
+        border: "0px",
+        outline: "0px",
+        cursor: "pointer"
+      };
+
+      return React.createElement(
+        'button',
         {
           onMouseEnter: function onMouseEnter(e) {
             return _this2.change(e);
@@ -76,9 +81,10 @@ var Link = function (_Component) {
 
           onClick: this.props.onClick,
 
-          style: this.state.hover ? this.props.styleHover : this.props.style,
+          style: style,
           title: this.props.title,
-          href: 'javascript:;'
+          name: this.props.name,
+          role: 'button'
 
         },
         this.props.children
@@ -86,15 +92,16 @@ var Link = function (_Component) {
     }
   }]);
 
-  return Link;
-}(_react.Component);
+  return ToolbarButton;
+}(Component);
 
-exports.default = Link;
+export default ToolbarButton;
 
 
-Link.propTypes = {
-  style: _react.PropTypes.object.isRequired,
-  styleHover: _react.PropTypes.object.isRequired,
-  title: _react.PropTypes.string.isRequired,
-  onClick: _react.PropTypes.func.isRequired
+ToolbarButton.propTypes = {
+  title: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  toolbarPosition: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+  active: PropTypes.bool.isRequired
 };

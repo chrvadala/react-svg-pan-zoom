@@ -835,7 +835,7 @@ function mapRange(value, low1, high1, low2, high2) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__icon_zoom_in__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__icon_zoom_out__ = __webpack_require__(19);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__icon_fit__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_link__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__toolbar_button__ = __webpack_require__(20);
 /* harmony export (immutable) */ __webpack_exports__["a"] = Toolbar;
 
 
@@ -847,41 +847,6 @@ function mapRange(value, low1, high1, low2, high2) {
 
 
 
-
-
-var isHorizontal = function isHorizontal(position) {
-  return [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0;
-};
-
-var calcToolbarStyle = function calcToolbarStyle(position) {
-  return {
-    //position
-    position: "absolute",
-    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
-    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */]].indexOf(position) >= 0 ? "5px" : "unset",
-    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */] === position ? "5px" : "unset",
-    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */]].indexOf(position) >= 0 ? "5px" : "unset",
-    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "5px" : "unset",
-
-    //inner styling
-    backgroundColor: "rgba(19, 20, 22, 0.90)",
-    borderRadius: "2px",
-    display: "flex",
-    flexDirection: isHorizontal(position) ? "row" : "column",
-    padding: isHorizontal(position) ? "1px 2px" : "2px 1px"
-  };
-};
-
-var calcElementStyle = function calcElementStyle(position, active, hover) {
-  return {
-    display: "block",
-    width: "24px",
-    height: "24px",
-    margin: isHorizontal(position) ? "2px 1px" : "1px 2px",
-    color: active || hover ? '#1CA6FC' : '#FFF',
-    transition: hover ? "color 200ms ease" : "unset"
-  };
-};
 
 function Toolbar(_ref) {
   var tool = _ref.tool,
@@ -903,14 +868,34 @@ function Toolbar(_ref) {
     event.preventDefault();
   };
 
+  var isHorizontal = [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0;
+
+  var style = {
+    //position
+    position: "absolute",
+    transform: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "translate(-50%, 0px)" : "none",
+    top: [__WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */], __WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */]].indexOf(position) >= 0 ? "5px" : "unset",
+    left: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "50%" : __WEBPACK_IMPORTED_MODULE_1__constants__["m" /* POSITION_LEFT */] === position ? "5px" : "unset",
+    right: [__WEBPACK_IMPORTED_MODULE_1__constants__["k" /* POSITION_RIGHT */]].indexOf(position) >= 0 ? "5px" : "unset",
+    bottom: [__WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(position) >= 0 ? "5px" : "unset",
+
+    //inner styling
+    backgroundColor: "rgba(19, 20, 22, 0.90)",
+    borderRadius: "2px",
+    display: "flex",
+    flexDirection: isHorizontal ? "row" : "column",
+    padding: isHorizontal ? "1px 2px" : "2px 1px"
+  };
+
   return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
     'div',
-    { style: calcToolbarStyle(position) },
+    { style: style, role: 'toolbar' },
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_8__toolbar_button__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */], true),
+        toolbarPosition: position,
+        active: tool === __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */],
+        name: 'unselect-tools',
         title: 'Selection',
         onClick: function onClick(event) {
           return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["e" /* TOOL_NONE */]);
@@ -918,10 +903,11 @@ function Toolbar(_ref) {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_3__icon_cursor__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_8__toolbar_button__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */], true),
+        toolbarPosition: position,
+        active: tool === __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */],
+        name: 'select-tool-pan',
         title: 'Pan',
         onClick: function onClick(event) {
           return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["f" /* TOOL_PAN */]);
@@ -929,10 +915,11 @@ function Toolbar(_ref) {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_4__icon_pan__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_8__toolbar_button__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */], true),
+        toolbarPosition: position,
+        active: tool === __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */],
+        name: 'select-tool-zoom-in',
         title: 'Zoom in',
         onClick: function onClick(event) {
           return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["g" /* TOOL_ZOOM_IN */]);
@@ -940,10 +927,11 @@ function Toolbar(_ref) {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_5__icon_zoom_in__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_8__toolbar_button__["a" /* default */],
       {
-        style: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */], false),
-        styleHover: calcElementStyle(position, tool === __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */], true),
+        toolbarPosition: position,
+        active: tool === __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */],
+        name: 'select-tool-zoom-out',
         title: 'Zoom out',
         onClick: function onClick(event) {
           return handleChangeTool(event, __WEBPACK_IMPORTED_MODULE_1__constants__["h" /* TOOL_ZOOM_OUT */]);
@@ -951,10 +939,11 @@ function Toolbar(_ref) {
       __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(__WEBPACK_IMPORTED_MODULE_6__icon_zoom_out__["a" /* default */], null)
     ),
     __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-      __WEBPACK_IMPORTED_MODULE_8__ui_link__["a" /* default */],
+      __WEBPACK_IMPORTED_MODULE_8__toolbar_button__["a" /* default */],
       {
-        style: calcElementStyle(position, false, false),
-        styleHover: calcElementStyle(position, false, true),
+        toolbarPosition: position,
+        active: false,
+        name: 'fit-to-viewer',
         title: 'Fit to viewer',
         onClick: function onClick(event) {
           return handleFit(event);
@@ -1275,12 +1264,12 @@ function onInterval(event, ViewerDOM, tool, value, props) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__features_interactions__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__features_zoom__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__ = __webpack_require__(20);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_if__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_if__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ui_selection__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ui_toolbar_toolbar__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ui_detect_touch__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ui_detect_touch__ = __webpack_require__(23);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__constants__ = __webpack_require__(1);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -2183,6 +2172,122 @@ IconZoomOut.propTypes = {};
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(1);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+
+
+
+var ToolbarButton = function (_Component) {
+  _inherits(ToolbarButton, _Component);
+
+  function ToolbarButton(props) {
+    _classCallCheck(this, ToolbarButton);
+
+    var _this = _possibleConstructorReturn(this, (ToolbarButton.__proto__ || Object.getPrototypeOf(ToolbarButton)).call(this, props));
+
+    _this.state = { hover: false };
+    return _this;
+  }
+
+  _createClass(ToolbarButton, [{
+    key: 'change',
+    value: function change(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      switch (event.type) {
+        case 'mouseenter':
+        case 'touchstart':
+          this.setState({ hover: true });
+          break;
+        case 'mouseleave':
+        case 'touchend':
+        case 'touchcancel':
+          this.setState({ hover: false });
+          break;
+      }
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      var style = {
+        display: "block",
+        width: "24px",
+        height: "24px",
+        margin: [__WEBPACK_IMPORTED_MODULE_1__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_1__constants__["l" /* POSITION_BOTTOM */]].indexOf(this.props.toolbarPosition) >= 0 ? "2px 1px" : "1px 2px",
+        color: this.props.active || this.state.hover ? '#1CA6FC' : '#FFF',
+        transition: "color 200ms ease",
+        background: "none",
+        padding: "0px",
+        border: "0px",
+        outline: "0px",
+        cursor: "pointer"
+      };
+
+      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'button',
+        {
+          onMouseEnter: function onMouseEnter(e) {
+            return _this2.change(e);
+          },
+          onMouseLeave: function onMouseLeave(e) {
+            return _this2.change(e);
+          },
+
+          onTouchStart: function onTouchStart(e) {
+            _this2.change(e);
+            _this2.props.onClick(e);
+          },
+          onTouchEnd: function onTouchEnd(e) {
+            return _this2.change(e);
+          },
+          onTouchCancel: function onTouchCancel(e) {
+            return _this2.change(e);
+          },
+
+          onClick: this.props.onClick,
+
+          style: style,
+          title: this.props.title,
+          name: this.props.name,
+          role: 'button'
+
+        },
+        this.props.children
+      );
+    }
+  }]);
+
+  return ToolbarButton;
+}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
+
+/* harmony default export */ __webpack_exports__["a"] = ToolbarButton;
+
+
+ToolbarButton.propTypes = {
+  title: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].string.isRequired,
+  name: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].string.isRequired,
+  toolbarPosition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].string.isRequired,
+  onClick: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func.isRequired,
+  active: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool.isRequired
+};
+
+/***/ }),
+/* 21 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(1);
 /* harmony export (immutable) */ __webpack_exports__["a"] = BorderGradient;
 
 
@@ -2244,7 +2349,7 @@ BorderGradient.propTypes = {
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2270,7 +2375,7 @@ var isWebkit = function isWebkit() {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2283,7 +2388,7 @@ function isTouchDevice() {
 };
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2304,104 +2409,6 @@ function If(_ref) {
 
 If.propTypes = {
   condition: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].bool.isRequired
-};
-
-/***/ }),
-/* 24 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-
-
-var Link = function (_Component) {
-  _inherits(Link, _Component);
-
-  function Link(props) {
-    _classCallCheck(this, Link);
-
-    var _this = _possibleConstructorReturn(this, (Link.__proto__ || Object.getPrototypeOf(Link)).call(this, props));
-
-    _this.state = { hover: false };
-    return _this;
-  }
-
-  _createClass(Link, [{
-    key: 'change',
-    value: function change(event) {
-      event.preventDefault();
-      event.stopPropagation();
-
-      switch (event.type) {
-        case 'mouseenter':
-        case 'touchstart':
-          this.setState({ hover: true });
-          break;
-        case 'mouseleave':
-        case 'touchend':
-        case 'touchcancel':
-          this.setState({ hover: false });
-          break;
-      }
-    }
-  }, {
-    key: 'render',
-    value: function render() {
-      var _this2 = this;
-
-      return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
-        'a',
-        {
-          onMouseEnter: function onMouseEnter(e) {
-            return _this2.change(e);
-          },
-          onMouseLeave: function onMouseLeave(e) {
-            return _this2.change(e);
-          },
-
-          onTouchStart: function onTouchStart(e) {
-            _this2.change(e);
-            _this2.props.onClick(e);
-          },
-          onTouchEnd: function onTouchEnd(e) {
-            return _this2.change(e);
-          },
-          onTouchCancel: function onTouchCancel(e) {
-            return _this2.change(e);
-          },
-
-          onClick: this.props.onClick,
-
-          style: this.state.hover ? this.props.styleHover : this.props.style,
-          title: this.props.title,
-          href: 'javascript:;'
-
-        },
-        this.props.children
-      );
-    }
-  }]);
-
-  return Link;
-}(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
-
-/* harmony default export */ __webpack_exports__["a"] = Link;
-
-
-Link.propTypes = {
-  style: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].object.isRequired,
-  styleHover: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].object.isRequired,
-  title: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].string.isRequired,
-  onClick: __WEBPACK_IMPORTED_MODULE_0_react__["PropTypes"].func.isRequired
 };
 
 /***/ }),
