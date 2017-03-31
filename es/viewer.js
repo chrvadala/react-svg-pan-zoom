@@ -238,7 +238,7 @@ var ReactSVGPanZoom = function (_React$Component) {
             },
             width: value.viewerWidth,
             height: value.viewerHeight,
-            style: cursor ? { cursor: cursor } : {},
+            style: cursor ? { cursor: cursor, display: "block" } : { display: 'block' },
 
             onMouseDown: function onMouseDown(event) {
               var nextValue = _onMouseDown(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
