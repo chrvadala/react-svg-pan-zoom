@@ -64,7 +64,7 @@ var ReactSVGPanZoom =
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 26);
+/******/ 	return __webpack_require__(__webpack_require__.s = 15);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -399,264 +399,40 @@ function stopZooming(value, viewerX, viewerY, scaleFactor) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (immutable) */ __webpack_exports__["e"] = identity;
-/* harmony export (immutable) */ __webpack_exports__["a"] = transform;
-/* harmony export (immutable) */ __webpack_exports__["f"] = inverse;
-/* harmony export (immutable) */ __webpack_exports__["c"] = translate;
-/* harmony export (immutable) */ __webpack_exports__["d"] = scale;
-/* unused harmony export rotate */
-/* unused harmony export rotateDEG */
-/* harmony export (immutable) */ __webpack_exports__["g"] = applyToPoint;
-/* harmony export (immutable) */ __webpack_exports__["h"] = applyToPoints;
-/* unused harmony export toCSS */
-/* harmony export (immutable) */ __webpack_exports__["i"] = toSVG;
-/* unused harmony export toString */
-/* unused harmony export fromString */
-/* unused harmony export isAffineMatrix */
-/* harmony export (immutable) */ __webpack_exports__["b"] = fromObject;
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
-function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-
-function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
-
-var cos = Math.cos,
-    sin = Math.sin,
-    PI = Math.PI;
-/**
- * @ignore
- * @type {RegExp}
- */
-
-var matrixRegex = /^matrix\( *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *\)$/i;
-
-/**
- * Identity matrix
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function identity() {
-  return {
-    a: 1, c: 0, e: 0,
-    b: 0, d: 1, f: 0
-  };
-}
-
-/**
- * Merge multiple matrices into one
- * @param matrices {...object} list of matrices
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function transform() {
-  for (var _len = arguments.length, matrices = Array(_len), _key = 0; _key < _len; _key++) {
-    matrices[_key] = arguments[_key];
-  }
-
-  matrices = Array.isArray(matrices[0]) ? matrices[0] : matrices;
-
-  var multiply = function multiply(m1, m2) {
-    return {
-      a: m1.a * m2.a + m1.c * m2.b, c: m1.a * m2.c + m1.c * m2.d, e: m1.a * m2.e + m1.c * m2.f + m1.e,
-      b: m1.b * m2.a + m1.d * m2.b, d: m1.b * m2.c + m1.d * m2.d, f: m1.b * m2.e + m1.d * m2.f + m1.f
-    };
-  };
-
-  switch (matrices.length) {
-    case 0:
-      throw new Error('no matrices provided');
-
-    case 1:
-      return matrices[0];
-
-    case 2:
-      return multiply(matrices[0], matrices[1]);
-
-    default:
-      var _matrices = matrices,
-          _matrices2 = _toArray(_matrices),
-          m1 = _matrices2[0],
-          m2 = _matrices2[1],
-          rest = _matrices2.slice(2);
-
-      var m = multiply(m1, m2);
-      return transform.apply(undefined, [m].concat(_toConsumableArray(rest)));
-  }
-}
-
-/**
- * Calculate a matrix that is the inverse of the provided matrix
- * @param matrix Affine matrix
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function inverse(matrix) {
-  //http://www.wolframalpha.com/input/?i=Inverse+%5B%7B%7Ba,c,e%7D,%7Bb,d,f%7D,%7B0,0,1%7D%7D%5D
-
-  var a = matrix.a,
-      b = matrix.b,
-      c = matrix.c,
-      d = matrix.d,
-      e = matrix.e,
-      f = matrix.f;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__applyToPoint__ = __webpack_require__(27);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "g", function() { return __WEBPACK_IMPORTED_MODULE_0__applyToPoint__["a"]; });
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "h", function() { return __WEBPACK_IMPORTED_MODULE_0__applyToPoint__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__fromObject__ = __webpack_require__(28);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "b", function() { return __WEBPACK_IMPORTED_MODULE_1__fromObject__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__fromString__ = __webpack_require__(29);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__identity__ = __webpack_require__(30);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "e", function() { return __WEBPACK_IMPORTED_MODULE_3__identity__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__inverse__ = __webpack_require__(31);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "f", function() { return __WEBPACK_IMPORTED_MODULE_4__inverse__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__isAffineMatrix__ = __webpack_require__(32);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__rotate__ = __webpack_require__(33);
+/* unused harmony namespace reexport */
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__scale__ = __webpack_require__(34);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "d", function() { return __WEBPACK_IMPORTED_MODULE_7__scale__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__toString__ = __webpack_require__(35);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "i", function() { return __WEBPACK_IMPORTED_MODULE_8__toString__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__transform__ = __webpack_require__(36);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "a", function() { return __WEBPACK_IMPORTED_MODULE_9__transform__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__translate__ = __webpack_require__(37);
+/* harmony namespace reexport (by used) */ __webpack_require__.d(__webpack_exports__, "c", function() { return __WEBPACK_IMPORTED_MODULE_10__translate__["a"]; });
 
 
-  var denom = a * d - b * c;
 
-  return {
-    a: d / denom,
-    b: b / -denom,
-    c: c / -denom,
-    d: a / denom,
-    e: (d * e - c * f) / -denom,
-    f: (b * e - a * f) / denom
-  };
-}
 
-/**
- * Calculate a translate matrix
- * @param tx Translation on axis x
- * @param ty Translation on axis y
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function translate(tx, ty) {
-  return {
-    a: 1, c: 0, e: tx,
-    b: 0, d: 1, f: ty
-  };
-}
 
-/**
- * Calculate a scaling matrix
- * @param sx Scaling on axis x
- * @param sy Scaling on axis y
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function scale(sx, sy) {
-  return {
-    a: sx, c: 0, e: 0,
-    b: 0, d: sy, f: 0
-  };
-}
 
-/**
- * Calculate a rotation matrix
- * @param angle Angle in radians
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix *
- */
-function rotate(angle) {
-  var cosAngle = cos(angle);
-  var sinAngle = sin(angle);
-  return {
-    a: cosAngle, c: -sinAngle, e: 0,
-    b: sinAngle, d: cosAngle, f: 0
-  };
-}
 
-/**
- * Calculate a rotation matrix with a DEG angle
- * @param angle Angle in degree
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function rotateDEG(angle) {
-  return rotate(angle * PI / 180);
-}
 
-/**
- * Calculate a point transformed with an affine matrix
- * @param matrix Affine matrix
- * @param point Point
- * @returns {{x: number, y: number}} Point
- */
-function applyToPoint(matrix, point) {
-  return {
-    x: matrix.a * point.x + matrix.c * point.y + matrix.e,
-    y: matrix.b * point.x + matrix.d * point.y + matrix.f
-  };
-}
 
-/**
- * Calculate an array of points transformed with an affine matrix
- * @param matrix Affine matrix
- * @param points Array of points
- * @returns {array} Array of points
- */
-function applyToPoints(matrix, points) {
-  return points.map(function (point) {
-    return applyToPoint(matrix, point);
-  });
-}
 
-/**
- * Serialize the matrix to a string that can be used with CSS or SVG
- * @param matrix Affine matrix
- * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
- */
-function toCSS(matrix) {
-  return toString(matrix);
-}
 
-/**
- * Serialize the matrix to a string that can be used with CSS or SVG
- * @param matrix Affine matrix
- * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
- */
-function toSVG(matrix) {
-  return toString(matrix);
-}
-
-/**
- * Serialize the matrix to a string that can be used with CSS or SVG
- * @param matrix Affine matrix
- * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
- */
-function toString(matrix) {
-  return 'matrix(' + matrix.a + ',' + matrix.b + ',' + matrix.c + ',' + matrix.d + ',' + matrix.e + ',' + matrix.f + ')';
-}
-
-/**
- * Parse a string matrix formatted as matrix(a,b,c,d,e,f)
- * @param string String with a matrix
- * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
- */
-function fromString(string) {
-  var parsed = string.match(matrixRegex);
-  if (parsed === null || parsed.length < 7) throw new Error('\'' + string + '\' is not a matrix');
-  return {
-    a: parseFloat(parsed[1]),
-    b: parseFloat(parsed[2]),
-    c: parseFloat(parsed[3]),
-    d: parseFloat(parsed[4]),
-    e: parseFloat(parsed[5]),
-    f: parseFloat(parsed[6])
-  };
-}
-
-/**
- * Check if the object contain an affine matrix
- * @param object
- * @return {boolean}
- */
-function isAffineMatrix(object) {
-  var isNumeric = function isNumeric(n) {
-    return typeof n === 'number' && !isNaN(n) && isFinite(n);
-  };
-  return (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object.hasOwnProperty('a') && isNumeric(object.a) && object.hasOwnProperty('b') && isNumeric(object.b) && object.hasOwnProperty('c') && isNumeric(object.c) && object.hasOwnProperty('d') && isNumeric(object.d) && object.hasOwnProperty('e') && isNumeric(object.e) && object.hasOwnProperty('f') && isNumeric(object.f);
-}
-
-/**
- * Extract an affine matrix from an object that contains a,b,c,d,e,f keys
- * Each value could be a float or a string that contains a float
- * @param object
- * @return {{a: *, b: *, c: *, e: *, d: *, f: *}}}
- */
-function fromObject(object) {
-  return {
-    a: parseFloat(object.a),
-    b: parseFloat(object.b),
-    c: parseFloat(object.c),
-    d: parseFloat(object.d),
-    e: parseFloat(object.e),
-    f: parseFloat(object.f)
-  };
-}
 
 /***/ }),
 /* 5 */
@@ -830,12 +606,12 @@ function mapRange(value, low1, high1, low2, high2) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__features_zoom__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__icon_cursor__ = __webpack_require__(15);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__icon_pan__ = __webpack_require__(17);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__icon_zoom_in__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__icon_zoom_out__ = __webpack_require__(19);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__icon_fit__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__toolbar_button__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__icon_cursor__ = __webpack_require__(16);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__icon_pan__ = __webpack_require__(18);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__icon_zoom_in__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__icon_zoom_out__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__icon_fit__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__toolbar_button__ = __webpack_require__(21);
 /* harmony export (immutable) */ __webpack_exports__["a"] = Toolbar;
 
 
@@ -1015,7 +791,7 @@ var ViewerEvent = function () {
   return ViewerEvent;
 }();
 
-/* harmony default export */ __webpack_exports__["a"] = ViewerEvent;
+/* harmony default export */ __webpack_exports__["a"] = (ViewerEvent);
 
 /***/ }),
 /* 9 */
@@ -1264,12 +1040,12 @@ function onInterval(event, ViewerDOM, tool, value, props) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__features_interactions__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__features_interactions_touch__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__features_zoom__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__ = __webpack_require__(22);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_if__ = __webpack_require__(24);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ui_selection__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__ui_cursor_polyfill__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__ui_border_gradient__ = __webpack_require__(22);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_if__ = __webpack_require__(25);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ui_selection__ = __webpack_require__(26);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ui_toolbar_toolbar__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ui_detect_touch__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_13__ui_detect_touch__ = __webpack_require__(24);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_14__constants__ = __webpack_require__(1);
 var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 
@@ -1657,7 +1433,7 @@ var ReactSVGPanZoom = function (_React$Component) {
   return ReactSVGPanZoom;
 }(__WEBPACK_IMPORTED_MODULE_0_react___default.a.Component);
 
-/* harmony default export */ __webpack_exports__["a"] = ReactSVGPanZoom;
+/* harmony default export */ __webpack_exports__["a"] = (ReactSVGPanZoom);
 
 
 ReactSVGPanZoom.propTypes = {
@@ -1785,7 +1561,7 @@ ReactSVGPanZoom.defaultProps = {
 
 
 
-/* harmony default export */ __webpack_exports__["a"] = function (originalEvent, value, SVGViewer) {
+/* harmony default export */ __webpack_exports__["a"] = (function (originalEvent, value, SVGViewer) {
 
   var eventType = originalEvent.type;
 
@@ -1806,7 +1582,7 @@ ReactSVGPanZoom.defaultProps = {
     default:
       throw new Error(eventType + ' not supported');
   }
-};
+});
 
 /***/ }),
 /* 12 */
@@ -1866,7 +1642,7 @@ var ViewerMouseEvent = function (_ViewerEvent) {
   return ViewerMouseEvent;
 }(__WEBPACK_IMPORTED_MODULE_1__viewer_event__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = ViewerMouseEvent;
+/* harmony default export */ __webpack_exports__["a"] = (ViewerMouseEvent);
 
 /***/ }),
 /* 13 */
@@ -1933,7 +1709,7 @@ var ViewerTouchEvent = function (_ViewerEvent) {
   return ViewerTouchEvent;
 }(__WEBPACK_IMPORTED_MODULE_1__viewer_event__["a" /* default */]);
 
-/* harmony default export */ __webpack_exports__["a"] = ViewerTouchEvent;
+/* harmony default export */ __webpack_exports__["a"] = (ViewerTouchEvent);
 
 /***/ }),
 /* 14 */
@@ -2049,6 +1825,55 @@ function onTouchCancel(event, ViewerDOM, tool, value, props) {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__viewer__ = __webpack_require__(10);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactSVGPanZoom", function() { return __WEBPACK_IMPORTED_MODULE_0__viewer__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__ = __webpack_require__(7);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Toolbar", function() { return __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__features_common__ = __webpack_require__(2);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "setPointOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "reset", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["b"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_pan__ = __webpack_require__(5);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "pan", function() { return __WEBPACK_IMPORTED_MODULE_3__features_pan__["a"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_zoom__ = __webpack_require__(3);
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoom", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["a"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitSelection", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["b"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitToViewer", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["c"]; });
+/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoomOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["d"]; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants__ = __webpack_require__(1);
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_IDLE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["a"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_PANNING", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["b"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_ZOOMING", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["c"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_AUTO", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["d"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["e"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_PAN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["f"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_IN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["g"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_OUT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["h"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["i"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_TOP", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["j"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_RIGHT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["k"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_BOTTOM", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["l"]; });
+/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_LEFT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["m"]; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Viewer", function() { return Viewer; });
+
+
+
+
+
+
+
+var Viewer = function Viewer() {
+  var msg = "HEY! You are trying to use an older version of ReactSVGPanZoom. " + "Read here https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/migrate-from-v1-to-v2.md";
+
+  console.error(msg);
+  return null;
+};
+
+/***/ }),
+/* 16 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony export (immutable) */ __webpack_exports__["a"] = IconCursor;
@@ -2068,7 +1893,7 @@ function IconCursor() {
 IconCursor.propTypes = {};
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2091,7 +1916,7 @@ function IconFit() {
 IconFit.propTypes = {};
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2114,7 +1939,7 @@ function IconPan() {
 IconPan.propTypes = {};
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2142,7 +1967,7 @@ function IconZoomIn() {
 IconZoomIn.propTypes = {};
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2165,7 +1990,7 @@ function IconZoomOut() {
 IconZoomOut.propTypes = {};
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2269,7 +2094,7 @@ var ToolbarButton = function (_Component) {
   return ToolbarButton;
 }(__WEBPACK_IMPORTED_MODULE_0_react__["Component"]);
 
-/* harmony default export */ __webpack_exports__["a"] = ToolbarButton;
+/* harmony default export */ __webpack_exports__["a"] = (ToolbarButton);
 
 
 ToolbarButton.propTypes = {
@@ -2281,7 +2106,7 @@ ToolbarButton.propTypes = {
 };
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2349,7 +2174,7 @@ BorderGradient.propTypes = {
 };
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2368,14 +2193,14 @@ var isWebkit = function isWebkit() {
   return userAgent().indexOf('webkit') > -1;
 };
 
-/* harmony default export */ __webpack_exports__["a"] = function (cursor) {
+/* harmony default export */ __webpack_exports__["a"] = (function (cursor) {
   if (!needPrefix(cursor)) return cursor;
   if (isFirefox()) return '-moz-' + cursor;
   if (isWebkit()) return '-webkit-' + cursor;
-};
+});
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2388,7 +2213,7 @@ function isTouchDevice() {
 };
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2412,7 +2237,7 @@ If.propTypes = {
 };
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2453,53 +2278,318 @@ Selection.propTypes = {
 };
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__viewer__ = __webpack_require__(10);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "ReactSVGPanZoom", function() { return __WEBPACK_IMPORTED_MODULE_0__viewer__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__ = __webpack_require__(7);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "Toolbar", function() { return __WEBPACK_IMPORTED_MODULE_1__ui_toolbar_toolbar__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__features_common__ = __webpack_require__(2);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "setPointOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "reset", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["b"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_pan__ = __webpack_require__(5);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "pan", function() { return __WEBPACK_IMPORTED_MODULE_3__features_pan__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_zoom__ = __webpack_require__(3);
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoom", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["a"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitSelection", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["b"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitToViewer", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["c"]; });
-/* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoomOnViewerCenter", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["d"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__constants__ = __webpack_require__(1);
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_IDLE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["a"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_PANNING", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["b"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "MODE_ZOOMING", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["c"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_AUTO", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["d"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["e"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_PAN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["f"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_IN", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["g"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "TOOL_ZOOM_OUT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["h"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_NONE", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["i"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_TOP", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["j"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_RIGHT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["k"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_BOTTOM", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["l"]; });
-/* harmony namespace reexport (by provided) */ __webpack_require__.d(__webpack_exports__, "POSITION_LEFT", function() { return __WEBPACK_IMPORTED_MODULE_5__constants__["m"]; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Viewer", function() { return Viewer; });
+/* harmony export (immutable) */ __webpack_exports__["a"] = applyToPoint;
+/* harmony export (immutable) */ __webpack_exports__["b"] = applyToPoints;
+/**
+ * Calculate a point transformed with an affine matrix
+ * @param matrix Affine matrix
+ * @param point Point
+ * @returns {{x: number, y: number}} Point
+ */
+function applyToPoint(matrix, point) {
+  return {
+    x: matrix.a * point.x + matrix.c * point.y + matrix.e,
+    y: matrix.b * point.x + matrix.d * point.y + matrix.f
+  };
+}
+
+/**
+ * Calculate an array of points transformed with an affine matrix
+ * @param matrix Affine matrix
+ * @param points Array of points
+ * @returns {array} Array of points
+ */
+function applyToPoints(matrix, points) {
+  return points.map(function (point) {
+    return applyToPoint(matrix, point);
+  });
+}
+
+/***/ }),
+/* 28 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = fromObject;
+/**
+ * Extract an affine matrix from an object that contains a,b,c,d,e,f keys
+ * Each value could be a float or a string that contains a float
+ * @param object
+ * @return {{a: *, b: *, c: *, e: *, d: *, f: *}}}
+ */
+function fromObject(object) {
+  return {
+    a: parseFloat(object.a),
+    b: parseFloat(object.b),
+    c: parseFloat(object.c),
+    d: parseFloat(object.d),
+    e: parseFloat(object.e),
+    f: parseFloat(object.f)
+  };
+}
+
+/***/ }),
+/* 29 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export fromString */
+/**
+ * @ignore
+ * @type {RegExp}
+ */
+var matrixRegex = /^matrix\( *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *, *([0-9]*\.?[0-9]+) *\)$/i;
+
+/**
+ * Parse a string matrix formatted as matrix(a,b,c,d,e,f)
+ * @param string String with a matrix
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function fromString(string) {
+  var parsed = string.match(matrixRegex);
+  if (parsed === null || parsed.length < 7) throw new Error("'" + string + "' is not a matrix");
+  return {
+    a: parseFloat(parsed[1]),
+    b: parseFloat(parsed[2]),
+    c: parseFloat(parsed[3]),
+    d: parseFloat(parsed[4]),
+    e: parseFloat(parsed[5]),
+    f: parseFloat(parsed[6])
+  };
+}
+
+/***/ }),
+/* 30 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = identity;
+/**
+ * Identity matrix
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function identity() {
+  return {
+    a: 1, c: 0, e: 0,
+    b: 0, d: 1, f: 0
+  };
+}
+
+/***/ }),
+/* 31 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = inverse;
+/**
+ * Calculate a matrix that is the inverse of the provided matrix
+ * @param matrix Affine matrix
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function inverse(matrix) {
+  //http://www.wolframalpha.com/input/?i=Inverse+%5B%7B%7Ba,c,e%7D,%7Bb,d,f%7D,%7B0,0,1%7D%7D%5D
+
+  var a = matrix.a,
+      b = matrix.b,
+      c = matrix.c,
+      d = matrix.d,
+      e = matrix.e,
+      f = matrix.f;
 
 
+  var denom = a * d - b * c;
 
+  return {
+    a: d / denom,
+    b: b / -denom,
+    c: c / -denom,
+    d: a / denom,
+    e: (d * e - c * f) / -denom,
+    f: (b * e - a * f) / denom
+  };
+}
 
+/***/ }),
+/* 32 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
+/* unused harmony export isAffineMatrix */
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
+/**
+ * Check if the object contain an affine matrix
+ * @param object
+ * @return {boolean}
+ */
+function isAffineMatrix(object) {
+  var isNumeric = function isNumeric(n) {
+    return typeof n === 'number' && !isNaN(n) && isFinite(n);
+  };
+  return (typeof object === 'undefined' ? 'undefined' : _typeof(object)) === 'object' && object.hasOwnProperty('a') && isNumeric(object.a) && object.hasOwnProperty('b') && isNumeric(object.b) && object.hasOwnProperty('c') && isNumeric(object.c) && object.hasOwnProperty('d') && isNumeric(object.d) && object.hasOwnProperty('e') && isNumeric(object.e) && object.hasOwnProperty('f') && isNumeric(object.f);
+}
 
-var Viewer = function Viewer() {
-  var msg = "HEY! You are trying to use an older version of ReactSVGPanZoom. " + "Read here https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/migrate-from-v1-to-v2.md";
+/***/ }),
+/* 33 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
-  console.error(msg);
-  return null;
-};
+"use strict";
+/* unused harmony export rotate */
+/* unused harmony export rotateDEG */
+var cos = Math.cos,
+    sin = Math.sin,
+    PI = Math.PI;
+/**
+ * Calculate a rotation matrix
+ * @param angle Angle in radians
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix *
+ */
+
+function rotate(angle) {
+  var cosAngle = cos(angle);
+  var sinAngle = sin(angle);
+  return {
+    a: cosAngle, c: -sinAngle, e: 0,
+    b: sinAngle, d: cosAngle, f: 0
+  };
+}
+
+/**
+ * Calculate a rotation matrix with a DEG angle
+ * @param angle Angle in degree
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function rotateDEG(angle) {
+  return rotate(angle * PI / 180);
+}
+
+/***/ }),
+/* 34 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = scale;
+/**
+ * Calculate a scaling matrix
+ * @param sx Scaling on axis x
+ * @param sy Scaling on axis y
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function scale(sx, sy) {
+  return {
+    a: sx, c: 0, e: 0,
+    b: 0, d: sy, f: 0
+  };
+}
+
+/***/ }),
+/* 35 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* unused harmony export toCSS */
+/* harmony export (immutable) */ __webpack_exports__["a"] = toSVG;
+/* unused harmony export toString */
+/**
+ * Serialize the matrix to a string that can be used with CSS or SVG
+ * @param matrix Affine matrix
+ * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toCSS(matrix) {
+  return toString(matrix);
+}
+
+/**
+ * Serialize the matrix to a string that can be used with CSS or SVG
+ * @param matrix Affine matrix
+ * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toSVG(matrix) {
+  return toString(matrix);
+}
+
+/**
+ * Serialize the matrix to a string that can be used with CSS or SVG
+ * @param matrix Affine matrix
+ * @returns {string} String that contains a matrix formatted as matrix(a,b,c,d,e,f)
+ */
+function toString(matrix) {
+  return "matrix(" + matrix.a + "," + matrix.b + "," + matrix.c + "," + matrix.d + "," + matrix.e + "," + matrix.f + ")";
+}
+
+/***/ }),
+/* 36 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = transform;
+function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+
+function _toArray(arr) { return Array.isArray(arr) ? arr : Array.from(arr); }
+
+/**
+ * Merge multiple matrices into one
+ * @param matrices {...object} list of matrices
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function transform() {
+  for (var _len = arguments.length, matrices = Array(_len), _key = 0; _key < _len; _key++) {
+    matrices[_key] = arguments[_key];
+  }
+
+  matrices = Array.isArray(matrices[0]) ? matrices[0] : matrices;
+
+  var multiply = function multiply(m1, m2) {
+    return {
+      a: m1.a * m2.a + m1.c * m2.b, c: m1.a * m2.c + m1.c * m2.d, e: m1.a * m2.e + m1.c * m2.f + m1.e,
+      b: m1.b * m2.a + m1.d * m2.b, d: m1.b * m2.c + m1.d * m2.d, f: m1.b * m2.e + m1.d * m2.f + m1.f
+    };
+  };
+
+  switch (matrices.length) {
+    case 0:
+      throw new Error('no matrices provided');
+
+    case 1:
+      return matrices[0];
+
+    case 2:
+      return multiply(matrices[0], matrices[1]);
+
+    default:
+      var _matrices = matrices,
+          _matrices2 = _toArray(_matrices),
+          m1 = _matrices2[0],
+          m2 = _matrices2[1],
+          rest = _matrices2.slice(2);
+
+      var m = multiply(m1, m2);
+      return transform.apply(undefined, [m].concat(_toConsumableArray(rest)));
+  }
+}
+
+/***/ }),
+/* 37 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = translate;
+/**
+ * Calculate a translate matrix
+ * @param tx Translation on axis x
+ * @param ty Translation on axis y
+ * @returns {{a: number, b: number, c: number, e: number, d: number, f: number}} Affine matrix
+ */
+function translate(tx, ty) {
+  return {
+    a: 1, c: 0, e: tx,
+    b: 0, d: 1, f: ty
+  };
+}
 
 /***/ })
 /******/ ]);
