@@ -204,7 +204,7 @@ export default class ReactSVGPanZoom extends React.Component {
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
           width={value.viewerWidth}
           height={value.viewerHeight}
-          style={cursor ? {cursor} : {}}
+          style={cursor ? {cursor, display: "block"} : {display: 'block'}}
 
           onMouseDown={ event => {
             let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
