@@ -14,7 +14,7 @@ import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import {mapRange} from '../utils'
 
 function lessThanScaleFactorMin (props, nextValue) {
-  return nextValue.d * (1 / props.scaleFactor) =< props.scaleFactorMin;
+  return (nextValue.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
 }
 
 function moreThanScaleFactorMax (props, nextValue) {
