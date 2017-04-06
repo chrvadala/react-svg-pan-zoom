@@ -105,6 +105,9 @@ export default class Demo extends React.Component {
               }}
 
               style={{outline: '1px solid black'}}
+
+              onPan={event => console.log('onPan', event)}
+              onZoom={event => console.log('onZoom', event)}
             >
               <svg width={ 1440 } height={ 1440 }>
                 <Snake />
