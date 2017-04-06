@@ -28,6 +28,8 @@ export default class Demo extends React.Component {
       detectWheel: true,
       toolbarPosition: POSITION_RIGHT,
       preventPanOutside: true,
+      minScaleFactor: "",
+      maxScaleFactor: "",
     };
 
     this.Viewer = null;
@@ -108,6 +110,10 @@ export default class Demo extends React.Component {
 
               onPan={event => console.log('onPan', event)}
               onZoom={event => console.log('onZoom', event)}
+
+              scaleFactorMin={isNaN(parseFloat(this.state.minScaleFactor)) ? undefined : parseFloat(this.state.minScaleFactor)}
+              scaleFactorMax={isNaN(parseFloat(this.state.maxScaleFactor)) ? undefined : parseFloat(this.state.maxScaleFactor)}
+
             >
               <svg width={ 1440 } height={ 1440 }>
                 <Snake />
@@ -115,7 +121,11 @@ export default class Demo extends React.Component {
               </svg>
             </ReactSVGPanZoom>
 
-            <p className="text-primary">Coords: {Number(this.state.x).toFixed(2)},{Number(this.state.y).toFixed(2)}</p>
+            <p className="text-primary">
+              Coords: {Number(this.state.x).toFixed(2)},{Number(this.state.y).toFixed(2)}
+              <br/>
+              ScaleFactor: {!this.state.value ? '' : Number(this.state.value.d).toFixed(2)}
+            </p>
 
           </div>
 
@@ -175,6 +185,27 @@ export default class Demo extends React.Component {
                 </div>
               </div>
             </div>
+
+            <hr/>
+            <h6>Scale factor limits</h6>
+            <div className="row">
+              <div className="col-sm-6">
+                <h6>Min <span className="text-muted"> ({isNaN(parseFloat(this.state.minScaleFactor)) ? 'off' : parseFloat(this.state.minScaleFactor)})</span></h6>
+                <div className="form-group">
+                  <input type="text" value={this.state.minScaleFactor} className="form-control" name="minScaleFactor"
+                         onChange={ event => this.setState({minScaleFactor: event.target.value})}/>
+                </div>
+              </div>
+
+              <div className="col-sm-6">
+                <h6>Max <span className="text-muted"> ({isNaN(parseFloat(this.state.maxScaleFactor)) ? 'off' : parseFloat(this.state.maxScaleFactor)})</span></h6>
+                <div className="form-group">
+                  <input type="text" value={this.state.maxScaleFactor} className="form-control" name="maxScaleFactor"
+                         onChange={ event => this.setState({maxScaleFactor: event.target.value})}/>
+                </div>
+              </div>
+            </div>
+
 
             <hr/>
 
