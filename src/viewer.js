@@ -32,6 +32,7 @@ import If from './ui/if';
 import Selection from './ui/selection';
 import Toolbar from './ui-toolbar/toolbar';
 import detectTouch from './ui/detect-touch';
+import Miniature from './ui-miniature/miniature'
 
 import {
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
@@ -328,6 +329,15 @@ export default class ReactSVGPanZoom extends React.Component {
             tool={tool}
             onChangeTool={tool => this.changeTool(tool)}/> }
 
+        {props.miniaturePosition === POSITION_NONE ? null :
+          <Miniature
+            position={props.miniaturePosition}
+            value={value}
+            background={this.props.SVGBackground}
+          >
+            {props.children.props.children}
+          </Miniature>
+        }
       </div>
     );
   }
@@ -418,6 +428,9 @@ ReactSVGPanZoom.propTypes = {
   //override default toolbar component
   customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
+  //miniature position
+  miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -451,5 +464,6 @@ ReactSVGPanZoom.defaultProps = {
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
   preventPanOutside: true,
-  scaleFactor: 1.1
+  scaleFactor: 1.1,
+  miniaturePosition: POSITION_LEFT
 };
