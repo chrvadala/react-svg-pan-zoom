@@ -333,6 +333,7 @@ export default class ReactSVGPanZoom extends React.Component {
           <Miniature
             position={props.miniaturePosition}
             value={value}
+            onChangeValue={value => this.setValue(value)}
             background={this.props.SVGBackground}
           >
             {props.children.props.children}
@@ -375,6 +376,7 @@ ReactSVGPanZoom.propTypes = {
     startY: PropTypes.number,
     endX: PropTypes.number,
     endY: PropTypes.number,
+    miniatureOpen: PropTypes.bool.isRequired,
   }),
 
   //CSS style of the Viewer

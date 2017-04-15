@@ -4,17 +4,18 @@ import {
   POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
 } from '../constants';
 import {applyToPoints, inverse} from 'transformation-matrix';
+import MiniatureToggleButton from './miniature-toggle-button';
 const {min, max} = Math;
 
-export default function Miniature({value, position, children, background}) {
+export default function Miniature({value, onChangeValue, position, children, background}) {
 
   let {SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
   let ratio = SVGWidth / SVGHeight;
 
-  let width = 100;
-  let height = width * ratio;
+  let miniatureWidth = 100;
+  let miniatureHeight = miniatureWidth * ratio;
 
-  let zoomToFit = width / SVGWidth;
+  let zoomToFit = miniatureWidth / SVGWidth;
 
   let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(inverse(value), [
     {x: 0, y: 0},
@@ -27,21 +28,34 @@ export default function Miniature({value, position, children, background}) {
   y2 = min(y2, SVGHeight);
 
 
+  let width, height, bottom;
+
+  if (value.miniatureOpen) {
+    width = miniatureWidth;
+    height = miniatureHeight;
+    bottom = (height + 20)
+  } else {
+    width = 24;
+    height = 24;
+    bottom = 24 + 20;
+  }
+
   let style = {
+    position: "relative",
+    left: "20px",
+    overflow: "hidden",
+    outline: "1px solid rgba(19, 20, 22, 0.90)",
+    transition: "width 200ms ease, height 200ms ease, bottom 200ms ease",
     width: width + "px",
     height: height + "px",
-    position: "relative",
-    bottom: (height + 20) + "px",
-    left: "20px",
-    outline: "1px solid rgba(19, 20, 22, 0.90)",
-    overflow: "hidden"
+    bottom: bottom + "px",
   };
 
   return (
     <div role="navigation" style={style}>
       <svg
-        width={width}
-        height={height}
+        width={miniatureWidth}
+        height={miniatureHeight}
         style={{pointerEvents: "none"}}>
         <g transform={`scale(${zoomToFit}, ${zoomToFit})`}>
 
@@ -65,6 +79,7 @@ export default function Miniature({value, position, children, background}) {
           }
         </g>
       </svg>
+      <MiniatureToggleButton value={value} onChangeValue={onChangeValue}/>
     </div>
   )
 }
@@ -72,5 +87,6 @@ export default function Miniature({value, position, children, background}) {
 Miniature.propTypes = {
   position: PropTypes.oneOf([POSITION_RIGHT, POSITION_LEFT]).isRequired,
   value: PropTypes.object.isRequired,
+  onChangeValue: PropTypes.func.isRequired,
   background: PropTypes.string.isRequired,
 };
