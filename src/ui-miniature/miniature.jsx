@@ -33,7 +33,8 @@ export default function Miniature({value, position, children, background}) {
     position: "relative",
     bottom: (height + 20) + "px",
     left: "20px",
-    outline: "1px solid rgba(19, 20, 22, 0.90)"
+    outline: "1px solid rgba(19, 20, 22, 0.90)",
+    overflow: "hidden"
   };
 
   return (
@@ -52,15 +53,16 @@ export default function Miniature({value, position, children, background}) {
             height={value.SVGHeight}/>
 
           {children}
-
-          <rect
-            stroke={"black"}
-            strokeWidth="10px"
-            fill="transparent"
-            x={x1}
-            y={y1}
-            width={x2 - x1}
-            height={y2 - y1}/>
+          {x1 === 0 && y1 === 0 && x2 - x1 === SVGWidth && y2 - y1 === SVGHeight ? null :
+            <rect
+              stroke={"#131416"}
+              strokeWidth={0.75 / zoomToFit}
+              fill="transparent"
+              x={x1}
+              y={y1}
+              width={x2 - x1}
+              height={y2 - y1}/>
+          }
         </g>
       </svg>
     </div>
