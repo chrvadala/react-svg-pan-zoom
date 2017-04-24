@@ -9,12 +9,11 @@ import MiniatureMask from './miniature-mask';
 
 const {min, max} = Math;
 
-export default function Miniature({value, onChangeValue, position, children, background}) {
+export default function Miniature({value, onChangeValue, position, children, background, width: miniatureWidth}) {
 
   let {SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
   let ratio = SVGWidth / SVGHeight;
 
-  let miniatureWidth = 100;
   let miniatureHeight = miniatureWidth * ratio;
 
   let zoomToFit = miniatureWidth / SVGWidth;
@@ -93,4 +92,5 @@ Miniature.propTypes = {
   value: PropTypes.object.isRequired,
   onChangeValue: PropTypes.func.isRequired,
   background: PropTypes.string.isRequired,
+  width: PropTypes.number.isRequired,
 };

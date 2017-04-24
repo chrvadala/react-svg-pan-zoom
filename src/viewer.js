@@ -335,6 +335,7 @@ export default class ReactSVGPanZoom extends React.Component {
             value={value}
             onChangeValue={value => this.setValue(value)}
             background={this.props.SVGBackground}
+            width={this.props.miniatureWidth}
           >
             {props.children.props.children}
           </Miniature>
@@ -433,6 +434,9 @@ ReactSVGPanZoom.propTypes = {
   //miniature position
   miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
 
+  //miniature width
+  miniatureWidth: PropTypes.number,
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -467,5 +471,6 @@ ReactSVGPanZoom.defaultProps = {
   customToolbar: Toolbar,
   preventPanOutside: true,
   scaleFactor: 1.1,
-  miniaturePosition: POSITION_LEFT
+  miniaturePosition: POSITION_LEFT,
+  miniatureWidth: 100,
 };
