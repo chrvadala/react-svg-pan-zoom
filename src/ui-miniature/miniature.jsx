@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
+  POSITION_RIGHT, POSITION_LEFT,
 } from '../constants';
 import {applyToPoints, inverse} from 'transformation-matrix';
 import MiniatureToggleButton from './miniature-toggle-button';
@@ -34,23 +34,23 @@ export default function Miniature({value, onChangeValue, position, children, bac
   if (value.miniatureOpen) {
     width = miniatureWidth;
     height = miniatureHeight;
-    bottom = (height + 20)
   } else {
     width = 24;
     height = 24;
-    bottom = 24 + 20;
   }
 
   let style = {
-    position: "relative",
-    left: "20px",
+    position: "absolute",
     overflow: "hidden",
     outline: "1px solid rgba(19, 20, 22, 0.90)",
     transition: "width 200ms ease, height 200ms ease, bottom 200ms ease",
     width: width + "px",
     height: height + "px",
-    bottom: bottom + "px",
+    bottom: "20px",
+    [position === POSITION_LEFT ? 'left' : 'right']: "20px"
   };
+
+
 
   return (
     <div role="navigation" style={style}>
@@ -82,7 +82,7 @@ export default function Miniature({value, onChangeValue, position, children, bac
 
         </g>
       </svg>
-      <MiniatureToggleButton value={value} onChangeValue={onChangeValue}/>
+      <MiniatureToggleButton value={value} onChangeValue={onChangeValue} position={position}/>
     </div>
   )
 }

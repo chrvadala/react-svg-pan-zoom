@@ -1,16 +1,16 @@
 import React, {PropTypes} from 'react';
 import {openMiniature, closeMiniature} from '../features/miniature';
-import IconOpen from './icon-open';
-import IconClose from './icon-close';
+import IconArrow from './icon-arrow';
+import {POSITION_RIGHT, POSITION_LEFT} from '../constants';
 
-export default function MiniatureToggleButton({value, onChangeValue}) {
+export default function MiniatureToggleButton({value, onChangeValue, position}) {
   let style = {
     width: "24px",
     height: "24px",
     display: "block",
     position: "absolute",
     bottom: 0,
-    left: 0,
+    [position === POSITION_LEFT ? 'left' : 'right']: '0px',
     background: "rgba(19, 20, 22, 0.901961)",
     border: 0,
     padding: 0,
@@ -18,17 +18,18 @@ export default function MiniatureToggleButton({value, onChangeValue}) {
     color: "#fff"
   };
 
-  return value.miniatureOpen ?
-    <button role="button" style={style} onClick={event => onChangeValue(closeMiniature(value))}>
-      <IconClose/>
+  let action = value.miniatureOpen ? closeMiniature : openMiniature;
+
+  return (
+    <button role="button" style={style} onClick={event => onChangeValue(action(value))}>
+      <IconArrow open={value.miniatureOpen} position={position}/>
     </button>
-    :
-    <button role="button" style={style} onClick={event => onChangeValue(openMiniature(value))}>
-      <IconOpen/>
-    </button>
+  )
+
 }
 
 MiniatureToggleButton.propTypes = {
   value: PropTypes.object.isRequired,
   onChangeValue: PropTypes.func.isRequired,
+  position: PropTypes.oneOf([POSITION_RIGHT, POSITION_LEFT]).isRequired,
 };
