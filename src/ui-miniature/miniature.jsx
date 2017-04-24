@@ -5,6 +5,8 @@ import {
 } from '../constants';
 import {applyToPoints, inverse} from 'transformation-matrix';
 import MiniatureToggleButton from './miniature-toggle-button';
+import MiniatureMask from './miniature-mask';
+
 const {min, max} = Math;
 
 export default function Miniature({value, onChangeValue, position, children, background}) {
@@ -68,15 +70,17 @@ export default function Miniature({value, onChangeValue, position, children, bac
 
           {children}
           {x1 === 0 && y1 === 0 && x2 - x1 === SVGWidth && y2 - y1 === SVGHeight ? null :
-            <rect
-              stroke={"#131416"}
-              strokeWidth={0.75 / zoomToFit}
-              fill="transparent"
-              x={x1}
-              y={y1}
-              width={x2 - x1}
-              height={y2 - y1}/>
+            <MiniatureMask
+              SVGWidth={SVGWidth}
+              SVGHeight={SVGHeight}
+              visibleAreaX={x1}
+              visibleAreaY={y1}
+              visibleAreaWidth={x2 - x1}
+              visibleAreaHeight={y2 - y1}
+              zoomToFit={zoomToFit}
+            />
           }
+
         </g>
       </svg>
       <MiniatureToggleButton value={value} onChangeValue={onChangeValue}/>
