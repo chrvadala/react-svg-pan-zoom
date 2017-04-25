@@ -28,19 +28,11 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
   switch (tool) {
     case TOOL_ZOOM_OUT:
       let SVGPoint = getSVGPoint(value, x, y);
-      if (props.scaleFactorMin && lessThanScaleFactorMin(props, nextValue)) {
-        console.error('Cannot zoom out past minimum scale factor of: ', props.scaleFactorMin);
-      } else if (!props.scaleFactorMin || (props.scaleFactorMin && !lessThanScaleFactorMin(props, nextValue))) {
-        nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
-      }
+      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
       break;
 
     case TOOL_ZOOM_IN:
-      if (props.scaleFactorMax && moreThanScaleFactorMax(props, nextValue)) {
-        console.error('Cannot zoom in past maxmimum scale factor of: ', props.scaleFactorMax);
-      } else if (!props.scaleFactorMax || (props.scaleFactorMax && !moreThanScaleFactorMax(props, nextValue))) {
-        nextValue = startZooming(value, x, y);
-      }
+      nextValue = startZooming(value, x, y);
       break;
 
     case TOOL_AUTO:
