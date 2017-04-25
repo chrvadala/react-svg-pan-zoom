@@ -13,14 +13,6 @@ import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import {mapRange} from '../utils'
 
-function lessThanScaleFactorMin (props, nextValue) {
-  return (nextValue.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
-}
-
-function moreThanScaleFactorMax (props, nextValue) {
-  return (nextValue.d * props.scaleFactor) >= props.scaleFactorMax;
-}
-
 export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null) {
   let x, y;
   if (coords) {
@@ -40,7 +32,6 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
         console.error('Cannot zoom out past minimum scale factor of: ', props.scaleFactorMin);
       } else if (!props.scaleFactorMin || (props.scaleFactorMin && !lessThanScaleFactorMin(props, nextValue))) {
         nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
-        props.onZoom && props.onZoom(eventFactory(event, nextValue, ViewerDOM));
       }
       break;
 
@@ -49,7 +40,6 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
         console.error('Cannot zoom in past maxmimum scale factor of: ', props.scaleFactorMax);
       } else if (!props.scaleFactorMax || (props.scaleFactorMax && !moreThanScaleFactorMax(props, nextValue))) {
         nextValue = startZooming(value, x, y);
-        props.onZoom && props.onZoom(eventFactory(event, nextValue, ViewerDOM));
       }
       break;
 

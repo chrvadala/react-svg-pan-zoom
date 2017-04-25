@@ -4,7 +4,15 @@ import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {calculateBox} from '../utils';
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
+function lessThanScaleFactorMin (props, nextValue) {
+  return (nextValue.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
+}
+
+function moreThanScaleFactorMax (props, nextValue) {
+  return (nextValue.d * props.scaleFactor) >= props.scaleFactorMax;
+}
+
+export function zoom(value, SVGPointX, SVGPointY, props) {
 
   let matrix = transform(
     fromObject(value),
@@ -56,7 +64,8 @@ export function zoomOnViewerCenter(value, scaleFactor) {
   return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
 }
 
-export function startZooming(value, viewerX, viewerY) {
+export function startZooming(value, viewerX, viewerY, props) {
+
   return set(value, {
     mode: MODE_ZOOMING,
     startX: viewerX,

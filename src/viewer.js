@@ -207,19 +207,25 @@ export default class ReactSVGPanZoom extends React.Component {
           style={cursor ? {cursor, display: "block"} : {display: 'block'}}
 
           onMouseDown={ event => {
-            let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            let {operation, nextValue} = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
+
+            console.log(operation);
+            if(operation === ACTION_ZOOM) props.onZoom && props.onZoom(eventFactory(event, nextValue, this.ViewerDOM));
           }}
           onMouseMove={ event => {
             let {left, top} = this.ViewerDOM.getBoundingClientRect();
             let x = event.clientX - Math.round(left);
             let y = event.clientY - Math.round(top);
 
-            let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
+            let {operation, nextValue} = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.setState({viewerX: x, viewerY: y});
             this.handleViewerEvent(event);
+
+            console.log(operation);
+            if(operation === ACTION_PAN) props.onPan && props.onPan(eventFactory(event, nextValue, this.ViewerDOM));
           }}
           onMouseUp={ event => {
             let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
