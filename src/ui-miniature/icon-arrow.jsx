@@ -13,7 +13,7 @@ export default function IconArrow({open, position}) {
       break;
 
     case POSITION_RIGHT:
-      transform = transform = open ? "rotate(-45, 12, 13)" : "rotate(135, 12, 13)";
+      transform = transform = open ? "rotate(135, 12, 13)" : "rotate(-45, 12, 13)";
   }
 
   return (
