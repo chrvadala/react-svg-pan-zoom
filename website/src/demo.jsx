@@ -296,6 +296,20 @@ export default class Demo extends React.Component {
                         onClick={event => this.Viewer.changeTool(TOOL_ZOOM_OUT)}> zoom out
                 </button>
               </div>
+
+              <div style={{marginBottom: "3px"}}>
+                <div>Miniature:</div>
+
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                        name="select-tool-auto-btn"
+                        onClick={event => this.Viewer.openMiniature()}> open
+                </button>
+
+                <button type="button" className="btn btn-outline-primary btn-sm" style={STYLE_BUTTON}
+                        name="select-tool-none-btn"
+                        onClick={event => this.Viewer.closeMiniature()}> close
+                </button>
+              </div>
             </div>
           </div>
         </div>

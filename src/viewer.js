@@ -24,6 +24,7 @@ import {
 }from './features/interactions-touch';
 
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
+import {openMiniature, closeMiniature} from './features/miniature';
 
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
@@ -122,6 +123,16 @@ export default class ReactSVGPanZoom extends React.Component {
   changeTool(tool) {
     this.setState({tool});
     if (this.props.onChangeTool) this.props.onChangeTool(tool);
+  }
+
+  openMiniature(){
+    let nextValue = openMiniature(this.getValue());
+    this.setValue(nextValue);
+  }
+
+  closeMiniature(){
+    let nextValue = closeMiniature(this.getValue());
+    this.setValue(nextValue);
   }
 
   handleViewerEvent(event) {
