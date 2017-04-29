@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {POSITION_RIGHT, POSITION_LEFT} from '../constants';
 
 //credits https://materialdesignicons.com/icon/chevron-up

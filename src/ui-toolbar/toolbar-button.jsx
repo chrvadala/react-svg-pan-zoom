@@ -1,9 +1,10 @@
-import React, {PropTypes, Component} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {
   POSITION_TOP, POSITION_BOTTOM
 } from '../constants';
 
-export default class ToolbarButton extends Component {
+export default class ToolbarButton extends React.Component {
   constructor(props) {
     super(props);
     this.state = {hover: false};

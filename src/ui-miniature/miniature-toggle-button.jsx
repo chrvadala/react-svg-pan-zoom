@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {openMiniature, closeMiniature} from '../features/miniature';
 import IconArrow from './icon-arrow';
 import {POSITION_RIGHT, POSITION_LEFT} from '../constants';

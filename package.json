@@ -44,6 +44,7 @@
     "web-components"
   ],
   "dependencies": {
+    "prop-types": "^15.5.0",
     "transformation-matrix": "^1.2.0"
   },
   "devDependencies": {
@@ -73,7 +74,6 @@
     "webpack-dev-server": "^2.4.5"
   },
   "peerDependencies": {
-    "react": ">=15.0.0",
-    "react-dom": ">=15.0.0"
+    "react": ">=15.0.0"
   }
 }
