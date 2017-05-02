@@ -47,8 +47,8 @@ export default function Miniature({value, onChangeValue, position, children, bac
     transition: "width 200ms ease, height 200ms ease, bottom 200ms ease",
     width: width + "px",
     height: height + "px",
-    bottom: "20px",
-    [position === POSITION_LEFT ? 'left' : 'right']: "20px"
+    bottom: "6px",
+    [position === POSITION_LEFT ? 'left' : 'right']: "6px"
   };
 
 
