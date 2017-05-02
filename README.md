@@ -93,6 +93,10 @@ class Demo extends React.Component {
   - `modifierKeys` - array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
   - `preventPanOutside` - if false the user can move the image outside the viewer
   - `scaleFactor` - how much scale in or out (default: 1.1 = 110%)
+  - `customToolbar` - override toolbar component
+  - `miniaturePosition` - miniature position (one of `none`, `right`, `left`)
+  - `miniatureWidth` - miniature width (default: 100px)
+  - `customMiniature` - override miniature component
   - `onClick` - handler* for click `fn(viewerEvent: ViewerMouseEvent)`
   - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`
   - `onMouseUp` - handler* for mouseup `fn(viewerEvent: ViewerMouseEvent)`

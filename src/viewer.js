@@ -440,7 +440,7 @@ ReactSVGPanZoom.propTypes = {
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: PropTypes.array,
 
-  //override default toolbar component
+  //override toolbar component
   customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
   //miniature position
@@ -449,7 +449,7 @@ ReactSVGPanZoom.propTypes = {
   //miniature width
   miniatureWidth: PropTypes.number,
 
-  //override default miniature component
+  //override miniature component
   customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
   //accept only one node SVG
