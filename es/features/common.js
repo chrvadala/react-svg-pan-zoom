@@ -21,7 +21,8 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) 
     startX: null,
     startY: null,
     endX: null,
-    endY: null
+    endY: null,
+    miniatureOpen: true
   }));
 }
 

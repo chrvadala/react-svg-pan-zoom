@@ -6,11 +6,12 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-import React, { PropTypes, Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { POSITION_TOP, POSITION_BOTTOM } from '../constants';
 
-var ToolbarButton = function (_Component) {
-  _inherits(ToolbarButton, _Component);
+var ToolbarButton = function (_React$Component) {
+  _inherits(ToolbarButton, _React$Component);
 
   function ToolbarButton(props) {
     _classCallCheck(this, ToolbarButton);
@@ -93,7 +94,7 @@ var ToolbarButton = function (_Component) {
   }]);
 
   return ToolbarButton;
-}(Component);
+}(React.Component);
 
 export default ToolbarButton;
 

@@ -1,4 +1,4 @@
-import React, { PropTypes } from 'react';
+import React from 'react';
 
 //https://material.io/icons/#ic_zoom_in
 
@@ -15,5 +15,3 @@ export default function IconZoomIn() {
     )
   );
 }
-
-IconZoomIn.propTypes = {};
