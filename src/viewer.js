@@ -185,7 +185,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {viewerX, viewerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let CustomToolbar = props.customToolbar;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -342,7 +342,7 @@ export default class ReactSVGPanZoom extends React.Component {
             onChangeTool={tool => this.changeTool(tool)}/> }
 
         {props.miniaturePosition === POSITION_NONE ? null :
-          <Miniature
+          <CustomMiniature
             position={props.miniaturePosition}
             value={value}
             onChangeValue={value => this.setValue(value)}
@@ -350,7 +350,7 @@ export default class ReactSVGPanZoom extends React.Component {
             width={this.props.miniatureWidth}
           >
             {props.children.props.children}
-          </Miniature>
+          </CustomMiniature>
         }
       </div>
     );
@@ -449,6 +449,9 @@ ReactSVGPanZoom.propTypes = {
   //miniature width
   miniatureWidth: PropTypes.number,
 
+  //override default miniature component
+  customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -485,4 +488,5 @@ ReactSVGPanZoom.defaultProps = {
   scaleFactor: 1.1,
   miniaturePosition: POSITION_LEFT,
   miniatureWidth: 100,
+  customMiniature: Miniature,
 };
