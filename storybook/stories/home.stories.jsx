@@ -15,7 +15,7 @@ let html = md.render(text)
 
 stories
   .add('Welcome', () => (
-    <div style={{background: "#fff", padding: "1rem 2rem"}}>
+    <div style={{background: "#fff", padding: "1rem 2rem"}} className="markdown-body">
       <div dangerouslySetInnerHTML={{__html: html}}/>
     </div>
   ))
