@@ -7,6 +7,7 @@
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
   "scripts": {
+    "storybook": "cross-env BABEL_ENV=commonjs start-storybook -p 9001 -s storybook/public -c storybook",
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "start": "webpack-dev-server --inline --config website/webpack.config.js",
     "build-website": "webpack --config website/webpack.config.js --env.production",
@@ -48,6 +49,9 @@
     "transformation-matrix": "^1.2.0"
   },
   "devDependencies": {
+    "@kadira/storybook": "^2.35.3",
+    "@kadira/storybook-addon-actions": "^1.1.3",
+    "@kadira/storybook-addon-knobs": "^1.7.1",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
