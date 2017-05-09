@@ -11,6 +11,7 @@ let text = Readme
   .replace(/\.\//g, 'https://github.com/chrvadala/react-svg-pan-zoom/tree/master/');
 
 let html = md.render(text)
+  .replace(/<a/g, '<a target="_blank" ');
 
 stories
   .add('Welcome', () => (
