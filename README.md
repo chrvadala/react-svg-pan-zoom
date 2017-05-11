@@ -23,7 +23,7 @@ This component can work in four different modes depending on the selected tool:
 ## Documentation
 - [Props](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#props)
 - [Methods](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#methods)
-- [Responsive viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/responsive-viewer.md)
+- [Responsive viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/autosizer-viewer.md)
 
 <!-- START_NO_WEB -->
 ## Install

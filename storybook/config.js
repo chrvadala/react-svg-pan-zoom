@@ -9,4 +9,5 @@ configure(() => {
   require('./stories/with-toolbar.stories');
   require('./stories/methods.stories');
   require('./stories/auto-mode.stories');
+  require('./stories/autosizer-viewer.stories');
 }, module);
