@@ -7,21 +7,20 @@
   "module": "es/index.js",
   "jsnext:main": "es/index.js",
   "scripts": {
+    "start": "npm run storybook",
     "storybook": "cross-env BABEL_ENV=commonjs start-storybook -p 9001 -s storybook/public -c storybook",
-    "build-storybook": "cross-env BABEL_ENV=commonjs build-storybook -s storybook/public -c storybook -o dist-storybook",
-    "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
-    "start": "webpack-dev-server --inline --config website/webpack.config.js",
-    "build-website": "webpack --config website/webpack.config.js --env.production",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build-es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build-dist-min": "webpack --env.minimize",
     "build-dist": "webpack",
+    "build-storybook": "cross-env BABEL_ENV=commonjs build-storybook -s storybook/public -c storybook -o dist-storybook",
     "build": "npm-run-all clean build-website build-commonjs build-es build-dist build-dist-min",
     "add-build-to-vcs": "git add -A dist es lib website/dist",
     "clean": "del lib es website/dist dist",
     "website-update": "gh-pages -m 'Update gh-pages' -d ./website/dist/",
     "version": "npm-run-all build add-build-to-vcs",
-    "postpublish": "npm run website-update"
+    "postpublish": "npm run website-update",
+    "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js"
   },
   "repository": {
     "type": "git",
