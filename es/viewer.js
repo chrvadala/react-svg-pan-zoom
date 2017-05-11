@@ -8,7 +8,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-import React, { PropTypes } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { toSVG } from 'transformation-matrix';
 
 //events
@@ -21,6 +22,7 @@ import { onMouseDown as _onMouseDown, onMouseMove as _onMouseMove, onMouseUp as 
 import { onTouchStart as _onTouchStart, onTouchMove as _onTouchMove, onTouchEnd as _onTouchEnd, onTouchCancel as _onTouchCancel } from './features/interactions-touch';
 
 import { zoom as _zoom, fitSelection as _fitSelection, fitToViewer as _fitToViewer, zoomOnViewerCenter as _zoomOnViewerCenter } from './features/zoom';
+import { openMiniature as _openMiniature, closeMiniature as _closeMiniature } from './features/miniature';
 
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
@@ -29,6 +31,7 @@ import If from './ui/if';
 import Selection from './ui/selection';
 import Toolbar from './ui-toolbar/toolbar';
 import detectTouch from './ui/detect-touch';
+import Miniature from './ui-miniature/miniature';
 
 import { TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, MODE_IDLE, MODE_PANNING, MODE_ZOOMING, POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT } from './constants';
 
@@ -143,6 +146,18 @@ var ReactSVGPanZoom = function (_React$Component) {
       if (this.props.onChangeTool) this.props.onChangeTool(tool);
     }
   }, {
+    key: 'openMiniature',
+    value: function openMiniature() {
+      var nextValue = _openMiniature(this.getValue());
+      this.setValue(nextValue);
+    }
+  }, {
+    key: 'closeMiniature',
+    value: function closeMiniature() {
+      var nextValue = _closeMiniature(this.getValue());
+      this.setValue(nextValue);
+    }
+  }, {
     key: 'handleViewerEvent',
     value: function handleViewerEvent(event) {
       var props = this.props,
@@ -208,7 +223,9 @@ var ReactSVGPanZoom = function (_React$Component) {
 
       var tool = this.getTool();
       var value = this.getValue();
-      var CustomToolbar = props.customToolbar;
+      var CustomToolbar = props.customToolbar,
+          CustomMiniature = props.customMiniature;
+
 
       var panningWithToolAuto = tool === TOOL_AUTO && value.mode === MODE_PANNING && value.startX !== value.endX && value.startY !== value.endY;
 
@@ -376,7 +393,20 @@ var ReactSVGPanZoom = function (_React$Component) {
           tool: tool,
           onChangeTool: function onChangeTool(tool) {
             return _this3.changeTool(tool);
-          } })
+          } }),
+        props.miniaturePosition === POSITION_NONE ? null : React.createElement(
+          CustomMiniature,
+          {
+            position: props.miniaturePosition,
+            value: value,
+            onChangeValue: function onChangeValue(value) {
+              return _this3.setValue(value);
+            },
+            background: this.props.SVGBackground,
+            width: this.props.miniatureWidth
+          },
+          props.children.props.children
+        )
       );
     }
   }]);
@@ -418,7 +448,8 @@ ReactSVGPanZoom.propTypes = {
     startX: PropTypes.number,
     startY: PropTypes.number,
     endX: PropTypes.number,
-    endY: PropTypes.number
+    endY: PropTypes.number,
+    miniatureOpen: PropTypes.bool.isRequired
   }),
 
   //CSS style of the Viewer
@@ -469,8 +500,17 @@ ReactSVGPanZoom.propTypes = {
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: PropTypes.array,
 
-  //override default toolbar component
+  //override toolbar component
   customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+
+  //miniature position
+  miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
+
+  //miniature width
+  miniatureWidth: PropTypes.number,
+
+  //override miniature component
+  customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
   //accept only one node SVG
   children: function children(props, propName, componentName) {
@@ -499,5 +539,8 @@ ReactSVGPanZoom.defaultProps = {
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
   preventPanOutside: true,
-  scaleFactor: 1.1
+  scaleFactor: 1.1,
+  miniaturePosition: POSITION_LEFT,
+  miniatureWidth: 100,
+  customMiniature: Miniature
 };

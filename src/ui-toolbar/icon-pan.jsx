@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 //https://materialdesignicons.com/icon/cursor-move
 
@@ -10,5 +10,3 @@ export default function IconPan() {
     </svg>
   );
 }
-
-IconPan.propTypes = {};

@@ -1,4 +1,4 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
 
 //credits https://materialdesignicons.com/icon/cursor-default-outline
 
@@ -10,5 +10,3 @@ export default function IconFit() {
     </svg>
   );
 }
-
-IconFit.propTypes = {};

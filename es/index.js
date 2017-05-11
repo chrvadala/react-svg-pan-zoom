@@ -3,6 +3,7 @@ export { default as Toolbar } from './ui-toolbar/toolbar';
 export { setPointOnViewerCenter, reset } from './features/common';
 export { pan } from './features/pan';
 export { zoom, fitSelection, fitToViewer, zoomOnViewerCenter } from './features/zoom';
+export { openMiniature, closeMiniature } from './features/miniature';
 export * from './constants';
 
 export var Viewer = function Viewer() {

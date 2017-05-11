@@ -97,6 +97,10 @@ class Demo extends React.Component {
   - `scaleFactorMax` - the maximum scale factor allowed (default is no maximum)
   - `onPan` - callback that fires while panning the `<svg>`. Supplies a `viewerEvent` as its only argument `fn(viewerEvent: ViewerMouseEvent)`
   - `onZoom` - callback that fires on zoom in/out of the `<svg>`. Supplies a `viewerEvent` as its only argument `fn(viewerEvent: ViewerMouseEvent)`
+  - `customToolbar` - override toolbar component
+  - `miniaturePosition` - miniature position (one of `none`, `right`, `left`)
+  - `miniatureWidth` - miniature width (default: 100px)
+  - `customMiniature` - override miniature component
   - `onClick` - handler* for click `fn(viewerEvent: ViewerMouseEvent)`
   - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`
   - `onMouseUp` - handler* for mouseup `fn(viewerEvent: ViewerMouseEvent)`
@@ -177,6 +181,7 @@ npm install && npm start
 - **v2.4** - Adds es:next support, deploy new website
 - **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
 - **v2.6** - Introduce [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduce bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
+- **v2.7** - Adds miniature feature, Adds [PropTypes](https://www.npmjs.com/package/prop-types) support
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!

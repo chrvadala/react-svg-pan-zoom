@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {toSVG} from 'transformation-matrix';
 
 //events
@@ -24,6 +25,7 @@ import {
 }from './features/interactions-touch';
 
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
+import {openMiniature, closeMiniature} from './features/miniature';
 
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
@@ -32,6 +34,7 @@ import If from './ui/if';
 import Selection from './ui/selection';
 import Toolbar from './ui-toolbar/toolbar';
 import detectTouch from './ui/detect-touch';
+import Miniature from './ui-miniature/miniature'
 
 import {
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
@@ -123,6 +126,16 @@ export default class ReactSVGPanZoom extends React.Component {
     if (this.props.onChangeTool) this.props.onChangeTool(tool);
   }
 
+  openMiniature(){
+    let nextValue = openMiniature(this.getValue());
+    this.setValue(nextValue);
+  }
+
+  closeMiniature(){
+    let nextValue = closeMiniature(this.getValue());
+    this.setValue(nextValue);
+  }
+
   handleViewerEvent(event) {
     let {props, state: {value}, ViewerDOM} = this;
 
@@ -172,7 +185,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {viewerX, viewerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let CustomToolbar = props.customToolbar;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -331,6 +344,17 @@ export default class ReactSVGPanZoom extends React.Component {
             tool={tool}
             onChangeTool={tool => this.changeTool(tool)}/> }
 
+        {props.miniaturePosition === POSITION_NONE ? null :
+          <CustomMiniature
+            position={props.miniaturePosition}
+            value={value}
+            onChangeValue={value => this.setValue(value)}
+            background={this.props.SVGBackground}
+            width={this.props.miniatureWidth}
+          >
+            {props.children.props.children}
+          </CustomMiniature>
+        }
       </div>
     );
   }
@@ -368,6 +392,7 @@ ReactSVGPanZoom.propTypes = {
     startY: PropTypes.number,
     endX: PropTypes.number,
     endY: PropTypes.number,
+    miniatureOpen: PropTypes.bool.isRequired,
   }),
 
   //CSS style of the Viewer
@@ -430,8 +455,17 @@ ReactSVGPanZoom.propTypes = {
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: PropTypes.array,
 
-  //override default toolbar component
+  //override toolbar component
   customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+
+  //miniature position
+  miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
+
+  //miniature width
+  miniatureWidth: PropTypes.number,
+
+  //override miniature component
+  customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
   //accept only one node SVG
   children: function (props, propName, componentName) {
@@ -466,5 +500,8 @@ ReactSVGPanZoom.defaultProps = {
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
   preventPanOutside: true,
-  scaleFactor: 1.1
+  scaleFactor: 1.1,
+  miniaturePosition: POSITION_LEFT,
+  miniatureWidth: 100,
+  customMiniature: Miniature,
 };

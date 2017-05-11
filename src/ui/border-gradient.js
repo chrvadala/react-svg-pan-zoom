@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT} from '../constants';
 
 export default function BorderGradient({direction, width, height}) {
