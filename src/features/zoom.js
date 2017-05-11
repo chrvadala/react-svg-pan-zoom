@@ -4,15 +4,19 @@ import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {calculateBox} from '../utils';
 
-function lessThanScaleFactorMin (props, nextValue) {
-  return (nextValue.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
+function lessThanScaleFactorMin (props, value) {
+  return props.scaleFactorMin && (value.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
 }
 
-function moreThanScaleFactorMax (props, nextValue) {
-  return (nextValue.d * props.scaleFactor) >= props.scaleFactorMax;
+function moreThanScaleFactorMax (props, value) {
+  return props.scaleFactorMax && (value.d * props.scaleFactor) >= props.scaleFactorMax;
 }
 
 export function zoom(value, SVGPointX, SVGPointY, props) {
+
+  if (lessThanScaleFactorMin(props, value) || moreThanScaleFactorMax(props, value)) {
+      return value;
+  }
 
   let matrix = transform(
     fromObject(value),
