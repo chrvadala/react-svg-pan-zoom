@@ -7,7 +7,8 @@ let stories = storiesOf('<ReactSVGPanZoom' + '>', module);
 
 let md = new Remarkable();
 let text = Readme
-  .replace(/<!-- START_NO_WEB -->[\w\W]*<!-- END_NO_WEB -->/, '')
+  .replace(/<!-- START_NO_WEB:1 -->[\w\W]*<!-- END_NO_WEB:1 -->/, '')
+  .replace(/<!-- START_NO_WEB:2 -->[\w\W]*<!-- END_NO_WEB:2 -->/, '')
   .replace(/\.\//g, 'https://github.com/chrvadala/react-svg-pan-zoom/tree/master/');
 
 let html = md.render(text)

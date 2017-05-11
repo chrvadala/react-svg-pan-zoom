@@ -6,12 +6,12 @@
 ![license-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
 [![Donate](https://img.shields.io/badge/donate-%E2%82%AC%E2%82%AC%E2%82%AC-brightgreen.svg)](https://www.bountysource.com/teams/react-svg-pan-zoom)
 
-<!-- START_NO_WEB -->
+<!-- START_NO_WEB:1 -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Live Demo
 available at [http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
-<!-- END_NO_WEB -->
+<!-- END_NO_WEB:1 -->
 
 ## Features
 This component can work in four different modes depending on the selected tool:
@@ -25,12 +25,12 @@ This component can work in four different modes depending on the selected tool:
 - [Methods](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#methods)
 - [Responsive viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/autosizer-viewer.md)
 
-<!-- START_NO_WEB -->
+<!-- START_NO_WEB:2 -->
 ## Install
 ```sh
 npm install --save react-svg-pan-zoom
 ```
-<!-- END_NO_WEB -->
+<!-- END_NO_WEB:2 -->
 
 ## Usage examples
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
