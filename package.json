@@ -8,6 +8,7 @@
   "jsnext:main": "es/index.js",
   "scripts": {
     "storybook": "cross-env BABEL_ENV=commonjs start-storybook -p 9001 -s storybook/public -c storybook",
+    "build-storybook": "cross-env BABEL_ENV=commonjs build-storybook -s storybook/public -c storybook -o dist-storybook",
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "start": "webpack-dev-server --inline --config website/webpack.config.js",
     "build-website": "webpack --config website/webpack.config.js --env.production",
