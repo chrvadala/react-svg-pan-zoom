@@ -4,7 +4,7 @@ import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {calculateBox} from '../utils';
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor, mode) {
 
   let matrix = transform(
     fromObject(value),
@@ -14,7 +14,7 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
   )
 
   return set(value, {
-    mode: MODE_IDLE,
+    mode: mode || MODE_IDLE,
     ...matrix,
     startX: null,
     startY: null,
