@@ -2322,7 +2322,7 @@ function onTouchEnd(event, ViewerDOM, tool, value, props) {
   }
 
   var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length === 1 ? undefined : value.pointDistance
+    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length < 2 ? undefined : value.pointDistance
   });
 
   if (event.touches.length > 0) {

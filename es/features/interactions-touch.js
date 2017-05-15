@@ -93,7 +93,7 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
   }
 
   var nextValue = set(value, {
-    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length === 1 ? undefined : value.pointDistance
+    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length < 2 ? undefined : value.pointDistance
   });
 
   if (event.touches.length > 0) {
