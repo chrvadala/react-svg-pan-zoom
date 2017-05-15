@@ -113,7 +113,7 @@ var POSITION_LEFT = 'left';
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_transformation_matrix__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_transformation_matrix__ = __webpack_require__(6);
 /* harmony export (immutable) */ __webpack_exports__["e"] = getDefaultValue;
 /* harmony export (immutable) */ __webpack_exports__["c"] = set;
 /* unused harmony export isValueValid */
@@ -318,10 +318,122 @@ if (process.env.NODE_ENV !== 'production') {
   module.exports = __webpack_require__(39)();
 }
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 4 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_transformation_matrix__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils__ = __webpack_require__(9);
+/* harmony export (immutable) */ __webpack_exports__["a"] = zoom;
+/* harmony export (immutable) */ __webpack_exports__["b"] = fitSelection;
+/* harmony export (immutable) */ __webpack_exports__["c"] = fitToViewer;
+/* harmony export (immutable) */ __webpack_exports__["d"] = zoomOnViewerCenter;
+/* harmony export (immutable) */ __webpack_exports__["e"] = startZooming;
+/* harmony export (immutable) */ __webpack_exports__["g"] = updateZooming;
+/* harmony export (immutable) */ __webpack_exports__["f"] = stopZooming;
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+
+
+
+
+
+
+function zoom(value, SVGPointX, SVGPointY, scaleFactor, extraData) {
+
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["e" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["b" /* fromObject */])(value), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["f" /* translate */])(SVGPointX, SVGPointY), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["g" /* scale */])(scaleFactor, scaleFactor), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["f" /* translate */])(-SVGPointX, -SVGPointY));
+
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(_extends({
+    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MODE_IDLE */]
+  }, matrix, {
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
+  }), extraData));
+}
+
+function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
+  var viewerWidth = value.viewerWidth,
+      viewerHeight = value.viewerHeight;
+
+
+  var scaleX = viewerWidth / selectionWidth;
+  var scaleY = viewerHeight / selectionHeight;
+
+  var scaleLevel = Math.min(scaleX, scaleY);
+
+  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["e" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["g" /* scale */])(scaleLevel, scaleLevel), //2
+  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["f" /* translate */])(-selectionSVGPointX, -selectionSVGPointY) //1
+  );
+
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, _extends({
+    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MODE_IDLE */]
+  }, matrix, {
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
+  }));
+}
+
+function fitToViewer(value) {
+  return fitSelection(value, 0, 0, value.SVGWidth, value.SVGHeight);
+}
+
+function zoomOnViewerCenter(value, scaleFactor) {
+  var viewerWidth = value.viewerWidth,
+      viewerHeight = value.viewerHeight;
+
+  var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, viewerWidth / 2, viewerHeight / 2);
+  return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+}
+
+function startZooming(value, viewerX, viewerY) {
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, {
+    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* MODE_ZOOMING */],
+    startX: viewerX,
+    startY: viewerY,
+    endX: viewerX,
+    endY: viewerY
+  });
+}
+
+function updateZooming(value, viewerX, viewerY) {
+  if (value.mode !== __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* MODE_ZOOMING */]) throw new Error('update selection not allowed in this mode ' + value.mode);
+
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, {
+    endX: viewerX,
+    endY: viewerY
+  });
+}
+
+function stopZooming(value, viewerX, viewerY, scaleFactor) {
+  var startX = value.startX,
+      startY = value.startY,
+      endX = value.endX,
+      endY = value.endY;
+
+
+  var start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, startX, startY);
+  var end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, endX, endY);
+
+  if (Math.abs(startX - endX) > 7 && Math.abs(startY - endY) > 7) {
+    var box = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils__["a" /* calculateBox */])(start, end);
+    return fitSelection(value, box.x, box.y, box.width, box.height);
+  } else {
+    var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, viewerX, viewerY);
+    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+  }
+}
+
+/***/ }),
+/* 5 */
 /***/ (function(module, exports) {
 
 // shim for using process in browser
@@ -511,7 +623,7 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -554,118 +666,6 @@ process.umask = function() { return 0; };
 
 
 /***/ }),
-/* 6 */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_transformation_matrix__ = __webpack_require__(5);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__constants__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__utils__ = __webpack_require__(9);
-/* harmony export (immutable) */ __webpack_exports__["a"] = zoom;
-/* harmony export (immutable) */ __webpack_exports__["b"] = fitSelection;
-/* harmony export (immutable) */ __webpack_exports__["c"] = fitToViewer;
-/* harmony export (immutable) */ __webpack_exports__["d"] = zoomOnViewerCenter;
-/* harmony export (immutable) */ __webpack_exports__["e"] = startZooming;
-/* harmony export (immutable) */ __webpack_exports__["g"] = updateZooming;
-/* harmony export (immutable) */ __webpack_exports__["f"] = stopZooming;
-var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-
-
-
-
-
-
-
-function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
-
-  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["e" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["b" /* fromObject */])(value), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["f" /* translate */])(SVGPointX, SVGPointY), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["g" /* scale */])(scaleFactor, scaleFactor), __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["f" /* translate */])(-SVGPointX, -SVGPointY));
-
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, _extends({
-    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MODE_IDLE */]
-  }, matrix, {
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null
-  }));
-}
-
-function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-  var viewerWidth = value.viewerWidth,
-      viewerHeight = value.viewerHeight;
-
-
-  var scaleX = viewerWidth / selectionWidth;
-  var scaleY = viewerHeight / selectionHeight;
-
-  var scaleLevel = Math.min(scaleX, scaleY);
-
-  var matrix = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["e" /* transform */])(__webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["g" /* scale */])(scaleLevel, scaleLevel), //2
-  __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0_transformation_matrix__["f" /* translate */])(-selectionSVGPointX, -selectionSVGPointY) //1
-  );
-
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, _extends({
-    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["a" /* MODE_IDLE */]
-  }, matrix, {
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null
-  }));
-}
-
-function fitToViewer(value) {
-  return fitSelection(value, 0, 0, value.SVGWidth, value.SVGHeight);
-}
-
-function zoomOnViewerCenter(value, scaleFactor) {
-  var viewerWidth = value.viewerWidth,
-      viewerHeight = value.viewerHeight;
-
-  var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, viewerWidth / 2, viewerHeight / 2);
-  return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
-}
-
-function startZooming(value, viewerX, viewerY) {
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, {
-    mode: __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* MODE_ZOOMING */],
-    startX: viewerX,
-    startY: viewerY,
-    endX: viewerX,
-    endY: viewerY
-  });
-}
-
-function updateZooming(value, viewerX, viewerY) {
-  if (value.mode !== __WEBPACK_IMPORTED_MODULE_1__constants__["c" /* MODE_ZOOMING */]) throw new Error('update selection not allowed in this mode ' + value.mode);
-
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["c" /* set */])(value, {
-    endX: viewerX,
-    endY: viewerY
-  });
-}
-
-function stopZooming(value, viewerX, viewerY, scaleFactor) {
-  var startX = value.startX,
-      startY = value.startY,
-      endX = value.endX,
-      endY = value.endY;
-
-
-  var start = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, startX, startY);
-  var end = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, endX, endY);
-
-  if (Math.abs(startX - endX) > 7 && Math.abs(startY - endY) > 7) {
-    var box = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__utils__["a" /* calculateBox */])(start, end);
-    return fitSelection(value, box.x, box.y, box.width, box.height);
-  } else {
-    var SVGPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__common__["d" /* getSVGPoint */])(value, viewerX, viewerY);
-    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
-  }
-}
-
-/***/ }),
 /* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -694,7 +694,7 @@ function closeMiniature(value) {
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix__ = __webpack_require__(6);
 /* harmony export (immutable) */ __webpack_exports__["a"] = pan;
 /* harmony export (immutable) */ __webpack_exports__["b"] = startPanning;
 /* harmony export (immutable) */ __webpack_exports__["d"] = updatePanning;
@@ -954,7 +954,7 @@ function invariant(condition, format, a, b, c, d, e, f) {
 }
 
 module.exports = invariant;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 12 */
@@ -966,7 +966,7 @@ module.exports = invariant;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_zoom__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_zoom__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__icon_cursor__ = __webpack_require__(27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__icon_pan__ = __webpack_require__(29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__icon_zoom_in__ = __webpack_require__(30);
@@ -1163,7 +1163,7 @@ var ViewerEvent = function () {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__pan__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__zoom__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__zoom__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils__ = __webpack_require__(9);
 /* harmony export (immutable) */ __webpack_exports__["b"] = onMouseDown;
 /* harmony export (immutable) */ __webpack_exports__["c"] = onMouseMove;
@@ -1459,7 +1459,7 @@ if (process.env.NODE_ENV !== 'production') {
 }
 
 module.exports = warning;
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 16 */
@@ -1491,13 +1491,13 @@ module.exports = ReactPropTypesSecret;
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_react___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_react__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_transformation_matrix__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__events_event_factory__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_pan__ = __webpack_require__(8);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__features_common__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__features_interactions__ = __webpack_require__(14);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__features_interactions_touch__ = __webpack_require__(21);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__features_zoom__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_8__features_zoom__ = __webpack_require__(4);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_9__features_miniature__ = __webpack_require__(7);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__ui_cursor_polyfill__ = __webpack_require__(34);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11__ui_border_gradient__ = __webpack_require__(33);
@@ -2222,6 +2222,7 @@ var ViewerTouchEvent = function (_ViewerEvent) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__constants__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__common__ = __webpack_require__(2);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__interactions__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__zoom__ = __webpack_require__(4);
 /* harmony export (immutable) */ __webpack_exports__["a"] = onTouchStart;
 /* harmony export (immutable) */ __webpack_exports__["b"] = onTouchMove;
 /* harmony export (immutable) */ __webpack_exports__["c"] = onTouchEnd;
@@ -2230,18 +2231,39 @@ var ViewerTouchEvent = function (_ViewerEvent) {
 
 
 
+
+function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
+  var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin.left,
+      top = _ViewerDOM$getBoundin.top;
+
+  var x1 = event.touches[0].clientX - Math.round(left);
+  var y1 = event.touches[0].clientY - Math.round(top);
+  var x2 = event.touches[1].clientX - Math.round(left);
+  var y2 = event.touches[1].clientY - Math.round(top);
+  var pointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  var previousPointDistance = !isNaN(value.pointDistance) ? value.pointDistance : pointDistance;
+  var svgPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, (x1 + x2) / 2, (y1 + y2) / 2);
+  var distanceFactor = pointDistance / previousPointDistance;
+
+  event.preventDefault();
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */], pointDistance: pointDistance });
+}
+
 function onTouchStart(event, ViewerDOM, tool, value, props) {
   var x = void 0,
       y = void 0;
   if (event.touches.length === 1) {
     var touchPosition = event.touches[0];
 
-    var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),
-        left = _ViewerDOM$getBoundin.left,
-        top = _ViewerDOM$getBoundin.top;
+    var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
+        left = _ViewerDOM$getBoundin2.left,
+        top = _ViewerDOM$getBoundin2.top;
 
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
+  } else if (event.touches.length > 1 && props.detectWheel) {
+    return value;
   } else {
     if ([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0) {
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
@@ -2267,11 +2289,15 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
 function onTouchMove(event, ViewerDOM, tool, value, props) {
   if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
 
+  if (event.touches.length > 1 && props.detectWheel) {
+    return onMultiTouchMove(event, ViewerDOM, tool, value, props);
+  }
+
   var touchPosition = event.touches[0];
 
-  var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin2.left,
-      top = _ViewerDOM$getBoundin2.top;
+  var _ViewerDOM$getBoundin3 = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin3.left,
+      top = _ViewerDOM$getBoundin3.top;
 
   var x = touchPosition.clientX - Math.round(left);
   var y = touchPosition.clientY - Math.round(top);
@@ -2291,13 +2317,23 @@ function onTouchMove(event, ViewerDOM, tool, value, props) {
 }
 
 function onTouchEnd(event, ViewerDOM, tool, value, props) {
-  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) {
+    return value;
+  }
+
+  var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
+    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length === 1 ? undefined : value.pointDistance
+  });
+
+  if (event.touches.length > 0) {
+    return nextValue;
+  }
 
   var touchPosition = event.changedTouches[0];
 
-  var _ViewerDOM$getBoundin3 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin3.left,
-      top = _ViewerDOM$getBoundin3.top;
+  var _ViewerDOM$getBoundin4 = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin4.left,
+      top = _ViewerDOM$getBoundin4.top;
 
   var x = touchPosition.clientX - Math.round(left);
   var y = touchPosition.clientY - Math.round(top);
@@ -2309,10 +2345,10 @@ function onTouchEnd(event, ViewerDOM, tool, value, props) {
     case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
       event.stopPropagation();
       event.preventDefault();
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["d" /* onMouseUp */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
+      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["d" /* onMouseUp */])(event, ViewerDOM, tool, nextValue, props, { x: x, y: y });
 
     default:
-      return value;
+      return nextValue;
   }
 }
 
@@ -2338,7 +2374,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "reset", function() { return __WEBPACK_IMPORTED_MODULE_2__features_common__["b"]; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__features_pan__ = __webpack_require__(8);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "pan", function() { return __WEBPACK_IMPORTED_MODULE_3__features_pan__["a"]; });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_zoom__ = __webpack_require__(6);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__features_zoom__ = __webpack_require__(4);
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "zoom", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["a"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitSelection", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["b"]; });
 /* harmony reexport (binding) */ __webpack_require__.d(__webpack_exports__, "fitToViewer", function() { return __WEBPACK_IMPORTED_MODULE_4__features_zoom__["c"]; });
@@ -2555,7 +2591,7 @@ MiniatureToggleButton.propTypes = {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_prop_types___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_prop_types__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__constants__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_transformation_matrix__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_transformation_matrix__ = __webpack_require__(6);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__miniature_toggle_button__ = __webpack_require__(25);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__miniature_mask__ = __webpack_require__(24);
 /* harmony export (immutable) */ __webpack_exports__["a"] = Miniature;
@@ -3147,7 +3183,7 @@ function checkPropTypes(typeSpecs, values, location, componentName, getStack) {
 
 module.exports = checkPropTypes;
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 39 */
@@ -3694,7 +3730,7 @@ module.exports = function(isValidElement, throwOnDirectAccess) {
   return ReactPropTypes;
 };
 
-/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(4)))
+/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(5)))
 
 /***/ }),
 /* 41 */

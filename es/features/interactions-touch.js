@@ -1,6 +1,25 @@
 import { TOOL_NONE, TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, MODE_IDLE, MODE_PANNING, MODE_ZOOMING } from '../constants';
-import { resetMode } from './common';
+import { resetMode, getSVGPoint, set } from './common';
 import { onMouseDown, onMouseMove, onMouseUp } from './interactions';
+import { startZooming, updateZooming, stopZooming, zoom } from './zoom';
+
+function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
+  var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin.left,
+      top = _ViewerDOM$getBoundin.top;
+
+  var x1 = event.touches[0].clientX - Math.round(left);
+  var y1 = event.touches[0].clientY - Math.round(top);
+  var x2 = event.touches[1].clientX - Math.round(left);
+  var y2 = event.touches[1].clientY - Math.round(top);
+  var pointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  var previousPointDistance = !isNaN(value.pointDistance) ? value.pointDistance : pointDistance;
+  var svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
+  var distanceFactor = pointDistance / previousPointDistance;
+
+  event.preventDefault();
+  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pointDistance: pointDistance });
+}
 
 export function onTouchStart(event, ViewerDOM, tool, value, props) {
   var x = void 0,
@@ -8,12 +27,14 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
   if (event.touches.length === 1) {
     var touchPosition = event.touches[0];
 
-    var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),
-        left = _ViewerDOM$getBoundin.left,
-        top = _ViewerDOM$getBoundin.top;
+    var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
+        left = _ViewerDOM$getBoundin2.left,
+        top = _ViewerDOM$getBoundin2.top;
 
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
+  } else if (event.touches.length > 1 && props.detectWheel) {
+    return value;
   } else {
     if ([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0) {
       return resetMode(value);
@@ -39,11 +60,15 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
 export function onTouchMove(event, ViewerDOM, tool, value, props) {
   if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
 
+  if (event.touches.length > 1 && props.detectWheel) {
+    return onMultiTouchMove(event, ViewerDOM, tool, value, props);
+  }
+
   var touchPosition = event.touches[0];
 
-  var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin2.left,
-      top = _ViewerDOM$getBoundin2.top;
+  var _ViewerDOM$getBoundin3 = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin3.left,
+      top = _ViewerDOM$getBoundin3.top;
 
   var x = touchPosition.clientX - Math.round(left);
   var y = touchPosition.clientY - Math.round(top);
@@ -63,13 +88,23 @@ export function onTouchMove(event, ViewerDOM, tool, value, props) {
 }
 
 export function onTouchEnd(event, ViewerDOM, tool, value, props) {
-  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
+  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) {
+    return value;
+  }
+
+  var nextValue = set(value, {
+    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length === 1 ? undefined : value.pointDistance
+  });
+
+  if (event.touches.length > 0) {
+    return nextValue;
+  }
 
   var touchPosition = event.changedTouches[0];
 
-  var _ViewerDOM$getBoundin3 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin3.left,
-      top = _ViewerDOM$getBoundin3.top;
+  var _ViewerDOM$getBoundin4 = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin4.left,
+      top = _ViewerDOM$getBoundin4.top;
 
   var x = touchPosition.clientX - Math.round(left);
   var y = touchPosition.clientY - Math.round(top);
@@ -81,10 +116,10 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
     case TOOL_PAN:
       event.stopPropagation();
       event.preventDefault();
-      return onMouseUp(event, ViewerDOM, tool, value, props, { x: x, y: y });
+      return onMouseUp(event, ViewerDOM, tool, nextValue, props, { x: x, y: y });
 
     default:
-      return value;
+      return nextValue;
   }
 }
 

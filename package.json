@@ -10,6 +10,7 @@
     "test": "mocha --compilers js:babel-core/register ./src/**/*.spec.js",
     "start": "webpack-dev-server --inline --config website/webpack.config.js",
     "build-website": "webpack --config website/webpack.config.js --env.production",
+    "build-website:debug": "webpack --config website/webpack.config.js",
     "build-commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build-es": "cross-env BABEL_ENV=es babel src --out-dir es",
     "build-dist-min": "webpack --env.minimize",

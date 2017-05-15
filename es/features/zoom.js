@@ -6,18 +6,18 @@ import { MODE_IDLE, MODE_ZOOMING } from '../constants';
 import { set, getSVGPoint } from './common';
 import { calculateBox } from '../utils';
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor, extraData) {
 
   var matrix = transform(fromObject(value), translate(SVGPointX, SVGPointY), scale(scaleFactor, scaleFactor), translate(-SVGPointX, -SVGPointY));
 
-  return set(value, _extends({
+  return set(value, set(_extends({
     mode: MODE_IDLE
   }, matrix, {
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  }));
+  }), extraData));
 }
 
 export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
