@@ -1,7 +1,7 @@
 import { TOOL_NONE, TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, MODE_IDLE, MODE_PANNING, MODE_ZOOMING } from '../constants';
 import { resetMode, getSVGPoint, set } from './common';
 import { onMouseDown, onMouseMove, onMouseUp } from './interactions';
-import { startZooming, updateZooming, stopZooming, zoom } from './zoom';
+import { zoom } from './zoom';
 
 function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),

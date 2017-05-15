@@ -4,7 +4,7 @@ import {
 } from '../constants';
 import {resetMode, getSVGPoint, set} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
-import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
+import {zoom} from './zoom';
 
 function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   const {left, top} = ViewerDOM.getBoundingClientRect();
