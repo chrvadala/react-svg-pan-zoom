@@ -142,6 +142,7 @@ function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
     mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     focus: false,
     pinchPointDistance: null,
+    prePinchMode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     viewerWidth: viewerWidth,
     viewerHeight: viewerHeight,
     SVGWidth: SVGWidth,
@@ -2237,7 +2238,11 @@ var ViewerTouchEvent = function (_ViewerEvent) {
 
 
 
-function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
+function hasPinchPointDistance(value) {
+  return typeof value.pinchPointDistance === 'number';
+}
+
+function onMultiTouch(event, ViewerDOM, tool, value, props) {
   var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),
       left = _ViewerDOM$getBoundin.left,
       top = _ViewerDOM$getBoundin.top;
@@ -2247,33 +2252,67 @@ function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   var x2 = event.touches[1].clientX - Math.round(left);
   var y2 = event.touches[1].clientY - Math.round(top);
   var pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  var previousPointDistance = !isNaN(value.pinchPointDistance) ? value.pinchPointDistance : pinchPointDistance;
+  var previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
   var svgPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, (x1 + x2) / 2, (y1 + y2) / 2);
   var distanceFactor = pinchPointDistance / previousPointDistance;
 
+  if (distanceFactor === 1) {
+    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, { mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */], pinchPointDistance: pinchPointDistance });
+  }
+
   event.preventDefault();
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */], pinchPointDistance: pinchPointDistance });
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, {
+    mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */],
+    prePinchMode: value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */] ? value.prePinchMode : value.mode,
+    pinchPointDistance: pinchPointDistance
+  });
 }
 
 function isMultiTouch(event, props) {
   return props.detectPinchGesture && event.touches.length > 1;
 }
 
+function shouldResetPinchPointDistance(event, value, props) {
+  return props.detectPinchGesture && hasPinchPointDistance(value) && event.touches.length < 2;
+}
+
+function getTouchPosition(touch, ViewerDOM) {
+  var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin2.left,
+      top = _ViewerDOM$getBoundin2.top;
+
+  var x = touch.clientX - Math.round(left);
+  var y = touch.clientY - Math.round(top);
+
+  return { x: x, y: y };
+}
+
+function getNextValue(event, ViewerDOM, tool, value, props, nextValueFn) {
+  var hasTouchPoints = event.touches.length > 0;
+  var nextValue = hasTouchPoints ? value : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, { mode: value.prePinchMode });
+  var touch = hasTouchPoints ? event.touches[0] : event.changedTouches[0];
+  var touchPosition = getTouchPosition(touch, ViewerDOM);
+
+  switch (tool) {
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
+    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
+      event.stopPropagation();
+      event.preventDefault();
+      return nextValueFn(event, ViewerDOM, tool, nextValue, props, touchPosition);
+
+    default:
+      return nextValue;
+  }
+}
+
 function onTouchStart(event, ViewerDOM, tool, value, props) {
-  var x = void 0,
-      y = void 0;
-  if (event.touches.length === 1) {
-    var touchPosition = event.touches[0];
+  if (isMultiTouch(event, props)) {
+    return onMultiTouch(event, ViewerDOM, tool, value, props);
+  }
 
-    var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
-        left = _ViewerDOM$getBoundin2.left,
-        top = _ViewerDOM$getBoundin2.top;
-
-    x = touchPosition.clientX - Math.round(left);
-    y = touchPosition.clientY - Math.round(top);
-  } else if (isMultiTouch(event, props)) {
-    return value;
-  } else {
+  if (event.touches.length !== 1) {
     if ([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0) {
       return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["h" /* resetMode */])(value);
     } else if ([__WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */]].indexOf(value.mode) >= 0) {
@@ -2281,48 +2320,19 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
     }
   }
 
-  switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
-      event.stopPropagation();
-      event.preventDefault();
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["b" /* onMouseDown */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
-
-    default:
-      return value;
-  }
+  return getNextValue(event, ViewerDOM, tool, value, props, __WEBPACK_IMPORTED_MODULE_2__interactions__["b" /* onMouseDown */]);
 }
 
 function onTouchMove(event, ViewerDOM, tool, value, props) {
-  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
-
   if (isMultiTouch(event, props)) {
-    return onMultiTouchMove(event, ViewerDOM, tool, value, props);
+    return onMultiTouch(event, ViewerDOM, tool, value, props);
   }
 
-  var touchPosition = event.touches[0];
-
-  var _ViewerDOM$getBoundin3 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin3.left,
-      top = _ViewerDOM$getBoundin3.top;
-
-  var x = touchPosition.clientX - Math.round(left);
-  var y = touchPosition.clientY - Math.round(top);
-
-  switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
-      event.stopPropagation();
-      event.preventDefault();
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["c" /* onMouseMove */])(event, ViewerDOM, tool, value, props, { x: x, y: y });
-
-    default:
-      return value;
+  if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) {
+    return value;
   }
+
+  return getNextValue(event, ViewerDOM, tool, value, props, __WEBPACK_IMPORTED_MODULE_2__interactions__["c" /* onMouseMove */]);
 }
 
 function onTouchEnd(event, ViewerDOM, tool, value, props) {
@@ -2330,35 +2340,13 @@ function onTouchEnd(event, ViewerDOM, tool, value, props) {
     return value;
   }
 
-  var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    pinchPointDistance: !isNaN(value.pinchPointDistance) && props.detectPinchGesture && event.touches.length < 2 ? undefined : value.pinchPointDistance
-  });
+  var nextValue = shouldResetPinchPointDistance(event, value, props) ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, { pinchPointDistance: null }) : value;
 
   if (event.touches.length > 0) {
     return nextValue;
   }
 
-  var touchPosition = event.changedTouches[0];
-
-  var _ViewerDOM$getBoundin4 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin4.left,
-      top = _ViewerDOM$getBoundin4.top;
-
-  var x = touchPosition.clientX - Math.round(left);
-  var y = touchPosition.clientY - Math.round(top);
-
-  switch (tool) {
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["h" /* TOOL_ZOOM_OUT */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["g" /* TOOL_ZOOM_IN */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["d" /* TOOL_AUTO */]:
-    case __WEBPACK_IMPORTED_MODULE_0__constants__["f" /* TOOL_PAN */]:
-      event.stopPropagation();
-      event.preventDefault();
-      return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_2__interactions__["d" /* onMouseUp */])(event, ViewerDOM, tool, nextValue, props, { x: x, y: y });
-
-    default:
-      return nextValue;
-  }
+  return getNextValue(event, ViewerDOM, tool, nextValue, props, __WEBPACK_IMPORTED_MODULE_2__interactions__["d" /* onMouseUp */]);
 }
 
 function onTouchCancel(event, ViewerDOM, tool, value, props) {

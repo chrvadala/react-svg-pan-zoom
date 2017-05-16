@@ -3,7 +3,11 @@ import { resetMode, getSVGPoint, set } from './common';
 import { onMouseDown, onMouseMove, onMouseUp } from './interactions';
 import { zoom } from './zoom';
 
-function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
+function hasPinchPointDistance(value) {
+  return typeof value.pinchPointDistance === 'number';
+}
+
+function onMultiTouch(event, ViewerDOM, tool, value, props) {
   var _ViewerDOM$getBoundin = ViewerDOM.getBoundingClientRect(),
       left = _ViewerDOM$getBoundin.left,
       top = _ViewerDOM$getBoundin.top;
@@ -13,33 +17,67 @@ function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   var x2 = event.touches[1].clientX - Math.round(left);
   var y2 = event.touches[1].clientY - Math.round(top);
   var pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  var previousPointDistance = !isNaN(value.pinchPointDistance) ? value.pinchPointDistance : pinchPointDistance;
+  var previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
   var svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
   var distanceFactor = pinchPointDistance / previousPointDistance;
 
+  if (distanceFactor === 1) {
+    return set(value, { mode: MODE_ZOOMING, pinchPointDistance: pinchPointDistance });
+  }
+
   event.preventDefault();
-  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pinchPointDistance: pinchPointDistance });
+  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, {
+    mode: MODE_ZOOMING,
+    prePinchMode: value.mode === MODE_ZOOMING ? value.prePinchMode : value.mode,
+    pinchPointDistance: pinchPointDistance
+  });
 }
 
 function isMultiTouch(event, props) {
   return props.detectPinchGesture && event.touches.length > 1;
 }
 
+function shouldResetPinchPointDistance(event, value, props) {
+  return props.detectPinchGesture && hasPinchPointDistance(value) && event.touches.length < 2;
+}
+
+function getTouchPosition(touch, ViewerDOM) {
+  var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
+      left = _ViewerDOM$getBoundin2.left,
+      top = _ViewerDOM$getBoundin2.top;
+
+  var x = touch.clientX - Math.round(left);
+  var y = touch.clientY - Math.round(top);
+
+  return { x: x, y: y };
+}
+
+function getNextValue(event, ViewerDOM, tool, value, props, nextValueFn) {
+  var hasTouchPoints = event.touches.length > 0;
+  var nextValue = hasTouchPoints ? value : set(value, { mode: value.prePinchMode });
+  var touch = hasTouchPoints ? event.touches[0] : event.changedTouches[0];
+  var touchPosition = getTouchPosition(touch, ViewerDOM);
+
+  switch (tool) {
+    case TOOL_ZOOM_OUT:
+    case TOOL_ZOOM_IN:
+    case TOOL_AUTO:
+    case TOOL_PAN:
+      event.stopPropagation();
+      event.preventDefault();
+      return nextValueFn(event, ViewerDOM, tool, nextValue, props, touchPosition);
+
+    default:
+      return nextValue;
+  }
+}
+
 export function onTouchStart(event, ViewerDOM, tool, value, props) {
-  var x = void 0,
-      y = void 0;
-  if (event.touches.length === 1) {
-    var touchPosition = event.touches[0];
+  if (isMultiTouch(event, props)) {
+    return onMultiTouch(event, ViewerDOM, tool, value, props);
+  }
 
-    var _ViewerDOM$getBoundin2 = ViewerDOM.getBoundingClientRect(),
-        left = _ViewerDOM$getBoundin2.left,
-        top = _ViewerDOM$getBoundin2.top;
-
-    x = touchPosition.clientX - Math.round(left);
-    y = touchPosition.clientY - Math.round(top);
-  } else if (isMultiTouch(event, props)) {
-    return value;
-  } else {
+  if (event.touches.length !== 1) {
     if ([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0) {
       return resetMode(value);
     } else if ([MODE_IDLE].indexOf(value.mode) >= 0) {
@@ -47,48 +85,19 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
     }
   }
 
-  switch (tool) {
-    case TOOL_ZOOM_OUT:
-    case TOOL_ZOOM_IN:
-    case TOOL_AUTO:
-    case TOOL_PAN:
-      event.stopPropagation();
-      event.preventDefault();
-      return onMouseDown(event, ViewerDOM, tool, value, props, { x: x, y: y });
-
-    default:
-      return value;
-  }
+  return getNextValue(event, ViewerDOM, tool, value, props, onMouseDown);
 }
 
 export function onTouchMove(event, ViewerDOM, tool, value, props) {
-  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
-
   if (isMultiTouch(event, props)) {
-    return onMultiTouchMove(event, ViewerDOM, tool, value, props);
+    return onMultiTouch(event, ViewerDOM, tool, value, props);
   }
 
-  var touchPosition = event.touches[0];
-
-  var _ViewerDOM$getBoundin3 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin3.left,
-      top = _ViewerDOM$getBoundin3.top;
-
-  var x = touchPosition.clientX - Math.round(left);
-  var y = touchPosition.clientY - Math.round(top);
-
-  switch (tool) {
-    case TOOL_ZOOM_OUT:
-    case TOOL_ZOOM_IN:
-    case TOOL_AUTO:
-    case TOOL_PAN:
-      event.stopPropagation();
-      event.preventDefault();
-      return onMouseMove(event, ViewerDOM, tool, value, props, { x: x, y: y });
-
-    default:
-      return value;
+  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) {
+    return value;
   }
+
+  return getNextValue(event, ViewerDOM, tool, value, props, onMouseMove);
 }
 
 export function onTouchEnd(event, ViewerDOM, tool, value, props) {
@@ -96,35 +105,13 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
     return value;
   }
 
-  var nextValue = set(value, {
-    pinchPointDistance: !isNaN(value.pinchPointDistance) && props.detectPinchGesture && event.touches.length < 2 ? undefined : value.pinchPointDistance
-  });
+  var nextValue = shouldResetPinchPointDistance(event, value, props) ? set(value, { pinchPointDistance: null }) : value;
 
   if (event.touches.length > 0) {
     return nextValue;
   }
 
-  var touchPosition = event.changedTouches[0];
-
-  var _ViewerDOM$getBoundin4 = ViewerDOM.getBoundingClientRect(),
-      left = _ViewerDOM$getBoundin4.left,
-      top = _ViewerDOM$getBoundin4.top;
-
-  var x = touchPosition.clientX - Math.round(left);
-  var y = touchPosition.clientY - Math.round(top);
-
-  switch (tool) {
-    case TOOL_ZOOM_OUT:
-    case TOOL_ZOOM_IN:
-    case TOOL_AUTO:
-    case TOOL_PAN:
-      event.stopPropagation();
-      event.preventDefault();
-      return onMouseUp(event, ViewerDOM, tool, nextValue, props, { x: x, y: y });
-
-    default:
-      return nextValue;
-  }
+  return getNextValue(event, ViewerDOM, tool, nextValue, props, onMouseUp);
 }
 
 export function onTouchCancel(event, ViewerDOM, tool, value, props) {
