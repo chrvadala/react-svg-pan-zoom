@@ -21,6 +21,10 @@ function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pointDistance });
 }
 
+function isMultiTouch(event, props) {
+  return props.detectPinchGesture && event.touches.length > 1;
+}
+
 export function onTouchStart(event, ViewerDOM, tool, value, props) {
   let x, y;
   if (event.touches.length === 1) {
@@ -28,12 +32,12 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
     let {left, top} = ViewerDOM.getBoundingClientRect();
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
-  } else if (event.touches.length > 1 && props.detectWheel) {
+  } else if (isMultiTouch(event, props)) {
     return value;
   } else {
-    if ( [MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0 ){
+    if ([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0){
       return resetMode(value);
-    }else if([MODE_IDLE].indexOf(value.mode) >= 0){
+    } else if([MODE_IDLE].indexOf(value.mode) >= 0){
       return value;
     }
   }
@@ -55,7 +59,7 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
 export function onTouchMove(event, ViewerDOM, tool, value, props) {
   if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
 
-  if (event.touches.length > 1 && props.detectWheel) {
+  if (isMultiTouch(event, props)) {
     return onMultiTouchMove(event, ViewerDOM, tool, value, props);
   }
 
@@ -84,7 +88,7 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
   }
 
   let nextValue = set(value, {
-    pointDistance: (!isNaN(value.pointDistance) && props.detectWheel && event.touches.length < 2) ? undefined : value.pointDistance
+    pointDistance: (!isNaN(value.pointDistance) && props.detectPinchGesture && event.touches.length < 2) ? undefined : value.pointDistance
   });
 
   if (event.touches.length > 0) {

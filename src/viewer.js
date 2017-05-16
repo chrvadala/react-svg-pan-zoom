@@ -398,11 +398,14 @@ ReactSVGPanZoom.propTypes = {
   //className of the Viewer
   className: PropTypes.string,
 
-  //detect zoom operation performed trough pinch gesture or mouse scroll
+  //perform zoom operation on mouse scroll
   detectWheel: PropTypes.bool,
 
   //perform PAN if the mouse is on viewer border
   detectAutoPan: PropTypes.bool,
+
+  //perform zoom operation on pinch gesture
+  detectPinchGesture: PropTypes.bool,
 
   //toolbar position
   toolbarPosition: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
@@ -481,6 +484,7 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   detectWheel: true,
   detectAutoPan: true,
+  detectPinchGesture: true,
   toolbarPosition: POSITION_RIGHT,
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,
