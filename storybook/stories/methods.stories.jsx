@@ -9,8 +9,6 @@ import {
 } from '../../src/index';
 import Snake from './fixtures/snake.svg';
 
-let stories = storiesOf('<ReactSVGPanZoom' + '>', module);
-
 const STYLE_BUTTON = {
   fontFamily: 'courier',
   margin: "0rem 0.2rem 0.2rem",
@@ -25,10 +23,15 @@ const HR_BUTTON = {
   borderTop: "0px",
   borderBottom: "1px solid #333"
 }
-class Demo extends React.Component {
+
+class Story extends React.Component {
   constructor(props) {
     super(props)
     this.Viewer = null;
+  }
+
+  componentDidMount() {
+    this.Viewer.fitToViewer();
   }
 
   render() {
@@ -138,7 +141,5 @@ class Demo extends React.Component {
   }
 }
 
-
-stories.add('Call methods', () => (
-  <Demo />
-));
+let stories = storiesOf('<ReactSVGPanZoom' + '>', module);
+stories.add('Call methods', () => (  <Story />));
