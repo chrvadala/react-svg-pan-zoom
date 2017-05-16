@@ -26,6 +26,7 @@ export default class Demo extends React.Component {
       y: 0,
       detectAutoPan: true,
       detectWheel: true,
+      detectPinchGesture: true,
       toolbarPosition: POSITION_RIGHT,
       preventPanOutside: true,
       miniatureWidth: "",
@@ -85,6 +86,7 @@ export default class Demo extends React.Component {
 
               detectWheel={this.state.detectWheel}
               detectAutoPan={this.state.detectAutoPan}
+              detectPinchGesture={this.state.detectPinchGesture}
               preventPanOutside={this.state.preventPanOutside}
 
               onClick={event => this.debugClick(event)}
@@ -137,6 +139,14 @@ export default class Demo extends React.Component {
                   <input className="form-check-input" type="checkbox" checked={this.state.detectAutoPan}
                          name="detectAutoPan"
                          onChange={ event => this.setState({detectAutoPan: event.target.checked})}/> detectAutoPan
+                </label>
+              </div>
+
+              <div className="form-check">
+                <label className="form-check-label">
+                  <input className="form-check-input" type="checkbox" checked={this.state.detectPinchGesture}
+                         name="detectPinchGesture"
+                         onChange={ event => this.setState({detectPinchGesture: event.target.checked})}/> detectPinchGesture
                 </label>
               </div>
 

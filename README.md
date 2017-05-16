@@ -21,7 +21,8 @@ This component can work in four different modes depending on the selected tool:
 - With the tool **auto** the user can interact with SVG child elements, perform *pan* (dragging the image), *zoom in* (double click), *zoom out* (double click + shift).
 
 ## Additional Features
-- Zoom detection performed through pinch and scroll (optional)
+- Zoom detection performed through scroll (optional)
+- Zoom detection performed through pinch (optional)
 - *Autopan* when the mouse is close to the edge of the viewer (optional)
 - Each callback function receives (x,y) coords mapped to the real size of the SVG
 - Programmatically controllable
@@ -86,8 +87,9 @@ class Demo extends React.Component {
   - `background` – background of the viewer (default color: dark grey)
   - `style` - CSS style of the viewer
   - `className` - CSS class of the viewer
-  - `detectWheel` - detect zoom operation performed through pinch gesture or mouse scroll
+  - `detectWheel` - perform zoom operation on mouse scroll
   - `detectAutoPan` - perform PAN if the mouse is on the border of the viewer
+  - `detectPinchGesture` - perform zoom operation on pinch gesture
   - `toolbarPosition` - toolbar position (one of `none`, `top`, `right`, `bottom`, `left`)
   - `customToolbar` - React component with custom toolbar
   - `modifierKeys` - array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState))
@@ -178,6 +180,7 @@ npm install && npm start
 - **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
 - **v2.6** - Introduce [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduce bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
 - **v2.7** - Adds miniature feature, Adds [PropTypes](https://www.npmjs.com/package/prop-types) support
+- **v2.8** - Adds pinch to zoom feature
 
 ## Contributing
 Your contributions (issues and pull request) are very appreciated!
