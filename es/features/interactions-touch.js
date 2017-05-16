@@ -12,13 +12,17 @@ function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   var y1 = event.touches[0].clientY - Math.round(top);
   var x2 = event.touches[1].clientX - Math.round(left);
   var y2 = event.touches[1].clientY - Math.round(top);
-  var pointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  var previousPointDistance = !isNaN(value.pointDistance) ? value.pointDistance : pointDistance;
+  var pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  var previousPointDistance = !isNaN(value.pinchPointDistance) ? value.pinchPointDistance : pinchPointDistance;
   var svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
-  var distanceFactor = pointDistance / previousPointDistance;
+  var distanceFactor = pinchPointDistance / previousPointDistance;
 
   event.preventDefault();
-  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pointDistance: pointDistance });
+  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pinchPointDistance: pinchPointDistance });
+}
+
+function isMultiTouch(event, props) {
+  return props.detectPinchGesture && event.touches.length > 1;
 }
 
 export function onTouchStart(event, ViewerDOM, tool, value, props) {
@@ -33,7 +37,7 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
 
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
-  } else if (event.touches.length > 1 && props.detectWheel) {
+  } else if (isMultiTouch(event, props)) {
     return value;
   } else {
     if ([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0) {
@@ -60,7 +64,7 @@ export function onTouchStart(event, ViewerDOM, tool, value, props) {
 export function onTouchMove(event, ViewerDOM, tool, value, props) {
   if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) return value;
 
-  if (event.touches.length > 1 && props.detectWheel) {
+  if (isMultiTouch(event, props)) {
     return onMultiTouchMove(event, ViewerDOM, tool, value, props);
   }
 
@@ -93,7 +97,7 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
   }
 
   var nextValue = set(value, {
-    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length < 2 ? undefined : value.pointDistance
+    pinchPointDistance: !isNaN(value.pinchPointDistance) && props.detectPinchGesture && event.touches.length < 2 ? undefined : value.pinchPointDistance
   });
 
   if (event.touches.length > 0) {

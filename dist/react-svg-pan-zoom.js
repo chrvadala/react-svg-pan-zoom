@@ -141,6 +141,7 @@ function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
     version: 2,
     mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     focus: false,
+    pinchPointDistance: null,
     viewerWidth: viewerWidth,
     viewerHeight: viewerHeight,
     SVGWidth: SVGWidth,
@@ -1967,11 +1968,14 @@ ReactSVGPanZoom.propTypes = {
   //className of the Viewer
   className: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.string,
 
-  //detect zoom operation performed trough pinch gesture or mouse scroll
+  //perform zoom operation on mouse scroll
   detectWheel: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
 
   //perform PAN if the mouse is on viewer border
   detectAutoPan: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
+
+  //perform zoom operation on pinch gesture
+  detectPinchGesture: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.bool,
 
   //toolbar position
   toolbarPosition: __WEBPACK_IMPORTED_MODULE_1_prop_types___default.a.oneOf([__WEBPACK_IMPORTED_MODULE_17__constants__["i" /* POSITION_NONE */], __WEBPACK_IMPORTED_MODULE_17__constants__["j" /* POSITION_TOP */], __WEBPACK_IMPORTED_MODULE_17__constants__["k" /* POSITION_RIGHT */], __WEBPACK_IMPORTED_MODULE_17__constants__["l" /* POSITION_BOTTOM */], __WEBPACK_IMPORTED_MODULE_17__constants__["m" /* POSITION_LEFT */]]),
@@ -2044,6 +2048,7 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   detectWheel: true,
   detectAutoPan: true,
+  detectPinchGesture: true,
   toolbarPosition: __WEBPACK_IMPORTED_MODULE_17__constants__["k" /* POSITION_RIGHT */],
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: __WEBPACK_IMPORTED_MODULE_14__ui_toolbar_toolbar__["a" /* default */],
@@ -2241,13 +2246,17 @@ function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   var y1 = event.touches[0].clientY - Math.round(top);
   var x2 = event.touches[1].clientX - Math.round(left);
   var y2 = event.touches[1].clientY - Math.round(top);
-  var pointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  var previousPointDistance = !isNaN(value.pointDistance) ? value.pointDistance : pointDistance;
+  var pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  var previousPointDistance = !isNaN(value.pinchPointDistance) ? value.pinchPointDistance : pinchPointDistance;
   var svgPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, (x1 + x2) / 2, (y1 + y2) / 2);
-  var distanceFactor = pointDistance / previousPointDistance;
+  var distanceFactor = pinchPointDistance / previousPointDistance;
 
   event.preventDefault();
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */], pointDistance: pointDistance });
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */], pinchPointDistance: pinchPointDistance });
+}
+
+function isMultiTouch(event, props) {
+  return props.detectPinchGesture && event.touches.length > 1;
 }
 
 function onTouchStart(event, ViewerDOM, tool, value, props) {
@@ -2262,7 +2271,7 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
 
     x = touchPosition.clientX - Math.round(left);
     y = touchPosition.clientY - Math.round(top);
-  } else if (event.touches.length > 1 && props.detectWheel) {
+  } else if (isMultiTouch(event, props)) {
     return value;
   } else {
     if ([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0) {
@@ -2289,7 +2298,7 @@ function onTouchStart(event, ViewerDOM, tool, value, props) {
 function onTouchMove(event, ViewerDOM, tool, value, props) {
   if (!([__WEBPACK_IMPORTED_MODULE_0__constants__["b" /* MODE_PANNING */], __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */]].indexOf(value.mode) >= 0)) return value;
 
-  if (event.touches.length > 1 && props.detectWheel) {
+  if (isMultiTouch(event, props)) {
     return onMultiTouchMove(event, ViewerDOM, tool, value, props);
   }
 
@@ -2322,7 +2331,7 @@ function onTouchEnd(event, ViewerDOM, tool, value, props) {
   }
 
   var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, {
-    pointDistance: !isNaN(value.pointDistance) && props.detectWheel && event.touches.length < 2 ? undefined : value.pointDistance
+    pinchPointDistance: !isNaN(value.pinchPointDistance) && props.detectPinchGesture && event.touches.length < 2 ? undefined : value.pinchPointDistance
   });
 
   if (event.touches.length > 0) {
