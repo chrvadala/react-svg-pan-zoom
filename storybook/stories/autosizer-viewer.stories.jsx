@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {storiesOf, action} from '@kadira/storybook';
-import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './utils/actions-decorator';
+import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 import {AutoSizer} from 'react-virtualized';
 
 const fullSize = {
@@ -12,7 +12,7 @@ import {
   ReactSVGPanZoom,
   POSITION_BOTTOM
 } from '../../src/index';
-import Snake from './fixtures/snake.svg';
+import Snake from './snake.svg';
 
 
 class Story extends Component {

@@ -1,13 +1,13 @@
 import React from 'react';
 import {storiesOf, action} from '@kadira/storybook';
-import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './utils/actions-decorator';
+import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {
   ReactSVGPanZoom,
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from '../../src/index';
-import Snake from './fixtures/snake.svg';
+import Snake from './snake.svg';
 
 const STYLE_BUTTON = {
   fontFamily: 'courier',

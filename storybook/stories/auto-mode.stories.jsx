@@ -1,14 +1,14 @@
 import React, {Component} from 'react';
 import {storiesOf, action} from '@kadira/storybook';
 import {withKnobs, boolean, number, select} from '@kadira/storybook-addon-knobs';
-import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './utils/actions-decorator';
+import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {
   ReactSVGPanZoom,
   TOOL_AUTO,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from '../../src/index';
-import Snake from './fixtures/snake.svg';
+import Snake from './snake.svg';
 
 
 class Story extends Component {

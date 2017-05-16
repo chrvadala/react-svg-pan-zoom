@@ -1,13 +1,13 @@
 import React, {Component} from 'react';
 import {storiesOf, action} from '@kadira/storybook';
 import {withKnobs, boolean, number, select} from '@kadira/storybook-addon-knobs';
-import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './utils/actions-decorator';
+import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {
   ReactSVGPanZoom,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from '../../src/index';
-import Snake from './fixtures/snake.svg';
+import Snake from './snake.svg';
 
 const miniatureAvailablePositions = [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT];
 const toolbarAvailablePositions = [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT];
