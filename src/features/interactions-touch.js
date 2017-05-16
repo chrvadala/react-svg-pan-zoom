@@ -12,13 +12,13 @@ function onMultiTouchMove(event, ViewerDOM, tool, value, props) {
   const y1 = event.touches[0].clientY - Math.round(top);
   const x2 = event.touches[1].clientX - Math.round(left);
   const y2 = event.touches[1].clientY - Math.round(top);
-  const pointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  const previousPointDistance = !isNaN(value.pointDistance) ? value.pointDistance : pointDistance;
+  const pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  const previousPointDistance = !isNaN(value.pinchPointDistance) ? value.pinchPointDistance : pinchPointDistance;
   const svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
-  const distanceFactor = pointDistance/previousPointDistance;
+  const distanceFactor = pinchPointDistance/previousPointDistance;
 
   event.preventDefault();
-  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pointDistance });
+  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, { mode: MODE_ZOOMING, pinchPointDistance });
 }
 
 function isMultiTouch(event, props) {
@@ -88,7 +88,7 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
   }
 
   let nextValue = set(value, {
-    pointDistance: (!isNaN(value.pointDistance) && props.detectPinchGesture && event.touches.length < 2) ? undefined : value.pointDistance
+    pinchPointDistance: (!isNaN(value.pinchPointDistance) && props.detectPinchGesture && event.touches.length < 2) ? undefined : value.pinchPointDistance
   });
 
   if (event.touches.length > 0) {
