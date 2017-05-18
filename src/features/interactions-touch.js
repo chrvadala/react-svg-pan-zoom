@@ -26,11 +26,14 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
     pinchPointDistance
   };
 
+  if (event.cancelable) {
+    event.preventDefault();
+  }
+
   if (distanceFactor === 1) {
     return set(value, valuesToSet);
   }
 
-  event.preventDefault();
   return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, valuesToSet);
 }
 

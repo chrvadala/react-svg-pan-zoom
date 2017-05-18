@@ -81,6 +81,20 @@ export default class ReactSVGPanZoom extends React.Component {
     return this.props.tool ? this.props.tool : this.state.tool;
   }
 
+  getSvgStyle(cursor) {
+    const style = { display: 'block' };
+
+    if (cursor) {
+      style.cursor = cursor;
+    }
+
+    if (this.props.detectPinchGesture || [TOOL_PAN, TOOL_AUTO].indexOf(this.getTool()) !== -1) {
+      style.touchAction = 'none';
+    }
+
+    return style;
+  }
+
   setValue(nextValue) {
     this.setState({value: nextValue});
     if (this.props.onChangeValue) this.props.onChangeValue(nextValue);
@@ -217,7 +231,7 @@ export default class ReactSVGPanZoom extends React.Component {
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
           width={value.viewerWidth}
           height={value.viewerHeight}
-          style={cursor ? {cursor, display: "block"} : {display: 'block'}}
+          style={this.getSvgStyle(cursor)}
 
           onMouseDown={ event => {
             let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
