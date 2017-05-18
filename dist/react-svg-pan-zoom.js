@@ -1603,6 +1603,21 @@ var ReactSVGPanZoom = function (_React$Component) {
       return this.props.tool ? this.props.tool : this.state.tool;
     }
   }, {
+    key: 'getSvgStyle',
+    value: function getSvgStyle(cursor) {
+      var style = { display: 'block' };
+
+      if (cursor) {
+        style.cursor = cursor;
+      }
+
+      if (this.props.detectPinchGesture || [__WEBPACK_IMPORTED_MODULE_17__constants__["f" /* TOOL_PAN */], __WEBPACK_IMPORTED_MODULE_17__constants__["d" /* TOOL_AUTO */]].indexOf(this.getTool()) !== -1) {
+        style.touchAction = 'none';
+      }
+
+      return style;
+    }
+  }, {
     key: 'setValue',
     value: function setValue(nextValue) {
       this.setState({ value: nextValue });
@@ -1766,7 +1781,7 @@ var ReactSVGPanZoom = function (_React$Component) {
             },
             width: value.viewerWidth,
             height: value.viewerHeight,
-            style: cursor ? { cursor: cursor, display: "block" } : { display: 'block' },
+            style: this.getSvgStyle(cursor),
 
             onMouseDown: function onMouseDown(event) {
               var nextValue = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_6__features_interactions__["b" /* onMouseDown */])(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
@@ -2255,17 +2270,21 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
   var previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
   var svgPoint = __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["d" /* getSVGPoint */])(value, (x1 + x2) / 2, (y1 + y2) / 2);
   var distanceFactor = pinchPointDistance / previousPointDistance;
-
-  if (distanceFactor === 1) {
-    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, { mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */], pinchPointDistance: pinchPointDistance });
-  }
-
-  event.preventDefault();
-  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, {
+  var valuesToSet = {
     mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */],
     prePinchMode: value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */] ? value.prePinchMode : value.mode,
     pinchPointDistance: pinchPointDistance
-  });
+  };
+
+  if (event.cancelable) {
+    event.preventDefault();
+  }
+
+  if (distanceFactor === 1) {
+    return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, valuesToSet);
+  }
+
+  return __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_3__zoom__["a" /* zoom */])(value, svgPoint.x, svgPoint.y, distanceFactor, valuesToSet);
 }
 
 function isMultiTouch(event, props) {

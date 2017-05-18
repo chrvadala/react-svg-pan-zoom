@@ -20,17 +20,21 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
   var previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
   var svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
   var distanceFactor = pinchPointDistance / previousPointDistance;
-
-  if (distanceFactor === 1) {
-    return set(value, { mode: MODE_ZOOMING, pinchPointDistance: pinchPointDistance });
-  }
-
-  event.preventDefault();
-  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, {
+  var valuesToSet = {
     mode: MODE_ZOOMING,
     prePinchMode: value.mode === MODE_ZOOMING ? value.prePinchMode : value.mode,
     pinchPointDistance: pinchPointDistance
-  });
+  };
+
+  if (event.cancelable) {
+    event.preventDefault();
+  }
+
+  if (distanceFactor === 1) {
+    return set(value, valuesToSet);
+  }
+
+  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, valuesToSet);
 }
 
 function isMultiTouch(event, props) {

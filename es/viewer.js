@@ -92,6 +92,21 @@ var ReactSVGPanZoom = function (_React$Component) {
       return this.props.tool ? this.props.tool : this.state.tool;
     }
   }, {
+    key: 'getSvgStyle',
+    value: function getSvgStyle(cursor) {
+      var style = { display: 'block' };
+
+      if (cursor) {
+        style.cursor = cursor;
+      }
+
+      if (this.props.detectPinchGesture || [TOOL_PAN, TOOL_AUTO].indexOf(this.getTool()) !== -1) {
+        style.touchAction = 'none';
+      }
+
+      return style;
+    }
+  }, {
     key: 'setValue',
     value: function setValue(nextValue) {
       this.setState({ value: nextValue });
@@ -255,7 +270,7 @@ var ReactSVGPanZoom = function (_React$Component) {
             },
             width: value.viewerWidth,
             height: value.viewerHeight,
-            style: cursor ? { cursor: cursor, display: "block" } : { display: 'block' },
+            style: this.getSvgStyle(cursor),
 
             onMouseDown: function onMouseDown(event) {
               var nextValue = _onMouseDown(event, _this3.ViewerDOM, _this3.getTool(), _this3.getValue(), _this3.props);
