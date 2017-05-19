@@ -1,0 +1,68 @@
+body {
+  background-color: rgba(0, 0, 0, 0.05);
+  background-image: repeating-linear-gradient(0deg, transparent, transparent 7px, rgba(0, 0, 0, 0.2) 1px, transparent 8px), repeating-linear-gradient(90deg, transparent, transparent 7px, rgba(0, 0, 0, 0.2) 1px, transparent 8px);
+  background-size: 8px 8px;
+  margin: 0;
+  padding: 8px;
+}
+
+html {
+  box-sizing: border-box;
+  font-family: Helvetica, "sans-serif";
+  font-size: 14px;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+a {
+  color: #008489;
+  font-weight: bold;
+}
+
+
+.github-corner:hover .octo-arm {
+  animation: octocat-wave 560ms ease-in-out
+}
+
+.github-corner svg {
+  fill: #FD6C6C;
+  color: #fff;
+  position: fixed;
+  top: 0;
+  border: 0;
+  right: 0;
+  z-index: 9999;
+}
+
+.github-corner .octo-arm {
+  transform-origin: 130px 106px;
+}
+
+@keyframes octocat-wave {
+  0%, 100% {
+    transform: rotate(0)
+  }
+  20%, 60% {
+    transform: rotate(-25deg)
+  }
+  40%, 80% {
+    transform: rotate(10deg)
+  }
+}
+
+@media (max-width: 500px) {
+  .github-corner:hover .octo-arm {
+    animation: none
+  }
+
+  .github-corner .octo-arm {
+    animation: octocat-wave 560ms ease-in-out
+  }
+}
