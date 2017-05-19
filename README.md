@@ -46,6 +46,7 @@ npm install --save react-svg-pan-zoom
 - **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
 - **v2.6** - Introduce [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduce bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
 - **v2.7** - Adds miniature feature, Adds [PropTypes](https://www.npmjs.com/package/prop-types) support
+- **v2.8** - Adds storybook demo, Remove bower support
 
 ## Some projects using react-svg-pan-zoom
 - [**React Planner**](https://github.com/cvdlab/react-planner)
