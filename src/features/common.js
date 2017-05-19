@@ -20,7 +20,7 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) 
     mode: MODE_IDLE,
     focus: false,
     pinchPointDistance: null,
-    prePinchMode: MODE_IDLE,
+    prePinchMode: null,
     viewerWidth,
     viewerHeight,
     SVGWidth,
