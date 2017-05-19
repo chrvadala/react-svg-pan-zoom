@@ -14,8 +14,9 @@
     "build-es": "cross-env BABEL_ENV=es babel src --out-dir build-es",
     "build-umd-min": "cross-env BABEL_ENV=es webpack --env.minimize",
     "build-umd": "cross-env BABEL_ENV=es webpack",
-    "build-storybook": "cross-env BABEL_ENV=commonjs build-storybook -s storybook/public -c storybook -o build-storybook",
-    "build": "npm-run-all clean build-storybook build-commonjs build-es build-umd build-umd-min",
+    "build-storybook": "cross-env BABEL_ENV=commonjs build-storybook -s storybook/public -c storybook -o ${PWD}/build-storybook",
+    "customize-storybook": "node ./storybook/scripts/customize-storybook",
+    "build": "npm-run-all clean build-storybook build-commonjs build-es build-umd build-umd-min customize-storybook",
     "clean": "del build-*",
     "website-update": "gh-pages -m 'Update gh-pages' -d ./build-storybook",
     "version": "npm run build",
@@ -35,7 +36,7 @@
   "bugs": {
     "url": "https://github.com/chrvadala/react-svg-pan-zoom/issues"
   },
-  "homepage": "https://github.com/chrvadala/react-svg-pan-zoom#readme",
+  "homepage": "https://chrvadala.github.io/react-svg-pan-zoom/",
   "keywords": [
     "react",
     "react-component",
@@ -54,9 +55,11 @@
     "transformation-matrix": "^1.2.0"
   },
   "devDependencies": {
-    "@kadira/storybook": "^2.35.3",
-    "@kadira/storybook-addon-actions": "^1.1.3",
-    "@kadira/storybook-addon-knobs": "^1.7.1",
+    "@storybook/addon-actions": "^3.0.0-alpha.0",
+    "@storybook/addon-knobs": "^3.0.0-alpha.0",
+    "@storybook/addons": "^3.0.0-alpha.0",
+    "@storybook/react": "^3.0.0-alpha.0",
+    "@storybook/ui": "^3.0.0-alpha.0",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
@@ -70,11 +73,11 @@
     "gh-pages": "^0.12.0",
     "mocha": "^3.3.0",
     "npm-run-all": "^4.0.2",
+    "raw-loader": "^0.5.1",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-virtualized": "^9.7.5",
     "remarkable": "^1.7.1",
-    "raw-loader": "^0.5.1",
     "webpack": "^2.4.1",
     "webpack-dev-server": "^2.4.5"
   },

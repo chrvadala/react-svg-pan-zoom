@@ -1,5 +1,5 @@
 import React from 'react';
-import {storiesOf, action} from '@kadira/storybook';
+import {action} from '@storybook/addon-actions';
 import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {
@@ -24,7 +24,7 @@ const HR_BUTTON = {
   borderBottom: "1px solid #333"
 }
 
-class Story extends React.Component {
+export default class MethodsStory extends React.Component {
   constructor(props) {
     super(props)
     this.Viewer = null;
@@ -140,6 +140,3 @@ class Story extends React.Component {
     )
   }
 }
-
-let stories = storiesOf('<ReactSVGPanZoom' + '>', module);
-stories.add('Call methods', () => (  <Story />));

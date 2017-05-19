@@ -1,5 +1,5 @@
 import React from 'react';
-import {storiesOf} from '@kadira/storybook';
+import {storiesOf} from '@storybook/react';
 import Remarkable from 'remarkable';
 import Readme from '../../README.md';
 
@@ -14,11 +14,12 @@ let text = Readme
 let html = md.render(text)
   .replace(/<a/g, '<a target="_blank" ');
 
-stories
-  .add('Welcome', () => (
+export default function Welcome(){
+  return (
     <div style={{background: "#fff", padding: "1rem 2rem"}} className="markdown-body">
       <div dangerouslySetInnerHTML={{__html: html}}/>
     </div>
-  ))
+  )
+}
 
 

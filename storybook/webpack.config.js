@@ -1,8 +1,12 @@
 module.exports = {
   module: {
-    loaders: [{
-      test: /\.md$/,
-      loader: "raw"
-    }]
+    rules: [
+      {
+        test: /\.md$/,
+        use: [
+          {loader: "raw-loader"}
+        ]
+      }
+    ]
   }
 };

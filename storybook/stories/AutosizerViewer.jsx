@@ -1,21 +1,31 @@
 import React, {Component} from 'react';
-import {storiesOf, action} from '@kadira/storybook';
+import {action} from '@storybook/addon-actions';
 import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 import {AutoSizer} from 'react-virtualized';
-
-const fullSize = {
-  width: "100%",
-  height: "100%",
-};
+import {boolean, number, select} from '@storybook/addon-knobs';
 
 import {
   ReactSVGPanZoom,
-  POSITION_BOTTOM
+  POSITION_TOP
 } from '../../src/index';
 import Snake from './snake.svg';
 
+export default class AutosizerViewer extends Component {
+  render() {
+    return (
+      <div style={{width: "100%", height: "100%"}}>
+        <AutoSizer>
+          {(({width, height}) => width === 0 || height === 0 ? null :
+              <Viewer width={width} height={height}/>
+          )}
+        </AutoSizer>
+      </div>
+    )
+  }
+}
 
-class Story extends Component {
+
+class Viewer extends Component {
   constructor(props) {
     super(props);
     this.Viewer = null;
@@ -31,7 +41,11 @@ class Story extends Component {
         width={this.props.width} height={this.props.height}
         ref={Viewer => this.Viewer = Viewer}
 
-        toolbarPosition={POSITION_BOTTOM}
+        toolbarPosition={POSITION_TOP}
+        detectAutoPan={boolean('detectAutoPan', true)}
+        detectWheel={boolean('detectWheel', true)}
+
+        preventPanOutside={boolean('preventPanOutside', true)}
 
         onClick={viewerMouseEventDecorator('onClick')}
         onMouseMove={noArgsDecorator('onMouseMove')}
@@ -53,15 +67,3 @@ class Story extends Component {
     )
   }
 }
-
-let stories = storiesOf('<ReactSVGPanZoom' + '>', module);
-
-stories.add('Autosizer viewer', () => (
-  <div style={fullSize}>
-    <AutoSizer>
-      {(({width, height}) => width === 0 || height === 0 ? null :
-          <Story width={width} height={height}/>
-      )}
-    </AutoSizer>
-  </div>
-));

@@ -1,4 +1,4 @@
-import {decorateAction} from '@kadira/storybook-addon-actions'
+import {decorateAction} from '@storybook/addon-actions'
 
 export const noArgsDecorator = decorateAction([
   args => {

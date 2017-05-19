@@ -1,23 +1,25 @@
 import React, {Component} from 'react';
-import {storiesOf, action} from '@kadira/storybook';
-import {withKnobs, boolean, number, select} from '@kadira/storybook-addon-knobs';
+import {action} from '@storybook/addon-actions';
+import {withKnobs, boolean, number, select} from '@storybook/addon-knobs';
 import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {
   ReactSVGPanZoom,
-  TOOL_AUTO,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
 } from '../../src/index';
 import Snake from './snake.svg';
 
+const miniatureAvailablePositions = [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT];
+const toolbarAvailablePositions = [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT];
 
-class Story extends Component {
-  constructor(props){
+
+export default class ViewerWithToolbar extends Component {
+  constructor(props) {
     super(props);
     this.Viewer = null;
   }
 
-  componentDidMount(){
+  componentDidMount() {
     this.Viewer.fitToViewer();
   }
 
@@ -27,15 +29,15 @@ class Story extends Component {
         width={400} height={400}
         ref={Viewer => this.Viewer = Viewer}
 
-        tool={TOOL_AUTO}
         detectAutoPan={boolean('detectAutoPan', true)}
         detectWheel={boolean('detectWheel', true)}
 
         preventPanOutside={boolean('preventPanOutside', true)}
-        toolbarPosition={POSITION_NONE}
+        toolbarPosition={select('toolbarPosition', toolbarAvailablePositions, POSITION_RIGHT)}
 
         miniaturePosition={select('miniaturePosition', miniatureAvailablePositions, POSITION_LEFT)}
         miniatureWidth={number('miniatureWidth', 100)}
+
 
         onClick={viewerMouseEventDecorator('onClick')}
         onMouseMove={noArgsDecorator('onMouseMove')}
@@ -57,11 +59,3 @@ class Story extends Component {
     )
   }
 }
-
-
-const miniatureAvailablePositions = [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT];
-
-let stories = storiesOf('<ReactSVGPanZoom' + '>', module);
-stories.addDecorator(withKnobs);
-
-stories.add('Viewer with tool auto', () => (<Story/>));

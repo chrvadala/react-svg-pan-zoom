@@ -36,7 +36,6 @@ npm install --save react-svg-pan-zoom
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
 - [**Controlled state**](./examples/2-controlled-state/) - This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).
 - [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
-- [**Bower**](./examples/4-bower/) - This project show how to use this component by mean of bower.
 
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
@@ -53,11 +52,9 @@ npm install --save react-svg-pan-zoom
 - [**Others...**](https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories)
 - Pull request your project!
 
-## Contributing
-Your contributions (issues and pull request) are very appreciated!
-
-## Author
-- [chrvadala](https://github.com/chrvadala)
+## Contributors
+- [chrvadala](https://github.com/chrvadala) (author)
+- [UtkuBelemir](https://github.com/UtkuBelemir)
 
 ## License
 MIT
