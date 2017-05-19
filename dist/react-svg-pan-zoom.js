@@ -142,7 +142,7 @@ function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
     mode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
     focus: false,
     pinchPointDistance: null,
-    prePinchMode: __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */],
+    prePinchMode: null,
     viewerWidth: viewerWidth,
     viewerHeight: viewerHeight,
     SVGWidth: SVGWidth,
@@ -2272,7 +2272,7 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
   var distanceFactor = pinchPointDistance / previousPointDistance;
   var valuesToSet = {
     mode: __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */],
-    prePinchMode: value.mode === __WEBPACK_IMPORTED_MODULE_0__constants__["c" /* MODE_ZOOMING */] ? value.prePinchMode : value.mode,
+    prePinchMode: value.prePinchMode ? value.prePinchMode : value.mode,
     pinchPointDistance: pinchPointDistance
   };
 
@@ -2307,9 +2307,8 @@ function getTouchPosition(touch, ViewerDOM) {
 }
 
 function getNextValue(event, ViewerDOM, tool, value, props, nextValueFn) {
-  var hasTouchPoints = event.touches.length > 0;
-  var nextValue = hasTouchPoints ? value : __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, { mode: value.prePinchMode });
-  var touch = hasTouchPoints ? event.touches[0] : event.changedTouches[0];
+  var nextValue = event.touches.length === 0 ? __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__common__["c" /* set */])(value, { mode: value.prePinchMode ? __WEBPACK_IMPORTED_MODULE_0__constants__["a" /* MODE_IDLE */] : value.mode, prePinchMode: null }) : value;
+  var touch = event.touches.length > 0 ? event.touches[0] : event.changedTouches[0];
   var touchPosition = getTouchPosition(touch, ViewerDOM);
 
   switch (tool) {

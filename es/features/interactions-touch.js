@@ -22,7 +22,7 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
   var distanceFactor = pinchPointDistance / previousPointDistance;
   var valuesToSet = {
     mode: MODE_ZOOMING,
-    prePinchMode: value.mode === MODE_ZOOMING ? value.prePinchMode : value.mode,
+    prePinchMode: value.prePinchMode ? value.prePinchMode : value.mode,
     pinchPointDistance: pinchPointDistance
   };
 
@@ -57,9 +57,8 @@ function getTouchPosition(touch, ViewerDOM) {
 }
 
 function getNextValue(event, ViewerDOM, tool, value, props, nextValueFn) {
-  var hasTouchPoints = event.touches.length > 0;
-  var nextValue = hasTouchPoints ? value : set(value, { mode: value.prePinchMode });
-  var touch = hasTouchPoints ? event.touches[0] : event.changedTouches[0];
+  var nextValue = event.touches.length === 0 ? set(value, { mode: value.prePinchMode ? MODE_IDLE : value.mode, prePinchMode: null }) : value;
+  var touch = event.touches.length > 0 ? event.touches[0] : event.changedTouches[0];
   var touchPosition = getTouchPosition(touch, ViewerDOM);
 
   switch (tool) {
