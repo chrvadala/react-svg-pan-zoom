@@ -1,10 +1,10 @@
+import {transform, fromObject, translate, scale} from 'transformation-matrix';
 import {
   TOOL_NONE, TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING
 } from '../constants';
 import {resetMode, getSVGPoint, set} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
-import {zoom} from './zoom';
 
 function hasPinchPointDistance(value) {
   return typeof value.pinchPointDistance === 'number';
@@ -20,21 +20,28 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
   const previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
   const svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
   const distanceFactor = pinchPointDistance/previousPointDistance;
-  const valuesToSet = {
-    mode: MODE_ZOOMING,
-    prePinchMode: value.prePinchMode ? value.prePinchMode : value.mode,
-    pinchPointDistance
-  };
 
   if (event.cancelable) {
     event.preventDefault();
   }
 
-  if (distanceFactor === 1) {
-    return set(value, valuesToSet);
-  }
+  let matrix = transform(
+    fromObject(value),
+    translate(svgPoint.x, svgPoint.y),
+    scale(distanceFactor, distanceFactor),
+    translate(-svgPoint.x, -svgPoint.y)
+  );
 
-  return zoom(value, svgPoint.x, svgPoint.y, distanceFactor, valuesToSet);
+  return set(value, set({
+    mode: MODE_ZOOMING,
+    ...matrix,
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null,
+    prePinchMode: value.prePinchMode ? value.prePinchMode : value.mode,
+    pinchPointDistance
+  }));
 }
 
 function isMultiTouch(event, props) {

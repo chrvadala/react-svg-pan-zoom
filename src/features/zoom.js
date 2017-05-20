@@ -4,23 +4,23 @@ import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {calculateBox} from '../utils';
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor, extraData) {
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
 
   let matrix = transform(
     fromObject(value),
     translate(SVGPointX, SVGPointY),
     scale(scaleFactor, scaleFactor),
     translate(-SVGPointX, -SVGPointY)
-  );
+  )
 
-  return set(value, set({
+  return set(value, {
     mode: MODE_IDLE,
     ...matrix,
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  }, extraData));
+  });
 }
 
 export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
