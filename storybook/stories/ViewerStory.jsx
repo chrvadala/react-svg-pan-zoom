@@ -10,6 +10,8 @@ import {
 } from '../../src/index';
 import Snake from './snake.svg';
 
+const HAS_LOCAL_STORAGE = window.localStorage !== undefined;
+
 export default class MainStory extends Component {
   constructor(props) {
     super(props);
@@ -21,8 +23,22 @@ export default class MainStory extends Component {
     }
   }
 
+  componentWillMount() {
+    if (HAS_LOCAL_STORAGE && window.localStorage.logValueOnConsole)
+      this.setState({
+        logValueOnConsole: JSON.parse(window.localStorage.logValueOnConsole)
+      })
+  }
+
   componentDidMount() {
     this.Viewer.fitToViewer();
+  }
+
+  changeLogValueOnConsole(e) {
+    let logValueOnConsole = e.target.checked;
+    this.setState({logValueOnConsole});
+    if (HAS_LOCAL_STORAGE)
+      window.localStorage.logValueOnConsole = JSON.stringify(logValueOnConsole);
   }
 
   render() {
@@ -38,9 +54,9 @@ export default class MainStory extends Component {
             <option value={TOOL_ZOOM_OUT}>{TOOL_ZOOM_OUT}</option>
           </select>
           {" - "}
-          <label>Log value (slow)</label>{" "}
-          <input type="checkbox" checked={this.state.logValueOnConsole} onChange={
-            e => this.setState({logValueOnConsole: e.target.checked})}/>
+          <label>Log on console (slow)</label>{" "}
+          <input type="checkbox" checked={this.state.logValueOnConsole}
+                 onChange={e => this.changeLogValueOnConsole(e)}/>
         </div>
 
         <ReactSVGPanZoom
