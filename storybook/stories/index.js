@@ -4,17 +4,15 @@ import {storiesOf} from '@storybook/react';
 import {withKnobs} from '@storybook/addon-knobs';
 
 import Welcome from './Welcome';
-import AutoModeStory from './AutoModeStory'
+import ViewerStory from './ViewerStory';
 import MethodsStory from './MethodsStory'
 import AutosizerViewer from './AutosizerViewer'
-import WithToolbar from './WithToolbar'
 
-storiesOf('<ReactSVGPanZoom' + '>', module)
+storiesOf('React SVG Pan Zoom', module)
   .addDecorator(withKnobs)
   .add('README', () => <Welcome/>)
-  .add('Viewer with tool auto', () => <AutoModeStory/>)
+  .add('Viewer', () => <ViewerStory/>)
   .add('Call methods', () => <MethodsStory/>)
-  .add('Viewer with toolbar', () => <WithToolbar/>)
   .add('Autosizer viewer', () => <AutosizerViewer />)
 
 

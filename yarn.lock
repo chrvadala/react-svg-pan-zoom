@@ -28,6 +28,10 @@
   version "3.0.0-alpha.1"
   resolved "https://registry.yarnpkg.com/@storybook/addon-links/-/addon-links-3.0.0-alpha.1.tgz#d8b9ec7323a37aec18acdf251663c837c1f6d5b6"
 
+"@storybook/addon-options@^3.0.0-alpha.0":
+  version "3.0.0-alpha.1"
+  resolved "https://registry.yarnpkg.com/@storybook/addon-options/-/addon-options-3.0.0-alpha.1.tgz#333ccc1b4e3308b5faaa0e78c890f68cf5d67923"
+
 "@storybook/addons@^3.0.0-alpha.0":
   version "3.0.0-alpha.0"
   resolved "https://registry.yarnpkg.com/@storybook/addons/-/addons-3.0.0-alpha.0.tgz#b3902587f60196408c6d8289a21dcadeabdbee36"
@@ -4379,8 +4383,8 @@ react-textarea-autosize@^4.3.0:
     prop-types "^15.5.8"
 
 react-virtualized@^9.7.5:
-  version "9.7.5"
-  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.7.5.tgz#0b8db21a06938bf88a01f99aadb0f4a92f2fcb22"
+  version "9.7.6"
+  resolved "https://registry.yarnpkg.com/react-virtualized/-/react-virtualized-9.7.6.tgz#6be9e7ae8b214a848116f1ebd48ff1aac26fcc2f"
   dependencies:
     babel-runtime "^6.11.6"
     classnames "^2.2.3"

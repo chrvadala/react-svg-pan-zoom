@@ -1,0 +1,110 @@
+import React, {Component} from 'react';
+import {action} from '@storybook/addon-actions';
+import {boolean, number, select} from '@storybook/addon-knobs';
+import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
+
+import {
+  ReactSVGPanZoom,
+  TOOL_NONE, TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
+} from '../../src/index';
+import Snake from './snake.svg';
+
+const HAS_LOCAL_STORAGE = window.localStorage !== undefined;
+
+export default class MainStory extends Component {
+  constructor(props) {
+    super(props);
+    this.Viewer = null;
+    this.state = {
+      tool: TOOL_NONE,
+      value: null,
+      logValueOnConsole: false
+    }
+  }
+
+  componentWillMount() {
+    if (HAS_LOCAL_STORAGE && window.localStorage.logValueOnConsole)
+      this.setState({
+        logValueOnConsole: JSON.parse(window.localStorage.logValueOnConsole)
+      })
+  }
+
+  componentDidMount() {
+    this.Viewer.fitToViewer();
+  }
+
+  changeLogValueOnConsole(e) {
+    let logValueOnConsole = e.target.checked;
+    this.setState({logValueOnConsole});
+    if (HAS_LOCAL_STORAGE)
+      window.localStorage.logValueOnConsole = JSON.stringify(logValueOnConsole);
+  }
+
+  render() {
+    return (
+      <div>
+        <div style={{marginBottom: "10px", background: "#fff", padding: "10px"}}>
+          <label>Tool</label> {" "}
+          <select value={this.state.tool} onChange={e => this.setState({tool: e.target.value})}>
+            <option value={TOOL_NONE}>{TOOL_NONE}</option>
+            <option value={TOOL_AUTO}>{TOOL_AUTO}</option>
+            <option value={TOOL_PAN}>{TOOL_PAN}</option>
+            <option value={TOOL_ZOOM_IN}>{TOOL_ZOOM_IN}</option>
+            <option value={TOOL_ZOOM_OUT}>{TOOL_ZOOM_OUT}</option>
+          </select>
+          {" - "}
+          <label>Log on console (slow)</label>{" "}
+          <input type="checkbox" checked={this.state.logValueOnConsole}
+                 onChange={e => this.changeLogValueOnConsole(e)}/>
+        </div>
+
+        <ReactSVGPanZoom
+          width={400} height={400}
+          ref={Viewer => this.Viewer = Viewer}
+
+          tool={this.state.tool}
+          onChangeTool={tool => {
+            action('onChangeTool')(tool)
+            this.setState({tool})
+          }}
+
+          value={this.state.value}
+          onChangeValue={value => {
+            if (this.state.logValueOnConsole) {
+              // action('onChangeValue')(value);
+              console.info(value);
+            }
+            this.setState({value})
+          }}
+
+          detectAutoPan={boolean('detectAutoPan', true)}
+          detectWheel={boolean('detectWheel', true)}
+
+          preventPanOutside={boolean('preventPanOutside', true)}
+          toolbarPosition={select('toolbarPosition',
+            [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT],
+            POSITION_RIGHT)}
+
+          miniaturePosition={select('miniaturePosition', [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT], POSITION_LEFT)}
+          miniatureWidth={number('miniatureWidth', 100)}
+
+          onMouseDown={viewerMouseEventDecorator('onMouseDown')}
+          onClick={viewerMouseEventDecorator('onClick')}
+          onMouseMove={noArgsDecorator('onMouseMove')}
+          onMouseUp={viewerMouseEventDecorator('onMouseUp')}
+          onDoubleClick={viewerMouseEventDecorator('onDoubleClick')}
+
+          onTouchStart={viewerTouchEventDecorator('onTouchStart')}
+          onTouchMove={noArgsDecorator('onTouchMove')}
+          onTouchEnd={viewerTouchEventDecorator('onTouchEnd')}
+        >
+
+          <svg width={1440} height={1440}>
+            <Snake />
+          </svg>
+        </ReactSVGPanZoom>
+      </div>
+    )
+  }
+}
