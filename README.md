@@ -21,6 +21,7 @@ This component can work in four different modes depending on the selected tool:
 - With the tool **auto** the user can interact with SVG child elements, perform *pan* (dragging the image), *zoom in* (double click), *zoom out* (double click + shift).
 
 ## Documentation
+- [Getting Started](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/getting-started.md#props)
 - [Props](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#props)
 - [Methods](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#methods)
 - [Autosizer viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/autosizer-viewer.md)
@@ -57,6 +58,3 @@ npm install --save react-svg-pan-zoom
 - [chrvadala](https://github.com/chrvadala) (author)
 - [UtkuBelemir](https://github.com/UtkuBelemir)
 - [pellebjerkestrand](https://github.com/pellebjerkestrand)
-
-## License
-MIT

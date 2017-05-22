@@ -13,7 +13,7 @@ const {min, max} = Math;
 export default function Miniature({value, onChangeValue, position, children, background, width: miniatureWidth}) {
 
   let {SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
-  let ratio = SVGWidth / SVGHeight;
+  let ratio =  SVGHeight / SVGWidth;
 
   let miniatureHeight = miniatureWidth * ratio;
 
