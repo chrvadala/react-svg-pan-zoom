@@ -10,14 +10,24 @@ module.exports = function (env) {
       ReactSVGPanZoom: path.resolve(__dirname, 'src', 'index.js')
     },
     output: {
-      path: path.join(__dirname, 'dist'),
+      path: path.join(__dirname, 'build-umd'),
       filename: `react-svg-pan-zoom${minimize ? '.min' : ''}.js`,
       library: "ReactSVGPanZoom",
-      libraryTarget: "var"
+      libraryTarget: "umd"
     },
     externals: {
-      "react": "React",
-      "react-dom": "ReactDOM"
+      react: {
+        root: 'React',
+        commonjs2: 'react',
+        commonjs: 'react',
+        amd: 'react',
+      },
+      'prop-types': {
+        root: 'PropTypes',
+        commonjs2: 'prop-types',
+        commonjs: 'prop-types',
+        amd: 'prop-types',
+      },
     },
     devtool: "source-map",
     resolve: {
@@ -29,17 +39,7 @@ module.exports = function (env) {
         exclude: /node_modules/,
         use: [
           {
-            loader: 'babel-loader',
-            options: {
-              "compact": false,
-              "plugins": [
-                "transform-object-rest-spread"
-              ],
-              "presets": [
-                "es2015-webpack2",
-                "react"
-              ]
-            }
+            loader: 'babel-loader'
           }
         ]
       }]

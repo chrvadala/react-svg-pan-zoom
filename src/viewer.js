@@ -81,6 +81,20 @@ export default class ReactSVGPanZoom extends React.Component {
     return this.props.tool ? this.props.tool : this.state.tool;
   }
 
+  getSvgStyle(cursor) {
+    const style = { display: 'block' };
+
+    if (cursor) {
+      style.cursor = cursor;
+    }
+
+    if (this.props.detectPinchGesture || [TOOL_PAN, TOOL_AUTO].indexOf(this.getTool()) !== -1) {
+      style.touchAction = 'none';
+    }
+
+    return style;
+  }
+
   setValue(nextValue) {
     this.setState({value: nextValue});
     if (this.props.onChangeValue) this.props.onChangeValue(nextValue);
@@ -217,7 +231,7 @@ export default class ReactSVGPanZoom extends React.Component {
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
           width={value.viewerWidth}
           height={value.viewerHeight}
-          style={cursor ? {cursor, display: "block"} : {display: 'block'}}
+          style={this.getSvgStyle(cursor)}
 
           onMouseDown={ event => {
             let {operation, nextValue} = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
@@ -401,11 +415,14 @@ ReactSVGPanZoom.propTypes = {
   //className of the Viewer
   className: PropTypes.string,
 
-  //detect zoom operation performed trough pinch gesture or mouse scroll
+  //perform zoom operation on mouse scroll
   detectWheel: PropTypes.bool,
 
   //perform PAN if the mouse is on viewer border
   detectAutoPan: PropTypes.bool,
+
+  //perform zoom operation on pinch gesture
+  detectPinchGesture: PropTypes.bool,
 
   //toolbar position
   toolbarPosition: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
@@ -496,6 +513,7 @@ ReactSVGPanZoom.defaultProps = {
   SVGBackground: "#fff",
   detectWheel: true,
   detectAutoPan: true,
+  detectPinchGesture: true,
   toolbarPosition: POSITION_RIGHT,
   modifierKeys: ["Alt", "Shift", "Control"],
   customToolbar: Toolbar,

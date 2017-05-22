@@ -1,4 +1,4 @@
-# Migrate From V1 to V2
+# React SVG Pan Zoom - Migrate from V1 to V2
 
 If you are using *React SVG Pan Zoom* v1 you can migrate to v2 applying this changes
 
