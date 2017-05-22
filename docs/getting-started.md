@@ -6,7 +6,7 @@ npm install --save react-svg-pan-zoom
 ```
 
 ## Usage
-The easiest way to use **React SVG Pan Zoom** is to wrap an SVG tag with `<ReactSVPanZoom>`. 
+The easiest way to use **React SVG Pan Zoom** is to wrap an SVG tag with `<ReactSVGPanZoom>`. 
 
 This operation adds zoom and pan features to the image and thanks to the toolbar, mouse and gesture events support,
  your users can interact with the image.
@@ -112,4 +112,4 @@ import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 ``` 
 
 **React SVG Pan Zoom** supports a lot of features. [Documentation](./documentation.md) page describe each available **prop** and **methods**. 
-The directory [examples](../examples) show some useful usage.
+[Examples](../examples) directory shows some useful usage.
