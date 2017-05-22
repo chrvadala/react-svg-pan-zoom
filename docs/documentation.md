@@ -1,4 +1,4 @@
-# react-svg-pan-zoom documentation
+# React SVG Pan Zoom - documentation
 
 ## Props
   - `width` – **required** – width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))
