@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function MiniatureMask({SVGWidth, SVGHeight, visibleAreaX, visibleAreaY, visibleAreaWidth, visibleAreaHeight, zoomToFit}) {
+export default function MiniatureMask(props) {
+  let {SVGWidth, SVGHeight, visibleAreaX, visibleAreaY, visibleAreaWidth, visibleAreaHeight, zoomToFit} = props;
+
   return (
     <g>
       <defs>
@@ -23,8 +25,8 @@ export default function MiniatureMask({SVGWidth, SVGHeight, visibleAreaX, visibl
             }}
       />
       <rect
-        stroke={"#47484a"}
-        strokeWidth={0.75 / zoomToFit}
+        /*stroke={"#47484a"}
+        strokeWidth={0.75 / zoomToFit}*/
         fill="transparent"
         x={visibleAreaX}
         y={visibleAreaY}

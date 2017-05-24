@@ -360,8 +360,10 @@ export default class ReactSVGPanZoom extends React.Component {
             position={props.miniaturePosition}
             value={value}
             onChangeValue={value => this.setValue(value)}
-            background={this.props.SVGBackground}
+            SVGBackground={this.props.SVGBackground}
+            background={this.props.miniatureBackground}
             width={this.props.miniatureWidth}
+            height={this.props.miniatureHeight}
           >
             {props.children.props.children}
           </CustomMiniature>
@@ -463,8 +465,14 @@ ReactSVGPanZoom.propTypes = {
   //miniature position
   miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
 
+  //miniature height
+  miniatureBackground: PropTypes.string,
+
   //miniature width
   miniatureWidth: PropTypes.number,
+
+  //miniature height
+  miniatureHeight: PropTypes.number,
 
   //override miniature component
   customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
@@ -506,5 +514,7 @@ ReactSVGPanZoom.defaultProps = {
   scaleFactor: 1.1,
   miniaturePosition: POSITION_LEFT,
   miniatureWidth: 100,
+  miniatureHeight: 80,
+  miniatureBackground: "#616264",
   customMiniature: Miniature,
 };
