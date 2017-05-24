@@ -321,7 +321,7 @@ export default class ReactSVGPanZoom extends React.Component {
             </g>
           </g>
 
-          {!(tool === TOOL_NONE && props.detectAutoPan && value.focus) ? null : (
+          {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
             <g style={{pointerEvents: "none"}}>
               {!(viewerY <= 20) ? null :
                 <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
