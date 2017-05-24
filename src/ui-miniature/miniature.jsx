@@ -26,12 +26,6 @@ export default function Miniature(props) {
     {x: viewerWidth, y: viewerHeight}
   ]);
 
-  x1 = max(x1, 0);
-  y1 = max(y1, 0);
-  x2 = min(x2, SVGWidth);
-  y2 = min(y2, SVGHeight);
-
-
   let width, height;
   if (value.miniatureOpen) {
     width = miniatureWidth;
@@ -74,17 +68,16 @@ export default function Miniature(props) {
               height={value.SVGHeight}/>
 
             {children}
-            {x1 === 0 && y1 === 0 && x2 - x1 === SVGWidth && y2 - y1 === SVGHeight ? null :
-              <MiniatureMask
-                SVGWidth={SVGWidth}
-                SVGHeight={SVGHeight}
-                visibleAreaX={x1}
-                visibleAreaY={y1}
-                visibleAreaWidth={x2 - x1}
-                visibleAreaHeight={y2 - y1}
-                zoomToFit={zoomToFit}
-              />
-            }
+
+            <MiniatureMask
+              SVGWidth={SVGWidth}
+              SVGHeight={SVGHeight}
+              x1={x1}
+              y1={y1}
+              x2={x2}
+              y2={y2}
+              zoomToFit={zoomToFit}
+            />
 
           </g>
         </g>

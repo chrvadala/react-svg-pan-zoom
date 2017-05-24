@@ -1,15 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-export default function MiniatureMask(props) {
-  let {SVGWidth, SVGHeight, visibleAreaX, visibleAreaY, visibleAreaWidth, visibleAreaHeight, zoomToFit} = props;
-
+export default function MiniatureMask({SVGWidth, SVGHeight, x1, y1, x2, y2, zoomToFit}) {
   return (
     <g>
       <defs>
         <mask id="react-svg-pan-zoom-miniature-mask">
           <rect x="0" y="0" width={SVGWidth} height={SVGHeight} fill="#ffffff"/>
-          <rect x={visibleAreaX} y={visibleAreaY} width={visibleAreaWidth} height={visibleAreaHeight}/>
+          <rect x={x1} y={y1} width={x2 - x1} height={y2 - y1}/>
         </mask>
       </defs>
 
@@ -24,14 +22,6 @@ export default function MiniatureMask(props) {
               opacity: 0.4
             }}
       />
-      <rect
-        /*stroke={"#47484a"}
-        strokeWidth={0.75 / zoomToFit}*/
-        fill="transparent"
-        x={visibleAreaX}
-        y={visibleAreaY}
-        width={visibleAreaWidth}
-        height={visibleAreaHeight}/>
 
     </g>)
 }
@@ -39,9 +29,9 @@ export default function MiniatureMask(props) {
 MiniatureMask.propTypes = {
   SVGWidth: PropTypes.number.isRequired,
   SVGHeight: PropTypes.number.isRequired,
-  visibleAreaX: PropTypes.number.isRequired,
-  visibleAreaY: PropTypes.number.isRequired,
-  visibleAreaWidth: PropTypes.number.isRequired,
-  visibleAreaHeight: PropTypes.number.isRequired,
+  x1: PropTypes.number.isRequired,
+  y1: PropTypes.number.isRequired,
+  x2: PropTypes.number.isRequired,
+  y2: PropTypes.number.isRequired,
   zoomToFit: PropTypes.number.isRequired,
 }
