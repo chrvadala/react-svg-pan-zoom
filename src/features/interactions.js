@@ -11,7 +11,7 @@ import {
 import {setFocus, setViewerCoords, getSVGPoint} from './common';
 import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
-import {mapRange} from '../utils'
+import mapRange from '../utils/mapRange';
 
 
 export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null) {

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {calculateBox} from '../utils';
+import calculateBox from '../utils/calculateBox';
 
 export default function Selection({startX, startY, endX, endY}) {
   if (!startX || !startY || !endX || !endY) return null;
