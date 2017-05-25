@@ -30,6 +30,7 @@ export default class DifferentSizesStory extends Component {
           ref={Viewer => this.Viewer1 = Viewer}>
           <svg width={300} height={600}>
             <rect x="20" y="20" width="260" height="560" fill="green" stroke="black"/>
+            <text x="20" y="15">300x600</text>
           </svg>
         </ReactSVGPanZoom>
 
@@ -41,6 +42,7 @@ export default class DifferentSizesStory extends Component {
           ref={Viewer => this.Viewer2 = Viewer}>
           <svg width={600} height={300}>
             <rect x="20" y="20" width="560" height="260" fill="red" stroke="black"/>
+            <text x="20" y="15">600x300</text>
           </svg>
         </ReactSVGPanZoom>
 
@@ -52,6 +54,7 @@ export default class DifferentSizesStory extends Component {
           ref={Viewer => this.Viewer3 = Viewer}>
           <svg width={300} height={600}>
             <rect x="20" y="20" width="260" height="560" fill="yellow" stroke="black"/>
+            <text x="20" y="15">300x600</text>
           </svg>
         </ReactSVGPanZoom>
 
@@ -63,6 +66,7 @@ export default class DifferentSizesStory extends Component {
           ref={Viewer => this.Viewer4 = Viewer}>
           <svg width={600} height={300}>
             <rect x="20" y="20" width="560" height="260" fill="blue" stroke="black"/>
+            <text x="20" y="15">600x300</text>
           </svg>
         </ReactSVGPanZoom>
       </div>
