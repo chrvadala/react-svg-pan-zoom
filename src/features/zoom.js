@@ -2,7 +2,7 @@ import {transform, fromObject, translate, scale} from 'transformation-matrix';
 
 import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
-import {calculateBox} from '../utils';
+import calculateBox from '../utils/calculateBox';
 
 function lessThanScaleFactorMin (props, value) {
   return props.scaleFactorMin && (value.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;

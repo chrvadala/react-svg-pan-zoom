@@ -44,6 +44,7 @@ class Viewer extends Component {
         toolbarPosition={POSITION_TOP}
         detectAutoPan={boolean('detectAutoPan', true)}
         detectWheel={boolean('detectWheel', true)}
+        detectPinchGesture={boolean('detectPinchGesture', true)}
 
         preventPanOutside={boolean('preventPanOutside', true)}
 

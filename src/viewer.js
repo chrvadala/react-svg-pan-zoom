@@ -30,7 +30,6 @@ import {openMiniature, closeMiniature} from './features/miniature';
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
-import If from './ui/if';
 import Selection from './ui/selection';
 import Toolbar from './ui-toolbar/toolbar';
 import detectTouch from './ui/detect-touch';
@@ -82,7 +81,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   getSvgStyle(cursor) {
-    const style = { display: 'block' };
+    const style = {display: 'block'};
 
     if (cursor) {
       style.cursor = cursor;
@@ -140,12 +139,12 @@ export default class ReactSVGPanZoom extends React.Component {
     if (this.props.onChangeTool) this.props.onChangeTool(tool);
   }
 
-  openMiniature(){
+  openMiniature() {
     let nextValue = openMiniature(this.getValue());
     this.setValue(nextValue);
   }
 
-  closeMiniature(){
+  closeMiniature() {
     let nextValue = closeMiniature(this.getValue());
     this.setValue(nextValue);
   }
@@ -153,7 +152,7 @@ export default class ReactSVGPanZoom extends React.Component {
   handleViewerEvent(event) {
     let {props, state: {value}, ViewerDOM} = this;
 
-    if ( !([TOOL_NONE, TOOL_AUTO].indexOf(this.getTool())>=0) ) return;
+    if (!([TOOL_NONE, TOOL_AUTO].indexOf(this.getTool()) >= 0)) return;
     if (event.target === ViewerDOM) return;
 
     let eventsHandler = {
@@ -325,29 +324,29 @@ export default class ReactSVGPanZoom extends React.Component {
             </g>
           </g>
 
-          <If condition={tool === TOOL_NONE && props.detectAutoPan && value.focus}>
+          {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
             <g style={{pointerEvents: "none"}}>
-              <If condition={viewerY <= 20}>
+              {!(viewerY <= 20) ? null :
                 <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
-              </If>
+              }
 
-              <If condition={value.viewerWidth - viewerX <= 20}>
+              {!(value.viewerWidth - viewerX <= 20) ? null :
                 <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight}/>
-              </If>
+              }
 
-              <If condition={ value.viewerHeight - viewerY <= 20}>
+              {!( value.viewerHeight - viewerY <= 20) ? null :
                 <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight}/>
-              </If>
+              }
 
-              <If condition={value.focus && viewerX <= 20}>
+              {!( value.focus && viewerX <= 20) ? null :
                 <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight}/>
-              </If>
+              }
             </g>
-          </If>
+          )}
 
-          <If condition={value.mode === MODE_ZOOMING}>
+          {!(value.mode === MODE_ZOOMING) ? null :
             <Selection startX={value.startX} startY={value.startY} endX={value.endX} endY={value.endY}/>
-          </If>
+          }
         </svg>
 
         {props.toolbarPosition === POSITION_NONE ? null :
@@ -363,8 +362,10 @@ export default class ReactSVGPanZoom extends React.Component {
             position={props.miniaturePosition}
             value={value}
             onChangeValue={value => this.setValue(value)}
-            background={this.props.SVGBackground}
+            SVGBackground={this.props.SVGBackground}
+            background={this.props.miniatureBackground}
             width={this.props.miniatureWidth}
+            height={this.props.miniatureHeight}
           >
             {props.children.props.children}
           </CustomMiniature>
@@ -478,8 +479,14 @@ ReactSVGPanZoom.propTypes = {
   //miniature position
   miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
 
+  //miniature height
+  miniatureBackground: PropTypes.string,
+
   //miniature width
   miniatureWidth: PropTypes.number,
+
+  //miniature height
+  miniatureHeight: PropTypes.number,
 
   //override miniature component
   customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
@@ -521,5 +528,7 @@ ReactSVGPanZoom.defaultProps = {
   scaleFactor: 1.1,
   miniaturePosition: POSITION_LEFT,
   miniatureWidth: 100,
+  miniatureHeight: 80,
+  miniatureBackground: "#616264",
   customMiniature: Miniature,
 };

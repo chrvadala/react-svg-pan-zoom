@@ -80,6 +80,7 @@ export default class MainStory extends Component {
 
           detectAutoPan={boolean('detectAutoPan', true)}
           detectWheel={boolean('detectWheel', true)}
+          detectPinchGesture={boolean('detectPinchGesture', true)}
 
           preventPanOutside={boolean('preventPanOutside', true)}
           toolbarPosition={select('toolbarPosition',

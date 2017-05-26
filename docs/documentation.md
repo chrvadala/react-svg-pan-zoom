@@ -21,7 +21,9 @@
   - `scaleFactor` - how much scale in or out (default: 1.1 = 110%)
   - `customToolbar` - override toolbar component
   - `miniaturePosition` - miniature position (one of `none`, `right`, `left`)
+  - `miniatureBackground` - background of the miniature (default color: dark grey)
   - `miniatureWidth` - miniature width (default: 100px)
+  - `miniatureHeight` - miniature height (default: 80px)
   - `customMiniature` - override miniature component
   - `onClick` - handler* for click `fn(viewerEvent: ViewerMouseEvent)`
   - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`

@@ -19,7 +19,7 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
 
   // apply pan limits
   if (panLimit) {
-    let [{x:x1, y:y1}, {x:x2, y:y2}] = applyToPoints(matrix, [
+    let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
       {x: panLimit, y: panLimit},
       {x: value.SVGWidth - panLimit, y: value.SVGHeight - panLimit}
     ]);
@@ -98,6 +98,9 @@ export function autoPanIfNeeded(value, viewerX, viewerY) {
   if (value.viewerWidth - viewerX <= 20) deltaX = -20;
   if (value.viewerHeight - viewerY <= 20) deltaY = -20;
   if (viewerX <= 20) deltaX = 20;
+
+  deltaX = deltaX / value.d;
+  deltaY = deltaY / value.d;
 
   return (deltaX === 0 && deltaY === 0) ? value : pan(value, deltaX, deltaY);
 }

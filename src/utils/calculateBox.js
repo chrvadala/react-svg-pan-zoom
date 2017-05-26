@@ -1,4 +1,4 @@
-export function calculateBox(start, end) {
+export default function calculateBox(start, end) {
   if (start.x <= end.x && start.y <= end.y) {
     return {
       x: start.x,
@@ -30,6 +30,3 @@ export function calculateBox(start, end) {
   }
 }
 
-export function mapRange(value, low1, high1, low2, high2) {
-  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
-}
