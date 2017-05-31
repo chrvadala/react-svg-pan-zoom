@@ -117,4 +117,4 @@ import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 ``` 
 
 **React SVG Pan Zoom** supports a lot of features. [Documentation](./documentation.md) page describe each available **prop** and **methods**. 
-[Examples](../examples) directory shows some useful usage.
+[Examples](https://github.com/chrvadala/react-svg-pan-zoom#usage-examples) directory shows some useful usage.
