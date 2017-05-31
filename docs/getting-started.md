@@ -17,7 +17,9 @@ This operation adds zoom and pan features to the image and thanks to the toolbar
  your users can interact with the image.
 ```jsx harmony
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
-/* ...  */
+//or
+const {ReactSVGPanZoom} = window.ReactSVGPanZoom;
+
 <ReactSVGPanZoom
   width={500} height={500}
   onClick={event => console.log(event.x, event.y, event.originalEvent)}>
@@ -39,7 +41,9 @@ If you need to fully control the current tool (one of `none`, `auto`, `pan`, `zo
  the props `onChangeTool={tool => {...}}` and update the current tool when requested.
 ```jsx harmony
 import {ReactSVGPanZoom, TOOL_NONE, TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from 'react-svg-pan-zoom';
-/* ...  */
+//or
+const {ReactSVGPanZoom, TOOL_NONE, TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} = window.ReactSVGPanZoom;
+
 <ReactSVGPanZoom
   width={500} height={500}
   onClick={event => console.log(event.x, event.y, event.originalEvent)}
@@ -65,7 +69,9 @@ support the view change with the handler `onChangeValue(value => {...})`.
 You can also use any available methods exported by this module, to create a new value that can be injected into the component.
 ```jsx harmony
 import {ReactSVGPanZoom, fitSelection, zoomOnViewerCenter, fitToViewer} from 'react-svg-pan-zoom';
-/* ...  */
+//or
+const {ReactSVGPanZoom, fitSelection, zoomOnViewerCenter, fitToViewer} = window.ReactSVGPanZoom;
+
 <div>
   <button onClick={e => this.setState({value: zoomOnViewerCenter(this.state.value, 1.1)}) }>zoom</button>
   <button onClick={e => this.setState({value: fitSelection(this.state.value, 40, 40, 200, 200)})}>fitSelection</button>
@@ -92,7 +98,9 @@ import {ReactSVGPanZoom, fitSelection, zoomOnViewerCenter, fitToViewer} from 're
 You can also obtain an instance of this component and programmatically call each available methods.
 ```jsx harmony
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
-/* ...  */
+//or
+const {ReactSVGPanZoom} = window.ReactSVGPanZoom;
+
 <div>
   <button onClick={e => this.Viewer.zoomOnViewerCenter(1.1)}>zoom</button> 
   <button onClick={e => this.Viewer.fitSelection(40, 40, 200, 200)}>fitSelection</button>

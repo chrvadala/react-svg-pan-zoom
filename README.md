@@ -28,8 +28,13 @@ This component can work in four different modes depending on the selected tool:
 
 <!-- START_NO_WEB:2 -->
 ## Install
+### NPM
 ```sh
 npm install --save react-svg-pan-zoom
+```
+### UMD
+```html
+<script src="https://unpkg.com/react-svg-pan-zoom@2"></script>
 ```
 <!-- END_NO_WEB:2 -->
 
