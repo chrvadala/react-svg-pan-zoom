@@ -1,8 +1,13 @@
 # React SVG Pan Zoom - Getting Started
 
 ## Install
+### NPM
 ```sh
 npm install --save react-svg-pan-zoom
+```
+### UMD
+```html
+<script src="https://unpkg.com/react-svg-pan-zoom@2"></script>
 ```
 
 ## Usage
