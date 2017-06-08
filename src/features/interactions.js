@@ -133,11 +133,13 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = nul
 
   switch (tool) {
     case TOOL_AUTO:
-      let SVGPoint = getSVGPoint(value, x, y);
-      let modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
-      let modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
-      let scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
-      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+      if (!props.disableDoubleClickZoomWithToolAuto) {
+        let SVGPoint = getSVGPoint(value, x, y);
+        let modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
+        let modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
+        let scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
+        nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+      }
       break;
 
     default:
