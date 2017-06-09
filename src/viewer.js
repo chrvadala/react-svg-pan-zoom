@@ -476,6 +476,9 @@ ReactSVGPanZoom.propTypes = {
   //override miniature component
   customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
+  //Turn off zoom on double click
+  disableDoubleClickZoomWithToolAuto: PropTypes.bool,
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -516,4 +519,5 @@ ReactSVGPanZoom.defaultProps = {
   miniatureHeight: 80,
   miniatureBackground: "#616264",
   customMiniature: Miniature,
+  disableZoomWithToolAuto: false
 };

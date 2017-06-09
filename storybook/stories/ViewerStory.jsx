@@ -90,6 +90,8 @@ export default class MainStory extends Component {
           miniaturePosition={select('miniaturePosition', [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT], POSITION_LEFT)}
           miniatureWidth={number('miniatureWidth', 100)}
 
+          disableDoubleClickZoomWithToolAuto={boolean('disableDoubleClickZoomWithToolAuto', false)}
+
           onMouseDown={viewerMouseEventDecorator('onMouseDown')}
           onClick={viewerMouseEventDecorator('onClick')}
           onMouseMove={noArgsDecorator('onMouseMove')}
