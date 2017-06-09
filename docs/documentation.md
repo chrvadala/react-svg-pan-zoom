@@ -25,6 +25,7 @@
   - `miniatureWidth` - miniature width (default: 100px)
   - `miniatureHeight` - miniature height (default: 80px)
   - `customMiniature` - override miniature component
+  - `disableDoubleClickZoomWithToolAuto` - Turn off zoom on double click
   - `onClick` - handler* for click `fn(viewerEvent: ViewerMouseEvent)`
   - `onDoubleClick` - handler* for dblclick `fn(viewerEvent: ViewerMouseEvent)`
   - `onMouseUp` - handler* for mouseup `fn(viewerEvent: ViewerMouseEvent)`
