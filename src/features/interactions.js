@@ -13,7 +13,6 @@ import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
 
-
 export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null) {
   let x, y;
   if (coords) {

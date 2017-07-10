@@ -101,6 +101,11 @@ export default class MainStory extends Component {
           onTouchStart={viewerTouchEventDecorator('onTouchStart')}
           onTouchMove={noArgsDecorator('onTouchMove')}
           onTouchEnd={viewerTouchEventDecorator('onTouchEnd')}
+
+          onPan={action('onPan')}
+          onZoom={action('onZoom')}
+          scaleFactorMin={number('scaleFactorMin', undefined)}
+          scaleFactorMax={number('scaleFactorMax', undefined)}
         >
 
           <svg width={1440} height={1440}>

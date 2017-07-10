@@ -233,19 +233,22 @@ export default class ReactSVGPanZoom extends React.Component {
           style={this.getSvgStyle(cursor)}
 
           onMouseDown={ event => {
-            let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+            let {operation, nextValue} = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
+            if(operation === ACTION_ZOOM) props.onZoom && props.onZoom(eventFactory(event, nextValue, this.ViewerDOM));
           }}
           onMouseMove={ event => {
             let {left, top} = this.ViewerDOM.getBoundingClientRect();
             let x = event.clientX - Math.round(left);
             let y = event.clientY - Math.round(top);
 
-            let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
+            let {operation, nextValue} = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.setState({viewerX: x, viewerY: y});
             this.handleViewerEvent(event);
+
+            if(operation === ACTION_PAN) props.onPan && props.onPan(eventFactory(event, nextValue, this.ViewerDOM));
           }}
           onMouseUp={ event => {
             let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
@@ -446,11 +449,23 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: PropTypes.func,
 
+  // callback that fires while a user is panning the SVG
+  onPan: PropTypes.func,
+
+  // callback that fires on zoom in/out
+  onZoom: PropTypes.func,
+
   //if disabled the user can move the image outside the viewer
   preventPanOutside: PropTypes.bool,
 
   //how much scale in or out
   scaleFactor: PropTypes.number,
+
+  // maximum amount of scale a user can zoom in to
+  scaleFactorMax: PropTypes.number,
+
+  // minimum amount of a scale a user can zoom out to
+  scaleFactorMin: PropTypes.number,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
