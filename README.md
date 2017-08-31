@@ -3,8 +3,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 [![Downloads](https://img.shields.io/npm/dm/react-svg-pan-zoom.svg)](https://www.npmjs.com/package/react-svg-pan-zoom)
-![license-mit](https://img.shields.io/badge/license-MIT-42cd00.svg)
-[![Donate](https://img.shields.io/badge/donate-%E2%82%AC%E2%82%AC%E2%82%AC-brightgreen.svg)](https://www.bountysource.com/teams/react-svg-pan-zoom)
+[![Beerpay](https://beerpay.io/chrvadala/react-svg-pan-zoom/badge.svg?style=beer)](https://beerpay.io/chrvadala/react-svg-pan-zoom)
 
 <!-- START_NO_WEB:1 -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
@@ -32,6 +31,10 @@ This component can work in four different modes depending on the selected tool:
 ```sh
 npm install --save react-svg-pan-zoom
 ```
+### YARN
+```sh
+yarn add react-svg-pan-zoom
+```
 ### UMD
 ```html
 <script src="https://unpkg.com/react-svg-pan-zoom@2"></script>
@@ -56,6 +59,7 @@ npm install --save react-svg-pan-zoom
 - **v2.8** - Adds storybook demo, Remove bower support, Adds pinch to zoom feature, Fix miniature size
 - **v2.9** - Reinvents miniature and introduce props `miniatureBackground`, `miniatureHeight`, Minor improvements & fix
 - **v2.10** - Introduce prop `disableDoubleClickZoomWithToolAuto`
+- **v2.11** - Improves docs, updates deps
 
 ## Some projects using react-svg-pan-zoom
 - [**React Planner**](https://github.com/cvdlab/react-planner)
