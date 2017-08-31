@@ -4,39 +4,39 @@
 
 |Prop|Default|Type|Description|
 |-----|------|-----|-----|
-| `width`             | **required** | Number | Width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))|  
-| `height`            | **required** | Number | Height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))|
-| `value`             | `null`       | Object | Lock the viewer to a specific value |
-| `onChangeValue`     | -            | `fn(value: object)` | Callback called when the viewer changes its value |
-| `tool` | `null`     | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
-| `onChangeTool`      | -            | `fn(tool: string)` | Callback called when the viewer changes the used tool |
-| `SVGBackground`     | `white`      | String | Background of the SVG |
-| `background`        | `dark grey`  | String | Background of the viewer |
-| `style` `           | -            | Object | CSS style of the viewer |
-| `className`         | -            | String | CSS class of the viewer |
-| `detectWheel`       | `true`       | Boolean | Perform zoom operation on mouse scroll | 
-| `detectAutoPan`     | `true`       | Boolean | Perform PAN if the mouse is on the border of the viewer |
-| `detectPinchGesture`| `true`       | Boolean | Perform zoom operation on pinch gesture |
-| `toolbarPosition`   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
-| `customToolbar`     | -            | Component | Override toolbar component |
-| `modifierKeys`      | -            | Array | Array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)) |
-| `preventPanOutside` | `true`       | Boolean | User can't move the image outside the viewer |
-| `scaleFactor`       | `1.1`        | Number | How much scale in or out (%) |
-| `miniaturePosition` | `left`       | one of `none`, `right`, `left` | Miniature position |
-| `miniatureBackground` | `dark grey`| String | background of the miniature |
-| `miniatureWidth`    | `100`        | Number | Miniature width (px) |
-| `miniatureHeight`   | `80`         | Number | Miniature height (px) |
-| `customMiniature`   | -            | Component |  Override miniature component | 
-| `disableDoubleClickZoomWithToolAuto` | `false | Boolean | Turn off zoom on double click |
-| `onClick` `         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for click | 
-| `onDoubleClick`     | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for dblclick | 
-| `onMouseUp`         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mouseup |
-|`onMouseMove`        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousemove |
-|`onMouseDown`        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
-|`onTouchStart`       | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
-|`onTouchMove`        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
-|`onTouchEnd`         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
-|`onTouchCancel`      | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
+| width             | **required** | Number | Width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))|  
+| height            | **required** | Number | Height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))|
+| value             | `null`       | Object | Lock the viewer to a specific value |
+| onChangeValue     | -            | `fn(value: object)` | Callback called when the viewer changes its value |
+| tool | `null`     | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
+| onChangeTool      | -            | `fn(tool: string)` | Callback called when the viewer changes the used tool |
+| SVGBackground    | `white`      | String | Background of the SVG |
+| background        | `#616264`  | String | Background of the viewer |
+| style            | -            | Object | CSS style of the viewer |
+| className         | -            | String | CSS class of the viewer |
+| detectWheel       | `true`       | Boolean | Perform zoom operation on mouse scroll | 
+| detectAutoPan     | `true`       | Boolean | Perform PAN if the mouse is on the border of the viewer |
+| detectPinchGesture| `true`       | Boolean | Perform zoom operation on pinch gesture |
+| toolbarPosition   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
+| customToolbar     | -            | Component | Override toolbar component |
+| modifierKeys      | -            | Array | Array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)) |
+| preventPanOutside | `true`       | Boolean | User can't move the image outside the viewer |
+| scaleFactor       | `1.1`        | Number | How much scale in or out (%) |
+| miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
+| miniatureBackground | `#616264`| String | background of the miniature |
+| miniatureWidth    | `100`        | Number | Miniature width (px) |
+| miniatureHeight   | `80`         | Number | Miniature height (px) |
+| customMiniature   | -            | Component |  Override miniature component | 
+| disableDoubleClickZoomWithToolAuto | `false` | Boolean | Turn off zoom on double click |
+| onClick         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for click | 
+| onDoubleClick     | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for dblclick | 
+| onMouseUp         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mouseup |
+| onMouseMove        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousemove |
+| onMouseDown        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
+| onTouchStart       | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
+| onTouchMove        | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
+| onTouchEnd         | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
+| onTouchCancel      | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
 
 \* handler available only with the tool `none` or `auto`
 
