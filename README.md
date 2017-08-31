@@ -71,8 +71,3 @@ yarn add react-svg-pan-zoom
 - [UtkuBelemir](https://github.com/UtkuBelemir)
 - [pellebjerkestrand](https://github.com/pellebjerkestrand)
 - [otake](https://github.com/otake)
-
-## Support on Beerpay
-Hey dude! Help me out for a couple of :beers:!
-
-[![Beerpay](https://beerpay.io/chrvadala/react-svg-pan-zoom/badge.svg?style=beer-square)](https://beerpay.io/chrvadala/react-svg-pan-zoom)  [![Beerpay](https://beerpay.io/chrvadala/react-svg-pan-zoom/make-wish.svg?style=flat-square)](https://beerpay.io/chrvadala/react-svg-pan-zoom?focus=wish)
