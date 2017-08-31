@@ -6,6 +6,8 @@ This component is able to extract `width` and `height` from the parent box and p
 
 ## Example
 ```jsx harmony
+import {AutoSizer} from 'react-virtualized';
+
 <div style={{width: "100%", height: "100%"}}>
     <AutoSizer>
       {(({width, height}) => width === 0 || height === 0 ? null : (
