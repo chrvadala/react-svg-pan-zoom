@@ -60,6 +60,7 @@ yarn add react-svg-pan-zoom
 - **v2.9** - Reinvents miniature and introduce props `miniatureBackground`, `miniatureHeight`, Minor improvements & fix
 - **v2.10** - Introduce prop `disableDoubleClickZoomWithToolAuto`
 - **v2.11** - Improves docs, updates deps
+- **v2.12** - Exports miniature to allow customization
 
 ## Some projects using react-svg-pan-zoom
 - [**React Planner**](https://github.com/cvdlab/react-planner)
@@ -71,3 +72,4 @@ yarn add react-svg-pan-zoom
 - [UtkuBelemir](https://github.com/UtkuBelemir)
 - [pellebjerkestrand](https://github.com/pellebjerkestrand)
 - [otake](https://github.com/otake)
+- [DmitriySpirit](https://github.com/DmitriySpirit)
