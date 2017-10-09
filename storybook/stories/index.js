@@ -8,6 +8,7 @@ import ViewerStory from './ViewerStory';
 import MethodsStory from './MethodsStory'
 import AutosizerViewer from './AutosizerViewer'
 import DifferentSizesStory from './DifferentSizesStory';
+import RuntimeResizeStory from "./RuntimeResizeStory";
 
 storiesOf('React SVG Pan Zoom', module)
   .addDecorator(withKnobs)
@@ -16,5 +17,6 @@ storiesOf('React SVG Pan Zoom', module)
   .add('Call methods', () => <MethodsStory/>)
   .add('Autosizer viewer', () => <AutosizerViewer />)
   .add('Different Sizes', () => <DifferentSizesStory />)
+  .add('Runtime Resize', () =>  <RuntimeResizeStory />)
 
 
