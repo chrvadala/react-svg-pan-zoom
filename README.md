@@ -50,17 +50,18 @@ yarn add react-svg-pan-zoom
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
 - **v2.1** - Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props
-- **v2.2** - Introduce tool `auto`, improve default toolbar
+- **v2.2** - Introduces tool `auto`, improves default toolbar
 - **v2.3** - Adds touch events support
 - **v2.4** - Adds es:next support, deploy new website
 - **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
-- **v2.6** - Introduce [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduce bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
+- **v2.6** - Introduces [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduces bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
 - **v2.7** - Adds miniature feature, Adds [PropTypes](https://www.npmjs.com/package/prop-types) support
 - **v2.8** - Adds storybook demo, Remove bower support, Adds pinch to zoom feature, Fix miniature size
 - **v2.9** - Reinvents miniature and introduce props `miniatureBackground`, `miniatureHeight`, Minor improvements & fix
 - **v2.10** - Introduce prop `disableDoubleClickZoomWithToolAuto`
 - **v2.11** - Improves docs, updates deps
 - **v2.12** - Exports miniature to allow customization
+- **v2.13** - Fix resizes issues (#58), Upgrades deps
 
 ## Some projects using react-svg-pan-zoom
 - [**React Planner**](https://github.com/cvdlab/react-planner)
@@ -73,3 +74,4 @@ yarn add react-svg-pan-zoom
 - [pellebjerkestrand](https://github.com/pellebjerkestrand)
 - [otake](https://github.com/otake)
 - [DmitriySpirit](https://github.com/DmitriySpirit)
+- [yozi-developer](https://github.com/yozi-developer)
