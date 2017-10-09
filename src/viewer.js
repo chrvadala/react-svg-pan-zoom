@@ -58,15 +58,21 @@ export default class ReactSVGPanZoom extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     let value = this.getValue();
+    let needUpdate = false;
+    let nextValue = value;
 
     if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
-      let nextValue = setViewerSize(value, nextProps.width, nextProps.height);
-      this.setValue(nextValue);
+      nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
+      needUpdate = true;
     }
 
     let {width: SVGWidth, height: SVGHeight} = nextProps.children.props;
     if (value.SVGWidth !== SVGWidth || value.SVGHeight !== SVGHeight) {
-      let nextValue = setSVGSize(value, SVGWidth, SVGHeight);
+      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight);
+      needUpdate = true;
+    }
+
+    if (needUpdate) {
       this.setValue(nextValue);
     }
   }
