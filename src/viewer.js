@@ -318,6 +318,7 @@ export default class ReactSVGPanZoom extends React.Component {
             style={blockChildEvents ? {pointerEvents: "none"} : {}}>
             <rect
               fill={this.props.SVGBackground}
+              style={this.props.SVGStyle}
               x={0}
               y={0}
               width={value.SVGWidth}
@@ -390,6 +391,9 @@ ReactSVGPanZoom.propTypes = {
 
   //background of the svg
   SVGBackground: PropTypes.string,
+
+  //style of the svg
+  SVGStyle: PropTypes.object,
 
   //value of the viewer (current point of view)
   value: PropTypes.shape({
@@ -512,6 +516,7 @@ ReactSVGPanZoom.defaultProps = {
   style: {},
   background: "#616264",
   SVGBackground: "#fff",
+  SVGStyle: {},
   detectWheel: true,
   detectAutoPan: true,
   detectPinchGesture: true,

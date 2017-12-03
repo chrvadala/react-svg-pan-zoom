@@ -11,6 +11,7 @@
 | tool | `null`     | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
 | onChangeTool      | -            | `fn(tool: string)` | Callback called when the viewer changes the used tool |
 | SVGBackground    | `white`      | String | Background of the SVG |
+| SVGStyle          | `{}`       | Object | Style of the SVG |
 | background        | `#616264`  | String | Background of the viewer |
 | style            | -            | Object | CSS style of the viewer |
 | className         | -            | String | CSS class of the viewer |
