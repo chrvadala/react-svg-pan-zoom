@@ -51,15 +51,15 @@
   ],
   "dependencies": {
     "prop-types": "^15.5.10",
-    "transformation-matrix": "^1.5.0"
+    "transformation-matrix": "^1.6.1"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^3.2.6",
-    "@storybook/addon-knobs": "^3.2.8",
-    "@storybook/addon-options": "^3.2.6",
-    "@storybook/addons": "^3.2.6",
-    "@storybook/react": "^3.2.8",
-    "@storybook/ui": "^3.2.7",
+    "@storybook/addon-actions": "^3.2.17",
+    "@storybook/addon-knobs": "^3.2.17",
+    "@storybook/addon-options": "^3.2.17",
+    "@storybook/addons": "^3.2.17",
+    "@storybook/react": "^3.2.17",
+    "@storybook/ui": "^3.2.17",
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
@@ -67,17 +67,17 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-es2015-webpack2": "^1.0.0",
     "babel-preset-react": "^6.24.1",
-    "cross-env": "^5.0.5",
+    "cross-env": "^5.1.1",
     "del-cli": "^1.1.0",
-    "gh-pages": "^1.0.0",
-    "npm-run-all": "^4.1.1",
+    "gh-pages": "^1.1.0",
+    "npm-run-all": "^4.1.2",
     "raw-loader": "^0.5.1",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
-    "react-virtualized": "^9.9.0",
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-virtualized": "^9.13.0",
     "remarkable": "^1.7.1",
-    "webpack": "^3.5.5",
-    "webpack-dev-server": "^2.7.1"
+    "webpack": "^3.10.0",
+    "webpack-dev-server": "^2.9.5"
   },
   "peerDependencies": {
     "react": ">=15.0.0"
