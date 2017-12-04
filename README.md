@@ -64,6 +64,7 @@ yarn add react-svg-pan-zoom
 - **v2.13** - Fix resizes issues (#58), Upgrades deps
 
 ## Some projects using react-svg-pan-zoom
+- [**Learn Anything**](https://github.com/learn-anything/learn-anything)
 - [**React Planner**](https://github.com/cvdlab/react-planner)
 - [**Others...**](https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories)
 - Pull request your project!
