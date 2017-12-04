@@ -163,7 +163,7 @@ export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
   if (!props.detectWheel) return value;
 
   let delta = Math.max(-1, Math.min(1, event.deltaY));
-  let scaleFactor = mapRange(delta, -1, 1, props.scaleFactor, 1/props.scaleFactor);
+  let scaleFactor = mapRange(delta, -1, 1, props.scaleFactorOnWheel, 1 / props.scaleFactorOnWheel);
 
   let SVGPoint = getSVGPoint(value, x, y);
   let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);

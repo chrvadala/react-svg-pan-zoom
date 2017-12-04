@@ -462,6 +462,9 @@ ReactSVGPanZoom.propTypes = {
   //how much scale in or out
   scaleFactor: PropTypes.number,
 
+  //how much scale in or out on mouse wheel (requires detectWheel enabled)
+  scaleFactorOnWheel: PropTypes.number,
+
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
 

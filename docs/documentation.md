@@ -23,6 +23,7 @@
 | modifierKeys      | -            | Array | Array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)) |
 | preventPanOutside | `true`       | Boolean | User can't move the image outside the viewer |
 | scaleFactor       | `1.1`        | Number | How much scale in or out (%) |
+| scaleFactorOnWheel| `1.1`        | Number | how much scale in or out on mouse wheel (requires `detectWheel` enabled) (%) |
 | miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
 | miniatureBackground | `#616264`| String | background of the miniature |
 | miniatureWidth    | `100`        | Number | Miniature width (px) |
