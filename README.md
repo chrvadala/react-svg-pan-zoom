@@ -66,7 +66,7 @@ yarn add react-svg-pan-zoom
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
 - [**React Planner**](https://github.com/cvdlab/react-planner)
-- [**Others...**](https://libraries.io/npm/react-svg-pan-zoom/dependent-repositories)
+- [**Others...**](https://github.com/chrvadala/react-svg-pan-zoom/network/dependents)
 - Pull request your project!
 
 ## Contributors
