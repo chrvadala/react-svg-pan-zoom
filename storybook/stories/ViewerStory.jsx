@@ -62,7 +62,9 @@ export default class MainStory extends Component {
         <ReactSVGPanZoom
           width={400} height={400}
           ref={Viewer => this.Viewer = Viewer}
-
+          scaleFactor={number('scaleFactor', 1.1)}
+          scaleFactorOnWheel={number('scaleFactorOnWheel', 1.1)}
+          SVGStyle={{stroke: "#fcc", strokeWidth: 20}}
           tool={this.state.tool}
           onChangeTool={tool => {
             action('onChangeTool')(tool)
