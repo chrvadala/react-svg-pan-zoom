@@ -21,7 +21,7 @@ import {AutoSizer} from 'react-virtualized';
             </g>
           </svg>
         </ReactSVGPanZoom>
-      )}
+      ))}
     </AutoSizer>
   </div>
 ```
