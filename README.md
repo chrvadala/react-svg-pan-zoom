@@ -76,3 +76,5 @@ yarn add react-svg-pan-zoom
 - [otake](https://github.com/otake)
 - [DmitriySpirit](https://github.com/DmitriySpirit)
 - [yozi-developer](https://github.com/yozi-developer)
+- [auroranil](https://github.com/auroranil)
+- [ahmedhosny](https://github.com/ahmedhosny)
