@@ -58,10 +58,11 @@ yarn add react-svg-pan-zoom
 - **v2.7** - Adds miniature feature, Adds [PropTypes](https://www.npmjs.com/package/prop-types) support
 - **v2.8** - Adds storybook demo, Remove bower support, Adds pinch to zoom feature, Fix miniature size
 - **v2.9** - Reinvents miniature and introduce props `miniatureBackground`, `miniatureHeight`, Minor improvements & fix
-- **v2.10** - Introduce prop `disableDoubleClickZoomWithToolAuto`
+- **v2.10** - Introduces prop `disableDoubleClickZoomWithToolAuto`
 - **v2.11** - Improves docs, updates deps
 - **v2.12** - Exports miniature to allow customization
 - **v2.13** - Fix resizes issues (#58), Upgrades deps
+- **v2.14** - Introduces prop `scaleFactorOnWheel`, Upgrades deps
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
