@@ -64,7 +64,7 @@ export default class MainStory extends Component {
           ref={Viewer => this.Viewer = Viewer}
           scaleFactor={number('scaleFactor', 1.1)}
           scaleFactorOnWheel={number('scaleFactorOnWheel', 1.1)}
-          SVGStyle={{stroke: "#fcc", strokeWidth: 20}}
+          // SVGStyle={{stroke: "#fcc", strokeWidth: 20}}
           tool={this.state.tool}
           onChangeTool={tool => {
             action('onChangeTool')(tool)
