@@ -528,6 +528,7 @@ ReactSVGPanZoom.defaultProps = {
   customToolbar: Toolbar,
   preventPanOutside: true,
   scaleFactor: 1.1,
+  scaleFactorOnWheel: 1.06,
   miniaturePosition: POSITION_LEFT,
   miniatureWidth: 100,
   miniatureHeight: 80,
