@@ -94,10 +94,10 @@ export function autoPanIfNeeded(value, viewerX, viewerY) {
   let deltaX = 0;
   let deltaY = 0;
 
-  if (viewerY <= 20) deltaY = 20;
-  if (value.viewerWidth - viewerX <= 20) deltaX = -20;
-  if (value.viewerHeight - viewerY <= 20) deltaY = -20;
-  if (viewerX <= 20) deltaX = 20;
+  if (viewerY <= 20) deltaY = 2;
+  if (value.viewerWidth - viewerX <= 20) deltaX = -2;
+  if (value.viewerHeight - viewerY <= 20) deltaY = -2;
+  if (viewerX <= 20) deltaX = 2;
 
   deltaX = deltaX / value.d;
   deltaY = deltaY / value.d;

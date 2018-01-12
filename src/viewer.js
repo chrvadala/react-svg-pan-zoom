@@ -54,6 +54,8 @@ export default class ReactSVGPanZoom extends React.Component {
       tool: tool ? tool : TOOL_NONE
     };
     this.ViewerDOM = null;
+
+    this.autoPanLoop = this.autoPanLoop.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -181,23 +183,30 @@ export default class ReactSVGPanZoom extends React.Component {
     onEventHandler(eventFactory(event, value, ViewerDOM));
   }
 
+  autoPanLoop() {
+    let coords = {x: this.state.viewerX, y: this.state.viewerY};
+    let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
+
+    if (this.getValue() !== nextValue) {
+      this.setValue(nextValue);
+    }
+
+    if(this.autoPanIsRunning) {
+      requestAnimationFrame(this.autoPanLoop);
+    }
+  }
+
 
   componentDidMount() {
     let {props, state} = this;
     if (props.onChangeValue) props.onChangeValue(state.value);
 
-    this.autoPanTimer = setInterval(() => {
-      let coords = {x: this.state.viewerX, y: this.state.viewerY};
-      let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
-
-      if (this.getValue() !== nextValue) {
-        this.setValue(nextValue);
-      }
-    }, 200);
+    this.autoPanIsRunning = true;
+    requestAnimationFrame(this.autoPanLoop);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.autoPanTimer);
+    this.autoPanIsRunning = false;
   }
 
   render() {
