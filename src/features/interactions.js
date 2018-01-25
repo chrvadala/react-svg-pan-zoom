@@ -29,7 +29,7 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
   switch (tool) {
     case TOOL_ZOOM_OUT:
       let SVGPoint = getSVGPoint(value, x, y);
-      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor);
+      nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor, props);
       break;
 
     case TOOL_ZOOM_IN:
@@ -65,7 +65,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
   switch (tool) {
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
-        nextValue = forceExit ? stopZooming(value, x, y, props.scaleFactor) : updateZooming(value, x, y);
+        nextValue = forceExit ? stopZooming(value, x, y, props.scaleFactor, props) : updateZooming(value, x, y);
       break;
 
     case TOOL_AUTO:
@@ -97,12 +97,12 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
   switch (tool) {
     case TOOL_ZOOM_OUT:
       if (value.mode === MODE_ZOOMING)
-        nextValue = stopZooming(value, x, y, 1 / props.scaleFactor);
+        nextValue = stopZooming(value, x, y, 1 / props.scaleFactor, props);
       break;
 
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
-        nextValue = stopZooming(value, x, y, props.scaleFactor);
+        nextValue = stopZooming(value, x, y, props.scaleFactor, props);
       break;
 
     case TOOL_AUTO:
@@ -138,7 +138,7 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = nul
         let modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
         let modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
         let scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
-        nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+        nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
       }
       break;
 
@@ -166,7 +166,7 @@ export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
   let scaleFactor = mapRange(delta, -1, 1, props.scaleFactorOnWheel, 1 / props.scaleFactorOnWheel);
 
   let SVGPoint = getSVGPoint(value, x, y);
-  let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+  let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
 
   event.preventDefault();
   return nextValue;

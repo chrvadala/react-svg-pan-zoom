@@ -113,7 +113,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   zoom(SVGPointX, SVGPointY, scaleFactor) {
-    let nextValue = zoom(this.getValue(), SVGPointX, SVGPointY, scaleFactor);
+    let nextValue = zoom(this.getValue(), SVGPointX, SVGPointY, scaleFactor, this.props);
     this.setValue(nextValue);
   }
 
@@ -473,6 +473,12 @@ ReactSVGPanZoom.propTypes = {
 
   //how much scale in or out on mouse wheel (requires detectWheel enabled)
   scaleFactorOnWheel: PropTypes.number,
+
+  // maximum amount of scale a user can zoom in to
+  scaleFactorMax: PropTypes.number,
+
+  // minimum amount of a scale a user can zoom out of
+  scaleFactorMin: PropTypes.number,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),

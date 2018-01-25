@@ -4,7 +4,19 @@ import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
+function lessThanScaleFactorMin (props, value) {
+  return props.scaleFactorMin && (value.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
+}
+
+function moreThanScaleFactorMax (props, value) {
+  return props.scaleFactorMax && (value.d * props.scaleFactor) >= props.scaleFactorMax;
+}
+
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor, props) {
+
+  if (lessThanScaleFactorMin(props, value) && scaleFactor < 1 || moreThanScaleFactorMax(props, value) && scaleFactor > 1) {
+      return value;
+  }
 
   let matrix = transform(
     fromObject(value),
@@ -75,7 +87,7 @@ export function updateZooming(value, viewerX, viewerY) {
   });
 }
 
-export function stopZooming(value, viewerX, viewerY, scaleFactor) {
+export function stopZooming(value, viewerX, viewerY, scaleFactor, props) {
   let {startX, startY, endX, endY} = value;
 
   let start = getSVGPoint(value, startX, startY);
@@ -86,6 +98,6 @@ export function stopZooming(value, viewerX, viewerY, scaleFactor) {
     return fitSelection(value, box.x, box.y, box.width, box.height);
   } else {
     let SVGPoint = getSVGPoint(value, viewerX, viewerY);
-    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
   }
 }
