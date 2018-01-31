@@ -47,7 +47,7 @@
 ##  Methods
 |Method|Description|
 |-----|------|
-| `pan( SVGDeltaX, SVGDeltaY )`               | Apply a pan |
+| `pan(SVGDeltaX, SVGDeltaY)`               | Apply a pan |
 | `zoom(SVGPointX, SVGPointY, scaleFactor)`   | Zoom in or out the SVG |
 | `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)`| Fit an SVG area to viewer |
 | `fitToViewer()`                             | Fit all SVG to Viewer |

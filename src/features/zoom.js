@@ -4,30 +4,53 @@ import {MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
 
-function lessThanScaleFactorMin (props, value) {
-  return props.scaleFactorMin && (value.d * (1 / props.scaleFactor)) <= props.scaleFactorMin;
+function lessThanScaleFactorMin (value, scaleFactor) {
+  return value.scaleFactorMin && (value.d * (scaleFactor)) <= value.scaleFactorMin;
 }
 
-function moreThanScaleFactorMax (props, value) {
-  return props.scaleFactorMax && (value.d * props.scaleFactor) >= props.scaleFactorMax;
+function moreThanScaleFactorMax (value, scaleFactor) {
+  return value.scaleFactorMax && (value.d * scaleFactor) >= value.scaleFactorMax;
 }
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor, props) {
+export function isZoomLevelGoingOutOfBounds(value, scaleFactor) {
+  return lessThanScaleFactorMin(value, scaleFactor) && scaleFactor < 1 || moreThanScaleFactorMax(value, scaleFactor) && scaleFactor > 1;
+}
 
-  if (lessThanScaleFactorMin(props, value) && scaleFactor < 1 || moreThanScaleFactorMax(props, value) && scaleFactor > 1) {
+export function limitZoomLevel(value, matrix) {
+  let scaleLevel = matrix.a;
+
+  if(value.scaleFactorMin != null) {
+    // limit minimum zoom
+    scaleLevel = Math.max(scaleLevel, value.scaleFactorMin);
+  }
+
+  if(value.scaleFactorMax != null) {
+    // limit maximum zoom
+    scaleLevel = Math.min(scaleLevel, value.scaleFactorMax);
+  }
+
+  return set(matrix, {
+    a: scaleLevel,
+    d: scaleLevel
+  });
+}
+
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
+  if (isZoomLevelGoingOutOfBounds(value, scaleFactor)) {
+      // Do not change translation and scale of value
       return value;
   }
 
-  let matrix = transform(
+  const matrix = transform(
     fromObject(value),
     translate(SVGPointX, SVGPointY),
     scale(scaleFactor, scaleFactor),
     translate(-SVGPointX, -SVGPointY)
-  )
+  );
 
   return set(value, {
     mode: MODE_IDLE,
-    ...matrix,
+    ...limitZoomLevel(value, matrix),
     startX: null,
     startY: null,
     endX: null,
@@ -43,14 +66,25 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
 
   let scaleLevel = Math.min(scaleX, scaleY);
 
-  let matrix = transform(
+  const matrix = transform(
     scale(scaleLevel, scaleLevel),                      //2
     translate(-selectionSVGPointX, -selectionSVGPointY) //1
   );
 
+  if(isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
+    // Do not allow scale and translation
+    return set(value, {
+      mode: MODE_IDLE,
+      startX: null,
+      startY: null,
+      endX: null,
+      endY: null
+    });
+  }
+
   return set(value, {
     mode: MODE_IDLE,
-    ...matrix,
+    ...limitZoomLevel(value, matrix),
     startX: null,
     startY: null,
     endX: null,

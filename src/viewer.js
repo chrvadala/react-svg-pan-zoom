@@ -7,7 +7,7 @@ import eventFactory from './events/event-factory';
 
 //features
 import {pan} from './features/pan';
-import {getDefaultValue, setViewerSize, setSVGSize, setPointOnViewerCenter, reset} from './features/common';
+import {getDefaultValue, setViewerSize, setSVGSize, setPointOnViewerCenter, reset, setZoomLevels} from './features/common';
 import {
   onMouseDown,
   onMouseMove,
@@ -74,6 +74,11 @@ export default class ReactSVGPanZoom extends React.Component {
       needUpdate = true;
     }
 
+    if (value.scaleFactorMin !== nextProps.scaleFactorMin || value.scaleFactorMax !== nextProps.scaleFactorMax) {
+      nextValue = setZoomLevels(nextValue, nextProps.scaleFactorMin, nextProps.scaleFactorMax);
+      needUpdate = true;
+    }
+
     if (needUpdate) {
       this.setValue(nextValue);
     }
@@ -113,7 +118,7 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   zoom(SVGPointX, SVGPointY, scaleFactor) {
-    let nextValue = zoom(this.getValue(), SVGPointX, SVGPointY, scaleFactor, this.props);
+    let nextValue = zoom(this.getValue(), SVGPointX, SVGPointY, scaleFactor);
     this.setValue(nextValue);
   }
 

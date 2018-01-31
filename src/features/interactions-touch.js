@@ -5,6 +5,7 @@ import {
 } from '../constants';
 import {resetMode, getSVGPoint, set} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
+import {isZoomLevelGoingOutOfBounds} from './zoom';
 
 function hasPinchPointDistance(value) {
   return typeof value.pinchPointDistance === 'number';
@@ -19,7 +20,12 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
   const pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
   const previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
   const svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
-  const distanceFactor = pinchPointDistance/previousPointDistance;
+  let distanceFactor = pinchPointDistance/previousPointDistance;
+
+  if (isZoomLevelGoingOutOfBounds(value, distanceFactor)) {
+    // Do not change translation and scale of value
+    return value;
+  }
 
   if (event.cancelable) {
     event.preventDefault();
