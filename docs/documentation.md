@@ -50,14 +50,14 @@
 | `pan(SVGDeltaX, SVGDeltaY)`               | Apply a pan |
 | `zoom(SVGPointX, SVGPointY, scaleFactor)`   | Zoom in or out the SVG |
 | `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)`| Fit an SVG area to viewer |
-| `fitToViewer()`                             | Fit all SVG to Viewer |
+| `fitToViewer()`                                | Fit all SVG to Viewer |
 | `setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)`| Set a point on Viewer center |
-| `reset()`                                   | Reset Viewer view to default |
-| `zoomOnViewerCenter(scaleFactor)`           | Zoom SVG on center |
-| `getValue()`                                | Get current viewer value |
-| `setValue(value)`                           | Through this method you can set a new value |
-| `getTool()`                                 | Get current tool |
-| `setTool(tool)`                             | Set a tool (one of `none`,`pan`,`zoom-in`,`zoom-out`,`auto`) |
+| `reset()`                                      | Reset Viewer view to default |
+| `zoomOnViewerCenter(scaleFactor)`              | Zoom SVG on center |
+| `getValue()`                                   | Get current viewer value |
+| `setValue(value)`                              | Through this method you can set a new value |
+| `getTool()`                                    | Get current tool |
+| `changeTool(tool)`                             | Change the tool (one of `none`,`pan`,`zoom-in`,`zoom-out`,`auto`) |
 
 ## Event attributes
 To your event handlers will be passed an instance of `ViewerMouseEvent` or `ViewerTouchEvent` (as the case). They have some useful attributes that map event positions to SVG coords.
