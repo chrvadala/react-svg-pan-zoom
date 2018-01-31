@@ -24,8 +24,8 @@
 | preventPanOutside | `true`       | Boolean | User can't move the image outside the viewer |
 | scaleFactor       | `1.1`        | Number | How much scale in or out (%) |
 | scaleFactorOnWheel| `1.06`        | Number | how much scale in or out on mouse wheel (requires `detectWheel` to be enabled) (%) |
-| scaleFactorMax    | -            | Number | minimum amount of scale a user can zoom out of
-| scaleFactorMin    | -            | Number | maximum amount of scale a user can zoom in to
+| scaleFactorMax    | -            | Number | maximum amount of scale a user can zoom in to
+| scaleFactorMin    | -            | Number | minimum amount of scale a user can zoom out of
 | miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
 | miniatureBackground | `#616264`| String | background of the miniature |
 | miniatureWidth    | `100`        | Number | Miniature width (px) |
