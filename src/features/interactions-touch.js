@@ -5,7 +5,7 @@ import {
 } from '../constants';
 import {resetMode, getSVGPoint, set} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
-import {isZoomLevelGoingOutOfBounds} from './zoom';
+import {isZoomLevelGoingOutOfBounds, limitZoomLevel} from './zoom';
 
 function hasPinchPointDistance(value) {
   return typeof value.pinchPointDistance === 'number';
@@ -40,7 +40,7 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
 
   return set(value, set({
     mode: MODE_ZOOMING,
-    ...matrix,
+    ...limitZoomLevel(value, matrix),
     startX: null,
     startY: null,
     endX: null,
