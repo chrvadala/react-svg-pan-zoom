@@ -104,8 +104,8 @@ export default class MainStory extends Component {
           onTouchMove={noArgsDecorator('onTouchMove')}
           onTouchEnd={viewerTouchEventDecorator('onTouchEnd')}
 
-          scaleFactorMin={number('scaleFactorMin', undefined)}
-          scaleFactorMax={number('scaleFactorMax', undefined)}
+          scaleFactorMin={number('scaleFactorMin', 0)}
+          scaleFactorMax={number('scaleFactorMax', 999999)}
         >
 
           <svg width={1440} height={1440}>
