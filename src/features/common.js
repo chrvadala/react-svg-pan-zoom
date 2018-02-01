@@ -117,6 +117,17 @@ export function setSVGSize(value, SVGWidth, SVGHeight) {
 }
 
 /**
+ * 
+ * @param value 
+ * @param scaleFactorMin 
+ * @param scaleFactorMax
+ * @returns {Object}
+ */
+export function setZoomLevels(value, scaleFactorMin, scaleFactorMax) {
+  return set(value, {scaleFactorMin, scaleFactorMax});
+}
+
+/**
  *
  * @param value
  * @param SVGPointX

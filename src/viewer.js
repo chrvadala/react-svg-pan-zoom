@@ -7,7 +7,7 @@ import eventFactory from './events/event-factory';
 
 //features
 import {pan} from './features/pan';
-import {getDefaultValue, setViewerSize, setSVGSize, setPointOnViewerCenter, reset} from './features/common';
+import {getDefaultValue, setViewerSize, setSVGSize, setPointOnViewerCenter, reset, setZoomLevels} from './features/common';
 import {
   onMouseDown,
   onMouseMove,
@@ -54,6 +54,8 @@ export default class ReactSVGPanZoom extends React.Component {
       tool: tool ? tool : TOOL_NONE
     };
     this.ViewerDOM = null;
+
+    this.autoPanLoop = this.autoPanLoop.bind(this);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -69,6 +71,11 @@ export default class ReactSVGPanZoom extends React.Component {
     let {width: SVGWidth, height: SVGHeight} = nextProps.children.props;
     if (value.SVGWidth !== SVGWidth || value.SVGHeight !== SVGHeight) {
       nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight);
+      needUpdate = true;
+    }
+
+    if (value.scaleFactorMin !== nextProps.scaleFactorMin || value.scaleFactorMax !== nextProps.scaleFactorMax) {
+      nextValue = setZoomLevels(nextValue, nextProps.scaleFactorMin, nextProps.scaleFactorMax);
       needUpdate = true;
     }
 
@@ -181,23 +188,30 @@ export default class ReactSVGPanZoom extends React.Component {
     onEventHandler(eventFactory(event, value, ViewerDOM));
   }
 
+  autoPanLoop() {
+    let coords = {x: this.state.viewerX, y: this.state.viewerY};
+    let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
+
+    if (this.getValue() !== nextValue) {
+      this.setValue(nextValue);
+    }
+
+    if(this.autoPanIsRunning) {
+      requestAnimationFrame(this.autoPanLoop);
+    }
+  }
+
 
   componentDidMount() {
     let {props, state} = this;
     if (props.onChangeValue) props.onChangeValue(state.value);
 
-    this.autoPanTimer = setInterval(() => {
-      let coords = {x: this.state.viewerX, y: this.state.viewerY};
-      let nextValue = onInterval(null, this.ViewerDOM, this.getTool(), this.getValue(), this.props, coords);
-
-      if (this.getValue() !== nextValue) {
-        this.setValue(nextValue);
-      }
-    }, 200);
+    this.autoPanIsRunning = true;
+    requestAnimationFrame(this.autoPanLoop);
   }
 
   componentWillUnmount() {
-    clearTimeout(this.autoPanTimer);
+    this.autoPanIsRunning = false;
   }
 
   render() {
@@ -464,6 +478,12 @@ ReactSVGPanZoom.propTypes = {
 
   //how much scale in or out on mouse wheel (requires detectWheel enabled)
   scaleFactorOnWheel: PropTypes.number,
+
+  // maximum amount of scale a user can zoom in to
+  scaleFactorMax: PropTypes.number,
+
+  // minimum amount of a scale a user can zoom out of
+  scaleFactorMin: PropTypes.number,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),

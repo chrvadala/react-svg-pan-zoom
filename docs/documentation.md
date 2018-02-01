@@ -24,6 +24,8 @@
 | preventPanOutside | `true`       | Boolean | User can't move the image outside the viewer |
 | scaleFactor       | `1.1`        | Number | How much scale in or out (%) |
 | scaleFactorOnWheel| `1.06`        | Number | how much scale in or out on mouse wheel (requires `detectWheel` to be enabled) (%) |
+| scaleFactorMax    | -            | Number | maximum amount of scale a user can zoom in to
+| scaleFactorMin    | -            | Number | minimum amount of scale a user can zoom out of
 | miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
 | miniatureBackground | `#616264`| String | background of the miniature |
 | miniatureWidth    | `100`        | Number | Miniature width (px) |
@@ -45,8 +47,8 @@
 ##  Methods
 |Method|Description|
 |-----|------|
-| `pan( SVGDeltaX, SVGDeltaY )`                  | Apply a pan |
-| `zoom(SVGPointX, SVGPointY, scaleFactor)`      | Zoom in or out the SVG |
+| `pan(SVGDeltaX, SVGDeltaY)`               | Apply a pan |
+| `zoom(SVGPointX, SVGPointY, scaleFactor)`   | Zoom in or out the SVG |
 | `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)`| Fit an SVG area to viewer |
 | `fitToViewer()`                                | Fit all SVG to Viewer |
 | `setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)`| Set a point on Viewer center |
