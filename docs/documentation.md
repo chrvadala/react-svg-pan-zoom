@@ -4,10 +4,12 @@
 
 |Prop|Default|Type|Description|
 |-----|------|-----|-----|
-| width             | **required** | Number | Width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))|  
+| width             | **required** | Number | Width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))|
 | height            | **required** | Number | Height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))|
 | value             | `null`       | Object | Lock the viewer to a specific value |
 | onChangeValue     | -            | `fn(value: object)` | Callback called when the viewer changes its value |
+| onZoom            | -            | `fn(value: object)` | Callback called when the zoom level changes |
+| onPan             | -            | `fn(value: object)` | Callback called when a pan action is performed |
 | tool | `null`     | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
 | onChangeTool      | -            | `fn(tool: string)` | Callback called when the viewer changes the used tool |
 | SVGBackground    | `white`      | String | Background of the SVG |
@@ -15,7 +17,7 @@
 | background        | `#616264`  | String | Background of the viewer |
 | style            | -            | Object | CSS style of the viewer |
 | className         | -            | String | CSS class of the viewer |
-| detectWheel       | `true`       | Boolean | Perform zoom operation on mouse scroll | 
+| detectWheel       | `true`       | Boolean | Perform zoom operation on mouse scroll |
 | detectAutoPan     | `true`       | Boolean | Perform PAN if the mouse is on the border of the viewer |
 | detectPinchGesture| `true`       | Boolean | Perform zoom operation on pinch gesture |
 | toolbarPosition   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
@@ -30,10 +32,10 @@
 | miniatureBackground | `#616264`| String | background of the miniature |
 | miniatureWidth    | `100`        | Number | Miniature width (px) |
 | miniatureHeight   | `80`         | Number | Miniature height (px) |
-| customMiniature   | -            | Component |  Override miniature component | 
+| customMiniature   | -            | Component |  Override miniature component |
 | disableDoubleClickZoomWithToolAuto | `false` | Boolean | Turn off zoom on double click |
-| onClick         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for click | 
-| onDoubleClick     | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for dblclick | 
+| onClick         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for click |
+| onDoubleClick     | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for dblclick |
 | onMouseUp         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mouseup |
 | onMouseMove        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousemove |
 | onMouseDown        | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mousedown |
@@ -70,7 +72,7 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 | `SVGViewer `        | SVGSVGElement  | Reference to SVGViewer |
 | `point`             | Object         | Coordinates (x,y) of the event mapped to SVG coordinates |
 | `x`                 | Number         | x coordinate of the event mapped to SVG coordinates |
-| `y`                 | Number         | y coordinate of the event mapped to SVG coordinates 
+| `y`                 | Number         | y coordinate of the event mapped to SVG coordinates
 | `scaleFactor`       | Number         | Zoom level |
 | `translationX`      | Number         | x delta from the viewer origin |
 | `translationY`      | Number         | y delta from the viewer origin |
