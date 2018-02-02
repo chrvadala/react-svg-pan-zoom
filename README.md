@@ -44,7 +44,7 @@ yarn add react-svg-pan-zoom
 ## Usage examples
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
 - [**Controlled state**](./examples/2-controlled-state/) - This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).
-- [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
+- [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a Redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
 
 ## Changelog
@@ -61,9 +61,9 @@ yarn add react-svg-pan-zoom
 - **v2.10** - Introduces prop `disableDoubleClickZoomWithToolAuto`
 - **v2.11** - Improves docs, updates deps
 - **v2.12** - Exports miniature to allow customization
-- **v2.13** - Fix resizes issues (#58), Upgrades deps
+- **v2.13** - Fixes resize issues (#58), Upgrades deps
 - **v2.14** - Introduces prop `scaleFactorOnWheel`, Upgrades deps
-- **v2.14** - Improves autopan feature (#71), adds `scaleFactorMax`, `scaleFactorMin` props (#71), Upgrades deps
+- **v2.15** - Improves autopan feature (#71), adds `scaleFactorMax`, `scaleFactorMin` props (#71), Upgrades deps
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
