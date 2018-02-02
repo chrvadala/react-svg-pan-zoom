@@ -12,6 +12,7 @@ export default class DifferentSizesStory extends Component {
     this.Viewer2 = null;
     this.Viewer3 = null;
     this.Viewer4 = null;
+    this.Viewer5 = null;
   }
 
   componentDidMount() {
@@ -19,6 +20,7 @@ export default class DifferentSizesStory extends Component {
     this.Viewer2.fitToViewer()
     this.Viewer3.fitToViewer()
     this.Viewer4.fitToViewer()
+    this.Viewer5.fitToViewer()
   }
 
   render() {
@@ -67,6 +69,18 @@ export default class DifferentSizesStory extends Component {
           <svg width={600} height={300}>
             <rect x="20" y="20" width="560" height="260" fill="blue" stroke="black"/>
             <text x="20" y="15">600x300</text>
+          </svg>
+        </ReactSVGPanZoom>
+
+        <hr/>
+
+        <ReactSVGPanZoom
+          width={400} height={400}
+          detectAutoPan={false}
+          ref={Viewer => this.Viewer5 = Viewer}>
+          <svg width={300} height={300}>
+            <rect x="20" y="20" width="260" height="260" fill="blue" stroke="black"/>
+            <text x="20" y="15">400x400</text>
           </svg>
         </ReactSVGPanZoom>
       </div>
