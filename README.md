@@ -63,6 +63,7 @@ yarn add react-svg-pan-zoom
 - **v2.12** - Exports miniature to allow customization
 - **v2.13** - Fix resizes issues (#58), Upgrades deps
 - **v2.14** - Introduces prop `scaleFactorOnWheel`, Upgrades deps
+- **v2.14** - Improves autopan feature (#71), adds `scaleFactorMax`, `scaleFactorMin` props (#71), Upgrades deps
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
