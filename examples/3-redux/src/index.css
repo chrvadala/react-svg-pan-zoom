@@ -4,7 +4,7 @@ body {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-button {
+button.btn {
   font-size: 19px;
   margin: 10px;
 }
