@@ -37,6 +37,7 @@ yarn add react-svg-pan-zoom
 ```
 ### UMD
 ```html
+<script src="https://unpkg.com/prop-types@15/prop-types.js"></script>
 <script src="https://unpkg.com/react-svg-pan-zoom@2"></script>
 ```
 <!-- END_NO_WEB:2 -->
