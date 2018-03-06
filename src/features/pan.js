@@ -57,7 +57,7 @@ export function startPanning(value, viewerX, viewerY) {
     startY: viewerY,
     endX: viewerX,
     endY: viewerY
-  });
+  }, ACTION_PAN);
 }
 
 export function updatePanning(value, viewerX, viewerY, panLimit) {
@@ -76,7 +76,7 @@ export function updatePanning(value, viewerX, viewerY, panLimit) {
     mode: MODE_PANNING,
     endX: viewerX,
     endY: viewerY,
-  });
+  }, ACTION_PAN);
 }
 
 export function stopPanning(value) {
@@ -86,7 +86,7 @@ export function stopPanning(value) {
       startY: null,
       endX: null,
       endY: null
-    }
+    }, ACTION_PAN
   );
 }
 
