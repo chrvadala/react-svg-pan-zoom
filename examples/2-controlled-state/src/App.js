@@ -17,12 +17,12 @@ class App extends Component {
   render() {
     return (
       <div>
-        <button onClick={event => this.setState({value: zoomOnViewerCenter(this.state.value, 1.1)})}>Zoom in
+        <button className="btn" onClick={event => this.setState({value: zoomOnViewerCenter(this.state.value, 1.1)})}>Zoom in
         </button>
-        <button onClick={event => this.setState({value: fitSelection(this.state.value, 40, 40, 200, 200)})}>
+        <button className="btn" onClick={event => this.setState({value: fitSelection(this.state.value, 40, 40, 200, 200)})}>
           Zoom area 200x200
         </button>
-        <button onClick={event => this.setState({value: fitToViewer(this.state.value)})}>Fit</button>
+        <button className="btn" onClick={event => this.setState({value: fitToViewer(this.state.value)})}>Fit</button>
 
         <hr/>
 

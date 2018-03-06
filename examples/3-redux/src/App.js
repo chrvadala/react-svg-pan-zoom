@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types'
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom';
 
 export function App({state, actions}) {
@@ -8,19 +9,19 @@ export function App({state, actions}) {
 
   return (
     <div style={{margin: "20px"}}>
-      <button onClick={e => actions.zoomOnViewerCenter(1.1)}>Zoom in</button>
-      <button onClick={e => actions.zoomOnViewerCenter(0.9)}>Zoom out</button>
-      <button onClick={e => actions.fitToViewer()}>Fit to viewer</button>
+      <button className="btn" onClick={e => actions.zoomOnViewerCenter(1.1)}>Zoom in</button>
+      <button className="btn" onClick={e => actions.zoomOnViewerCenter(0.9)}>Zoom out</button>
+      <button className="btn" onClick={e => actions.fitToViewer()}>Fit to viewer</button>
       <br/>
-      <button onClick={e => actions.pan(0, -20)}>Up</button>
-      <button onClick={e => actions.pan(20, 0)}>Right</button>
-      <button onClick={e => actions.pan(0, 20)}>Down</button>
-      <button onClick={e => actions.pan(-20, 0)}>Left</button>
+      <button className="btn" onClick={e => actions.pan(0, -20)}>Up</button>
+      <button className="btn" onClick={e => actions.pan(20, 0)}>Right</button>
+      <button className="btn" onClick={e => actions.pan(0, 20)}>Down</button>
+      <button className="btn" onClick={e => actions.pan(-20, 0)}>Left</button>
       <br/>
-      <button onClick={e => actions.selectToolNone()}>Select tool none</button>
-      <button onClick={e => actions.selectToolPan()}>Select tool pan</button>
-      <button onClick={e => actions.selectToolZoomIn()}>Select tool zoom in</button>
-      <button onClick={e => actions.selectToolZoomOut()}>Select tool zoom out</button>
+      <button className="btn" onClick={e => actions.selectToolNone()}>Select tool none</button>
+      <button className="btn" onClick={e => actions.selectToolPan()}>Select tool pan</button>
+      <button className="btn" onClick={e => actions.selectToolZoomIn()}>Select tool zoom in</button>
+      <button className="btn" onClick={e => actions.selectToolZoomOut()}>Select tool zoom out</button>
       <br/>
 
       <ReactSVGPanZoom
