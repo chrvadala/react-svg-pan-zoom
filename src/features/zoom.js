@@ -1,6 +1,6 @@
 import {transform, fromObject, translate, scale} from 'transformation-matrix';
 
-import {MODE_IDLE, MODE_ZOOMING} from '../constants';
+import {ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING} from '../constants';
 import {set, getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
 
@@ -55,7 +55,7 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
     startY: null,
     endX: null,
     endY: null
-  });
+  }, ACTION_ZOOM);
 }
 
 export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
@@ -89,7 +89,7 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
     startY: null,
     endX: null,
     endY: null
-  });
+  }, ACTION_ZOOM);
 }
 
 export function fitToViewer(value) {

@@ -7,7 +7,14 @@ import eventFactory from './events/event-factory';
 
 //features
 import {pan} from './features/pan';
-import {getDefaultValue, setViewerSize, setSVGSize, setPointOnViewerCenter, reset, setZoomLevels} from './features/common';
+import {
+  getDefaultValue,
+  setViewerSize,
+  setSVGSize,
+  setPointOnViewerCenter,
+  reset,
+  setZoomLevels
+} from './features/common';
 import {
   onMouseDown,
   onMouseMove,
@@ -38,7 +45,8 @@ import Miniature from './ui-miniature/miniature'
 import {
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
-  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
+  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
+  ACTION_PAN, ACTION_ZOOM
 } from './constants';
 
 export default class ReactSVGPanZoom extends React.Component {
@@ -108,8 +116,13 @@ export default class ReactSVGPanZoom extends React.Component {
   }
 
   setValue(nextValue) {
+    let {onChangeValue, onZoom, onPan} = this.props;
     this.setState({value: nextValue});
-    if (this.props.onChangeValue) this.props.onChangeValue(nextValue);
+    if (onChangeValue) onChangeValue(nextValue);
+    if (nextValue.lastAction) {
+      if (onZoom && nextValue.lastAction === ACTION_ZOOM) onZoom(nextValue);
+      if (onPan && nextValue.lastAction === ACTION_PAN) onPan(nextValue);
+    }
   }
 
   pan(SVGDeltaX, SVGDeltaY) {
@@ -455,6 +468,12 @@ ReactSVGPanZoom.propTypes = {
   //handler tool changed
   onChangeTool: PropTypes.func,
 
+  //handler zoom level changed
+  onZoom: PropTypes.func,
+
+  //handler pan action performed
+  onPan: PropTypes.func,
+
   //handler click
   onClick: PropTypes.func,
 
@@ -554,5 +573,7 @@ ReactSVGPanZoom.defaultProps = {
   miniatureHeight: 80,
   miniatureBackground: "#616264",
   customMiniature: Miniature,
-  disableZoomWithToolAuto: false
+  disableZoomWithToolAuto: false,
+  onZoom: null,
+  onPan: null,
 };
