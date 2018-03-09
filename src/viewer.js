@@ -7,7 +7,14 @@ import eventFactory from './events/event-factory';
 
 //features
 import {pan} from './features/pan';
-import {getDefaultValue, setViewerSize, setSVGSize, setPointOnViewerCenter, reset, setZoomLevels} from './features/common';
+import {
+  getDefaultValue,
+  setViewerSize,
+  setSVGSize,
+  setPointOnViewerCenter,
+  reset,
+  setZoomLevels
+} from './features/common';
 import {
   onMouseDown,
   onMouseMove,
@@ -22,7 +29,7 @@ import {
   onTouchMove,
   onTouchEnd,
   onTouchCancel
-}from './features/interactions-touch';
+} from './features/interactions-touch';
 
 import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 import {openMiniature, closeMiniature} from './features/miniature';
@@ -46,11 +53,11 @@ export default class ReactSVGPanZoom extends React.Component {
   constructor(props, context) {
     super(props, context);
 
-    let {tool, value, width: viewerWidth, height: viewerHeight, children} = this.props;
+    let {tool, value, width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = this.props;
     let {width: SVGWidth, height: SVGHeight} = children.props;
 
     this.state = {
-      value: value ? value : getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight),
+      value: value ? value : getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax),
       tool: tool ? tool : TOOL_NONE
     };
     this.ViewerDOM = null;
@@ -196,7 +203,7 @@ export default class ReactSVGPanZoom extends React.Component {
       this.setValue(nextValue);
     }
 
-    if(this.autoPanIsRunning) {
+    if (this.autoPanIsRunning) {
       requestAnimationFrame(this.autoPanLoop);
     }
   }
@@ -252,12 +259,12 @@ export default class ReactSVGPanZoom extends React.Component {
           height={value.viewerHeight}
           style={this.getSvgStyle(cursor)}
 
-          onMouseDown={ event => {
+          onMouseDown={event => {
             let nextValue = onMouseDown(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
-          onMouseMove={ event => {
+          onMouseMove={event => {
             let {left, top} = this.ViewerDOM.getBoundingClientRect();
             let x = event.clientX - Math.round(left);
             let y = event.clientY - Math.round(top);
@@ -267,7 +274,7 @@ export default class ReactSVGPanZoom extends React.Component {
             this.setState({viewerX: x, viewerY: y});
             this.handleViewerEvent(event);
           }}
-          onMouseUp={ event => {
+          onMouseUp={event => {
             let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
@@ -276,43 +283,43 @@ export default class ReactSVGPanZoom extends React.Component {
           onClick={event => {
             this.handleViewerEvent(event)
           }}
-          onDoubleClick={ event => {
+          onDoubleClick={event => {
             let nextValue = onDoubleClick(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
 
-          onWheel={ event => {
+          onWheel={event => {
             let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
 
-          onMouseEnter={ event => {
+          onMouseEnter={event => {
             if (detectTouch()) return;
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
-          onMouseLeave={ event => {
+          onMouseLeave={event => {
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
 
-          onTouchStart={ event => {
+          onTouchStart={event => {
             let nextValue = onTouchStart(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
-          onTouchMove={ event => {
+          onTouchMove={event => {
             let nextValue = onTouchMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
-          onTouchEnd={ event => {
+          onTouchEnd={event => {
             let nextValue = onTouchEnd(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
-          onTouchCancel={ event => {
+          onTouchCancel={event => {
             let nextValue = onTouchCancel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
@@ -352,11 +359,11 @@ export default class ReactSVGPanZoom extends React.Component {
                 <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight}/>
               }
 
-              {!( value.viewerHeight - viewerY <= 20) ? null :
+              {!(value.viewerHeight - viewerY <= 20) ? null :
                 <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight}/>
               }
 
-              {!( value.focus && viewerX <= 20) ? null :
+              {!(value.focus && viewerX <= 20) ? null :
                 <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight}/>
               }
             </g>
@@ -373,7 +380,7 @@ export default class ReactSVGPanZoom extends React.Component {
             value={value}
             onChangeValue={value => this.setValue(value)}
             tool={tool}
-            onChangeTool={tool => this.changeTool(tool)}/> }
+            onChangeTool={tool => this.changeTool(tool)}/>}
 
         {props.miniaturePosition === POSITION_NONE ? null :
           <CustomMiniature

@@ -13,7 +13,7 @@ import {
  * Obtain default value
  * @returns {Object}
  */
-export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) {
+export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax) {
   return set({}, {
     ...identity(),
     version: 2,
@@ -25,11 +25,13 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight) 
     viewerHeight,
     SVGWidth,
     SVGHeight,
+    scaleFactorMin,
+    scaleFactorMax,
     startX: null,
     startY: null,
     endX: null,
     endY: null,
-    miniatureOpen: true
+    miniatureOpen: true,
   });
 }
 
@@ -117,9 +119,9 @@ export function setSVGSize(value, SVGWidth, SVGHeight) {
 }
 
 /**
- * 
- * @param value 
- * @param scaleFactorMin 
+ *
+ * @param value
+ * @param scaleFactorMin
  * @param scaleFactorMax
  * @returns {Object}
  */
