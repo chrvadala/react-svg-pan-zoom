@@ -32,6 +32,7 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, 
     endX: null,
     endY: null,
     miniatureOpen: true,
+    lastAction: null,
   });
 }
 
@@ -39,10 +40,11 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, 
  * Change value
  * @param value
  * @param change
+ * @param action
  * @returns {Object}
  */
-export function set(value, change) {
-  value = Object.assign({}, value, change);
+export function set(value, change, action = null) {
+  value = Object.assign({}, value, change, {lastAction: action});
   return Object.freeze(value);
 }
 

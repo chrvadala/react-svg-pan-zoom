@@ -1,4 +1,4 @@
-import {MODE_IDLE, MODE_PANNING} from '../constants';
+import {ACTION_PAN, MODE_IDLE, MODE_PANNING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {fromObject, translate, transform, applyToPoints, inverse} from 'transformation-matrix';
 
@@ -47,7 +47,7 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
   return set(value, {
     mode: MODE_IDLE,
     ...matrix,
-  });
+  }, ACTION_PAN);
 }
 
 export function startPanning(value, viewerX, viewerY) {
@@ -57,7 +57,7 @@ export function startPanning(value, viewerX, viewerY) {
     startY: viewerY,
     endX: viewerX,
     endY: viewerY
-  });
+  }, ACTION_PAN);
 }
 
 export function updatePanning(value, viewerX, viewerY, panLimit) {
@@ -76,7 +76,7 @@ export function updatePanning(value, viewerX, viewerY, panLimit) {
     mode: MODE_PANNING,
     endX: viewerX,
     endY: viewerY,
-  });
+  }, ACTION_PAN);
 }
 
 export function stopPanning(value) {
@@ -86,7 +86,7 @@ export function stopPanning(value) {
       startY: null,
       endX: null,
       endY: null
-    }
+    }, ACTION_PAN
   );
 }
 

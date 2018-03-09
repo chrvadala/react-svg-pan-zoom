@@ -80,6 +80,9 @@ export default class MainStory extends Component {
             this.setState({value})
           }}
 
+          onZoom={value => console.info('onZoom')}
+          onPan={value => console.info('onPan')}
+
           detectAutoPan={boolean('detectAutoPan', true)}
           detectWheel={boolean('detectWheel', true)}
           detectPinchGesture={boolean('detectPinchGesture', true)}
@@ -109,7 +112,7 @@ export default class MainStory extends Component {
         >
 
           <svg width={1440} height={1440}>
-            <Snake />
+            <Snake/>
           </svg>
         </ReactSVGPanZoom>
       </div>
