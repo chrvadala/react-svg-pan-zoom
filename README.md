@@ -55,16 +55,17 @@ yarn add react-svg-pan-zoom
 - **v2.3** - Adds touch events support
 - **v2.4** - Adds es:next support, deploy new website
 - **v2.5** - Adds `preventPanOutside` and `scaleFactor` props
-- **v2.6** - Introduces [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduces bundle size thanks to three shaking, Fix pan limit behaviour, Replaces toolbar links with buttons, minor improvements
+- **v2.6** - Introduces [transformation-matrix](https://www.npmjs.com/package/transformation-matrix) that reduces bundle size thanks to three shaking, Fixes pan limit behaviour, Replaces toolbar links with buttons, minor improvements
 - **v2.7** - Adds miniature feature, Adds [PropTypes](https://www.npmjs.com/package/prop-types) support
-- **v2.8** - Adds storybook demo, Remove bower support, Adds pinch to zoom feature, Fix miniature size
+- **v2.8** - Adds storybook demo, Remove bower support, Adds pinch to zoom feature, Fixes miniature size
 - **v2.9** - Reinvents miniature and introduce props `miniatureBackground`, `miniatureHeight`, Minor improvements & fix
 - **v2.10** - Introduces prop `disableDoubleClickZoomWithToolAuto`
 - **v2.11** - Improves docs, updates deps
 - **v2.12** - Exports miniature to allow customization
 - **v2.13** - Fixes resize issues (#58), Upgrades deps
 - **v2.14** - Introduces prop `scaleFactorOnWheel`, Upgrades deps
-- **v2.15** - Improves autopan feature (#71), adds `scaleFactorMax`, `scaleFactorMin` props (#71), Upgrades deps
+- **v2.15** - Improves autopan feature ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), adds `scaleFactorMax`, `scaleFactorMin` props ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), Upgrades deps
+- **v2.16** - Adds `onPan` and `onZoom` callbacks, Upgrade deps, Fixes boundaries feature
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
