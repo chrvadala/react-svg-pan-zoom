@@ -120,11 +120,7 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
 
   let nextValue = shouldResetPinchPointDistance(event, value, props) ? set(value, { pinchPointDistance: null }) : value;
 
-  if (event.touches.length > 0) {
-    return nextValue;
-  }
-
-  return getNextValue(event, ViewerDOM, tool, nextValue, props, onMouseUp);
+  return nextValue;
 }
 
 export function onTouchCancel(event, ViewerDOM, tool, value, props) {
