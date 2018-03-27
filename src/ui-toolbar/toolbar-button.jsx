@@ -60,7 +60,7 @@ export default class ToolbarButton extends React.Component {
         title={this.props.title}
         name={this.props.name}
         role="button"
-
+        type="button"
       >{this.props.children}</button>
     )
   }
