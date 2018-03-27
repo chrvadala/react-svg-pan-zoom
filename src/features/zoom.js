@@ -93,7 +93,7 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
 }
 
 export function fitToViewer(value) {
-  return fitSelection(value, 0, 0, value.SVGWidth, value.SVGHeight);
+  return fitSelection(value, value.SVGViewBoxX, value.SVGViewBoxY, value.SVGWidth, value.SVGHeight);
 }
 
 export function zoomOnViewerCenter(value, scaleFactor) {
