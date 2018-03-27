@@ -48,8 +48,8 @@ export default function Miniature(props) {
   };
 
   let centerTranslation = ratio >= 1
-    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2 }, 0)`
-    : `translate(0, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2 })`;
+    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2 }, ${-SVGViewBoxY * zoomToFit})`
+    : `translate(${-SVGViewBoxX * zoomToFit}, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2 })`;
 
   return (
     <div role="navigation" style={style}>
@@ -70,6 +70,8 @@ export default function Miniature(props) {
             {children}
 
             <MiniatureMask
+              SVGViewBoxX={value.SVGViewBoxX}
+              SVGViewBoxY={value.SVGViewBoxY}
               SVGWidth={SVGWidth}
               SVGHeight={SVGHeight}
               x1={x1}
