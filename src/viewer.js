@@ -559,8 +559,9 @@ ReactSVGPanZoom.propTypes = {
         ' `' + types.join('`, `') + '`.'
       );
     }
-    if (!prop.props.hasOwnProperty('width') || !prop.props.hasOwnProperty('height')) {
-      return new Error('SVG should have props `width` and `height`');
+    if (!(prop.props.hasOwnProperty('width') && prop.props.hasOwnProperty('height')) &&
+        !prop.props.hasOwnProperty('viewBox')) {
+      return new Error('SVG should have props `width` and `height` or `viewBox`');
     }
 
   }
