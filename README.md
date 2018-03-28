@@ -82,3 +82,4 @@ yarn add react-svg-pan-zoom
 - [yozi-developer](https://github.com/yozi-developer)
 - [auroranil](https://github.com/auroranil)
 - [ahmedhosny](https://github.com/ahmedhosny)
+- [spcfran](https://github.com/spcfran)
