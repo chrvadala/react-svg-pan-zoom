@@ -47,6 +47,7 @@ yarn add react-svg-pan-zoom
 - [**Controlled state**](./examples/2-controlled-state/) - This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).
 - [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a Redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
+- [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
 
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
