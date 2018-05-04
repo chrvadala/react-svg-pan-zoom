@@ -8185,8 +8185,8 @@ tough-cookie@~2.3.3:
     punycode "^1.4.1"
 
 transformation-matrix@^1.7.0:
-  version "1.8.0"
-  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-1.8.0.tgz#73d8a9985966f0c70358bb0d9b1941e5f7f709b5"
+  version "1.10.0"
+  resolved "https://registry.yarnpkg.com/transformation-matrix/-/transformation-matrix-1.10.0.tgz#b0aeed7e8a124f92e6d32de25f05b0e02418b785"
 
 trim-newlines@^1.0.0:
   version "1.0.0"
