@@ -48,6 +48,7 @@ yarn add react-svg-pan-zoom
 - [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a Redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
 - [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
+- [**DynamicLoading**](https://jsfiddle.net/chrvadala/0osd24gv/) - This demo loads dynamically the SVG part
 
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
@@ -67,6 +68,7 @@ yarn add react-svg-pan-zoom
 - **v2.14** - Introduces prop `scaleFactorOnWheel`, Upgrades deps
 - **v2.15** - Improves autopan feature ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), adds `scaleFactorMax`, `scaleFactorMin` props ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), Upgrades deps
 - **v2.16** - Adds `onPan` and `onZoom` callbacks, Upgrade deps, Fixes boundaries feature
+- **v2.17** - Upgrade deps
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
