@@ -1,6 +1,9 @@
 import {transform, fromObject, translate, scale} from 'transformation-matrix';
 
-import {ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING} from '../constants';
+import {
+  ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING,
+  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
+} from '../constants';
 import {set, getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
 
@@ -92,8 +95,60 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
   }, ACTION_ZOOM);
 }
 
-export function fitToViewer(value) {
-  return fitSelection(value, 0, 0, value.SVGWidth, value.SVGHeight);
+export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+  let {viewerWidth, viewerHeight, SVGWidth, SVGHeight} = value;
+
+  let scaleX = viewerWidth / SVGWidth;
+  let scaleY = viewerHeight / SVGHeight;
+  let scaleLevel = Math.min(scaleX, scaleY);
+
+  const scaleMatrix = scale(scaleLevel, scaleLevel);
+  let translationMatrix = translate(0, 0);
+
+  // after fitting SVG and the viewer will match either in width (1) or in height (2)
+  if (scaleX < scaleY) {
+    //(1) match in width, meaning scaled SVGHeight <= viewerHeight
+    let remainderY = viewerHeight - scaleX * SVGHeight;
+
+    if (SVGAlignY === ALIGN_CENTER)
+      translationMatrix = translate(0, Math.round(remainderY / 2));
+    if (SVGAlignY === ALIGN_BOTTOM)
+      translationMatrix = translate(0, remainderY);
+  }
+  else {
+    //(2) match in height, meaning scaled SVGWidth <= viewerWidth
+    let remainderX = viewerWidth - scaleY * SVGWidth;
+
+    if (SVGAlignX === ALIGN_CENTER)
+      translationMatrix = translate(Math.round(remainderX / 2), 0);
+    if (SVGAlignX === ALIGN_RIGHT)
+      translationMatrix = translate(remainderX, 0);
+  }
+
+  const matrix = transform(
+    translationMatrix, //2
+    scaleMatrix        //1
+  );
+
+  if (isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
+    // Do not allow scale and translation
+    return set(value, {
+      mode: MODE_IDLE,
+      startX: null,
+      startY: null,
+      endX: null,
+      endY: null
+    });
+  }
+
+  return set(value, {
+    mode: MODE_IDLE,
+    ...limitZoomLevel(value, matrix),
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null
+  }, ACTION_ZOOM);
 }
 
 export function zoomOnViewerCenter(value, scaleFactor) {
