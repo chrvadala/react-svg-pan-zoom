@@ -141,8 +141,8 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setValue(nextValue);
   }
 
-  fitToViewer() {
-    let nextValue = fitToViewer(this.getValue(), this.props.SVGAlignX, this.props.SVGAlignY);
+  fitToViewer(SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+    let nextValue = fitToViewer(this.getValue(), SVGAlignX, SVGAlignY);
     this.setValue(nextValue);
   }
 
@@ -387,7 +387,7 @@ export default class ReactSVGPanZoom extends React.Component {
             onChangeValue={value => this.setValue(value)}
             tool={tool}
             onChangeTool={tool => this.changeTool(tool)}
-            SVGAlignX={props.SVGAlignX} SVGAlignY={props.SVGAlignY} />}
+            {...this.props.toolbarProps} />}
 
         {props.miniaturePosition === POSITION_NONE ? null :
           <CustomMiniature
@@ -532,11 +532,8 @@ ReactSVGPanZoom.propTypes = {
   //Turn off zoom on double click
   disableDoubleClickZoomWithToolAuto: PropTypes.bool,
 
-  //SVG horizontal alignment for fitToViewer
-  SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
-
-  //SVG vertical alignment for fitToViewer
-  SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
+  //toolbar props
+  toolbarProps: PropTypes.object,
 
   //accept only one node SVG
   children: function (props, propName, componentName) {
@@ -583,6 +580,5 @@ ReactSVGPanZoom.defaultProps = {
   disableZoomWithToolAuto: false,
   onZoom: null,
   onPan: null,
-  SVGAlignX: ALIGN_LEFT,
-  SVGAlignY: ALIGN_TOP
+  toolbarProps: {}
 };
