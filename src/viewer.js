@@ -533,7 +533,10 @@ ReactSVGPanZoom.propTypes = {
   disableDoubleClickZoomWithToolAuto: PropTypes.bool,
 
   //toolbar props
-  toolbarProps: PropTypes.object,
+  toolbarProps: PropTypes.shape({
+    SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
+    SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
+  }),
 
   //accept only one node SVG
   children: function (props, propName, componentName) {
