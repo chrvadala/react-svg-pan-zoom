@@ -43,6 +43,9 @@
 | onTouchMove        | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
 | onTouchEnd         | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
 | onTouchCancel      | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
+| toolbarProps | {} | Object | Toolbar settings |
+| toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
+| toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
 
 \* handler available only with the tool `none` or `auto`
 
