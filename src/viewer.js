@@ -46,7 +46,8 @@ import {
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
   POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
-  ACTION_PAN, ACTION_ZOOM
+  ACTION_PAN, ACTION_ZOOM,
+  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
 } from './constants';
 
 export default class ReactSVGPanZoom extends React.Component {
@@ -140,8 +141,8 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setValue(nextValue);
   }
 
-  fitToViewer() {
-    let nextValue = fitToViewer(this.getValue());
+  fitToViewer(SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+    let nextValue = fitToViewer(this.getValue(), SVGAlignX, SVGAlignY);
     this.setValue(nextValue);
   }
 
@@ -213,7 +214,6 @@ export default class ReactSVGPanZoom extends React.Component {
       requestAnimationFrame(this.autoPanLoop);
     }
   }
-
 
   componentDidMount() {
     let {props, state} = this;
@@ -386,7 +386,8 @@ export default class ReactSVGPanZoom extends React.Component {
             value={value}
             onChangeValue={value => this.setValue(value)}
             tool={tool}
-            onChangeTool={tool => this.changeTool(tool)}/>}
+            onChangeTool={tool => this.changeTool(tool)}
+            {...this.props.toolbarProps} />}
 
         {props.miniaturePosition === POSITION_NONE ? null :
           <CustomMiniature
@@ -531,6 +532,12 @@ ReactSVGPanZoom.propTypes = {
   //Turn off zoom on double click
   disableDoubleClickZoomWithToolAuto: PropTypes.bool,
 
+  //toolbar props
+  toolbarProps: PropTypes.shape({
+    SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
+    SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
+  }),
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -576,4 +583,5 @@ ReactSVGPanZoom.defaultProps = {
   disableZoomWithToolAuto: false,
   onZoom: null,
   onPan: null,
+  toolbarProps: {}
 };

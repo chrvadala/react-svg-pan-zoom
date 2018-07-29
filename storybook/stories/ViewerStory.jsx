@@ -6,7 +6,8 @@ import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} f
 import {
   ReactSVGPanZoom,
   TOOL_NONE, TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
+  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
+  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM,
 } from '../../src/index';
 import Snake from './snake.svg';
 
@@ -109,6 +110,11 @@ export default class MainStory extends Component {
 
           scaleFactorMin={number('scaleFactorMin', 0)}
           scaleFactorMax={number('scaleFactorMax', 999999)}
+
+          toolbarProps={{
+            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT]),
+            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_TOP, ALIGN_CENTER, ALIGN_BOTTOM]),
+          }}
         >
 
           <svg width={1440} height={1440}>
