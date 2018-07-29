@@ -3,7 +3,7 @@
 
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 [![Downloads](https://img.shields.io/npm/dm/react-svg-pan-zoom.svg)](https://www.npmjs.com/package/react-svg-pan-zoom)
-[![Beerpay](https://beerpay.io/chrvadala/react-svg-pan-zoom/badge.svg?style=beer)](https://beerpay.io/chrvadala/react-svg-pan-zoom)
+[![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://www.paypal.me/chrvadala/25)
 
 <!-- START_NO_WEB:1 -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
@@ -69,6 +69,7 @@ yarn add react-svg-pan-zoom
 - **v2.15** - Improves autopan feature ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), adds `scaleFactorMax`, `scaleFactorMin` props ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), Upgrades deps
 - **v2.16** - Adds `onPan` and `onZoom` callbacks, Upgrade deps, Fixes boundaries feature
 - **v2.17** - Upgrade deps
+- **v2.18** - Introduces `toolbarProps.SVGAlignX` and `toolbarProps.SVGAlignY` props.  Adds alignment configuration in `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")` method ([#120](https://github.com/chrvadala/react-svg-pan-zoom/pull/120)).
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)

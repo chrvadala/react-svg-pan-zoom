@@ -55,7 +55,7 @@
 | `pan(SVGDeltaX, SVGDeltaY)`               | Apply a pan |
 | `zoom(SVGPointX, SVGPointY, scaleFactor)`   | Zoom in or out the SVG |
 | `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)`| Fit an SVG area to viewer |
-| `fitToViewer()`                                | Fit all SVG to Viewer |
+| `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")`         | Fit all SVG to Viewer (`SVGAlignX`: one of `left`, `center`, `right`, `SVGAlignY`: one of `top`, `center`, `bottom`)  |
 | `setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)`| Set a point on Viewer center |
 | `reset()`                                      | Reset Viewer view to default |
 | `zoomOnViewerCenter(scaleFactor)`              | Zoom SVG on center |
