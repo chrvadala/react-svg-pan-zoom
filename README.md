@@ -68,8 +68,8 @@ yarn add react-svg-pan-zoom
 - **v2.14** - Introduces prop `scaleFactorOnWheel`, Upgrades deps
 - **v2.15** - Improves autopan feature ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), adds `scaleFactorMax`, `scaleFactorMin` props ([#71](https://github.com/chrvadala/react-svg-pan-zoom/issues/71)), Upgrades deps
 - **v2.16** - Adds `onPan` and `onZoom` callbacks, Upgrade deps, Fixes boundaries feature
-- **v2.17** - Upgrade deps
-- **v2.18** - Introduces `toolbarProps.SVGAlignX` and `toolbarProps.SVGAlignY` props.  Adds alignment configuration in `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")` method ([#120](https://github.com/chrvadala/react-svg-pan-zoom/pull/120)).
+- **v2.17** - Upgrades deps
+- **v2.18** - Introduces `toolbarProps.SVGAlignX` and `toolbarProps.SVGAlignY` props.  Adds alignment configuration in `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")` method ([#120](https://github.com/chrvadala/react-svg-pan-zoom/pull/120)). Upgrades deps.
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
