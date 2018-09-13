@@ -5,6 +5,7 @@ export {setPointOnViewerCenter, reset} from './features/common';
 export {pan} from './features/pan';
 export {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 export {openMiniature, closeMiniature} from './features/miniature'
+export {rotateOnCenter} from './features/rotate'
 export * from './constants';
 
 export const Viewer = () => {
