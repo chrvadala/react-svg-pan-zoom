@@ -1,16 +1,17 @@
 # react-svg-pan-zoom
 **react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features to the **SVG images**. It helps to display big SVG images in a small space.
 
+[![Code](https://img.shields.io/badge/sources-GitHub-c9510c.svg)](https://github.com/chrvadala/react-svg-pan-zoom)
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 [![Downloads](https://img.shields.io/npm/dm/react-svg-pan-zoom.svg)](https://www.npmjs.com/package/react-svg-pan-zoom)
 [![Donate](https://img.shields.io/badge/donate-PayPal-green.svg)](https://www.paypal.me/chrvadala/25)
 
-<!-- START_NO_WEB:1 -->
+<!-- BEGIN_SECTION_SKIPPED_ONLINE -->
 [![react-svg-pan-zoom](https://raw.githubusercontent.com/chrvadala/react-svg-pan-zoom/master/react-svg-pan-zoom.gif)](http://chrvadala.github.io/react-svg-pan-zoom/)
 
 ## Live Demo
 available at [http://chrvadala.github.io/react-svg-pan-zoom/](http://chrvadala.github.io/react-svg-pan-zoom/)
-<!-- END_NO_WEB:1 -->
+<!-- END_SECTION_SKIPPED_ONLINE -->
 
 ## Features
 This component can work in four different modes depending on the selected tool:
@@ -25,7 +26,7 @@ This component can work in four different modes depending on the selected tool:
 - [Methods](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#methods)
 - [Autosizer viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/autosizer-viewer.md)
 
-<!-- START_NO_WEB:2 -->
+<!-- BEGIN_SECTION_SKIPPED_ONLINE -->
 ## Install
 ### NPM
 ```sh
@@ -40,7 +41,7 @@ yarn add react-svg-pan-zoom
 <script src="https://unpkg.com/prop-types@15/prop-types.js"></script>
 <script src="https://unpkg.com/react-svg-pan-zoom@2"></script>
 ```
-<!-- END_NO_WEB:2 -->
+<!-- END_SECTION_SKIPPED_ONLINE -->
 
 ## Usage examples
 - [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.

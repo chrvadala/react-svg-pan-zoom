@@ -1,10 +1,9 @@
 const path = require('path');
 
 module.exports = function (env) {
+  const minimize = Boolean(env && env.hasOwnProperty('minimize'))
 
-  let minimize = env && env.hasOwnProperty('minimize');
-
-  let config = {
+  return {
     mode: 'production',
     entry: {
       ReactSVGPanZoom: path.resolve(__dirname, 'src', 'index.js')
@@ -45,10 +44,7 @@ module.exports = function (env) {
       }]
     },
     optimization: {
-      minimize: Boolean(minimize)
+      minimize,
     }
-  };
-
-
-  return config;
+  }
 };

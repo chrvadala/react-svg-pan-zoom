@@ -1,12 +1,12 @@
-import {configure} from '@storybook/react';
-import {setOptions} from '@storybook/addon-options';
+import {addDecorator, configure} from '@storybook/react';
+import {withOptions} from '@storybook/addon-options';
 
-setOptions({
-  name: 'React SVG Pan Zoom',
-  url: 'https://github.com/chrvadala/react-svg-pan-zoom',
-  addonPanelInRight: window.innerWidth > 1100,
-});
+addDecorator(
+  withOptions({
+    name: 'React SVG Pan Zoom',
+    url: 'https://github.com/chrvadala/react-svg-pan-zoom',
+    // addonPanelInRight: window.innerWidth > 1100,
+  })
+);
 
-configure(() => {
-  require('./stories/index');
-}, module);
+configure(() => require('./stories'), module);
