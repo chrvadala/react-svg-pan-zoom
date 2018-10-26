@@ -25,15 +25,26 @@ export default class DifferentSizesStory extends Component {
   }
 
   render() {
+
+    const toolbarProps = {
+      SVGAlignX: select('toolbarProps.SVGAlignX', {
+        [ALIGN_LEFT]: ALIGN_LEFT,
+        [ALIGN_CENTER]: ALIGN_CENTER,
+        [ALIGN_RIGHT]: ALIGN_RIGHT
+      }, ALIGN_LEFT),
+        SVGAlignY: select('toolbarProps.SVGAlignY', {
+        [ALIGN_TOP]: ALIGN_TOP,
+        [ALIGN_CENTER]: ALIGN_CENTER,
+        [ALIGN_BOTTOM]: ALIGN_BOTTOM
+      }, ALIGN_TOP),
+    }
+
     return (
       <div>
         <ReactSVGPanZoom
           width={600} height={400}
           detectAutoPan={false}
-          toolbarProps={{
-            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT]),
-            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_TOP, ALIGN_CENTER, ALIGN_BOTTOM]),
-          }}
+          toolbarProps={toolbarProps}
           ref={Viewer => this.Viewer1 = Viewer}
         >
           <svg width={300} height={600}>
@@ -47,10 +58,7 @@ export default class DifferentSizesStory extends Component {
         <ReactSVGPanZoom
           width={600} height={400}
           detectAutoPan={false}
-          toolbarProps={{
-            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
-            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
-          }}
+          toolbarProps={toolbarProps}
           ref={Viewer => this.Viewer2 = Viewer}
         >
           <svg width={600} height={300}>
@@ -64,10 +72,7 @@ export default class DifferentSizesStory extends Component {
         <ReactSVGPanZoom
           width={400} height={600}
           detectAutoPan={false}
-          toolbarProps={{
-            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
-            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
-          }}
+          toolbarProps={toolbarProps}
           ref={Viewer => this.Viewer3 = Viewer}
         >
           <svg width={300} height={600}>
@@ -81,10 +86,7 @@ export default class DifferentSizesStory extends Component {
         <ReactSVGPanZoom
           width={400} height={600}
           detectAutoPan={false}
-          toolbarProps={{
-            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
-            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
-          }}
+          toolbarProps={toolbarProps}
           ref={Viewer => this.Viewer4 = Viewer}
         >
           <svg width={600} height={300}>
@@ -98,10 +100,7 @@ export default class DifferentSizesStory extends Component {
         <ReactSVGPanZoom
           width={400} height={400}
           detectAutoPan={false}
-          toolbarProps={{
-            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
-            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
-          }}
+          toolbarProps={toolbarProps}
           ref={Viewer => this.Viewer5 = Viewer}
         >
           <svg width={300} height={300}>

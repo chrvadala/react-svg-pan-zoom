@@ -1,13 +1,25 @@
 import React, {Component} from 'react';
 import {action} from '@storybook/addon-actions';
 import {boolean, number, select} from '@storybook/addon-knobs';
-import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
+import {noArgsDecorator, viewerMouseEventDecorator, viewerTouchEventDecorator} from './actions-decorator';
 
 import {
+  ALIGN_BOTTOM,
+  ALIGN_CENTER,
+  ALIGN_LEFT,
+  ALIGN_RIGHT,
+  ALIGN_TOP,
+  POSITION_BOTTOM,
+  POSITION_LEFT,
+  POSITION_NONE,
+  POSITION_RIGHT,
+  POSITION_TOP,
   ReactSVGPanZoom,
-  TOOL_NONE, TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
-  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM,
+  TOOL_AUTO,
+  TOOL_NONE,
+  TOOL_PAN,
+  TOOL_ZOOM_IN,
+  TOOL_ZOOM_OUT,
 } from '../../src/index';
 import Snake from './snake.svg';
 
@@ -89,11 +101,20 @@ export default class MainStory extends Component {
           detectPinchGesture={boolean('detectPinchGesture', true)}
 
           preventPanOutside={boolean('preventPanOutside', true)}
-          toolbarPosition={select('toolbarPosition',
-            [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT],
-            POSITION_RIGHT)}
+          toolbarPosition={select('toolbarPosition', {
+            [POSITION_NONE]: POSITION_NONE,
+            [POSITION_TOP]: POSITION_TOP,
+            [POSITION_RIGHT]: POSITION_RIGHT,
+            [POSITION_BOTTOM]: POSITION_BOTTOM,
+            [POSITION_LEFT]: POSITION_LEFT,
+            [POSITION_RIGHT]: POSITION_RIGHT,
+          }, POSITION_RIGHT)}
 
-          miniaturePosition={select('miniaturePosition', [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT], POSITION_LEFT)}
+          miniaturePosition={select('miniaturePosition', {
+            [POSITION_NONE]: POSITION_NONE,
+            [POSITION_RIGHT]: POSITION_RIGHT,
+            [POSITION_LEFT]: POSITION_LEFT,
+          }, POSITION_LEFT)}
           miniatureWidth={number('miniatureWidth', 100)}
 
           disableDoubleClickZoomWithToolAuto={boolean('disableDoubleClickZoomWithToolAuto', false)}
@@ -112,8 +133,16 @@ export default class MainStory extends Component {
           scaleFactorMax={number('scaleFactorMax', 999999)}
 
           toolbarProps={{
-            SVGAlignX: select('toolbarProps.SVGAlignX', [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT]),
-            SVGAlignY: select('toolbarProps.SVGAlignY', [ALIGN_TOP, ALIGN_CENTER, ALIGN_BOTTOM]),
+            SVGAlignX: select('toolbarProps.SVGAlignX', {
+              [ALIGN_LEFT]: ALIGN_LEFT,
+              [ALIGN_CENTER]: ALIGN_CENTER,
+              [ALIGN_RIGHT]: ALIGN_RIGHT
+            }, ALIGN_LEFT),
+            SVGAlignY: select('toolbarProps.SVGAlignY', {
+              [ALIGN_TOP]: ALIGN_TOP,
+              [ALIGN_CENTER]: ALIGN_CENTER,
+              [ALIGN_BOTTOM]: ALIGN_BOTTOM
+            }, ALIGN_TOP),
           }}
         >
 
