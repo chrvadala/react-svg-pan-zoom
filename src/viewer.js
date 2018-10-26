@@ -1,39 +1,31 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {toSVG} from 'transformation-matrix';
-
 //events
 import eventFactory from './events/event-factory';
-
 //features
 import {pan} from './features/pan';
 import {
   getDefaultValue,
-  setViewerSize,
-  setSVGSize,
-  setPointOnViewerCenter,
   reset,
+  setPointOnViewerCenter,
+  setSVGSize,
+  setViewerSize,
   setZoomLevels
 } from './features/common';
 import {
+  onDoubleClick,
+  onInterval,
   onMouseDown,
+  onMouseEnterOrLeave,
   onMouseMove,
   onMouseUp,
-  onWheel,
-  onMouseEnterOrLeave,
-  onInterval,
-  onDoubleClick
+  onWheel
 } from './features/interactions';
-import {
-  onTouchStart,
-  onTouchMove,
-  onTouchEnd,
-  onTouchCancel
-} from './features/interactions-touch';
+import {onTouchCancel, onTouchEnd, onTouchMove, onTouchStart} from './features/interactions-touch';
 
-import {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
-import {openMiniature, closeMiniature} from './features/miniature';
-
+import {fitSelection, fitToViewer, zoom, zoomOnViewerCenter} from './features/zoom';
+import {closeMiniature, openMiniature} from './features/miniature';
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
@@ -43,11 +35,30 @@ import detectTouch from './ui/detect-touch';
 import Miniature from './ui-miniature/miniature'
 
 import {
-  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  MODE_IDLE, MODE_PANNING, MODE_ZOOMING,
-  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
-  ACTION_PAN, ACTION_ZOOM,
-  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
+  ACTION_PAN,
+  ACTION_ZOOM,
+
+  ALIGN_BOTTOM,
+  ALIGN_CENTER,
+  ALIGN_LEFT,
+  ALIGN_RIGHT,
+  ALIGN_TOP,
+
+  MODE_IDLE,
+  MODE_PANNING,
+  MODE_ZOOMING,
+
+  POSITION_BOTTOM,
+  POSITION_LEFT,
+  POSITION_NONE,
+  POSITION_RIGHT,
+  POSITION_TOP,
+
+  TOOL_AUTO,
+  TOOL_NONE,
+  TOOL_PAN,
+  TOOL_ZOOM_IN,
+  TOOL_ZOOM_OUT
 } from './constants';
 
 export default class ReactSVGPanZoom extends React.Component {
@@ -141,7 +152,7 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setValue(nextValue);
   }
 
-  fitToViewer(SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+  fitToViewer(SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
     let nextValue = fitToViewer(this.getValue(), SVGAlignX, SVGAlignY);
     this.setValue(nextValue);
   }
@@ -408,22 +419,16 @@ export default class ReactSVGPanZoom extends React.Component {
 }
 
 ReactSVGPanZoom.propTypes = {
+  /**************************************************************************/
+  /*  Viewer configuration                                                  */
+  /**************************************************************************/
   //width of the viewer displayed on screen
   width: PropTypes.number.isRequired,
 
   //height of the viewer displayed on screen
   height: PropTypes.number.isRequired,
 
-  //background of the viewer
-  background: PropTypes.string,
-
-  //background of the svg
-  SVGBackground: PropTypes.string,
-
-  //style of the svg
-  SVGStyle: PropTypes.object,
-
-  //value of the viewer (current point of view)
+  //value of the viewer (current camera view)
   value: PropTypes.shape({
     version: PropTypes.oneOf([2]).isRequired,
     mode: PropTypes.oneOf([MODE_IDLE, MODE_PANNING, MODE_ZOOMING]).isRequired,
@@ -443,13 +448,40 @@ ReactSVGPanZoom.propTypes = {
     endX: PropTypes.number,
     endY: PropTypes.number,
     miniatureOpen: PropTypes.bool.isRequired,
-  }),
+  }).isRequired,
+
+  //handler something changed
+  onChangeValue: PropTypes.func.isRequired,
+
+  //handler tool changed
+  onChangeTool: PropTypes.func.isRequired,
+
+  //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
+  tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
+
+  /**************************************************************************/
+  /* Customize style                                                        */
+  /**************************************************************************/
+
+  //background of the viewer
+  background: PropTypes.string,
+
+  //background of the svg
+  SVGBackground: PropTypes.string,
+
+  //style of the svg
+  SVGStyle: PropTypes.object,
 
   //CSS style of the Viewer
   style: PropTypes.object,
 
   //className of the Viewer
   className: PropTypes.string,
+
+
+  /**************************************************************************/
+  /* Detect events                                                          */
+  /**************************************************************************/
 
   //perform zoom operation on mouse scroll
   detectWheel: PropTypes.bool,
@@ -462,12 +494,6 @@ ReactSVGPanZoom.propTypes = {
 
   //toolbar position
   toolbarPosition: PropTypes.oneOf([POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
-
-  //handler something changed
-  onChangeValue: PropTypes.func,
-
-  //handler tool changed
-  onChangeTool: PropTypes.func,
 
   //handler zoom level changed
   onZoom: PropTypes.func,
@@ -490,6 +516,10 @@ ReactSVGPanZoom.propTypes = {
   //handler mousedown
   onMouseDown: PropTypes.func,
 
+  /**************************************************************************/
+  /* Some advanced configurations                                           */
+  /**************************************************************************/
+
   //if disabled the user can move the image outside the viewer
   preventPanOutside: PropTypes.bool,
 
@@ -505,15 +535,15 @@ ReactSVGPanZoom.propTypes = {
   // minimum amount of a scale a user can zoom out of
   scaleFactorMin: PropTypes.number,
 
-  //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
-  tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]),
-
   //modifier keys //https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState
   modifierKeys: PropTypes.array,
 
-  //override toolbar component
-  customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+  //Turn off zoom on double click
+  disableDoubleClickZoomWithToolAuto: PropTypes.bool,
 
+  /**************************************************************************/
+  /* Miniature configurations                                                 */
+  /**************************************************************************/
   //miniature position
   miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
 
@@ -529,8 +559,12 @@ ReactSVGPanZoom.propTypes = {
   //override miniature component
   customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
-  //Turn off zoom on double click
-  disableDoubleClickZoomWithToolAuto: PropTypes.bool,
+  /**************************************************************************/
+  /* Toolbar configurations                                                 */
+  /**************************************************************************/
+
+  //override toolbar component
+  customToolbar: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
 
   //toolbar props
   toolbarProps: PropTypes.shape({
@@ -538,6 +572,9 @@ ReactSVGPanZoom.propTypes = {
     SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
   }),
 
+  /**************************************************************************/
+  /* Children Check                                                         */
+  /**************************************************************************/
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -560,8 +597,6 @@ ReactSVGPanZoom.propTypes = {
 };
 
 ReactSVGPanZoom.defaultProps = {
-  value: null,
-  tool: null,
   style: {},
   background: "#616264",
   SVGBackground: "#fff",
