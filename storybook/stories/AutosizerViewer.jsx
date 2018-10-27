@@ -1,13 +1,10 @@
 import React, {Component} from 'react';
 import {action} from '@storybook/addon-actions';
-import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
+import {noArgsDecorator, viewerMouseEventDecorator, viewerTouchEventDecorator} from './actions-decorator';
 import {AutoSizer} from 'react-virtualized';
-import {boolean, number, select} from '@storybook/addon-knobs';
+import {boolean} from '@storybook/addon-knobs';
 
-import {
-  ReactSVGPanZoom,
-  POSITION_TOP
-} from '../../src/index';
+import {POSITION_TOP, UncontrolledReactSVGPanZoom} from '../../src/index';
 import Snake from './snake.svg';
 
 export default class AutosizerViewer extends Component {
@@ -37,7 +34,7 @@ class Viewer extends Component {
 
   render() {
     return (
-      <ReactSVGPanZoom
+      <UncontrolledReactSVGPanZoom
         width={this.props.width} height={this.props.height}
         ref={Viewer => this.Viewer = Viewer}
 
@@ -62,9 +59,9 @@ class Viewer extends Component {
         onChangeTool={action('onChangeTool')}>
 
         <svg width={1440} height={1440}>
-          <Snake />
+          <Snake/>
         </svg>
-      </ReactSVGPanZoom>
+      </UncontrolledReactSVGPanZoom>
     )
   }
 }

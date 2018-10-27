@@ -1,17 +1,26 @@
 import React, {Component} from 'react';
 
-import {ReactSVGPanZoom,} from '../../src/index';
+import {UncontrolledReactSVGPanZoom} from '../../src/index';
+
+const MODE1 = {
+  viewerWidth: 500,
+  viewerHeight: 250,
+  imageWidth: 800,
+  imageHeight: 400,
+}
+
+const MODE2 = {
+  viewerWidth: 250,
+  viewerHeight: 500,
+  imageWidth: 400,
+  imageHeight: 800,
+}
 
 export default class DifferentSizesStory extends Component {
   constructor(props) {
     super(props);
     this.Viewer = null;
-    this.state = {
-      viewerWidth: 500,
-      viewerHeight: 250,
-      imageWidth: 800,
-      imageHeight: 400,
-    }
+    this.state = {mode1: true}
     this.resize = this.resize.bind(this)
   }
 
@@ -19,29 +28,31 @@ export default class DifferentSizesStory extends Component {
     this.Viewer.fitToViewer()
   }
 
-  resize(){
-    this.setState({
-      viewerWidth: 250,
-      viewerHeight: 500,
-      imageWidth: 400,
-      imageHeight: 800,
-    })
+  resize() {
+    this.setState(state => ({mode1: !state.mode1}))
   }
 
   render() {
+    const {
+      viewerWidth,
+      viewerHeight,
+      imageWidth,
+      imageHeight,
+    } = this.state.mode1 ? MODE1 : MODE2
+
     return (
       <div>
-        <button type="button" onClick={this.resize}>Resize</button>
+        <button type="button" onClick={this.resize}>Runtime Resize</button>
 
-        <ReactSVGPanZoom
-          width={this.state.viewerWidth} height={this.state.viewerHeight}
+        <UncontrolledReactSVGPanZoom
+          width={viewerWidth} height={viewerHeight}
           detectAutoPan={false}
           ref={Viewer => this.Viewer = Viewer}>
-          <svg width={this.state.imageWidth} height={this.state.imageHeight}>
-            <text x="20" y="15">{this.state.viewerWidth}x{this.state.viewerHeight}</text>
-            <text x="20" y="35">{this.state.imageWidth}x{this.state.imageHeight}</text>
+          <svg width={imageWidth} height={imageHeight}>
+            <text x="20" y="15">{viewerWidth}x{viewerHeight}</text>
+            <text x="20" y="35">{imageWidth}x{imageHeight}</text>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
       </div>
     )
   }

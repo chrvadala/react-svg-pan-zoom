@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import {select} from '@storybook/addon-knobs';
 
 import {
-  ReactSVGPanZoom,
-  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
+  ALIGN_BOTTOM,
+  ALIGN_CENTER,
+  ALIGN_LEFT,
+  ALIGN_RIGHT,
+  ALIGN_TOP,
+  UncontrolledReactSVGPanZoom
 } from '../../src/index';
 
 export default class DifferentSizesStory extends Component {
@@ -32,7 +36,7 @@ export default class DifferentSizesStory extends Component {
         [ALIGN_CENTER]: ALIGN_CENTER,
         [ALIGN_RIGHT]: ALIGN_RIGHT
       }, ALIGN_LEFT),
-        SVGAlignY: select('toolbarProps.SVGAlignY', {
+      SVGAlignY: select('toolbarProps.SVGAlignY', {
         [ALIGN_TOP]: ALIGN_TOP,
         [ALIGN_CENTER]: ALIGN_CENTER,
         [ALIGN_BOTTOM]: ALIGN_BOTTOM
@@ -41,7 +45,7 @@ export default class DifferentSizesStory extends Component {
 
     return (
       <div>
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={600} height={400}
           detectAutoPan={false}
           toolbarProps={toolbarProps}
@@ -51,11 +55,11 @@ export default class DifferentSizesStory extends Component {
             <rect x="20" y="20" width="260" height="560" fill="green" stroke="black"/>
             <text x="20" y="15">300x600</text>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
 
         <hr/>
 
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={600} height={400}
           detectAutoPan={false}
           toolbarProps={toolbarProps}
@@ -65,11 +69,11 @@ export default class DifferentSizesStory extends Component {
             <rect x="20" y="20" width="560" height="260" fill="red" stroke="black"/>
             <text x="20" y="15">600x300</text>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
 
         <hr/>
 
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={400} height={600}
           detectAutoPan={false}
           toolbarProps={toolbarProps}
@@ -79,11 +83,11 @@ export default class DifferentSizesStory extends Component {
             <rect x="20" y="20" width="260" height="560" fill="yellow" stroke="black"/>
             <text x="20" y="15">300x600</text>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
 
         <hr/>
 
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={400} height={600}
           detectAutoPan={false}
           toolbarProps={toolbarProps}
@@ -93,11 +97,11 @@ export default class DifferentSizesStory extends Component {
             <rect x="20" y="20" width="560" height="260" fill="blue" stroke="black"/>
             <text x="20" y="15">600x300</text>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
 
         <hr/>
 
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={400} height={400}
           detectAutoPan={false}
           toolbarProps={toolbarProps}
@@ -107,7 +111,7 @@ export default class DifferentSizesStory extends Component {
             <rect x="20" y="20" width="260" height="260" fill="blue" stroke="black"/>
             <text x="20" y="15">400x400</text>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
       </div>
     )
   }

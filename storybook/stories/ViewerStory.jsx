@@ -31,7 +31,7 @@ export default class MainStory extends Component {
     this.Viewer = null;
     this.state = {
       tool: TOOL_NONE,
-      value: null,
+      value: {},
       logValueOnConsole: false
     }
   }

@@ -5,7 +5,7 @@ import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} f
 import {
   ReactSVGPanZoom,
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT
+  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT, UncontrolledReactSVGPanZoom
 } from '../../src/index';
 import Snake from './snake.svg';
 
@@ -114,7 +114,7 @@ export default class MethodsStory extends React.Component {
 
         <hr style={HR_BUTTON}/>
 
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={400} height={400}
 
           ref={Viewer => this.Viewer = Viewer}
@@ -135,7 +135,7 @@ export default class MethodsStory extends React.Component {
           <svg width={1440} height={1440}>
             <Snake />
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
       </div>
     )
   }
