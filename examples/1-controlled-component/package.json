@@ -1,0 +1,23 @@
+{
+  "name": "1-controlled-component",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "react": "^16.6.0",
+    "react-dom": "^16.6.0",
+    "react-svg-pan-zoom": "*"
+  },
+  "devDependencies": {
+    "react-scripts": "^2.0.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
