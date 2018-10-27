@@ -6,34 +6,21 @@
 |-----|------|-----|-----|
 | width             | **required** | Number | Width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))|
 | height            | **required** | Number | Height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))|
-| value             | `null`       | Object | Lock the viewer to a specific value |
-| onChangeValue     | -            | `fn(value: object)` | Callback called when the viewer changes its value |
-| onZoom            | -            | `fn(value: object)` | Callback called when the zoom level changes |
-| onPan             | -            | `fn(value: object)` | Callback called when a pan action is performed |
-| tool | `null`     | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
-| onChangeTool      | -            | `fn(tool: string)` | Callback called when the viewer changes the used tool |
+| value             | **required** | Object | Lock the viewer to a specific value |
+| onChangeValue     | **required** | `fn(value: object)` | Callback called when the viewer changes its value |
+| tool              | **required** | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
+| onChangeTool      | **required** | `fn(tool: string)` | Callback called when the viewer changes the used tool |
+| background        | `#616264`  | String | Background of the viewer |
 | SVGBackground    | `white`      | String | Background of the SVG |
 | SVGStyle          | `{}`       | Object | Style of the SVG |
-| background        | `#616264`  | String | Background of the viewer |
 | style            | -            | Object | CSS style of the viewer |
 | className         | -            | String | CSS class of the viewer |
 | detectWheel       | `true`       | Boolean | Perform zoom operation on mouse scroll |
 | detectAutoPan     | `true`       | Boolean | Perform PAN if the mouse is on the border of the viewer |
 | detectPinchGesture| `true`       | Boolean | Perform zoom operation on pinch gesture |
 | toolbarPosition   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
-| customToolbar     | -            | Component | Override toolbar component |
-| modifierKeys      | -            | Array | Array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)) |
-| preventPanOutside | `true`       | Boolean | User can't move the image outside the viewer |
-| scaleFactor       | `1.1`        | Number | How much scale in or out (%) |
-| scaleFactorOnWheel| `1.06`        | Number | how much scale in or out on mouse wheel (requires `detectWheel` to be enabled) (%) |
-| scaleFactorMax    | -            | Number | maximum amount of scale a user can zoom in to
-| scaleFactorMin    | -            | Number | minimum amount of scale a user can zoom out of
-| miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
-| miniatureBackground | `#616264`| String | background of the miniature |
-| miniatureWidth    | `100`        | Number | Miniature width (px) |
-| miniatureHeight   | `80`         | Number | Miniature height (px) |
-| customMiniature   | -            | Component |  Override miniature component |
-| disableDoubleClickZoomWithToolAuto | `false` | Boolean | Turn off zoom on double click |
+| onZoom            | -            | `fn(value: object)` | Callback called when the zoom level changes |
+| onPan             | -            | `fn(value: object)` | Callback called when a pan action is performed |
 | onClick         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for click |
 | onDoubleClick     | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for dblclick |
 | onMouseUp         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for mouseup |
@@ -43,6 +30,19 @@
 | onTouchMove        | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
 | onTouchEnd         | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
 | onTouchCancel      | - | `fn(viewerEvent: ViewerTouchEvent)` | Handler* for mousedown |
+| preventPanOutside | `true`       | Boolean | User can't move the image outside the viewer |
+| scaleFactor       | `1.1`        | Number | How much scale in or out (%) |
+| scaleFactorOnWheel| `1.06`        | Number | how much scale in or out on mouse wheel (requires `detectWheel` to be enabled) (%) |
+| scaleFactorMax    | -            | Number | maximum amount of scale a user can zoom in to
+| scaleFactorMin    | -            | Number | minimum amount of scale a user can zoom out of
+| modifierKeys      | -            | Array | Array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)) |
+| disableDoubleClickZoomWithToolAuto | `false` | Boolean | Turn off zoom on double click |
+| miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
+| miniatureBackground | `#616264`| String | background of the miniature |
+| miniatureWidth    | `100`        | Number | Miniature width (px) |
+| miniatureHeight   | `80`         | Number | Miniature height (px) |
+| customMiniature   | -            | Component |  Override miniature component |
+| customToolbar     | -            | Component | Override toolbar component |
 | toolbarProps | {} | Object | Toolbar settings |
 | toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
 | toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
