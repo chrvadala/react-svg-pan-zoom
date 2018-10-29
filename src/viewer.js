@@ -351,7 +351,10 @@ export default class ReactSVGPanZoom extends React.Component {
               width={value.SVGWidth}
               height={value.SVGHeight}/>
             <g>
-              {props.children.props.children}
+                {
+                    props.children.props.children ? <g> props.children.props.children </g> :
+                        <g dangerouslySetInnerHTML={{ __html: props.svgContain }}></g>
+                }
             </g>
           </g>
 
@@ -399,7 +402,10 @@ export default class ReactSVGPanZoom extends React.Component {
             width={this.props.miniatureWidth}
             height={this.props.miniatureHeight}
           >
-            {props.children.props.children}
+              {
+                  props.children.props.children ? <g> props.children.props.children </g> :
+                      <g dangerouslySetInnerHTML={{ __html: props.svgContain }}></g>
+              }
           </CustomMiniature>
         }
       </div>
@@ -538,6 +544,9 @@ ReactSVGPanZoom.propTypes = {
     SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
   }),
 
+  //loading from a string
+  svgContain : PropTypes.string,
+
   //accept only one node SVG
   children: function (props, propName, componentName) {
     // Only accept a single child, of the appropriate type
@@ -583,5 +592,6 @@ ReactSVGPanZoom.defaultProps = {
   disableZoomWithToolAuto: false,
   onZoom: null,
   onPan: null,
-  toolbarProps: {}
+  toolbarProps: {},
+  svgContain : null
 };
