@@ -1,11 +1,11 @@
 {
-  "name": "2-uncontrolled-component",
-  "version": "0.1.0",
+  "name": "uncontrolled-component",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
-    "react-svg-pan-zoom": "*"
+    "react-svg-pan-zoom": "../../"
   },
   "devDependencies": {
     "react-scripts": "^2.0.5"

@@ -1,11 +1,9 @@
 import React from 'react';
-import {UncontrolledReactSVGPanZoom as ReactSVGPanZoom} from 'react-svg-pan-zoom';
+import {UncontrolledReactSVGPanZoom} from 'react-svg-pan-zoom';
 
 export default class App extends React.PureComponent {
-  constructor(props, context) {
-    super(props, context);
-    this.Viewer = null;
-  }
+
+  Viewer = null
 
   componentDidMount() {
     this.Viewer.fitToViewer();
@@ -14,13 +12,13 @@ export default class App extends React.PureComponent {
   render() {
     return (
       <div>
-        <button className="btn" onClick={event => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
-        <button className="btn" onClick={event => this.Viewer.fitSelection(40, 40, 200, 200)}>Zoom area 200x200</button>
-        <button className="btn" onClick={event => this.Viewer.fitToViewer()}>Fit</button>
+        <button className="btn" onClick={() => this.Viewer.zoomOnViewerCenter(1.1)}>Zoom in</button>
+        <button className="btn" onClick={() => this.Viewer.fitSelection(40, 40, 200, 200)}>Zoom area 200x200</button>
+        <button className="btn" onClick={() => this.Viewer.fitToViewer()}>Fit</button>
 
         <hr/>
 
-        <ReactSVGPanZoom
+        <UncontrolledReactSVGPanZoom
           width={500} height={500}
           ref={Viewer => this.Viewer = Viewer}
 
@@ -34,7 +32,7 @@ export default class App extends React.PureComponent {
               <circle cx="220" cy="109.5" r="100" fill="#f0f" stroke="#f0f"/>
             </g>
           </svg>
-        </ReactSVGPanZoom>
+        </UncontrolledReactSVGPanZoom>
       </div>
     );
   }
