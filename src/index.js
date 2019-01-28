@@ -5,6 +5,8 @@ export {setPointOnViewerCenter, reset} from './features/common';
 export {pan} from './features/pan';
 export {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 export {openMiniature, closeMiniature} from './features/miniature'
+export {ReactSvgPanZoomLoader} from './load-svg-file/ReactSvgPanZoomLoader'
+export {SvgLoaderSelectElement} from './load-svg-file/SvgLoaderSelectElement'
 export * from './constants';
 
 export const Viewer = () => {
