@@ -1,4 +1,4 @@
-# React SVG Pan Zoom - Migrate from V2 to V1
+# React SVG Pan Zoom - Migrate from V2 to V3
 
 ## Some props are now required.
 
