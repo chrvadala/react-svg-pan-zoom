@@ -3,7 +3,7 @@ import ReactSVGPanZoom from './viewer'
 import PropTypes from "prop-types";
 import {TOOL_NONE} from "./constants";
 
-export default class UncontrolledReactSVGPanZoom extends React.PureComponent {
+export default class UncontrolledReactSVGPanZoom extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
