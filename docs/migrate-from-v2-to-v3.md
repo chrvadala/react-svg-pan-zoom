@@ -55,7 +55,7 @@ class MyViewer extends React.Component {
 ```
 
 
-## Toolbar and miniature props are now moved in two dedicated objects
+## Toolbar and miniature props are now moved into two dedicated objects
 
 Replace 
 
