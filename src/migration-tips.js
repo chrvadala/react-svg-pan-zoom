@@ -8,5 +8,13 @@ export function tipNoViewer() {
 }
 
 export function tipControlledComponent() {
-  console.error(`HEY! Starting from ReactSVGPanZoom >= 3 you MUST specify value and tool props. Please read here ${doc_v2_to_v3}`)
+  console.error(`HEY! With ReactSVGPanZoom >= 3 you MUST specify value and tool props. Please read here ${doc_v2_to_v3}`)
+}
+
+export function tipDeprecatedMiniatureProps(){
+  console.error(`HEY! With ReactSVGPanZoom >= 3 the props miniaturePosition, miniatureBackground, miniatureWidth, miniatureHeight can be specified as key in the miniatureProps object. Please read here ${doc_v2_to_v3}`)
+}
+
+export function tipDeprecateToolbarProps(){
+  console.error(`HEY! With ReactSVGPanZoom >= 3 the prop toolbarPosition can be specified as key in the toolbarProps object. Please read here ${doc_v2_to_v3}`)
 }

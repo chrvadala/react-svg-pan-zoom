@@ -98,16 +98,19 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
 }
 
 Toolbar.propTypes = {
-  position: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]).isRequired,
   tool: PropTypes.string.isRequired,
+  onChangeTool: PropTypes.func.isRequired,
   value: PropTypes.object.isRequired,
   onChangeValue: PropTypes.func.isRequired,
-  onChangeTool: PropTypes.func.isRequired,
+
+  //customizations
+  position: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
   SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
   SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
 };
 
 Toolbar.defaultProps = {
+  position: POSITION_RIGHT,
   SVGAlignX: ALIGN_LEFT,
   SVGAlignY: ALIGN_TOP
 };

@@ -7,6 +7,8 @@ import {boolean} from '@storybook/addon-knobs';
 import {POSITION_TOP, UncontrolledReactSVGPanZoom} from '../../src/index';
 import Snake from './snake.svg';
 
+const toolbarProps = {POSITION_TOP}
+
 export default class AutosizerViewer extends Component {
   render() {
     return (
@@ -38,7 +40,7 @@ class Viewer extends Component {
         width={this.props.width} height={this.props.height}
         ref={Viewer => this.Viewer = Viewer}
 
-        toolbarPosition={POSITION_TOP}
+        toolbarProps={toolbarProps}
         detectAutoPan={boolean('detectAutoPan', true)}
         detectWheel={boolean('detectWheel', true)}
         detectPinchGesture={boolean('detectPinchGesture', true)}

@@ -18,7 +18,6 @@
 | detectWheel       | `true`       | Boolean | Perform zoom operation on mouse scroll |
 | detectAutoPan     | `true`       | Boolean | Perform PAN if the mouse is on the border of the viewer |
 | detectPinchGesture| `true`       | Boolean | Perform zoom operation on pinch gesture |
-| toolbarPosition   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
 | onZoom            | -            | `fn(value: object)` | Callback called when the zoom level changes |
 | onPan             | -            | `fn(value: object)` | Callback called when a pan action is performed |
 | onClick         | - | `fn(viewerEvent: ViewerMouseEvent)` | Handler* for click |
@@ -37,13 +36,15 @@
 | scaleFactorMin    | -            | Number | minimum amount of scale a user can zoom out of
 | modifierKeys      | -            | Array | Array with modifier keys used with the tool `auto` to swap `zoom in` and `zoom out` ([Accepted value]( https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/getModifierState)) |
 | disableDoubleClickZoomWithToolAuto | `false` | Boolean | Turn off zoom on double click |
-| miniaturePosition | `left`       | one of `none`, `right`, `left` | Miniature position |
-| miniatureBackground | `#616264`| String | background of the miniature |
-| miniatureWidth    | `100`        | Number | Miniature width (px) |
-| miniatureHeight   | `80`         | Number | Miniature height (px) |
 | customMiniature   | -            | Component |  Override miniature component |
+| miniatureProps | {} | Object | Miniature settings |
+| miniatureProps.position | `left`       | one of `none`, `right`, `left` | Miniature position |
+| miniatureProps.background | `#616264`| String | background of the miniatureProps. |
+| miniatureProps.width    | `100`        | Number | Miniature width (px) |
+| miniatureProps.height   | `80`         | Number | Miniature height (px) |
 | customToolbar     | -            | Component | Override toolbar component |
 | toolbarProps | {} | Object | Toolbar settings |
+| toolbarProps.position   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
 | toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
 | toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
 

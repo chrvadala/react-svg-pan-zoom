@@ -58,7 +58,7 @@ import {
   TOOL_ZOOM_OUT
 } from './constants';
 import {isNullOrUndefined} from "./utils/is";
-import {tipControlledComponent} from "./migration-tips";
+import {tipControlledComponent, tipDeprecatedMiniatureProps, tipDeprecateToolbarProps} from "./migration-tips";
 
 export default class ReactSVGPanZoom extends React.Component {
 
@@ -75,8 +75,23 @@ export default class ReactSVGPanZoom extends React.Component {
     }
     this.autoPanLoop = this.autoPanLoop.bind(this);
 
-    if(isNullOrUndefined(props.tool) || isNullOrUndefined(props.value)){
-      tipControlledComponent()
+    if (process.env.NODE_ENV !== 'production') {
+      if (
+        isNullOrUndefined(props.tool) ||
+        isNullOrUndefined(props.value)
+      ) tipControlledComponent()
+
+      if (
+        !isNullOrUndefined(props.miniaturePosition) ||
+        !isNullOrUndefined(props.miniatureBackground) ||
+        !isNullOrUndefined(props.miniatureWidth) ||
+        !isNullOrUndefined(props.miniatureHeight)
+      ) tipDeprecatedMiniatureProps()
+
+
+      if (
+        !isNullOrUndefined(props.toolbarPosition)
+      ) tipDeprecateToolbarProps()
     }
   }
 
@@ -378,25 +393,21 @@ export default class ReactSVGPanZoom extends React.Component {
           }
         </svg>
 
-        {props.toolbarPosition === POSITION_NONE ? null :
+        {props.toolbarProps.position === POSITION_NONE ? null :
           <CustomToolbar
-            position={props.toolbarPosition}
+            {...this.props.toolbarProps}
             value={value}
             onChangeValue={value => this.setValue(value)}
             tool={tool}
             onChangeTool={tool => this.props.onChangeTool(tool)}
-            {...this.props.toolbarProps}
           />}
 
-        {props.miniaturePosition === POSITION_NONE ? null :
+        {props.miniatureProps.position === POSITION_NONE ? null :
           <CustomMiniature
-            position={props.miniaturePosition}
+            {...this.props.miniatureProps}
             value={value}
             onChangeValue={value => this.setValue(value)}
             SVGBackground={this.props.SVGBackground}
-            background={this.props.miniatureBackground}
-            width={this.props.miniatureWidth}
-            height={this.props.miniatureHeight}
           >
             {props.children.props.children}
           </CustomMiniature>
@@ -535,20 +546,17 @@ ReactSVGPanZoom.propTypes = {
   /**************************************************************************/
   /* Miniature configurations                                                 */
   /**************************************************************************/
-  //miniature position
-  miniaturePosition: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
-
-  //miniature height
-  miniatureBackground: PropTypes.string,
-
-  //miniature width
-  miniatureWidth: PropTypes.number,
-
-  //miniature height
-  miniatureHeight: PropTypes.number,
 
   //override miniature component
   customMiniature: PropTypes.oneOfType([PropTypes.element, PropTypes.func]),
+
+  //miniature props
+  miniatureProps: PropTypes.shape({
+    position: PropTypes.oneOf([POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]),
+    background: PropTypes.string,
+    width: PropTypes.number,
+    height: PropTypes.number,
+  }),
 
   /**************************************************************************/
   /* Toolbar configurations                                                 */
@@ -559,6 +567,7 @@ ReactSVGPanZoom.propTypes = {
 
   //toolbar props
   toolbarProps: PropTypes.shape({
+    position: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
     SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
     SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
   }),
@@ -595,19 +604,15 @@ ReactSVGPanZoom.defaultProps = {
   detectWheel: true,
   detectAutoPan: true,
   detectPinchGesture: true,
-  toolbarPosition: POSITION_RIGHT,
   modifierKeys: ["Alt", "Shift", "Control"],
-  customToolbar: Toolbar,
   preventPanOutside: true,
   scaleFactor: 1.1,
   scaleFactorOnWheel: 1.06,
-  miniaturePosition: POSITION_LEFT,
-  miniatureWidth: 100,
-  miniatureHeight: 80,
-  miniatureBackground: "#616264",
-  customMiniature: Miniature,
   disableZoomWithToolAuto: false,
   onZoom: null,
   onPan: null,
-  toolbarProps: {}
+  customToolbar: Toolbar,
+  toolbarProps: {},
+  customMiniature: Miniature,
+  miniatureProps: {},
 };

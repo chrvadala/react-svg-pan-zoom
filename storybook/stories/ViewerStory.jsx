@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {action} from '@storybook/addon-actions';
-import {boolean, number, select} from '@storybook/addon-knobs';
+import {boolean, color, number, select} from '@storybook/addon-knobs';
 import {noArgsDecorator, viewerMouseEventDecorator, viewerTouchEventDecorator} from './actions-decorator';
 
 import {
@@ -101,21 +101,6 @@ export default class MainStory extends Component {
           detectPinchGesture={boolean('detectPinchGesture', true)}
 
           preventPanOutside={boolean('preventPanOutside', true)}
-          toolbarPosition={select('toolbarPosition', {
-            [POSITION_NONE]: POSITION_NONE,
-            [POSITION_TOP]: POSITION_TOP,
-            [POSITION_RIGHT]: POSITION_RIGHT,
-            [POSITION_BOTTOM]: POSITION_BOTTOM,
-            [POSITION_LEFT]: POSITION_LEFT,
-            [POSITION_RIGHT]: POSITION_RIGHT,
-          }, POSITION_RIGHT)}
-
-          miniaturePosition={select('miniaturePosition', {
-            [POSITION_NONE]: POSITION_NONE,
-            [POSITION_RIGHT]: POSITION_RIGHT,
-            [POSITION_LEFT]: POSITION_LEFT,
-          }, POSITION_LEFT)}
-          miniatureWidth={number('miniatureWidth', 100)}
 
           disableDoubleClickZoomWithToolAuto={boolean('disableDoubleClickZoomWithToolAuto', false)}
 
@@ -133,16 +118,40 @@ export default class MainStory extends Component {
           scaleFactorMax={number('scaleFactorMax', 999999)}
 
           toolbarProps={{
+            position: select('toolbarProps.position', {
+              [POSITION_NONE]: POSITION_NONE,
+              [POSITION_TOP]: POSITION_TOP,
+              [POSITION_RIGHT]: POSITION_RIGHT,
+              [POSITION_BOTTOM]: POSITION_BOTTOM,
+              [POSITION_LEFT]: POSITION_LEFT,
+              [POSITION_RIGHT]: POSITION_RIGHT,
+            }, POSITION_RIGHT),
+
             SVGAlignX: select('toolbarProps.SVGAlignX', {
               [ALIGN_LEFT]: ALIGN_LEFT,
               [ALIGN_CENTER]: ALIGN_CENTER,
               [ALIGN_RIGHT]: ALIGN_RIGHT
             }, ALIGN_LEFT),
+
             SVGAlignY: select('toolbarProps.SVGAlignY', {
               [ALIGN_TOP]: ALIGN_TOP,
               [ALIGN_CENTER]: ALIGN_CENTER,
               [ALIGN_BOTTOM]: ALIGN_BOTTOM
             }, ALIGN_TOP),
+          }}
+
+          miniatureProps={{
+            position: select('miniatureProps.position', {
+              [POSITION_NONE]: POSITION_NONE,
+              [POSITION_RIGHT]: POSITION_RIGHT,
+              [POSITION_LEFT]: POSITION_LEFT,
+            }, POSITION_LEFT),
+
+            background: color('miniatureProps.color', '#616264'),
+
+            width: number('miniatureProps.width', 100),
+
+            height: number('miniatureProps.height', 80),
           }}
         >
 

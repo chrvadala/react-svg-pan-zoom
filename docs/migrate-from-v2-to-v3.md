@@ -22,3 +22,36 @@ To use is just replace:
 with
 
 `import {UncontrolledReactSVGPanZoom as ReactSVGPanZoom} from 'react-svg-pan-zoom';`
+
+## Toolbar and miniature props are now moved in two dedicated objects
+
+Replace 
+
+```javascript
+<ReactSVGPanZoom 
+    miniaturePosition="left"
+    miniatureBackground="#fff"
+    miniatureWidth={100}
+    miniatureHeight={80}
+    toolbarPosition="right"
+/>
+```
+
+with
+```javascript
+const minitiatureProps= {
+  miniaturePosition="left"
+  miniatureBackground="#fff"
+  miniatureWidth={100}
+  miniatureHeight={80}
+}
+
+const toolbarProps = {
+  toolbarPosition="right"
+}
+
+<ReactSVGPanZoom 
+    toolbarProps={toolbarProps}
+    miniatureProps={miniatureProps}
+/>
+```

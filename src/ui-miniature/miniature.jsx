@@ -1,9 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  POSITION_RIGHT, POSITION_LEFT,
-} from '../constants';
+import {POSITION_LEFT, POSITION_RIGHT,} from '../constants';
 import {applyToPoints, inverse} from 'transformation-matrix';
 import MiniatureToggleButton from './miniature-toggle-button';
 import MiniatureMask from './miniature-mask';
@@ -12,7 +9,7 @@ const {min, max} = Math;
 
 export default function Miniature(props) {
 
-  let {value, onChangeValue, position, children, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
+  let {value, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
   let {SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
 
   let ratio = SVGHeight / SVGWidth;
@@ -48,8 +45,8 @@ export default function Miniature(props) {
   };
 
   let centerTranslation = ratio >= 1
-    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2 }, 0)`
-    : `translate(0, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2 })`;
+    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2}, 0)`
+    : `translate(0, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2})`;
 
   return (
     <div role="navigation" style={style}>
@@ -88,10 +85,20 @@ export default function Miniature(props) {
 }
 
 Miniature.propTypes = {
-  position: PropTypes.oneOf([POSITION_RIGHT, POSITION_LEFT]).isRequired,
   value: PropTypes.object.isRequired,
   onChangeValue: PropTypes.func.isRequired,
-  background: PropTypes.string.isRequired,
   SVGBackground: PropTypes.string.isRequired,
+
+  //customizations
+  position: PropTypes.oneOf([POSITION_RIGHT, POSITION_LEFT]),
+  background: PropTypes.string.isRequired,
   width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
 };
+
+Miniature.defaultProps = {
+  position: POSITION_LEFT,
+  background: "#616264",
+  width: 100,
+  height: 80,
+}
