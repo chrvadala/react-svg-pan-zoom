@@ -4,12 +4,12 @@
 
 |Prop|Default|Type|Description|
 |-----|------|-----|-----|
-| width             | **required** | Number | Width of the viewer displayed on screen (if you want to omit this see [Autosize](#autosize))|
-| height            | **required** | Number | Height of the viewer displayed on screen (if you want to omit this see  [Autosize](#autosize))|
-| value             | **required** | Object | Lock the viewer to a specific value |
-| onChangeValue     | **required** | `fn(value: object)` | Callback called when the viewer changes its value |
-| tool              | **required** | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool |
-| onChangeTool      | **required** | `fn(tool: string)` | Callback called when the viewer changes the used tool |
+| width             | **required** | Number | Width of the viewer displayed on screen *(if you want to omit this see [Autosize](#autosize))* |
+| height            | **required** | Number | Height of the viewer displayed on screen *(if you want to omit this see  [Autosize](#autosize))* |
+| value             | **required** | Object | Lock the viewer to a specific value *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
+| onChangeValue     | **required** | `fn(value: object)` | Callback called when the viewer changes its value *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
+| tool              | **required** | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
+| onChangeTool      | **required** | `fn(tool: string)` | Callback called when the viewer changes the used tool *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
 | background        | `#616264`  | String | Background of the viewer |
 | SVGBackground    | `white`      | String | Background of the SVG |
 | SVGStyle          | `{}`       | Object | Style of the SVG |
@@ -64,6 +64,8 @@
 | `setValue(value)`                              | Through this method you can set a new value |
 | `getTool()`                                    | Get current tool |
 | `changeTool(tool)`                             | Change the tool (one of `none`,`pan`,`zoom-in`,`zoom-out`,`auto`) |
+| `openMiniature`                                | Open the miniature | 
+| `closeMiniature`                               | Close the miniature | 
 
 ## Event attributes
 To your event handlers will be passed an instance of `ViewerMouseEvent` or `ViewerTouchEvent` (as the case). They have some useful attributes that map event positions to SVG coords.
@@ -95,3 +97,56 @@ If, for your purpose, you need the original React event instance (`SyntheticEven
 | `translationY`     | Number         | y delta from the viewer origin |
 | `preventDefault()` | -              | alias `originalEvent.preventDefault()` |
 | `stopPropagation()`| -              | alias `originalEvent.stopPropagation()` |
+
+# API
+
+This is a list of **components**, **functions** and **constants** exported by the library.
+
+```javascript
+import {
+  //components
+  ReactSVGPanZoom,             //Controlled component
+  UncontrolledReactSVGPanZoom, //Uncontrolled component
+  
+  //functions to manipulate the state. The signature is quite similar to component methods, expect for the first parameter that is the current value. These are usefull only for some advanced integrations (e.g. reducers). 
+  setPointOnViewerCenter,   //setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel)
+  reset,                    //reset(value)
+  pan,                      //pan(value, SVGDeltaX, SVGDeltaY)
+  zoom,                     //zoom(value, SVGPointX, SVGPointY, scaleFactor)
+  fitSelection,             //fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)
+  fitToViewer,              //fitToViewer(value, SVGAlignX = "left", SVGAlignY = "top")
+  zoomOnViewerCenter,       //zoomOnViewerCenter(value, scaleFactor)
+  openMiniature,
+  closeMiniature,
+  
+  //constants
+  MODE_IDLE,
+  MODE_PANNING,
+  MODE_ZOOMING,
+  
+  TOOL_AUTO,
+  TOOL_NONE,
+  TOOL_PAN,
+  TOOL_ZOOM_IN,
+  TOOL_ZOOM_OUT,
+  
+  POSITION_NONE,
+  POSITION_TOP,
+  POSITION_RIGHT,
+  POSITION_BOTTOM,
+  POSITION_LEFT,
+  
+  ACTION_ZOOM,
+  ACTION_PAN,
+  
+  ALIGN_CENTER,
+  ALIGN_LEFT,
+  ALIGN_RIGHT,
+  ALIGN_TOP,
+  ALIGN_BOTTOM,
+  
+  INITIAL_VALUE
+} from 'react-svg-pan-zoom'
+```
+
+

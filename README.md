@@ -21,10 +21,11 @@ This component can work in four different modes depending on the selected tool:
 - With the tool **auto** the user can interact with SVG child elements, perform *pan* (dragging the image), *zoom in* (double click), *zoom out* (double click + shift).
 
 ## Documentation
-- [Getting Started](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/getting-started.md#props)
-- [Props](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#props)
-- [Methods](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/documentation.md#methods)
-- [Autosizer viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/master/docs/autosizer-viewer.md)
+- [Getting Started](./docs/getting-started.md#props)
+- [Props](./docs/documentation.md#props)
+- [Methods](./docs/documentation.md#methods)
+- [API](./docs/documentation.md#api)
+- [Autosizer viewer](./docs/autosizer-viewer.md)
 
 <!-- BEGIN_SECTION_SKIPPED_ONLINE -->
 ## Install
@@ -46,6 +47,7 @@ yarn add react-svg-pan-zoom
 ## Usage examples
 - [**Basic**](./examples/controlled-component) - Basic usage of `<ReactSVGPanZoom>`.
 - [**Uncontrolled Component**](./examples/uncontrolled-component) - Basic usage of `<UncontrolledReactSVGPanZoom>`.
+- [**Advanced usage**](./examples/controlled-component-advanced-usage) - Complex usage of `<ReactSVGPanZoom>` that uses some advanced features.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
 - [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
 - [**DynamicLoading**](https://jsfiddle.net/chrvadala/0osd24gv/) - This demo loads dynamically the SVG part.
