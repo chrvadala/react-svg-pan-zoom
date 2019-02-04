@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {StrictMode} from 'react';
 
 import {UncontrolledReactSVGPanZoom} from '../../src/index';
 import Snake from './snake.svg';
@@ -17,15 +17,17 @@ export default class UncontrolledViewerStory extends React.Component {
 
   render() {
     return (
-      <UncontrolledReactSVGPanZoom
-        width={400} height={400}
-        ref={Viewer => this.Viewer = Viewer}
-      >
+      <StrictMode>
+        <UncontrolledReactSVGPanZoom
+          width={400} height={400}
+          ref={Viewer => this.Viewer = Viewer}
+        >
 
-        <svg width={1440} height={1440}>
-          <Snake/>
-        </svg>
-      </UncontrolledReactSVGPanZoom>
+          <svg width={1440} height={1440}>
+            <Snake/>
+          </svg>
+        </UncontrolledReactSVGPanZoom>
+      </StrictMode>
     )
   }
 }

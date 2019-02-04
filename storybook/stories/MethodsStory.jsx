@@ -1,11 +1,10 @@
-import React from 'react';
+import React, {StrictMode} from 'react';
 import {action} from '@storybook/addon-actions';
 import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {
-  ReactSVGPanZoom,
+  UncontrolledReactSVGPanZoom,
   TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT, UncontrolledReactSVGPanZoom
 } from '../../src/index';
 import Snake from './snake.svg';
 
@@ -36,7 +35,7 @@ export default class MethodsStory extends React.Component {
 
   render() {
     return (
-      <div>
+      <StrictMode>
         <div>
           <button type="button" style={STYLE_BUTTON} name="fit-btn"
                   onClick={event => this.Viewer.fitToViewer()}>.fitToViewer()
@@ -136,7 +135,7 @@ export default class MethodsStory extends React.Component {
             <Snake />
           </svg>
         </UncontrolledReactSVGPanZoom>
-      </div>
+      </StrictMode>
     )
   }
 }

@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, StrictMode} from 'react';
 
 import {UncontrolledReactSVGPanZoom} from '../../src/index';
 
@@ -41,7 +41,7 @@ export default class DifferentSizesStory extends Component {
     } = this.state.mode1 ? MODE1 : MODE2
 
     return (
-      <div>
+      <StrictMode>
         <button type="button" onClick={this.resize}>Runtime Resize</button>
 
         <UncontrolledReactSVGPanZoom
@@ -53,7 +53,7 @@ export default class DifferentSizesStory extends Component {
             <text x="20" y="35">{imageWidth}x{imageHeight}</text>
           </svg>
         </UncontrolledReactSVGPanZoom>
-      </div>
+      </StrictMode>
     )
   }
 }

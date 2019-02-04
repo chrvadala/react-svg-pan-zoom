@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, StrictMode} from 'react';
 import {select} from '@storybook/addon-knobs';
 
 import {
@@ -44,7 +44,7 @@ export default class DifferentSizesStory extends Component {
     }
 
     return (
-      <div>
+      <StrictMode>
         <UncontrolledReactSVGPanZoom
           width={600} height={400}
           detectAutoPan={false}
@@ -112,7 +112,7 @@ export default class DifferentSizesStory extends Component {
             <text x="20" y="15">400x400</text>
           </svg>
         </UncontrolledReactSVGPanZoom>
-      </div>
+      </StrictMode>
     )
   }
 }

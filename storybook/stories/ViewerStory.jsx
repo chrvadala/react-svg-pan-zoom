@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, StrictMode} from 'react';
 import {action} from '@storybook/addon-actions';
 import {boolean, color, number, select} from '@storybook/addon-knobs';
 import {noArgsDecorator, viewerMouseEventDecorator, viewerTouchEventDecorator} from './actions-decorator';
@@ -56,7 +56,7 @@ export default class MainStory extends Component {
 
   render() {
     return (
-      <div>
+      <StrictMode>
         <div style={{marginBottom: "10px", background: "#fff", padding: "10px"}}>
           <label>Tool</label> {" "}
           <select value={this.state.tool} onChange={e => this.setState({tool: e.target.value})}>
@@ -159,7 +159,7 @@ export default class MainStory extends Component {
             <Snake/>
           </svg>
         </ReactSVGPanZoom>
-      </div>
+      </StrictMode>
     )
   }
 }
