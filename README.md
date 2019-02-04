@@ -39,17 +39,16 @@ yarn add react-svg-pan-zoom
 ### UMD
 ```html
 <script src="https://unpkg.com/prop-types@15/prop-types.js"></script>
-<script src="https://unpkg.com/react-svg-pan-zoom@2"></script>
+<script src="https://unpkg.com/react-svg-pan-zoom@3"></script>
 ```
 <!-- END_SECTION_SKIPPED_ONLINE -->
 
 ## Usage examples
-- [**Basic**](./examples/1-basic/) - This project show how to use the component in a scenario when is not required a full control on the internal state. This is the easist React SVG Pan Zoom usage.
-- [**Controlled state**](./examples/2-controlled-state/) - This advanced project show a scenario in which the parent component has a full control of the svg viewer. *The state is owned by the parent* and injected on the viewer throught `props`. Any state change request is performed by two callbacks `onChangeValue(value)` and `onChangeTool(tool)`. This demo apply the same pattern of an `<input>` tag ([React Controlled Components](https://facebook.github.io/react/docs/forms.html#controlled-components)).
-- [**Redux**](./examples/3-redux/) - This advanced project show a scenario in which a Redux store handle the state. Each component can dispatch a Redux action and edit the current view of the viewer.
+- [**Basic**](./examples/controlled-component) - Basic usage of `<ReactSVGPanZoom>`.
+- [**Uncontrolled Component**](./examples/uncontrolled-component) - Basic usage of `<UncontrolledReactSVGPanZoom>`.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
 - [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
-- [**DynamicLoading**](https://jsfiddle.net/chrvadala/0osd24gv/) - This demo loads dynamically the SVG part
+- [**DynamicLoading**](https://jsfiddle.net/chrvadala/0osd24gv/) - This demo loads dynamically the SVG part.
 
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
@@ -71,6 +70,7 @@ yarn add react-svg-pan-zoom
 - **v2.16** - Adds `onPan` and `onZoom` callbacks, Upgrade deps, Fixes boundaries feature
 - **v2.17** - Upgrades deps
 - **v2.18** - Introduces `toolbarProps.SVGAlignX` and `toolbarProps.SVGAlignY` props.  Adds alignment configuration in `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")` method ([#120](https://github.com/chrvadala/react-svg-pan-zoom/pull/120)). Upgrades deps.
+- **v3.0** - Upgrades to babel 7 and storybook 4; Introduces `<UncontrolledReactSVGPanZoom />` component and makes `<ReactSVGPanZoom>` a stateless component (except for some optimizations); Moves props related to miniature and toolbar, respectively into the `miniatureProp` and `toolbarProp` props. **Migration guide is available [here](./docs/migrate-from-v2-to-v3.md)**.
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
