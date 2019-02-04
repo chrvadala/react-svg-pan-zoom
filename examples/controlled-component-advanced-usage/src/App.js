@@ -1,6 +1,14 @@
 import React from 'react';
-import {INITIAL_VALUE, ReactSVGPanZoom, TOOL_NONE} from 'react-svg-pan-zoom';
+import {
+  fitSelection,
+  fitToViewer,
+  INITIAL_VALUE,
+  ReactSVGPanZoom,
+  TOOL_NONE,
+  zoomOnViewerCenter
+} from 'react-svg-pan-zoom';
 
+/* keep attention! handling the state in the following way doesn't fire onZoom and onPam hooks */
 export default class App extends React.PureComponent {
 
   state = {tool: TOOL_NONE, value: INITIAL_VALUE}
@@ -19,25 +27,23 @@ export default class App extends React.PureComponent {
   }
 
   fitToViewer() {
-    this.Viewer.fitToViewer()
+    this.setState(state => ({value: fitToViewer(state.value)}))
   }
 
   fitSelection() {
-    this.Viewer.fitSelection(40, 40, 200, 200)
+    this.setState(state => ({value: fitSelection(state.value, 40, 40, 200, 200)}))
   }
 
   zoomOnViewerCenter() {
-    this.Viewer.zoomOnViewerCenter(1.1)
+    this.setState(state => ({value: zoomOnViewerCenter(state.value, 1.1)}))
   }
 
   render() {
     return (
       <div>
-        {/* Read all the available methods in the documentation */}
         <button className="btn" onClick={() => this.zoomOnViewerCenter()}>Zoom in</button>
         <button className="btn" onClick={() => this.fitSelection()}>Zoom area 200x200</button>
         <button className="btn" onClick={() => this.fitToViewer()}>Fit</button>
-
         <hr/>
 
         <ReactSVGPanZoom
@@ -45,9 +51,6 @@ export default class App extends React.PureComponent {
           ref={Viewer => this.Viewer = Viewer}
           tool={this.state.tool} onChangeTool={tool => this.changeTool(tool)}
           value={this.state.value} onChangeValue={value => this.changeValue(value)}
-
-          onZoom={e => console.log('zoom')}
-          onPan={e => console.log('pan')}
 
           onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
         >
