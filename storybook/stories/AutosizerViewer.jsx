@@ -1,13 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, StrictMode} from 'react';
 import {action} from '@storybook/addon-actions';
 import {noArgsDecorator, viewerMouseEventDecorator, viewerTouchEventDecorator} from './actions-decorator';
 import {AutoSizer} from 'react-virtualized';
 import {boolean} from '@storybook/addon-knobs';
 
-import {POSITION_TOP, UncontrolledReactSVGPanZoom} from '../../src/index';
+import {POSITION_BOTTOM, UncontrolledReactSVGPanZoom} from '../../src/index';
 import Snake from './snake.svg';
 
-const toolbarProps = {POSITION_TOP}
+const toolbarProps = {position: POSITION_BOTTOM}
 
 export default class AutosizerViewer extends Component {
   render() {
@@ -36,34 +36,36 @@ class Viewer extends Component {
 
   render() {
     return (
-      <UncontrolledReactSVGPanZoom
-        width={this.props.width} height={this.props.height}
-        ref={Viewer => this.Viewer = Viewer}
+      <StrictMode>
+        <UncontrolledReactSVGPanZoom
+          width={this.props.width} height={this.props.height}
+          ref={Viewer => this.Viewer = Viewer}
 
-        toolbarProps={toolbarProps}
-        detectAutoPan={boolean('detectAutoPan', true)}
-        detectWheel={boolean('detectWheel', true)}
-        detectPinchGesture={boolean('detectPinchGesture', true)}
+          toolbarProps={toolbarProps}
+          detectAutoPan={boolean('detectAutoPan', true)}
+          detectWheel={boolean('detectWheel', true)}
+          detectPinchGesture={boolean('detectPinchGesture', true)}
 
-        preventPanOutside={boolean('preventPanOutside', true)}
+          preventPanOutside={boolean('preventPanOutside', true)}
 
-        onClick={viewerMouseEventDecorator('onClick')}
-        onMouseMove={noArgsDecorator('onMouseMove')}
-        onMouseUp={viewerMouseEventDecorator('onMouseUp')}
-        onMouseDown={viewerMouseEventDecorator('onMouseDown')}
-        onDoubleClick={viewerMouseEventDecorator('onDoubleClick')}
+          onClick={viewerMouseEventDecorator('onClick')}
+          onMouseMove={noArgsDecorator('onMouseMove')}
+          onMouseUp={viewerMouseEventDecorator('onMouseUp')}
+          onMouseDown={viewerMouseEventDecorator('onMouseDown')}
+          onDoubleClick={viewerMouseEventDecorator('onDoubleClick')}
 
-        onTouchStart={viewerTouchEventDecorator('onTouchStart')}
-        onTouchMove={noArgsDecorator('onTouchMove')}
-        onTouchEnd={viewerTouchEventDecorator('onTouchEnd')}
+          onTouchStart={viewerTouchEventDecorator('onTouchStart')}
+          onTouchMove={noArgsDecorator('onTouchMove')}
+          onTouchEnd={viewerTouchEventDecorator('onTouchEnd')}
 
-        onChangeValue={noArgsDecorator('onChangeValue')}
-        onChangeTool={action('onChangeTool')}>
+          onChangeValue={noArgsDecorator('onChangeValue')}
+          onChangeTool={action('onChangeTool')}>
 
-        <svg width={1440} height={1440}>
-          <Snake/>
-        </svg>
-      </UncontrolledReactSVGPanZoom>
+          <svg width={1440} height={1440}>
+            <Snake/>
+          </svg>
+        </UncontrolledReactSVGPanZoom>
+      </StrictMode>
     )
   }
 }

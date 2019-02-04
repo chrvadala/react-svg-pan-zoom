@@ -57,8 +57,7 @@ import {
   TOOL_ZOOM_IN,
   TOOL_ZOOM_OUT
 } from './constants';
-import {isNullOrUndefined} from "./utils/is";
-import {tipControlledComponent, tipDeprecatedMiniatureProps, tipDeprecateToolbarProps} from "./migration-tips";
+import {printMigrationTipsRelatedToProps} from "./migration-tips";
 
 export default class ReactSVGPanZoom extends React.Component {
 
@@ -76,25 +75,63 @@ export default class ReactSVGPanZoom extends React.Component {
     this.autoPanLoop = this.autoPanLoop.bind(this);
 
     if (process.env.NODE_ENV !== 'production') {
-      if (
-        isNullOrUndefined(props.tool) ||
-        isNullOrUndefined(props.value)
-      ) tipControlledComponent()
-
-      if (
-        !isNullOrUndefined(props.miniaturePosition) ||
-        !isNullOrUndefined(props.miniatureBackground) ||
-        !isNullOrUndefined(props.miniatureWidth) ||
-        !isNullOrUndefined(props.miniatureHeight)
-      ) tipDeprecatedMiniatureProps()
-
-
-      if (
-        !isNullOrUndefined(props.toolbarPosition)
-      ) tipDeprecateToolbarProps()
+      printMigrationTipsRelatedToProps(props)
     }
   }
 
+  /** React hooks **/
+  componentDidUpdate(prevProps) {
+    const value = this.getValue();
+    const props = this.props
+
+    let nextValue = value;
+    let needUpdate = false;
+
+    if (process.env.NODE_ENV !== 'production') {
+      printMigrationTipsRelatedToProps(props)
+    }
+
+    if (
+      prevProps.width !== props.width ||
+      prevProps.height !== props.height
+    ) {
+      nextValue = setViewerSize(nextValue, props.width, props.height);
+      needUpdate = true;
+    }
+
+    let {width: SVGWidth, height: SVGHeight} = props.children.props;
+    let {width: prevSVGWidth, height: prevSVGHeight} = prevProps.children.props;
+    if (
+      prevSVGWidth !== SVGWidth ||
+      prevSVGHeight !== prevSVGHeight
+    ) {
+      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight);
+      needUpdate = true;
+    }
+
+    if (
+      prevProps.scaleFactorMin !== props.scaleFactorMin ||
+      prevProps.scaleFactorMax !== props.scaleFactorMax
+    ) {
+      nextValue = setZoomLevels(nextValue, props.scaleFactorMin, props.scaleFactorMax);
+      needUpdate = true;
+    }
+
+    if (needUpdate) {
+      this.setValue(nextValue);
+    }
+  }
+
+  componentDidMount() {
+    this.autoPanIsRunning = true;
+    requestAnimationFrame(this.autoPanLoop);
+  }
+
+  componentWillUnmount() {
+    this.autoPanIsRunning = false;
+  }
+
+  /** ReactSVGPanZoom handlers **/
   getValue() {
     if (isValueValid(this.props.value)) return this.props.value
     return this.state.defaultValue
@@ -115,32 +152,7 @@ export default class ReactSVGPanZoom extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    let value = this.getValue();
-    let needUpdate = false;
-    let nextValue = value;
-
-    if (value.viewerWidth !== nextProps.width || value.viewerHeight !== nextProps.height) {
-      nextValue = setViewerSize(nextValue, nextProps.width, nextProps.height);
-      needUpdate = true;
-    }
-
-    let {width: SVGWidth, height: SVGHeight} = nextProps.children.props;
-    if (value.SVGWidth !== SVGWidth || value.SVGHeight !== SVGHeight) {
-      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight);
-      needUpdate = true;
-    }
-
-    if (value.scaleFactorMin !== nextProps.scaleFactorMin || value.scaleFactorMax !== nextProps.scaleFactorMax) {
-      nextValue = setZoomLevels(nextValue, nextProps.scaleFactorMin, nextProps.scaleFactorMax);
-      needUpdate = true;
-    }
-
-    if (needUpdate) {
-      this.setValue(nextValue);
-    }
-  }
-
+  /** ReactSVGPanZoom methods **/
   pan(SVGDeltaX, SVGDeltaY) {
     let nextValue = pan(this.getValue(), SVGDeltaX, SVGDeltaY);
     this.setValue(nextValue);
@@ -186,6 +198,7 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setValue(nextValue);
   }
 
+  /** ReactSVGPanZoom internals **/
   handleViewerEvent(event) {
     let {props, ViewerDOM} = this;
 
@@ -224,18 +237,7 @@ export default class ReactSVGPanZoom extends React.Component {
     }
   }
 
-  componentDidMount() {
-    if (isValueValid(this.props.value)) return this.props.value
-    this.props.onChangeValue(this.state.defaultValue)
-
-    this.autoPanIsRunning = true;
-    requestAnimationFrame(this.autoPanLoop);
-  }
-
-  componentWillUnmount() {
-    this.autoPanIsRunning = false;
-  }
-
+  /** React renderer **/
   render() {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();

@@ -1,3 +1,5 @@
+import {isNullOrUndefined} from "./utils/is";
+
 const github_base = 'https://github.com/chrvadala/react-svg-pan-zoom/blob/master'
 
 const doc_v1_to_v2 = github_base + '/docs/migrate-from-v1-to-v2.md'
@@ -17,4 +19,23 @@ export function tipDeprecatedMiniatureProps(){
 
 export function tipDeprecateToolbarProps(){
   console.error(`HEY! With ReactSVGPanZoom >= 3 the prop toolbarPosition can be specified as key in the toolbarProps object. Please read here ${doc_v2_to_v3}`)
+}
+
+export function printMigrationTipsRelatedToProps(props){
+  if (
+    isNullOrUndefined(props.tool) ||
+    isNullOrUndefined(props.value)
+  ) tipControlledComponent()
+
+  if (
+    !isNullOrUndefined(props.miniaturePosition) ||
+    !isNullOrUndefined(props.miniatureBackground) ||
+    !isNullOrUndefined(props.miniatureWidth) ||
+    !isNullOrUndefined(props.miniatureHeight)
+  ) tipDeprecatedMiniatureProps()
+
+
+  if (
+    !isNullOrUndefined(props.toolbarPosition)
+  ) tipDeprecateToolbarProps()
 }
