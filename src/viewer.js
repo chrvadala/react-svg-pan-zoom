@@ -103,7 +103,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {width: prevSVGWidth, height: prevSVGHeight} = prevProps.children.props;
     if (
       prevSVGWidth !== SVGWidth ||
-      prevSVGHeight !== prevSVGHeight
+      prevSVGHeight !== SVGHeight
     ) {
       nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight);
       needUpdate = true;
