@@ -1,7 +1,7 @@
 {
   "author": "chrvadala",
   "name": "react-svg-pan-zoom",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./build-commonjs/index.js",
   "module": "./build-es/index.js",
