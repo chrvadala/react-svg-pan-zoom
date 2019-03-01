@@ -93,3 +93,4 @@ yarn add react-svg-pan-zoom
 - [mariafronczak](https://github.com/mariafronczak)
 - [jakoblaegdsmand](https://github.com/jakoblaegdsmand)
 - [lionkeng](https://github.com/lionkeng)
+- [KQLYYY](https://github.com/KQLYYY)
