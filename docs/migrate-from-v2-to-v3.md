@@ -71,15 +71,15 @@ Replace
 
 with
 ```javascript
-const minitiatureProps= {
-  miniaturePosition="left"
-  miniatureBackground="#fff"
-  miniatureWidth={100}
-  miniatureHeight={80}
+const minitiatureProps = {
+  miniaturePosition: "left",
+  miniatureBackground: "#fff",
+  miniatureWidth: 100,
+  miniatureHeight: 80
 }
 
 const toolbarProps = {
-  toolbarPosition="right"
+  toolbarPosition: "right"
 }
 
 <ReactSVGPanZoom 
