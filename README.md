@@ -26,6 +26,7 @@ This component can work in four different modes depending on the selected tool:
 - [Methods](./docs/documentation.md#methods)
 - [API](./docs/documentation.md#api)
 - [Autosizer viewer](./docs/autosizer-viewer.md)
+- [SVG dynamically loaded](./docs/svg-dynamically-loaded.md)
 
 <!-- BEGIN_SECTION_SKIPPED_ONLINE -->
 ## Install
@@ -50,7 +51,6 @@ yarn add react-svg-pan-zoom
 - [**Advanced usage**](./examples/controlled-component-advanced-usage) - Complex usage of `<ReactSVGPanZoom>` that uses some advanced features.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
 - [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
-- [**DynamicLoading**](https://jsfiddle.net/chrvadala/0osd24gv/) - This demo loads dynamically the SVG part.
 
 ## Changelog
 - **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
