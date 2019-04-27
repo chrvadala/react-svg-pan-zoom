@@ -8,7 +8,10 @@ module.exports = function (api) {
 
   plugins.push("@babel/plugin-proposal-object-rest-spread")
 
-  presets.push(["@babel/preset-env", {modules: KEEP_MODULES ? false : 'commonjs'}])
+  presets.push(["@babel/preset-env", {
+    modules: KEEP_MODULES ? false : 'commonjs',
+    targets: "> 0.25%, not dead"
+  }])
   presets.push("@babel/preset-react")
 
   return {

@@ -5,7 +5,7 @@
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./build-commonjs/index.js",
   "module": "./build-es/index.js",
-  "browser": "./build-umd/react-svg-pan-zoom.min.js",
+  "unpkg": "./build-umd/react-svg-pan-zoom.min.js",
   "jsnext:main": "./build-es/index.js",
   "scripts": {
     "start": "run-p storybook:start",
@@ -13,7 +13,7 @@
     "storybook:start": "start-storybook -p 9001 -s storybook/public -c storybook",
     "storybook:build": "build-storybook -s storybook/public -c storybook -o build-storybook",
     "storybook:publish": "gh-pages -m 'Update gh-pages' -d ./build-storybook",
-    "library:build:commonjs": "cross-env KEEP_MODULES=true babel --out-dir build-commonjs src",
+    "library:build:commonjs": "cross-env KEEP_MODULES=false babel --out-dir build-commonjs src",
     "library:build:es": "cross-env KEEP_MODULES=true babel --out-dir build-es src",
     "library:build:umd_min": "cross-env webpack --env.minimize",
     "library:build:umd": "webpack",
