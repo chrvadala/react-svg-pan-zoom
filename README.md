@@ -1,6 +1,7 @@
 # react-svg-pan-zoom
 **react-svg-pan-zoom** is a React component that adds **pan** and **zoom** features to the **SVG images**. It helps to display big SVG images in a small space.
 
+[![chrvadala](https://img.shields.io/badge/website-chrvadala-orange.svg)](https://chrvadala.github.io)
 [![Code](https://img.shields.io/badge/sources-GitHub-c9510c.svg)](https://github.com/chrvadala/react-svg-pan-zoom)
 [![npm](https://img.shields.io/npm/v/react-svg-pan-zoom.svg?maxAge=2592000?style=plastic)](https://www.npmjs.com/package/react-svg-pan-zoom)
 [![Downloads](https://img.shields.io/npm/dm/react-svg-pan-zoom.svg)](https://www.npmjs.com/package/react-svg-pan-zoom)
