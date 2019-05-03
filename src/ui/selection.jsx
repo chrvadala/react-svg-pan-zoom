@@ -20,8 +20,8 @@ export default function Selection({startX, startY, endX, endY}) {
 }
 
 Selection.propTypes = {
-  startX: PropTypes.number.isRequired,
-  startY: PropTypes.number.isRequired,
-  endX: PropTypes.number.isRequired,
-  endY: PropTypes.number.isRequired
+  startX: PropTypes.number,
+  startY: PropTypes.number,
+  endX: PropTypes.number,
+  endY: PropTypes.number
 };
