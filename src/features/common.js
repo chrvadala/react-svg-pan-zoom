@@ -13,7 +13,7 @@ import {
  * Obtain default value
  * @returns {Object}
  */
-export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGX, SVGY, scaleFactorMin, scaleFactorMax) {
+export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGX = 0, SVGY = 0, scaleFactorMin, scaleFactorMax) {
   return set({}, {
     ...identity(),
     version: 2,
