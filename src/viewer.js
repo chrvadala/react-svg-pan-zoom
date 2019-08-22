@@ -63,14 +63,14 @@ export default class ReactSVGPanZoom extends React.Component {
 
   constructor(props, context) {
     const {value, width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = props;
-    const {width: SVGWidth, height: SVGHeight} = children.props;
+    const {width: SVGWidth, height: SVGHeight, x: SVGX, y: SVGY} = children.props;
 
     super(props, context);
     this.ViewerDOM = null;
     this.state = {
       pointerX: null,
       pointerY: null,
-      defaultValue: getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
+      defaultValue: getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGX, SVGY, scaleFactorMin, scaleFactorMax)
     }
     this.autoPanLoop = this.autoPanLoop.bind(this);
 
@@ -99,13 +99,15 @@ export default class ReactSVGPanZoom extends React.Component {
       needUpdate = true;
     }
 
-    let {width: SVGWidth, height: SVGHeight} = props.children.props;
-    let {width: prevSVGWidth, height: prevSVGHeight} = prevProps.children.props;
+    let {width: SVGWidth, height: SVGHeight, x: SVGX, y: SVGY} = props.children.props;
+    let {width: prevSVGWidth, height: prevSVGHeight, x: prevSVGX, y: prevSVGY} = prevProps.children.props;
     if (
       prevSVGWidth !== SVGWidth ||
-      prevSVGHeight !== SVGHeight
+      prevSVGHeight !== SVGHeight ||
+      prevSVGX !== SVGX ||
+      prevSVGY !== SVGY
     ) {
-      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight);
+      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight, prevSVGX, prevSVGY);
       needUpdate = true;
     }
 
@@ -361,8 +363,8 @@ export default class ReactSVGPanZoom extends React.Component {
             <rect
               fill={this.props.SVGBackground}
               style={this.props.SVGStyle}
-              x={0}
-              y={0}
+              x={value.SVGX}
+              y={value.SVGY}
               width={value.SVGWidth}
               height={value.SVGHeight}/>
             <g>
@@ -446,6 +448,8 @@ ReactSVGPanZoom.propTypes = {
       viewerHeight: PropTypes.number.isRequired,
       SVGWidth: PropTypes.number.isRequired,
       SVGHeight: PropTypes.number.isRequired,
+      SVGX: PropTypes.number.isRequired,
+      SVGY: PropTypes.number.isRequired,
       startX: PropTypes.number,
       startY: PropTypes.number,
       endX: PropTypes.number,

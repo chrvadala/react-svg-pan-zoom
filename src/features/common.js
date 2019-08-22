@@ -13,7 +13,7 @@ import {
  * Obtain default value
  * @returns {Object}
  */
-export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax) {
+export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGX, SVGY, scaleFactorMin, scaleFactorMax) {
   return set({}, {
     ...identity(),
     version: 2,
@@ -25,6 +25,8 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, 
     viewerHeight,
     SVGWidth,
     SVGHeight,
+    SVGX,
+    SVGY,
     scaleFactorMin,
     scaleFactorMax,
     startX: null,
@@ -114,10 +116,12 @@ export function setViewerSize(value, viewerWidth, viewerHeight) {
  * @param value
  * @param SVGWidth
  * @param SVGHeight
+ * @param SVGX
+ * @param SVGY
  * @returns {Object}
  */
-export function setSVGSize(value, SVGWidth, SVGHeight) {
-  return set(value, {SVGWidth, SVGHeight});
+export function setSVGSize(value, SVGWidth, SVGHeight, SVGX, SVGY) {
+  return set(value, {SVGWidth, SVGHeight, SVGX, SVGY});
 }
 
 /**
