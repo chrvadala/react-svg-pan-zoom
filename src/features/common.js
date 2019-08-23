@@ -120,7 +120,7 @@ export function setViewerSize(value, viewerWidth, viewerHeight) {
  * @param SVGY
  * @returns {Object}
  */
-export function setSVGSize(value, SVGWidth, SVGHeight, SVGX, SVGY) {
+export function setSVGSize(value, SVGWidth, SVGHeight, SVGX = 0, SVGY = 0) {
   return set(value, {SVGWidth, SVGHeight, SVGX, SVGY});
 }
 
