@@ -107,7 +107,7 @@ export default class ReactSVGPanZoom extends React.Component {
       prevSVGX !== SVGX ||
       prevSVGY !== SVGY
     ) {
-      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight, prevSVGX, prevSVGY);
+      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight, SVGX, SVGY);
       needUpdate = true;
     }
 
