@@ -96,14 +96,14 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
 }
 
 export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
-  let {viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGX, SVGY} = value;
+  let {viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGViewBoxX, SVGViewBoxY} = value;
 
   let scaleX = viewerWidth / SVGWidth;
   let scaleY = viewerHeight / SVGHeight;
   let scaleLevel = Math.min(scaleX, scaleY);
 
   const scaleMatrix = scale(scaleLevel, scaleLevel);
-  let translationMatrix = translate(-SVGX * scaleX, -SVGY / scaleY);
+  let translationMatrix = translate(-SVGViewBoxX * scaleX, -SVGViewBoxY * scaleY);
 
   // after fitting, SVG and the viewer will match in width (1) or in height (2)
   if (scaleX < scaleY) {
@@ -111,20 +111,19 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
     let remainderY = viewerHeight - scaleX * SVGHeight;
 
     if (SVGAlignY === ALIGN_CENTER)
-      translationMatrix = translate(-SVGX * scaleX, (Math.round(remainderY / 2) - SVGY) * scaleY);
+      translationMatrix = translate(-SVGViewBoxX * scaleX, (Math.round(remainderY / 2) - SVGViewBoxY) * scaleY);
     if (SVGAlignY === ALIGN_BOTTOM)
-      translationMatrix = translate(-SVGX * scaleX, (remainderY - SVGY) * scaleY);
+      translationMatrix = translate(-SVGViewBoxX * scaleX, (remainderY - SVGViewBoxY) * scaleY);
   }
   else {
     //(2) match in height, meaning scaled SVGWidth <= viewerWidth
     let remainderX = viewerWidth - scaleY * SVGWidth;
 
     if (SVGAlignX === ALIGN_CENTER)
-      translationMatrix = translate((Math.round(remainderX / 2) - SVGX) * scaleX, -SVGY * scaleY);
+      translationMatrix = translate((Math.round(remainderX / 2) - SVGViewBoxX) * scaleX, -SVGViewBoxY * scaleY);
     if (SVGAlignX === ALIGN_RIGHT)
-      translationMatrix = translate((remainderX - SVGX) * scaleX, -SVGY * scaleY);
+      translationMatrix = translate((remainderX - SVGViewBoxX) * scaleX, -SVGViewBoxY * scaleY);
   }
-
   const matrix = transform(
     translationMatrix, //2
     scaleMatrix        //1

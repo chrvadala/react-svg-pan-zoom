@@ -10,7 +10,7 @@ import {
   isValueValid,
   reset,
   setPointOnViewerCenter,
-  setSVGSize,
+  setSVGViewBox,
   setViewerSize,
   setZoomLevels
 } from './features/common';
@@ -63,14 +63,17 @@ export default class ReactSVGPanZoom extends React.Component {
 
   constructor(props, context) {
     const {value, width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = props;
-    const {width: SVGWidth, height: SVGHeight, x: SVGX, y: SVGY} = children.props;
-
+    let {width: SVGWidth, height: SVGHeight, viewBox: SVGViewBox} = children.props;
+    let SVGViewBoxX, SVGViewBoxY;
+    if (SVGViewBox) {
+      [SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight] = SVGViewBox.split(' ').map(parseFloat);
+    }
     super(props, context);
     this.ViewerDOM = null;
     this.state = {
       pointerX: null,
       pointerY: null,
-      defaultValue: getDefaultValue(viewerWidth, viewerHeight, SVGWidth, SVGHeight, SVGX, SVGY, scaleFactorMin, scaleFactorMax)
+      defaultValue: getDefaultValue(viewerWidth, viewerHeight, SVGViewBoxX || 0, SVGViewBoxY || 0, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
     }
     this.autoPanLoop = this.autoPanLoop.bind(this);
 
@@ -82,7 +85,7 @@ export default class ReactSVGPanZoom extends React.Component {
   /** React hooks **/
   componentDidUpdate(prevProps) {
     const value = this.getValue();
-    const props = this.props
+    const props = this.props;
 
     let nextValue = value;
     let needUpdate = false;
@@ -99,16 +102,27 @@ export default class ReactSVGPanZoom extends React.Component {
       needUpdate = true;
     }
 
-    let {width: SVGWidth, height: SVGHeight, x: SVGX, y: SVGY} = props.children.props;
-    let {width: prevSVGWidth, height: prevSVGHeight, x: prevSVGX, y: prevSVGY} = prevProps.children.props;
-    if (
-      prevSVGWidth !== SVGWidth ||
-      prevSVGHeight !== SVGHeight ||
-      prevSVGX !== SVGX ||
-      prevSVGY !== SVGY
-    ) {
-      nextValue = setSVGSize(nextValue, SVGWidth, SVGHeight, SVGX, SVGY);
-      needUpdate = true;
+    let {width: SVGWidth, height: SVGHeight, viewBox: SVGViewBox} = props.children.props;
+    let {width: prevSVGWidth, height: prevSVGHeight, viewBox: prevSVGViewBox} = prevProps.children.props;
+
+    if (SVGViewBox) {
+      let [x0, y0, width, height] = SVGViewBox.split(' ').map(parseFloat);
+      if(
+        value.SVGViewBoxX !== x0 ||
+        value.SVGViewBoxY !== y0 ||
+        value.SVGWidth !== width ||
+        value.SVGHeight !== height) {
+        nextValue = setSVGViewBox(nextValue, x0, y0, width, height);
+        needUpdate = true;
+      }
+    } else {
+      if (
+        prevSVGWidth !== SVGWidth ||
+        prevSVGHeight !== SVGHeight
+      ) {
+        nextValue = setSVGViewBox(nextValue, 0, 0, SVGWidth, SVGHeight);
+        needUpdate = true;
+      }
     }
 
     if (
@@ -363,8 +377,8 @@ export default class ReactSVGPanZoom extends React.Component {
             <rect
               fill={this.props.SVGBackground}
               style={this.props.SVGStyle}
-              x={value.SVGX}
-              y={value.SVGY}
+              x={value.SVGViewBoxX}
+              y={value.SVGViewBoxY}
               width={value.SVGWidth}
               height={value.SVGHeight}/>
             <g>
@@ -448,8 +462,8 @@ ReactSVGPanZoom.propTypes = {
       viewerHeight: PropTypes.number.isRequired,
       SVGWidth: PropTypes.number.isRequired,
       SVGHeight: PropTypes.number.isRequired,
-      SVGX: PropTypes.number.isRequired,
-      SVGY: PropTypes.number.isRequired,
+      SVGViewBoxX: PropTypes.number.isRequired,
+      SVGViewBoxY: PropTypes.number.isRequired,
       startX: PropTypes.number,
       startY: PropTypes.number,
       endX: PropTypes.number,
