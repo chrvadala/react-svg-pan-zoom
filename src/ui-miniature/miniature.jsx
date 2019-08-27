@@ -10,7 +10,7 @@ const {min, max} = Math;
 export default function Miniature(props) {
 
   let {value, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
-  let {SVGWidth, SVGHeight, SVGViewBoxX, SVGViewBoxY, viewerWidth, viewerHeight} = value;
+  let {SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
 
   let ratio = SVGHeight / SVGWidth;
 
@@ -59,10 +59,10 @@ export default function Miniature(props) {
 
             <rect
               fill={SVGBackground}
-              x={value.SVGViewBoxX}
-              y={value.SVGViewBoxY}
-              width={value.SVGWidth}
-              height={value.SVGHeight}/>
+              x={SVGViewBoxX}
+              y={SVGViewBoxY}
+              width={SVGWidth}
+              height={SVGHeight}/>
 
             {children}
 
