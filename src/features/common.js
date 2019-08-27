@@ -23,10 +23,10 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGViewBoxX, SVGViewB
     prePinchMode: null,
     viewerWidth,
     viewerHeight,
-    SVGWidth,
-    SVGHeight,
     SVGViewBoxX,
     SVGViewBoxY,
+    SVGWidth,
+    SVGHeight,
     scaleFactorMin,
     scaleFactorMax,
     startX: null,
@@ -114,14 +114,14 @@ export function setViewerSize(value, viewerWidth, viewerHeight) {
 /**
  *
  * @param value
- * @param SVGWidth
- * @param SVGHeight
  * @param SVGViewBoxX
  * @param SVGViewBoxY
+ * @param SVGWidth
+ * @param SVGHeight
  * @returns {Object}
  */
 export function setSVGViewBox(value, SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight) {
-  return set(value, {SVGWidth, SVGHeight, SVGViewBoxX, SVGViewBoxY});
+  return set(value, {SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight});
 }
 
 /**

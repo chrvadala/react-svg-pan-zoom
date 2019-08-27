@@ -5,7 +5,8 @@ import RandomUID from "../utils/RandomUID";
 const prefixID = 'react-svg-pan-zoom_miniature'
 
 function MiniatureMask({SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight, x1, y1, x2, y2, zoomToFit, _uid}) {
-  let maskID = `${prefixID}_mask_${_uid}`
+  const maskID = `${prefixID}_mask_${_uid}`
+
   return (
     <g>
       <defs>
