@@ -104,8 +104,8 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
 
   const scaleMatrix = scale(scaleLevel, scaleLevel);
 
-  let translateX = -SVGViewBoxX * scaleX;
-  let translateY = -SVGViewBoxY * scaleY;
+  let translateX = -SVGViewBoxX * scaleX / 2;
+  let translateY = -SVGViewBoxY * scaleY / 2;
 
   // after fitting, SVG and the viewer will match in width (1) or in height (2)
   if (scaleX < scaleY) {

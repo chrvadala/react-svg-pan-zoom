@@ -45,8 +45,8 @@ export default function Miniature(props) {
   };
 
   let centerTranslation = ratio >= 1
-    ? `translate(${(miniatureWidth / 2 - SVGWidth / 2 + SVGViewBoxX) * zoomToFit}, ${-SVGViewBoxY * zoomToFit})`
-    : `translate(${-SVGViewBoxX * zoomToFit}, ${(miniatureHeight / 2 - SVGHeight / 2 + SVGViewBoxY) * zoomToFit})`;
+    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2 - SVGViewBoxX * zoomToFit}, ${ - SVGViewBoxY * zoomToFit})`
+    : `translate(${ - SVGViewBoxX * zoomToFit}, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2 - SVGViewBoxY * zoomToFit})`;
 
   return (
     <div role="navigation" style={style}>
