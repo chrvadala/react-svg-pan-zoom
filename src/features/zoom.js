@@ -104,8 +104,8 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
 
   const scaleMatrix = scale(scaleLevel, scaleLevel);
 
-  let translateX = -SVGViewBoxX * scaleX / 2;
-  let translateY = -SVGViewBoxY * scaleY / 2;
+  let translateX = -SVGViewBoxX * scaleX;
+  let translateY = -SVGViewBoxY * scaleY;
 
   // after fitting, SVG and the viewer will match in width (1) or in height (2)
   if (scaleX < scaleY) {
@@ -113,34 +113,32 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
     let remainderY = viewerHeight - scaleX * SVGHeight;
     switch(SVGAlignY) {
       case ALIGN_TOP:
-        translateY = -SVGViewBoxY * scaleY / 2;
+        translateY = -SVGViewBoxY * scaleLevel;
       break;
       case ALIGN_CENTER:
-        translateY = Math.round(remainderY / 2) - SVGViewBoxY * scaleY / 2;
+        translateY = Math.round(remainderY / 2) - SVGViewBoxY * scaleLevel;
       break;
       case ALIGN_BOTTOM:
-        translateY = remainderY - SVGViewBoxY * scaleY / 2;
+        translateY = remainderY - SVGViewBoxY * scaleLevel;
       break;
     }
-  }
-  else {
+  } else {
     //(2) match in height, meaning scaled SVGWidth <= viewerWidth
     let remainderX = viewerWidth - scaleY * SVGWidth;
     switch(SVGAlignX) {
       case ALIGN_LEFT:
-        translateX = -SVGViewBoxX * scaleX / 2;
+        translateX = -SVGViewBoxX * scaleLevel;
       break;
       case ALIGN_CENTER:
-        translateX = Math.round(remainderX / 2) - SVGViewBoxX * scaleX / 2;
+        translateX = Math.round(remainderX / 2) - SVGViewBoxX * scaleLevel;
       break;
       case ALIGN_RIGHT:
-        translateX = remainderX - SVGViewBoxX * scaleX / 2;
+        translateX = remainderX - SVGViewBoxX * scaleLevel;
       break;
     }
   }
 
   const translationMatrix = translate(translateX, translateY);
-
   const matrix = transform(
     translationMatrix, //2
     scaleMatrix        //1
