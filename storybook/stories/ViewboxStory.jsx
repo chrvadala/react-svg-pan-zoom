@@ -35,7 +35,7 @@ export default class ViewboxStory extends React.Component {
         >
 
           <svg
-            width="100" height="100"
+            width={100} height={100}
             withViewBox="10 10 80 80"
           >
 
