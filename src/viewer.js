@@ -66,8 +66,8 @@ export default class ReactSVGPanZoom extends React.Component {
     const {withViewBox: SVGViewBox} = children.props;
     let defaultValue;
     if (SVGViewBox) {
-      const [SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight] = SVGViewBox.split(' ').map(parseFloat);
-      defaultValue = getDefaultValue(viewerWidth, viewerHeight, SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
+      const [SVGMinX, SVGMinY, SVGWidth, SVGHeight] = SVGViewBox.split(' ').map(parseFloat);
+      defaultValue = getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
     } else {
       const {width: SVGWidth, height: SVGHeight} = children.props;
       defaultValue = getDefaultValue(viewerWidth, viewerHeight, 0, 0, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
@@ -105,7 +105,7 @@ export default class ReactSVGPanZoom extends React.Component {
       // if the withViewBox prop is specified
       const [x, y, width, height] = SVGViewBox.split(' ').map(parseFloat);
 
-      if(value.SVGViewBoxX !== x || value.SVGViewBoxY !== y || value.SVGWidth !== width || value.SVGHeight !== height) {
+      if(value.SVGMinX !== x || value.SVGMinY !== y || value.SVGWidth !== width || value.SVGHeight !== height) {
         nextValue = setSVGViewBox(nextValue, x, y, width, height);
         needUpdate = true;
       }
@@ -380,8 +380,8 @@ export default class ReactSVGPanZoom extends React.Component {
             <rect
               fill={this.props.SVGBackground}
               style={this.props.SVGStyle}
-              x={value.SVGViewBoxX || 0}
-              y={value.SVGViewBoxY || 0}
+              x={value.SVGMinX || 0}
+              y={value.SVGMinY || 0}
               width={value.SVGWidth}
               height={value.SVGHeight}/>
             <g>
@@ -463,8 +463,8 @@ ReactSVGPanZoom.propTypes = {
       f: PropTypes.number.isRequired,
       viewerWidth: PropTypes.number.isRequired,
       viewerHeight: PropTypes.number.isRequired,
-      SVGViewBoxX: PropTypes.number.isRequired,
-      SVGViewBoxY: PropTypes.number.isRequired,
+      SVGMinX: PropTypes.number.isRequired,
+      SVGMinY: PropTypes.number.isRequired,
       SVGWidth: PropTypes.number.isRequired,
       SVGHeight: PropTypes.number.isRequired,
       startX: PropTypes.number,

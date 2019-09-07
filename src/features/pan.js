@@ -20,8 +20,8 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
   // apply pan limits
   if (panLimit) {
     let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
-      {x: value.SVGViewBoxX + panLimit, y: value.SVGViewBoxY + panLimit},
-      {x: value.SVGViewBoxX + value.SVGWidth - panLimit, y: value.SVGViewBoxY + value.SVGHeight - panLimit}
+      {x: value.SVGMinX + panLimit, y: value.SVGMinY + panLimit},
+      {x: value.SVGMinX + value.SVGWidth - panLimit, y: value.SVGMinY + value.SVGHeight - panLimit}
     ]);
 
     //x limit

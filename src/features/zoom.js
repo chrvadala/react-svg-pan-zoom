@@ -96,7 +96,7 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
 }
 
 export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
-  let {viewerWidth, viewerHeight, SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight} = value;
+  let {viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight} = value;
 
   let scaleX = viewerWidth / SVGWidth;
   let scaleY = viewerHeight / SVGHeight;
@@ -104,8 +104,8 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
 
   const scaleMatrix = scale(scaleLevel, scaleLevel);
 
-  let translateX = -SVGViewBoxX * scaleX;
-  let translateY = -SVGViewBoxY * scaleY;
+  let translateX = -SVGMinX * scaleX;
+  let translateY = -SVGMinY * scaleY;
 
   // after fitting, SVG and the viewer will match in width (1) or in height (2)
   if (scaleX < scaleY) {
@@ -113,13 +113,13 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
     let remainderY = viewerHeight - scaleX * SVGHeight;
     switch(SVGAlignY) {
       case ALIGN_TOP:
-        translateY = -SVGViewBoxY * scaleLevel;
+        translateY = -SVGMinY * scaleLevel;
       break;
       case ALIGN_CENTER:
-        translateY = Math.round(remainderY / 2) - SVGViewBoxY * scaleLevel;
+        translateY = Math.round(remainderY / 2) - SVGMinY * scaleLevel;
       break;
       case ALIGN_BOTTOM:
-        translateY = remainderY - SVGViewBoxY * scaleLevel;
+        translateY = remainderY - SVGMinY * scaleLevel;
       break;
     }
   } else {
@@ -127,13 +127,13 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
     let remainderX = viewerWidth - scaleY * SVGWidth;
     switch(SVGAlignX) {
       case ALIGN_LEFT:
-        translateX = -SVGViewBoxX * scaleLevel;
+        translateX = -SVGMinX * scaleLevel;
       break;
       case ALIGN_CENTER:
-        translateX = Math.round(remainderX / 2) - SVGViewBoxX * scaleLevel;
+        translateX = Math.round(remainderX / 2) - SVGMinX * scaleLevel;
       break;
       case ALIGN_RIGHT:
-        translateX = remainderX - SVGViewBoxX * scaleLevel;
+        translateX = remainderX - SVGMinX * scaleLevel;
       break;
     }
   }

@@ -10,7 +10,7 @@ const {min, max} = Math;
 export default function Miniature(props) {
 
   let {value, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
-  let {SVGViewBoxX, SVGViewBoxY, SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
+  let {SVGMinX, SVGMinY, SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
 
   let ratio = SVGHeight / SVGWidth;
 
@@ -45,8 +45,8 @@ export default function Miniature(props) {
   };
 
   let centerTranslation = ratio >= 1
-    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2 - SVGViewBoxX * zoomToFit}, ${ - SVGViewBoxY * zoomToFit})`
-    : `translate(${ - SVGViewBoxX * zoomToFit}, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2 - SVGViewBoxY * zoomToFit})`;
+    ? `translate(${(miniatureWidth - (SVGWidth * zoomToFit)) / 2 - SVGMinX * zoomToFit}, ${ - SVGMinY * zoomToFit})`
+    : `translate(${ - SVGMinX * zoomToFit}, ${(miniatureHeight - (SVGHeight * zoomToFit)) / 2 - SVGMinY * zoomToFit})`;
 
   return (
     <div role="navigation" style={style}>
@@ -59,8 +59,8 @@ export default function Miniature(props) {
 
             <rect
               fill={SVGBackground}
-              x={SVGViewBoxX}
-              y={SVGViewBoxY}
+              x={SVGMinX}
+              y={SVGMinY}
               width={SVGWidth}
               height={SVGHeight}/>
 
@@ -69,8 +69,8 @@ export default function Miniature(props) {
             <MiniatureMask
               SVGWidth={SVGWidth}
               SVGHeight={SVGHeight}
-              SVGViewBoxX={SVGViewBoxX}
-              SVGViewBoxY={SVGViewBoxY}
+              SVGMinX={SVGMinX}
+              SVGMinY={SVGMinY}
               x1={x1}
               y1={y1}
               x2={x2}
