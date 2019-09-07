@@ -64,7 +64,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
   constructor(props, context) {
     const {value, width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = props;
-    const {withViewBox: SVGViewBox} = children.props;
+    const {viewBox: SVGViewBox} = children.props;
     let defaultValue;
     if (SVGViewBox) {
       const [SVGMinX, SVGMinY, SVGWidth, SVGHeight] = parseViewBox(SVGViewBox);
@@ -101,9 +101,9 @@ export default class ReactSVGPanZoom extends React.Component {
     }
 
     // This block checks the size of the SVG
-    const {withViewBox: SVGViewBox} = props.children.props;
+    const {viewBox: SVGViewBox} = props.children.props;
     if (SVGViewBox) {
-      // if the withViewBox prop is specified
+      // if the viewBox prop is specified
       const [x, y, width, height] = parseViewBox(SVGViewBox);
 
       if(value.SVGMinX !== x || value.SVGMinY !== y || value.SVGWidth !== width || value.SVGHeight !== height) {
@@ -615,9 +615,9 @@ ReactSVGPanZoom.propTypes = {
     }
     if (
       (!prop.props.hasOwnProperty('width') || !prop.props.hasOwnProperty('height')) &&
-      (!prop.props.hasOwnProperty('withViewBox'))
+      (!prop.props.hasOwnProperty('viewBox'))
     ) {
-      return new Error('SVG should have props `width` and `height` or `withViewBox`');
+      return new Error('SVG should have props `width` and `height` or `viewBox`');
     }
 
   }
