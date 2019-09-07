@@ -23,6 +23,7 @@ import {
   onMouseUp,
   onWheel
 } from './features/interactions';
+import parseViewBox from './utils/ViewBoxParser';
 import {onTouchCancel, onTouchEnd, onTouchMove, onTouchStart} from './features/interactions-touch';
 
 import {fitSelection, fitToViewer, zoom, zoomOnViewerCenter} from './features/zoom';
@@ -66,7 +67,7 @@ export default class ReactSVGPanZoom extends React.Component {
     const {withViewBox: SVGViewBox} = children.props;
     let defaultValue;
     if (SVGViewBox) {
-      const [SVGMinX, SVGMinY, SVGWidth, SVGHeight] = SVGViewBox.split(' ').map(parseFloat);
+      const [SVGMinX, SVGMinY, SVGWidth, SVGHeight] = parseViewBox(SVGViewBox);
       defaultValue = getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
     } else {
       const {width: SVGWidth, height: SVGHeight} = children.props;
@@ -103,7 +104,7 @@ export default class ReactSVGPanZoom extends React.Component {
     const {withViewBox: SVGViewBox} = props.children.props;
     if (SVGViewBox) {
       // if the withViewBox prop is specified
-      const [x, y, width, height] = SVGViewBox.split(' ').map(parseFloat);
+      const [x, y, width, height] = parseViewBox(SVGViewBox);
 
       if(value.SVGMinX !== x || value.SVGMinY !== y || value.SVGWidth !== width || value.SVGHeight !== height) {
         nextValue = setSVGViewBox(nextValue, x, y, width, height);
