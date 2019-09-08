@@ -1,80 +1,60 @@
-import React from "react";
+import React, {forwardRef, useState} from "react";
 import ReactSVGPanZoom from './viewer'
 import PropTypes from "prop-types";
 import {TOOL_NONE} from "./constants";
 
-export default class UncontrolledReactSVGPanZoom extends React.Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      value: props.defaultValue || {},
-      tool: props.defaultTool || TOOL_NONE,
-    }
+const UncontrolledReactSVGPanZoom = forwardRef((props, Viewer) => {
+  const [value, setValue] = useState(props.defaultValue || {});
+  const [tool, setTool] = useState(props.defaultTool || TOOL_NONE);
 
-    this.Viewer = null;
-    this.changeTool = this.changeTool.bind(this)
-    this.changeValue = this.changeValue.bind(this)
+  function pan(SVGDeltaX, SVGDeltaY) {
+    Viewer.pan(SVGDeltaX, SVGDeltaY)
   }
 
-  changeTool(tool) {
-    this.setState({tool})
+  function zoom(SVGPointX, SVGPointY, scaleFactor) {
+    Viewer.zoom(SVGPointX, SVGPointY, scaleFactor)
   }
 
-  changeValue(value) {
-    this.setState({value})
+  function fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
+    Viewer.fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)
   }
 
-  pan(SVGDeltaX, SVGDeltaY) {
-    this.Viewer.pan(SVGDeltaX, SVGDeltaY)
+  function fitToViewer(SVGAlignX, SVGAlignY) {
+    Viewer.fitToViewer(SVGAlignX, SVGAlignY)
   }
 
-  zoom(SVGPointX, SVGPointY, scaleFactor) {
-    this.Viewer.zoom(SVGPointX, SVGPointY, scaleFactor)
+  function zoomOnViewerCenter(scaleFactor) {
+    Viewer.zoomOnViewerCenter(scaleFactor)
   }
 
-  fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-    this.Viewer.fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)
+  function setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
+    Viewer.setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)
   }
 
-  fitToViewer(SVGAlignX, SVGAlignY) {
-    this.Viewer.fitToViewer(SVGAlignX, SVGAlignY)
+  function reset() {
+    Viewer.reset()
   }
 
-  zoomOnViewerCenter(scaleFactor) {
-    this.Viewer.zoomOnViewerCenter(scaleFactor)
+  function openMiniature() {
+    Viewer.openMiniature()
   }
 
-  setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
-    this.Viewer.setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)
+  function closeMiniature() {
+    Viewer.closeMiniature()
   }
 
-  reset() {
-    this.Viewer.reset()
-  }
+  const {width, height, onChangeTool, onChangeValue, ...svgProps} = props;
 
-  openMiniature() {
-    this.Viewer.openMiniature()
-  }
-
-  closeMiniature() {
-    this.Viewer.closeMiniature()
-  }
-
-  render() {
-    const {width, height, onChangeTool, onChangeValue, ...props} = this.props
-    const {tool, value} = this.state
-
-    return (
-      <ReactSVGPanZoom
-        width={width} height={height}
-        tool={tool} onChangeTool={this.changeTool}
-        value={value} onChangeValue={this.changeValue}
-        ref={Viewer => this.Viewer = Viewer}
-        {...props}
-      />
-    )
-  }
-}
+  return (
+    <ReactSVGPanZoom
+      width={width} height={height}
+      tool={tool} onChangeTool={setTool}
+      value={value} onChangeValue={setValue}
+      ref={Viewer}
+      {...svgProps}
+    />
+  )
+})
 
 UncontrolledReactSVGPanZoom.propTypes = {
   width: PropTypes.number.isRequired,
@@ -83,3 +63,5 @@ UncontrolledReactSVGPanZoom.propTypes = {
   defaultValue: PropTypes.object,
   defaultTool: PropTypes.string,
 }
+
+export default UncontrolledReactSVGPanZoom;
