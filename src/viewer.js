@@ -65,21 +65,12 @@ export default class ReactSVGPanZoom extends React.Component {
   constructor(props, context) {
     const {value, width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = props;
     const {viewBox: SVGViewBox} = children.props;
-    let defaultValue;
-    if (SVGViewBox) {
-      const [SVGMinX, SVGMinY, SVGWidth, SVGHeight] = parseViewBox(SVGViewBox);
-      defaultValue = getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
-    } else {
-      const {width: SVGWidth, height: SVGHeight} = children.props;
-      defaultValue = getDefaultValue(viewerWidth, viewerHeight, 0, 0, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
-    }
 
     super(props, context);
     this.ViewerDOM = null;
     this.state = {
       pointerX: null,
       pointerY: null,
-      defaultValue
     }
     this.autoPanLoop = this.autoPanLoop.bind(this);
 
@@ -155,6 +146,14 @@ export default class ReactSVGPanZoom extends React.Component {
   getValue() {
     if (isValueValid(this.props.value)) return this.props.value
     return this.state.defaultValue
+
+    if (SVGViewBox) {
+      const [SVGMinX, SVGMinY, SVGWidth, SVGHeight] = parseViewBox(SVGViewBox);
+      return getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
+    } else {
+      const {width: SVGWidth, height: SVGHeight} = children.props;
+      return getDefaultValue(viewerWidth, viewerHeight, 0, 0, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax)
+    }
   }
 
   getTool() {
