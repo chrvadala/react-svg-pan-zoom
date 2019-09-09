@@ -87,6 +87,8 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   useEffect(() => {
 
     requestAnimationFrame(autoPanLoop);
+
+    return () => setAutoPanning(false)
   }, []);
 
   // update on viewBox change
