@@ -1,5 +1,5 @@
 import {ACTION_PAN, MODE_IDLE, MODE_PANNING} from '../constants';
-import {set, getSVGPoint} from './common';
+import {getSVGPoint} from './common';
 import {fromObject, translate, transform, applyToPoints, inverse} from 'transformation-matrix';
 
 /**
@@ -11,7 +11,6 @@ import {fromObject, translate, transform, applyToPoints, inverse} from 'transfor
  * @returns {Object}
  */
 export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
-
   let matrix = transform(
     fromObject(value),              //2
     translate(SVGDeltaX, SVGDeltaY) //1
@@ -43,21 +42,22 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
       matrix
     )
   }
-
-  return set(value, {
+  return {
     mode: MODE_IDLE,
     ...matrix,
-  }, ACTION_PAN);
+    lastAction: ACTION_PAN
+  };
 }
 
-export function startPanning(value, viewerX, viewerY) {
-  return set(value, {
+export function startPanning(viewerX, viewerY) {
+  return {
     mode: MODE_PANNING,
     startX: viewerX,
     startY: viewerY,
     endX: viewerX,
-    endY: viewerY
-  }, ACTION_PAN);
+    endY: viewerY,
+    last_action: ACTION_PAN
+  };
 }
 
 export function updatePanning(value, viewerX, viewerY, panLimit) {
@@ -71,23 +71,24 @@ export function updatePanning(value, viewerX, viewerY, panLimit) {
   let deltaX = end.x - start.x;
   let deltaY = end.y - start.y;
 
-  let nextValue = pan(value, deltaX, deltaY, panLimit);
-  return set(nextValue, {
+  return {
+    ...pan(value, deltaX, deltaY, panLimit),
     mode: MODE_PANNING,
     endX: viewerX,
     endY: viewerY,
-  }, ACTION_PAN);
+    last_action: ACTION_PAN
+  };
 }
 
-export function stopPanning(value) {
-  return set(value, {
-      mode: MODE_IDLE,
-      startX: null,
-      startY: null,
-      endX: null,
-      endY: null
-    }, ACTION_PAN
-  );
+export function stopPanning() {
+  return {
+    mode: MODE_IDLE,
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null,
+    last_action: ACTION_PAN
+  }
 }
 
 export function autoPanIfNeeded(value, viewerX, viewerY) {
@@ -102,5 +103,5 @@ export function autoPanIfNeeded(value, viewerX, viewerY) {
   deltaX = deltaX / value.d;
   deltaY = deltaY / value.d;
 
-  return (deltaX === 0 && deltaY === 0) ? value : pan(value, deltaX, deltaY);
+  return (deltaX === 0 && deltaY === 0) ? {} : pan(value, deltaX, deltaY);
 }

@@ -3,7 +3,7 @@ import {
   TOOL_NONE, TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING
 } from '../constants';
-import {resetMode, getSVGPoint, set} from './common';
+import {resetMode, getSVGPoint} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
 import {isZoomLevelGoingOutOfBounds, limitZoomLevel} from './zoom';
 
@@ -38,7 +38,7 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
     translate(-svgPoint.x, -svgPoint.y)
   );
 
-  return set(value, set({
+  return {
     mode: MODE_ZOOMING,
     ...limitZoomLevel(value, matrix),
     startX: null,
@@ -47,7 +47,7 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
     endY: null,
     prePinchMode: value.prePinchMode ? value.prePinchMode : value.mode,
     pinchPointDistance
-  }));
+  };
 }
 
 function isMultiTouch(event, props) {

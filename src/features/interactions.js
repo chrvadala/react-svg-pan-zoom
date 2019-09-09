@@ -33,12 +33,12 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
       break;
 
     case TOOL_ZOOM_IN:
-      nextValue = startZooming(value, x, y);
+      nextValue = startZooming(x, y);
       break;
 
     case TOOL_AUTO:
     case TOOL_PAN:
-      nextValue = startPanning(value, x, y);
+      nextValue = startPanning(x, y);
       break;
 
     default:

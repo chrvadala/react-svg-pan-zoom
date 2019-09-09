@@ -14,13 +14,20 @@ import {
  * @returns {Object}
  */
 export function getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax) {
-  return set({}, {
+  return {
     ...identity(),
     version: 2,
     mode: MODE_IDLE,
     focus: false,
     pinchPointDistance: null,
     prePinchMode: null,
+    startX: null,
+    startY: null,
+    endX: null,
+    endY: null,
+    miniatureOpen: true,
+    lastAction: null,
+
     viewerWidth,
     viewerHeight,
     SVGMinX,
@@ -29,25 +36,7 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVG
     SVGHeight,
     scaleFactorMin,
     scaleFactorMax,
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null,
-    miniatureOpen: true,
-    lastAction: null,
-  });
-}
-
-/**
- * Change value
- * @param value
- * @param change
- * @param action
- * @returns {Object}
- */
-export function set(value, change, action = null) {
-  value = Object.assign({}, value, change, {lastAction: action});
-  return Object.freeze(value);
+  };
 }
 
 /**
@@ -91,48 +80,44 @@ export function decompose(value) {
 
 /**
  *
- * @param value
  * @param focus
  * @returns {Object}
  */
-export function setFocus(value, focus) {
-  return set(value, {focus});
+export function setFocus(focus) {
+  return {focus};
 }
 
 
 /**
  *
- * @param value
  * @param viewerWidth
  * @param viewerHeight
  * @returns {Object}
  */
-export function setViewerSize(value, viewerWidth, viewerHeight) {
-  return set(value, {viewerWidth, viewerHeight});
+export function setViewerSize(viewerWidth, viewerHeight) {
+  return {viewerWidth, viewerHeight};
 }
 
 /**
  *
- * @param value
  * @param SVGMinX
  * @param SVGMinY
  * @param SVGWidth
  * @param SVGHeight
  * @returns {Object}
  */
-export function setSVGViewBox(value, SVGMinX, SVGMinY, SVGWidth, SVGHeight) {
-  return set(value, {SVGMinX, SVGMinY, SVGWidth, SVGHeight});
+export function setSVGViewBox(SVGMinX, SVGMinY, SVGWidth, SVGHeight) {
+  return {SVGMinX, SVGMinY, SVGWidth, SVGHeight};
 }
 
 /**
  *
- * @param value
  * @param scaleFactorMin
  * @param scaleFactorMax
  * @returns {Object}
  */
-export function setZoomLevels(value, scaleFactorMin, scaleFactorMax) {
-  return set(value, {scaleFactorMin, scaleFactorMax});
+export function setZoomLevels(scaleFactorMin, scaleFactorMax) {
+  return {scaleFactorMin, scaleFactorMax};
 }
 
 /**
@@ -153,35 +138,33 @@ export function setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel) {
     translate(-SVGPointX, -SVGPointY)                                         //1
   );
 
-  return set(value, {
+  return {
     mode: MODE_IDLE,
     ...matrix,
-  });
+  };
 }
 
 /**
  *
- * @param value
  * @returns {Object}
  */
-export function reset(value) {
-  return set(value, {
+export function reset() {
+  return {
     mode: MODE_IDLE,
     ...identity()
-  });
+  };
 }
 
 /**
  *
- * @param value
  * @returns {Object}
  */
-export function resetMode(value) {
-  return set(value, {
+export function resetMode() {
+  return {
     mode: MODE_IDLE,
     startX: null,
     startY: null,
     endX: null,
     endY: null
-  })
+  }
 }

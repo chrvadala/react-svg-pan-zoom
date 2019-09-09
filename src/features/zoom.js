@@ -4,7 +4,7 @@ import {
   ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING,
   ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
 } from '../constants';
-import {set, getSVGPoint} from './common';
+import {getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
 
 function lessThanScaleFactorMin (value, scaleFactor) {
@@ -32,10 +32,11 @@ export function limitZoomLevel(value, matrix) {
     scaleLevel = Math.min(scaleLevel, value.scaleFactorMax);
   }
 
-  return set(matrix, {
+  return {
+    ...matrix,
     a: scaleLevel,
     d: scaleLevel
-  });
+  };
 }
 
 export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
@@ -51,14 +52,15 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
     translate(-SVGPointX, -SVGPointY)
   );
 
-  return set(value, {
+  return {
     mode: MODE_IDLE,
     ...limitZoomLevel(value, matrix),
     startX: null,
     startY: null,
     endX: null,
-    endY: null
-  }, ACTION_ZOOM);
+    endY: null,
+    last_action: ACTION_ZOOM
+  };
 }
 
 export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
@@ -76,23 +78,24 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
 
   if(isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
     // Do not allow scale and translation
-    return set(value, {
+    return {
       mode: MODE_IDLE,
       startX: null,
       startY: null,
       endX: null,
       endY: null
-    });
+    };
   }
 
-  return set(value, {
+  return {
     mode: MODE_IDLE,
     ...limitZoomLevel(value, matrix),
     startX: null,
     startY: null,
     endX: null,
-    endY: null
-  }, ACTION_ZOOM);
+    endY: null,
+    last_action: ACTION_ZOOM
+  };
 }
 
 export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
@@ -146,23 +149,24 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
 
   if (isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
     // Do not allow scale and translation
-    return set(value, {
+    return {
       mode: MODE_IDLE,
       startX: null,
       startY: null,
       endX: null,
       endY: null
-    });
+    };
   }
 
-  return set(value, {
+  return {
     mode: MODE_IDLE,
     ...limitZoomLevel(value, matrix),
     startX: null,
     startY: null,
     endX: null,
-    endY: null
-  }, ACTION_ZOOM);
+    endY: null,
+    last_action: ACTION_ZOOM
+  };
 }
 
 export function zoomOnViewerCenter(value, scaleFactor) {
@@ -172,22 +176,22 @@ export function zoomOnViewerCenter(value, scaleFactor) {
 }
 
 export function startZooming(value, viewerX, viewerY) {
-  return set(value, {
+  return {
     mode: MODE_ZOOMING,
     startX: viewerX,
     startY: viewerY,
     endX: viewerX,
     endY: viewerY
-  });
+  };
 }
 
 export function updateZooming(value, viewerX, viewerY) {
   if (value.mode !== MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + value.mode);
 
-  return set(value, {
+  return {
     endX: viewerX,
     endY: viewerY
-  });
+  };
 }
 
 export function stopZooming(value, viewerX, viewerY, scaleFactor, props) {
