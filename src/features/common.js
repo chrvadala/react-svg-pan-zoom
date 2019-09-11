@@ -80,48 +80,6 @@ export function decompose(value) {
 
 /**
  *
- * @param focus
- * @returns {Object}
- */
-export function setFocus(focus) {
-  return {focus};
-}
-
-
-/**
- *
- * @param viewerWidth
- * @param viewerHeight
- * @returns {Object}
- */
-export function setViewerSize(viewerWidth, viewerHeight) {
-  return {viewerWidth, viewerHeight};
-}
-
-/**
- *
- * @param SVGMinX
- * @param SVGMinY
- * @param SVGWidth
- * @param SVGHeight
- * @returns {Object}
- */
-export function setSVGViewBox(SVGMinX, SVGMinY, SVGWidth, SVGHeight) {
-  return {SVGMinX, SVGMinY, SVGWidth, SVGHeight};
-}
-
-/**
- *
- * @param scaleFactorMin
- * @param scaleFactorMax
- * @returns {Object}
- */
-export function setZoomLevels(scaleFactorMin, scaleFactorMax) {
-  return {scaleFactorMin, scaleFactorMax};
-}
-
-/**
- *
  * @param value
  * @param SVGPointX
  * @param SVGPointY

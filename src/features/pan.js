@@ -44,7 +44,7 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
   }
   return {
     mode: MODE_IDLE,
-    ...matrix,
+    matrix,
     lastAction: ACTION_PAN
   };
 }

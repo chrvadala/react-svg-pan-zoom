@@ -7,29 +7,30 @@ import {
 import {getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
 
-function lessThanScaleFactorMin (value, scaleFactor) {
-  return value.scaleFactorMin && (value.d * (scaleFactor)) <= value.scaleFactorMin;
+function lessThanScaleFactorMin (matrix, scaleFactor, scaleFactorMin) {
+  return scaleFactorMin && (matrix.d * scaleFactor) <= scaleFactorMin;
 }
 
-function moreThanScaleFactorMax (value, scaleFactor) {
-  return value.scaleFactorMax && (value.d * scaleFactor) >= value.scaleFactorMax;
+function moreThanScaleFactorMax (matrix, scaleFactor, scaleFactorMax) {
+  return scaleFactorMax && (matrix.d * scaleFactor) >= scaleFactorMax;
 }
 
-export function isZoomLevelGoingOutOfBounds(value, scaleFactor) {
-  return lessThanScaleFactorMin(value, scaleFactor) && scaleFactor < 1 || moreThanScaleFactorMax(value, scaleFactor) && scaleFactor > 1;
+export function isZoomLevelGoingOutOfBounds(matrix, scaleFactor, scaleFactorMin, scaleFactorMax) {
+  return lessThanScaleFactorMin(matrix, scaleFactor, scaleFactorMin) && scaleFactor < 1 ||
+          moreThanScaleFactorMax(matrix, scaleFactor, scaleFactorMax) && scaleFactor > 1;
 }
 
-export function limitZoomLevel(value, matrix) {
+export function limitZoomLevel(matrix, scaleFactorMin, scaleFactorMax) {
   let scaleLevel = matrix.a;
 
-  if(value.scaleFactorMin != null) {
+  if(scaleFactorMin != null) {
     // limit minimum zoom
-    scaleLevel = Math.max(scaleLevel, value.scaleFactorMin);
+    scaleLevel = Math.max(scaleLevel, scaleFactorMin);
   }
 
-  if(value.scaleFactorMax != null) {
+  if(scaleFactorMax != null) {
     // limit maximum zoom
-    scaleLevel = Math.min(scaleLevel, value.scaleFactorMax);
+    scaleLevel = Math.min(scaleLevel, scaleFactorMax);
   }
 
   return {
@@ -39,14 +40,13 @@ export function limitZoomLevel(value, matrix) {
   };
 }
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
-  if (isZoomLevelGoingOutOfBounds(value, scaleFactor)) {
-      // Do not change translation and scale of value
-      return value;
+export function zoom(matrix, SVGPointX, SVGPointY, scaleFactor, scaleFactorMin, scaleFactorMax) {
+  if (isZoomLevelGoingOutOfBounds(matrix, scaleFactor, scaleFactorMin, scaleFactorMax)) {
+      return {matrix};
   }
 
-  const matrix = transform(
-    fromObject(value),
+  const newMatrix = transform(
+    fromObject(matrix),
     translate(SVGPointX, SVGPointY),
     scale(scaleFactor, scaleFactor),
     translate(-SVGPointX, -SVGPointY)
@@ -54,11 +54,9 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
 
   return {
     mode: MODE_IDLE,
-    ...limitZoomLevel(value, matrix),
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null,
+    matrix: limitZoomLevel(value, newMatrix),
+    start: {x: null, y: null},
+    end: {x: null, y: null},
     last_action: ACTION_ZOOM
   };
 }
@@ -76,29 +74,25 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
     translate(-selectionSVGPointX, -selectionSVGPointY) //1
   );
 
-  if(isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
+  if(isZoomLevelGoingOutOfBounds(scaleLevel / value.d)) {
     // Do not allow scale and translation
     return {
       mode: MODE_IDLE,
-      startX: null,
-      startY: null,
-      endX: null,
-      endY: null
+      start: {x: null, y: null},
+      end: {x: null, y: null},
     };
   }
 
   return {
     mode: MODE_IDLE,
-    ...limitZoomLevel(value, matrix),
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null,
+    matrix: limitZoomLevel(matrix),
+    start: {x: null, y: null},
+    end: {x: null, y: null},
     last_action: ACTION_ZOOM
   };
 }
 
-export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+export function fitToViewer(SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
   let {viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight} = value;
 
   let scaleX = viewerWidth / SVGWidth;
@@ -147,64 +141,55 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
     scaleMatrix        //1
   );
 
-  if (isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
+  if (isZoomLevelGoingOutOfBounds(scaleLevel / matrix.d)) {
     // Do not allow scale and translation
     return {
       mode: MODE_IDLE,
-      startX: null,
-      startY: null,
-      endX: null,
-      endY: null
+      start: {x: null, y: null},
+      end: {x: null, y: null},
     };
   }
 
   return {
     mode: MODE_IDLE,
-    ...limitZoomLevel(value, matrix),
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null,
+    matrix:limitZoomLevel(matrix),
+    start: {x: null, y: null},
+    end: {x: null, y: null},
     last_action: ACTION_ZOOM
   };
 }
 
-export function zoomOnViewerCenter(value, scaleFactor) {
-  let {viewerWidth, viewerHeight} = value;
-  let SVGPoint = getSVGPoint(value, viewerWidth / 2, viewerHeight / 2);
-  return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
+export function zoomOnViewerCenter(viewerWidth, viewerHeight, scaleFactor) {
+  let SVGPoint = getSVGPoint(viewerWidth / 2, viewerHeight / 2);
+  return zoom(SVGPoint.x, SVGPoint.y, scaleFactor);
 }
 
-export function startZooming(value, viewerX, viewerY) {
+export function startZooming(viewerX, viewerY) {
   return {
     mode: MODE_ZOOMING,
-    startX: viewerX,
-    startY: viewerY,
-    endX: viewerX,
-    endY: viewerY
+    start: {x: viewerX, y: viewerY},
+    end: {x: viewerX, y: viewerY}
   };
 }
 
-export function updateZooming(value, viewerX, viewerY) {
-  if (value.mode !== MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + value.mode);
+export function updateZooming(mode, viewerX, viewerY) {
+  if (mode !== MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + mode);
 
   return {
-    endX: viewerX,
-    endY: viewerY
+    end: {x: viewerX, y: viewerY}
   };
 }
 
-export function stopZooming(value, viewerX, viewerY, scaleFactor, props) {
-  let {startX, startY, endX, endY} = value;
+export function stopZooming(viewerX, viewerY, scaleFactor, start, end, props) {
 
-  let start = getSVGPoint(value, startX, startY);
-  let end = getSVGPoint(value, endX, endY);
+  let start = getSVGPoint(start.x, start.y);
+  let end = getSVGPoint(end.x, end.y);
 
-  if (Math.abs(startX - endX) > 7 && Math.abs(startY - endY) > 7) {
+  if (Math.abs(start.x - end.x) > 7 && Math.abs(start.y - end.y) > 7) {
     let box = calculateBox(start, end);
-    return fitSelection(value, box.x, box.y, box.width, box.height);
+    return fitSelection(box.x, box.y, box.width, box.height);
   } else {
-    let SVGPoint = getSVGPoint(value, viewerX, viewerY);
-    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
+    let SVGPoint = getSVGPoint(viewerX, viewerY);
+    return zoom(SVGPoint.x, SVGPoint.y, scaleFactor, props);
   }
 }
