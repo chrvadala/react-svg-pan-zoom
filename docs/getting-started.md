@@ -42,7 +42,7 @@ export default class App extends React.PureComponent {
 
           onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
         >
-          <svg width={617} height={316}>
+          <svg width={617} height={316}> {/* or <svg viewBox="0 0 617 316" */}
             <g fillOpacity=".5" strokeWidth="4">
               <rect x="400" y="40" width="100" height="200" fill="#4286f4" stroke="#f4f142"/>
               <circle cx="108" cy="108.5" r="100" fill="#0ff" stroke="#0ff"/>
@@ -138,7 +138,7 @@ export default class App extends React.PureComponent {
 
           onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
         >
-          <svg width={617} height={316}>
+          <svg width={617} height={316}> {/* or <svg viewBox="0 0 617 316" */}
             <g fillOpacity=".5" strokeWidth="4">
               <rect x="400" y="40" width="100" height="200" fill="#4286f4" stroke="#f4f142"/>
               <circle cx="108" cy="108.5" r="100" fill="#0ff" stroke="#0ff"/>
