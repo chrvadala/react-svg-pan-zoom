@@ -3,7 +3,6 @@ import {action} from '@storybook/addon-actions';
 import {noArgsDecorator, viewerMouseEventDecorator} from './actions-decorator';
 
 import {UncontrolledReactSVGPanZoom} from '../../src/index';
-import {boolean} from "@storybook/addon-knobs";
 
 export default class ViewboxStory extends React.Component {
   constructor(props) {
@@ -29,15 +28,10 @@ export default class ViewboxStory extends React.Component {
           onChangeValue={noArgsDecorator('onChangeValue')}
           onChangeTool={action('onChangeTool')}
 
-          detectAutoPan={boolean('detectAutoPan', false)}
-          detectWheel={boolean('detectWheel', false)}
-          detectPinchGesture={boolean('detectPinchGesture', false)}
+          detectAutoPan={true}
         >
 
-          <svg
-            width={100} height={100}
-            withViewBox="10 10 80 80"
-          >
+          <svg viewBox="10 10 80 80">
 
             <rect x="20" y="20" width="60" height="60" fill="yellow"/>
             <circle cx="20" cy="20" r="4" fill="red"/>
