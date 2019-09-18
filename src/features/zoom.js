@@ -62,7 +62,14 @@ export function zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorM
   };
 }
 
-export function fitSelection(viewerWidth, viewerHeight, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, matrix) {
+export function fitSelection(
+  selectionSVGPointX,
+  selectionSVGPointY,
+  selectionWidth,
+  selectionHeight,
+  viewerWidth,
+  viewerHeight
+) {
   let scaleX = viewerWidth / selectionWidth;
   let scaleY = viewerHeight / selectionHeight;
 
@@ -84,14 +91,16 @@ export function fitSelection(viewerWidth, viewerHeight, selectionSVGPointX, sele
 
   return {
     mode: MODE_IDLE,
-    matrix: limitZoomLevel(matrix),
+    matrix: limitZoomLevel(newMatrix),
     start: NULL_POSITION,
     end: NULL_POSITION,
     last_action: ACTION_ZOOM
   };
 }
 
-export function fitToViewer(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+export function fitToViewer(viewer, SVGAttributes, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+  const {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = SVGAttributes;
+  const {viewerWidth, viewerHeight} = viewer;
 
   const scaleX = viewerWidth / SVGWidth;
   const scaleY = viewerHeight / SVGHeight;

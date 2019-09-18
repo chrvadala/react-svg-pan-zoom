@@ -167,11 +167,22 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     },
 
     fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-      fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
+      fitSelection(
+        selectionSVGPointX,
+        selectionSVGPointY,
+        selectionWidth,
+        selectionHeight,
+        viewerWidth,
+        viewerHeight
+      );
     },
 
     fitToViewer(SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
-      fitToViewer(SVGAlignX, SVGAlignY);
+      const zoomValue = fitToViewer(viewer, SVGAttributes, SVGAlignX, SVGAlignY);
+      setMatrix(zoomValue.matrix);
+      setStart(zoomValue.start);
+      setEnd(zoomValue.end);
+      setLastAction(zoomValue.last_action);
     },
 
     zoomOnViewerCenter(scaleFactor) {
