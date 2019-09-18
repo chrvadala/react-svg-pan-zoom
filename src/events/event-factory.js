@@ -1,7 +1,7 @@
 import ViewerMouseEvent from './viewer-mouse-event';
 import ViewerTouchEvent from './viewer-touch-event';
 
-export default function (originalEvent, value, SVGViewer) {
+export default function (originalEvent, matrix, SVGViewer) {
 
   let eventType = originalEvent.type;
 
@@ -11,13 +11,13 @@ export default function (originalEvent, value, SVGViewer) {
     case "mousedown":
     case "click":
     case "dblclick":
-      return new ViewerMouseEvent(originalEvent, value, SVGViewer);
+      return new ViewerMouseEvent(originalEvent, matrix, SVGViewer);
 
     case "touchstart":
     case "touchmove":
     case "touchend":
     case "touchcancel":
-      return new ViewerTouchEvent(originalEvent, value, SVGViewer);
+      return new ViewerTouchEvent(originalEvent, matrix, SVGViewer);
 
     default:
       throw new Error(`${eventType} not supported`);

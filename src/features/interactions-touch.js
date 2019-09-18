@@ -7,32 +7,31 @@ import {resetMode, getSVGPoint} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
 import {isZoomLevelGoingOutOfBounds, limitZoomLevel} from './zoom';
 
-function hasPinchPointDistance(value) {
-  return typeof value.pinchPointDistance === 'number';
+function hasPinchPointDistance(pinchPointDistance) {
+  return typeof pinchPointDistance === 'number';
 }
 
-function onMultiTouch(event, ViewerDOM, tool, value, props) {
+function onMultiTouch(event, ViewerDOM, tool, props, mode, matrix, prePinchMode) {
   const {left, top} = ViewerDOM.getBoundingClientRect();
   const x1 = event.touches[0].clientX - Math.round(left);
   const y1 = event.touches[0].clientY - Math.round(top);
   const x2 = event.touches[1].clientX - Math.round(left);
   const y2 = event.touches[1].clientY - Math.round(top);
-  const pinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
-  const previousPointDistance = hasPinchPointDistance(value) ? value.pinchPointDistance : pinchPointDistance;
-  const svgPoint = getSVGPoint(value, (x1 + x2) / 2, (y1 + y2) / 2);
+  const thisPinchPointDistance = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+  const previousPointDistance = hasPinchPointDistance(pinchPointDistance) ? pinchPointDistance : thisPinchPointDistance;
+  const svgPoint = getSVGPoint((x1 + x2) / 2, (y1 + y2) / 2, matrix);
   let distanceFactor = pinchPointDistance/previousPointDistance;
 
-  if (isZoomLevelGoingOutOfBounds(value, distanceFactor)) {
-    // Do not change translation and scale of value
-    return value;
+  if (isZoomLevelGoingOutOfBounds(distanceFactor)) {
+    return {};
   }
 
   if (event.cancelable) {
     event.preventDefault();
   }
 
-  let matrix = transform(
-    fromObject(value),
+  let newMatrix = transform(
+    fromObject(matrix),
     translate(svgPoint.x, svgPoint.y),
     scale(distanceFactor, distanceFactor),
     translate(-svgPoint.x, -svgPoint.y)
@@ -40,12 +39,12 @@ function onMultiTouch(event, ViewerDOM, tool, value, props) {
 
   return {
     mode: MODE_ZOOMING,
-    ...limitZoomLevel(value, matrix),
+    ...limitZoomLevel(newMatrix),
     startX: null,
     startY: null,
     endX: null,
     endY: null,
-    prePinchMode: value.prePinchMode ? value.prePinchMode : value.mode,
+    prePinchMode: prePinchMode ? prePinchMode : mode,
     pinchPointDistance
   };
 }
@@ -54,8 +53,8 @@ function isMultiTouch(event, props) {
   return props.detectPinchGesture && event.touches.length > 1;
 }
 
-function shouldResetPinchPointDistance(event, value, props) {
-  return props.detectPinchGesture && hasPinchPointDistance(value) && event.touches.length < 2;
+function shouldResetPinchPointDistance(event, pinchPointDistance, props) {
+  return props.detectPinchGesture && hasPinchPointDistance(pinchPointDistance) && event.touches.length < 2;
 }
 
 function getTouchPosition(touch, ViewerDOM) {
@@ -66,8 +65,8 @@ function getTouchPosition(touch, ViewerDOM) {
   return { x, y };
 }
 
-function getNextValue(event, ViewerDOM, tool, value, props, nextValueFn) {
-  let nextValue = event.touches.length === 0 ? set(value, { mode: value.prePinchMode ? MODE_IDLE : value.mode, prePinchMode: null }) : value;
+function getNextValue(event, ViewerDOM, tool, props, mode, prePinchMode, nextValueFn) {
+  let nextValue = event.touches.length === 0 ? { mode: prePinchMode ? MODE_IDLE : mode, prePinchMode: null } : {};
   let touch = event.touches.length > 0 ? event.touches[0] : event.changedTouches[0];
   let touchPosition = getTouchPosition(touch, ViewerDOM);
 
@@ -85,40 +84,40 @@ function getNextValue(event, ViewerDOM, tool, value, props, nextValueFn) {
   }
 }
 
-export function onTouchStart(event, ViewerDOM, tool, value, props) {
+export function onTouchStart(event, ViewerDOM, tool, props, mode) {
   if (isMultiTouch(event, props)) {
-    return onMultiTouch(event, ViewerDOM, tool, value, props);
+    return onMultiTouch(event, ViewerDOM, tool, props);
   }
 
   if (event.touches.length !== 1) {
-    if ([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0){
-      return resetMode(value);
-    } else if([MODE_IDLE].indexOf(value.mode) >= 0){
-      return value;
+    if ([MODE_PANNING, MODE_ZOOMING].indexOf(mode) >= 0){
+      return resetMode();
+    } else if([MODE_IDLE].indexOf(mode) >= 0){
+      return {};
     }
   }
 
-  return getNextValue(event, ViewerDOM, tool, value, props, onMouseDown);
+  return getNextValue(event, ViewerDOM, tool, props, onMouseDown);
 }
 
-export function onTouchMove(event, ViewerDOM, tool, value, props) {
+export function onTouchMove(event, ViewerDOM, tool, props, mode) {
   if (isMultiTouch(event, props)) {
-    return onMultiTouch(event, ViewerDOM, tool, value, props);
+    return onMultiTouch(event, ViewerDOM, tool, props);
   }
 
-  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) {
-    return value;
+  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(mode) >= 0)) {
+    return {};
   }
 
-  return getNextValue(event, ViewerDOM, tool, value, props, onMouseMove);
+  return getNextValue(event, ViewerDOM, tool, props, onMouseMove);
 }
 
-export function onTouchEnd(event, ViewerDOM, tool, value, props) {
-  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(value.mode) >= 0)) {
-    return value;
+export function onTouchEnd(event, ViewerDOM, tool, props, mode, pinchPointDistance) {
+  if (!([MODE_PANNING, MODE_ZOOMING].indexOf(mode) >= 0)) {
+    return {};
   }
 
-  let nextValue = shouldResetPinchPointDistance(event, value, props) ? set(value, { pinchPointDistance: null }) : value;
+  const nextValue = shouldResetPinchPointDistance(event, pinchPointDistance, props) ? { pinchPointDistance: null } : {};
 
   if (event.touches.length > 0) {
     return nextValue;
@@ -127,9 +126,9 @@ export function onTouchEnd(event, ViewerDOM, tool, value, props) {
   return getNextValue(event, ViewerDOM, tool, nextValue, props, onMouseUp);
 }
 
-export function onTouchCancel(event, ViewerDOM, tool, value, props) {
+export function onTouchCancel(event, ViewerDOM, tool, props) {
   event.stopPropagation();
   event.preventDefault();
 
-  return resetMode(value);
+  return resetMode();
 }

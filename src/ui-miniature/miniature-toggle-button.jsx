@@ -4,7 +4,7 @@ import {openMiniature, closeMiniature} from '../features/miniature';
 import IconArrow from './icon-arrow';
 import {POSITION_RIGHT, POSITION_LEFT} from '../constants';
 
-export default function MiniatureToggleButton({value, onChangeValue, position}) {
+export default function MiniatureToggleButton({position, miniatureOpen, setMiniatureOpen}) {
   let style = {
     width: "24px",
     height: "24px",
@@ -19,18 +19,15 @@ export default function MiniatureToggleButton({value, onChangeValue, position}) 
     color: "#fff"
   };
 
-  let action = value.miniatureOpen ? closeMiniature : openMiniature;
-
   return (
-    <button role="button" type="button" style={style} onClick={event => onChangeValue(action(value))}>
-      <IconArrow open={value.miniatureOpen} position={position}/>
+    <button role="button" type="button" style={style} onClick={event => setMiniatureOpen(!miniatureOpen)}>
+      <IconArrow open={miniatureOpen} position={position}/>
     </button>
   )
 
 }
 
 MiniatureToggleButton.propTypes = {
-  value: PropTypes.object.isRequired,
-  onChangeValue: PropTypes.func.isRequired,
+  // onChangeValue: PropTypes.func.isRequired,
   position: PropTypes.oneOf([POSITION_RIGHT, POSITION_LEFT]).isRequired,
 };

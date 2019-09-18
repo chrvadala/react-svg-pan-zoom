@@ -4,36 +4,37 @@ import {fromObject, translate, transform, applyToPoints, inverse} from 'transfor
 
 /**
  *
- * @param value
  * @param SVGDeltaX
  * @param SVGDeltaY
  * @param panLimit
  * @returns {Object}
  */
-export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
+export function pan(initialMatrix, delta, SVGAttributes, viewer, panLimit = undefined) {
   let matrix = transform(
-    fromObject(value),              //2
-    translate(SVGDeltaX, SVGDeltaY) //1
+    fromObject(initialMatrix),              //2
+    translate(delta.x, delta.y) //1
   );
+  const {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = SVGAttributes;
+  const {viewerWidth, viewerHeight} = viewer;
 
   // apply pan limits
   if (panLimit) {
     let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
-      {x: value.SVGMinX + panLimit, y: value.SVGMinY + panLimit},
-      {x: value.SVGMinX + value.SVGWidth - panLimit, y: value.SVGMinY + value.SVGHeight - panLimit}
+      {x: SVGMinX + panLimit, y: SVGMinY + panLimit},
+      {x: SVGMinX + SVGWidth - panLimit, y: SVGMinY + SVGHeight - panLimit}
     ]);
 
     //x limit
     let moveX = 0;
-    if (value.viewerWidth - x1 < 0)
-      moveX = value.viewerWidth - x1;
+    if (viewerWidth - x1 < 0)
+      moveX = viewerWidth - x1;
     else if (x2 < 0) moveX = -x2;
 
 
     //y limit
     let moveY = 0;
-    if (value.viewerHeight - y1 < 0)
-      moveY = value.viewerHeight - y1;
+    if (viewerHeight - y1 < 0)
+      moveY = viewerHeight - y1;
     else if (y2 < 0) moveY = -y2;
 
     //apply limits
@@ -49,30 +50,26 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
   };
 }
 
-export function startPanning(viewerX, viewerY) {
+export function startPanning(viewer) {
   return {
     mode: MODE_PANNING,
-    startX: viewerX,
-    startY: viewerY,
-    endX: viewerX,
-    endY: viewerY,
+    start: viewer,
+    end: viewer,
     last_action: ACTION_PAN
   };
 }
 
-export function updatePanning(value, viewerX, viewerY, panLimit) {
-  if (value.mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + value.mode);
+export function updatePanning(start, end, viewerX, viewerY, matrix, panLimit, mode) {
+  if (mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + mode);
 
-  let {endX, endY} = value;
+  let startPos = getSVGPoint(end.x, end.y, matrix);
+  let endPos = getSVGPoint(viewerX, viewerY, matrix);
 
-  let start = getSVGPoint(value, endX, endY);
-  let end = getSVGPoint(value, viewerX, viewerY);
-
-  let deltaX = end.x - start.x;
-  let deltaY = end.y - start.y;
+  let deltaX = endPos.x - startPos.x;
+  let deltaY = endPos.y - startPos.y;
 
   return {
-    ...pan(value, deltaX, deltaY, panLimit),
+    ...pan(deltaX, deltaY, panLimit),
     mode: MODE_PANNING,
     endX: viewerX,
     endY: viewerY,
@@ -91,17 +88,17 @@ export function stopPanning() {
   }
 }
 
-export function autoPanIfNeeded(value, viewerX, viewerY) {
+export function autoPanIfNeeded(viewerWidth, viewerHeight, viewerX, viewerY, matrix) {
   let deltaX = 0;
   let deltaY = 0;
 
   if (viewerY <= 20) deltaY = 2;
-  if (value.viewerWidth - viewerX <= 20) deltaX = -2;
-  if (value.viewerHeight - viewerY <= 20) deltaY = -2;
+  if (viewerWidth - viewerX <= 20) deltaX = -2;
+  if (viewerHeight - viewerY <= 20) deltaY = -2;
   if (viewerX <= 20) deltaX = 2;
 
-  deltaX = deltaX / value.d;
-  deltaY = deltaY / value.d;
+  deltaX = deltaX / matrix.d;
+  deltaY = deltaY / matrix.d;
 
-  return (deltaX === 0 && deltaY === 0) ? {} : pan(value, deltaX, deltaY);
+  return (deltaX === 0 && deltaY === 0) ? {} : pan(deltaX, deltaY);
 }

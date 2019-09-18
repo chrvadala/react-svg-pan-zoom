@@ -9,8 +9,9 @@ const {min, max} = Math;
 
 export default function Miniature(props) {
 
-  let {value, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
-  let {SVGMinX, SVGMinY, SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
+  const {miniatureOpen, setMiniatureOpen, matrix, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
+  const {viewerWidth, viewerHeight} = props.viewer;
+  const {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = props.SVGAttributes;
 
   let ratio = SVGHeight / SVGWidth;
 
@@ -18,13 +19,13 @@ export default function Miniature(props) {
     ? miniatureHeight / SVGHeight
     : miniatureWidth / SVGWidth;
 
-  let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(inverse(value), [
+  let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(inverse(matrix), [
     {x: 0, y: 0},
     {x: viewerWidth, y: viewerHeight}
   ]);
 
   let width, height;
-  if (value.miniatureOpen) {
+  if (miniatureOpen) {
     width = miniatureWidth;
     height = miniatureHeight;
   } else {
@@ -81,14 +82,17 @@ export default function Miniature(props) {
           </g>
         </g>
       </svg>
-      <MiniatureToggleButton value={value} onChangeValue={onChangeValue} position={position}/>
+      <MiniatureToggleButton
+        miniatureOpen={miniatureOpen}
+        setMiniatureOpen={setMiniatureOpen}
+        position={position}
+      />
     </div>
   )
 }
 
 Miniature.propTypes = {
-  value: PropTypes.object.isRequired,
-  onChangeValue: PropTypes.func.isRequired,
+  // onChangeValue: PropTypes.func.isRequired,
   SVGBackground: PropTypes.string.isRequired,
 
   //customizations

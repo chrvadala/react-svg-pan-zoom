@@ -14,7 +14,7 @@ import IconZoomOut from './icon-zoom-out';
 import IconFit from './icon-fit';
 import ToolbarButton from './toolbar-button';
 
-export default function Toolbar({tool, value, onChangeValue, onChangeTool, position, SVGAlignX, SVGAlignY}) {
+export default function Toolbar({tool, onChangeValue, onChangeTool, position, SVGAlignX, SVGAlignY}) {
 
   let handleChangeTool = (event, tool) => {
     onChangeTool(tool);
@@ -23,7 +23,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
   };
 
   let handleFit = event => {
-    onChangeValue(fitToViewer(value, SVGAlignX, SVGAlignY));
+    onChangeValue(fitToViewer(SVGAlignX, SVGAlignY));
     event.stopPropagation();
     event.preventDefault();
   };
@@ -100,8 +100,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
 Toolbar.propTypes = {
   tool: PropTypes.string.isRequired,
   onChangeTool: PropTypes.func.isRequired,
-  value: PropTypes.object.isRequired,
-  onChangeValue: PropTypes.func.isRequired,
+  // onChangeValue: PropTypes.func.isRequired,
 
   //customizations
   position: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),

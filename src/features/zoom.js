@@ -2,7 +2,8 @@ import {transform, fromObject, translate, scale} from 'transformation-matrix';
 
 import {
   ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING,
-  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
+  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM,
+  NULL_POSITION
 } from '../constants';
 import {getSVGPoint} from './common';
 import calculateBox from '../utils/calculateBox';
@@ -40,64 +41,61 @@ export function limitZoomLevel(matrix, scaleFactorMin, scaleFactorMax) {
   };
 }
 
-export function zoom(matrix, SVGPointX, SVGPointY, scaleFactor, scaleFactorMin, scaleFactorMax) {
+export function zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorMax) {
   if (isZoomLevelGoingOutOfBounds(matrix, scaleFactor, scaleFactorMin, scaleFactorMax)) {
       return {matrix};
   }
 
   const newMatrix = transform(
     fromObject(matrix),
-    translate(SVGPointX, SVGPointY),
+    translate(SVGPoint.x, SVGPoint.y),
     scale(scaleFactor, scaleFactor),
-    translate(-SVGPointX, -SVGPointY)
+    translate(-SVGPoint.x, -SVGPoint.y)
   );
 
   return {
     mode: MODE_IDLE,
-    matrix: limitZoomLevel(value, newMatrix),
-    start: {x: null, y: null},
-    end: {x: null, y: null},
+    matrix: limitZoomLevel(newMatrix, scaleFactorMin, scaleFactorMax),
+    start: NULL_POSITION,
+    end: NULL_POSITION,
     last_action: ACTION_ZOOM
   };
 }
 
-export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-  let {viewerWidth, viewerHeight} = value;
-
+export function fitSelection(viewerWidth, viewerHeight, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, matrix) {
   let scaleX = viewerWidth / selectionWidth;
   let scaleY = viewerHeight / selectionHeight;
 
   let scaleLevel = Math.min(scaleX, scaleY);
 
-  const matrix = transform(
+  const newMatrix = transform(
     scale(scaleLevel, scaleLevel),                      //2
     translate(-selectionSVGPointX, -selectionSVGPointY) //1
   );
 
-  if(isZoomLevelGoingOutOfBounds(scaleLevel / value.d)) {
+  if(isZoomLevelGoingOutOfBounds(scaleLevel / newMatrix.d)) {
     // Do not allow scale and translation
     return {
       mode: MODE_IDLE,
-      start: {x: null, y: null},
-      end: {x: null, y: null},
+      start: NULL_POSITION,
+      end: NULL_POSITION,
     };
   }
 
   return {
     mode: MODE_IDLE,
     matrix: limitZoomLevel(matrix),
-    start: {x: null, y: null},
-    end: {x: null, y: null},
+    start: NULL_POSITION,
+    end: NULL_POSITION,
     last_action: ACTION_ZOOM
   };
 }
 
-export function fitToViewer(SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
-  let {viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight} = value;
+export function fitToViewer(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
 
-  let scaleX = viewerWidth / SVGWidth;
-  let scaleY = viewerHeight / SVGHeight;
-  let scaleLevel = Math.min(scaleX, scaleY);
+  const scaleX = viewerWidth / SVGWidth;
+  const scaleY = viewerHeight / SVGHeight;
+  const scaleLevel = Math.min(scaleX, scaleY);
 
   const scaleMatrix = scale(scaleLevel, scaleLevel);
 
@@ -145,16 +143,16 @@ export function fitToViewer(SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
     // Do not allow scale and translation
     return {
       mode: MODE_IDLE,
-      start: {x: null, y: null},
-      end: {x: null, y: null},
+      start: NULL_POSITION,
+      end: NULL_POSITION,
     };
   }
 
   return {
     mode: MODE_IDLE,
     matrix:limitZoomLevel(matrix),
-    start: {x: null, y: null},
-    end: {x: null, y: null},
+    start: NULL_POSITION,
+    end: NULL_POSITION,
     last_action: ACTION_ZOOM
   };
 }
@@ -182,11 +180,11 @@ export function updateZooming(mode, viewerX, viewerY) {
 
 export function stopZooming(viewerX, viewerY, scaleFactor, start, end, props) {
 
-  let start = getSVGPoint(start.x, start.y);
-  let end = getSVGPoint(end.x, end.y);
+  let startPos = getSVGPoint(start.x, start.y);
+  let endPos = getSVGPoint(end.x, end.y);
 
-  if (Math.abs(start.x - end.x) > 7 && Math.abs(start.y - end.y) > 7) {
-    let box = calculateBox(start, end);
+  if (Math.abs(startPos.x - endPos.x) > 7 && Math.abs(startPos.y - endPos.y) > 7) {
+    let box = calculateBox(startPos, endPos);
     return fitSelection(box.x, box.y, box.width, box.height);
   } else {
     let SVGPoint = getSVGPoint(viewerX, viewerY);

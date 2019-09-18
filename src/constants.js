@@ -23,4 +23,5 @@ export const ALIGN_RIGHT = 'right';
 export const ALIGN_TOP = 'top';
 export const ALIGN_BOTTOM = 'bottom';
 
+export const NULL_POSITION = {x: null, y: null};
 export const INITIAL_VALUE = {}
