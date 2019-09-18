@@ -166,7 +166,9 @@ export function fitToViewer(viewer, SVGAttributes, SVGAlignX=ALIGN_LEFT, SVGAlig
   };
 }
 
-export function zoomOnViewerCenter(viewerWidth, viewerHeight, scaleFactor) {
+export function zoomOnViewerCenter(viewer, scaleFactor) {
+  const {viewerWidth, viewerHeight} = viewer;
+
   let SVGPoint = getSVGPoint(viewerWidth / 2, viewerHeight / 2);
   return zoom(SVGPoint.x, SVGPoint.y, scaleFactor);
 }
