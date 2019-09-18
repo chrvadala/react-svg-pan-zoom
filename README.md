@@ -76,10 +76,12 @@ yarn add react-svg-pan-zoom
 - **v3.0** - Upgrades to babel 7 and storybook 4; Introduces `<UncontrolledReactSVGPanZoom />` component and makes `<ReactSVGPanZoom>` a stateless component (except for some optimizations); Moves props related to miniature and toolbar, respectively into the `miniatureProp` and `toolbarProp` props. **Migration guide is available [here](./docs/migrate-from-v2-to-v3.md)**.
 - **v3.1** - Upgrades to storybook 5 and [transformation-matrix 2](https://github.com/chrvadala/transformation-matrix); Fixes some Babel configuration issues
 - **v3.2** - Upgrades deps
+- **v3.3** - Adds SVG viewbox prop support [#150](https://github.com/chrvadala/react-svg-pan-zoom/pull/150) 
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
 - [**React Planner**](https://github.com/cvdlab/react-planner)
+- [Python extension for vscode](https://github.com/microsoft/vscode-python)
 - [**Others...**](https://github.com/chrvadala/react-svg-pan-zoom/network/dependents)
 - Pull request your project!
 
@@ -97,3 +99,5 @@ yarn add react-svg-pan-zoom
 - [jakoblaegdsmand](https://github.com/jakoblaegdsmand)
 - [lionkeng](https://github.com/lionkeng)
 - [KQLYYY](https://github.com/KQLYYY)
+- [TimVanMourik](https://github.com/TimVanMourik)
+- [kheyse-oqton](https://github.com/kheyse-oqton)

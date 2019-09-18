@@ -73,6 +73,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     tool,
     children
   } = props;
+  const viewer = {viewerWidth, viewerHeight};
 
   const [autoPanIsRunning, setAutoPanning] = useState(true);
 
@@ -92,6 +93,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
 
   const {viewBox: SVGViewBox} = children.props;
   const {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = SVGViewBox ? parseViewBox(SVGViewBox) : {...children.props, SVGMinX: 0, SVGMinY: 0};
+  const SVGAttributes = {SVGMinX, SVGMinY, SVGWidth, SVGHeight};
 
   // componentDidMount()
   useEffect(() => {
@@ -125,10 +127,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
       scaleFactorMax,
 
       //from child props:
-      SVGMinX,
-      SVGMinY,
-      SVGWidth,
-      SVGHeight,
+      SVGAttributes,
 
       //
       ...matrix,
@@ -157,15 +156,15 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   /** ReactSVGPanZoom methods **/
   useImperativeHandle(Viewer, () => ({
 
-    pan(SVGDeltaX, SVGDeltaY) {
-      const pan = pan(value, SVGDeltaX, SVGDeltaY);
-      setMatrix(pan.matrix);
-      setMode(pan.mode);
+    pan(matrix, SVGDeltaX, SVGDeltaY) {
+      const panValue = pan(matrix, {x: SVGDeltaX, y: SVGDeltaY}, SVGAttributes, viewer);
+      setMatrix(panValue.matrix);
+      setMode(panValue.mode);
       setLastAction(ACTION_PAN);
     },
 
-    zoom(SVGPointX, SVGPointY, scaleFactor) {
-      updateValue(zoom(SVGPointX, SVGPointY, scaleFactor));
+    zoom(matrix, SVGPointX, SVGPointY, scaleFactor) {
+      const zoomValue = zoom(SVGPointX, SVGPointY, scaleFactor))
       setLastAction(ACTION_ZOOM);
     },
 
