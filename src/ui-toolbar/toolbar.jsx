@@ -23,7 +23,8 @@ export default function Toolbar({tool, onChangeValue, onChangeTool, position, SV
   };
 
   let handleFit = event => {
-    onChangeValue(fitToViewer(SVGAlignX, SVGAlignY));
+    // onChangeValue(fitToViewer(SVGAlignX, SVGAlignY));
+    fitToViewer(SVGAlignX, SVGAlignY);
     event.stopPropagation();
     event.preventDefault();
   };

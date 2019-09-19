@@ -45,14 +45,12 @@ export function zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorM
   if (isZoomLevelGoingOutOfBounds(matrix, scaleFactor, scaleFactorMin, scaleFactorMax)) {
       return {matrix};
   }
-
   const newMatrix = transform(
     fromObject(matrix),
     translate(SVGPoint.x, SVGPoint.y),
     scale(scaleFactor, scaleFactor),
     translate(-SVGPoint.x, -SVGPoint.y)
   );
-
   return {
     mode: MODE_IDLE,
     matrix: limitZoomLevel(newMatrix, scaleFactorMin, scaleFactorMax),
@@ -173,11 +171,11 @@ export function zoomOnViewerCenter(viewer, scaleFactor) {
   return zoom(SVGPoint.x, SVGPoint.y, scaleFactor);
 }
 
-export function startZooming(viewerX, viewerY) {
+export function startZooming(viewer) {
   return {
     mode: MODE_ZOOMING,
-    start: {x: viewerX, y: viewerY},
-    end: {x: viewerX, y: viewerY}
+    start: viewer,
+    end: viewer
   };
 }
 

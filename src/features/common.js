@@ -11,17 +11,17 @@ import {
 
 /**
  * Export x,y coords relative to SVG
+ * @param x
+ * @param y
  * @param matrix
- * @param viewerX
- * @param viewerY
  * @returns {*|{x, y}|{x: number, y: number}}
  */
-export function getSVGPoint(viewerX, viewerY, matrix = identity()) {
-  return applyToPoint(inverse(matrix), {x: viewerX, y: viewerY});
+export function getSVGPoint(x, y, matrix = identity()) {
+  return applyToPoint(inverse(matrix), {x, y});
 }
 
 /**
- * Decompose matrix from value
+ * Decompose matrix to scale and translate
  * @param matrix
  * @returns {{scaleFactor: number, translationX: number, translationY: number}}
  */

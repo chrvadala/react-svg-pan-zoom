@@ -22,11 +22,8 @@ export function tipDeprecateToolbarProps(){
 }
 
 export function printMigrationTipsRelatedToProps(props){
-  if (
-    isNullOrUndefined(props.tool) ||
-    isNullOrUndefined(props.value)
-  ) tipControlledComponent()
-
+  if (isNullOrUndefined(props.tool)) tipControlledComponent()
+  // #TODO mention somethign about 'value' in vrsion 4
   if (
     !isNullOrUndefined(props.miniaturePosition) ||
     !isNullOrUndefined(props.miniatureBackground) ||
