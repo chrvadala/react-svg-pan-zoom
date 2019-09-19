@@ -1,4 +1,4 @@
-import {ACTION_PAN, MODE_IDLE, MODE_PANNING} from '../constants';
+import {ACTION_PAN, MODE_IDLE, MODE_PANNING, NULL_POSITION} from '../constants';
 import {getSVGPoint} from './common';
 import {fromObject, translate, transform, applyToPoints, inverse} from 'transformation-matrix';
 

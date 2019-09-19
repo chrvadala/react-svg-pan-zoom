@@ -51,6 +51,7 @@ export function zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorM
     scale(scaleFactor, scaleFactor),
     translate(-SVGPoint.x, -SVGPoint.y)
   );
+  
   return {
     mode: MODE_IDLE,
     matrix: limitZoomLevel(newMatrix, scaleFactorMin, scaleFactorMax),

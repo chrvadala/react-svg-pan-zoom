@@ -14,7 +14,7 @@ import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
 
 
-export function onMouseDown(event, boundingRect, tool, props, coords = null) {
+export function onMouseDown(event, boundingRect, matrix, tool, props, mode, coords = null) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
@@ -28,7 +28,7 @@ export function onMouseDown(event, boundingRect, tool, props, coords = null) {
 
   switch (tool) {
     case TOOL_ZOOM_OUT:
-      let SVGPoint = getSVGPoint(x, y, matrix);
+      const SVGPoint = getSVGPoint(x, y, matrix);
       nextValue = zoom(matrix, SVGPoint, 1 / props.scaleFactor);
       break;
 
