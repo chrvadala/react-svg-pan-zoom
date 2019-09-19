@@ -1,10 +1,10 @@
 import {decompose} from '../features/common'
 
 export default class ViewerEvent {
-  constructor(originalEvent, matrix, SVGViewer) {
+  constructor(originalEvent, matrix, boundingRect) {
     this.originalEvent = originalEvent;
     this.matrix = matrix;
-    this.SVGViewer = SVGViewer;
+    this.boundingRect = boundingRect;
   }
 
   get scaleFactor() {

@@ -5,11 +5,10 @@ export default class ViewerMouseEvent extends ViewerEvent{
 
   get point() {
     if (!this._cachePoint) {
-      let event = this.originalEvent, matrix = this.matrix, SVGViewer = this.SVGViewer;
+      let event = this.originalEvent, matrix = this.matrix, boundingRect = this.boundingRect;
 
-      let rect = SVGViewer.getBoundingClientRect();
-      let x = event.clientX - Math.round(rect.left);
-      let y = event.clientY - Math.round(rect.top);
+      let x = event.clientX - Math.round(boundingRect.left);
+      let y = event.clientY - Math.round(boundingRect.top);
 
       this._cachePoint = getSVGPoint(x, y, matrix);
     }

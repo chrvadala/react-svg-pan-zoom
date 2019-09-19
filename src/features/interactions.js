@@ -14,12 +14,12 @@ import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
 
 
-export function onMouseDown(event, ViewerDOM, tool, props, coords = null) {
+export function onMouseDown(event, boundingRect, tool, props, coords = null) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
   } else {
-    let {left, top} = ViewerDOM.getBoundingClientRect();
+    let {left, top} = boundingRect;
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
   }
@@ -29,11 +29,11 @@ export function onMouseDown(event, ViewerDOM, tool, props, coords = null) {
   switch (tool) {
     case TOOL_ZOOM_OUT:
       let SVGPoint = getSVGPoint(x, y, matrix);
-      nextValue = zoom(matrix, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor, props);
+      nextValue = zoom(matrix, SVGPoint, 1 / props.scaleFactor);
       break;
 
     case TOOL_ZOOM_IN:
-      nextValue = startZooming(x, y);
+      nextValue = startZooming({x, y});
       break;
 
     case TOOL_AUTO:
@@ -49,12 +49,12 @@ export function onMouseDown(event, ViewerDOM, tool, props, coords = null) {
   return nextValue;
 }
 
-export function onMouseMove(event, ViewerDOM, tool, props, mode, coords = null) {
+export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coords = null) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
   } else {
-    let {left, top} = ViewerDOM.getBoundingClientRect();
+    let {left, top} = boundingRect;
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
   }
@@ -82,12 +82,12 @@ export function onMouseMove(event, ViewerDOM, tool, props, mode, coords = null) 
   return nextValue;
 }
 
-export function onMouseUp(event, ViewerDOM, tool, props, mode, coords = null) {
+export function onMouseUp(event, boundingRect, matrix, tool, props, mode, coords = null) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
   } else {
-    let {left, top} = ViewerDOM.getBoundingClientRect();
+    let {left, top} = boundingRect;
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
   }
@@ -119,12 +119,12 @@ export function onMouseUp(event, ViewerDOM, tool, props, mode, coords = null) {
   return nextValue;
 }
 
-export function onDoubleClick(event, ViewerDOM, tool, props, mode, coords = null) {
+export function onDoubleClick(event, boundingRect, matrix, tool, props, mode, coords = null) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
   } else {
-    let {left, top} = ViewerDOM.getBoundingClientRect();
+    let {left, top} = boundingRect;
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
   }
@@ -150,33 +150,32 @@ export function onDoubleClick(event, ViewerDOM, tool, props, mode, coords = null
   return nextValue;
 }
 
-export function onWheel(event, ViewerDOM, tool, props, mode, coords = null) {
+export function onWheel(event, boundingRect, matrix, tool, props, mode, coords = null) {
   let x, y;
   if (coords) {
-    ({x, y} = coords);
+    ({x, y} = coords)
   } else {
-    let {left, top} = ViewerDOM.getBoundingClientRect();
+    let {left, top} = boundingRect;
     x = event.clientX - Math.round(left);
     y = event.clientY - Math.round(top);
   }
 
   if (!props.detectWheel) return {};
 
-  let delta = Math.max(-1, Math.min(1, event.deltaY));
-  let scaleFactor = mapRange(delta, -1, 1, props.scaleFactorOnWheel, 1 / props.scaleFactorOnWheel);
-
-  let SVGPoint = getSVGPoint(x, y);
+  const delta = Math.max(-1, Math.min(1, event.deltaY));
+  const scaleFactor = mapRange(delta, -1, 1, props.scaleFactorOnWheel, 1 / props.scaleFactorOnWheel);
+  const SVGPoint = getSVGPoint(x, y, matrix);
 
   event.preventDefault();
-  return zoom(SVGPoint.x, SVGPoint.y, scaleFactor, props);
+  return zoom(matrix, SVGPoint, scaleFactor);
 }
 
-export function onMouseEnterOrLeave(event, ViewerDOM, tool, props, mode, coords = null) {
+export function onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode, coords = null) {
   event.preventDefault();
   return {focus: event.type === 'mouseenter'};
 }
 
-export function onInterval(event, ViewerDOM, tool, props, mode, coords = null) {
+export function onInterval(ecent, boundingRect, matrix, tool, props, mode, coords = null) {
   let {x, y} = coords;
   if (! ([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0) ) return {};
   if (!props.detectAutoPan) return {};

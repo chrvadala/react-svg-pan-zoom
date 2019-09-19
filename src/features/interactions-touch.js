@@ -11,8 +11,8 @@ function hasPinchPointDistance(pinchPointDistance) {
   return typeof pinchPointDistance === 'number';
 }
 
-function onMultiTouch(event, ViewerDOM, tool, props, mode, matrix, prePinchMode) {
-  const {left, top} = ViewerDOM.getBoundingClientRect();
+function onMultiTouch(event, boundingRect, matrix, tool, props, mode, prePinchMode) {
+  const {left, top} = boundingRect;
   const x1 = event.touches[0].clientX - Math.round(left);
   const y1 = event.touches[0].clientY - Math.round(top);
   const x2 = event.touches[1].clientX - Math.round(left);
@@ -57,18 +57,18 @@ function shouldResetPinchPointDistance(event, pinchPointDistance, props) {
   return props.detectPinchGesture && hasPinchPointDistance(pinchPointDistance) && event.touches.length < 2;
 }
 
-function getTouchPosition(touch, ViewerDOM) {
-  let {left, top} = ViewerDOM.getBoundingClientRect();
+function getTouchPosition(touch, boundingRect) {
+  let {left, top} = boundingRect;
   let x = touch.clientX - Math.round(left);
   let y = touch.clientY - Math.round(top);
 
   return { x, y };
 }
 
-function getNextValue(event, ViewerDOM, tool, props, mode, prePinchMode, nextValueFn) {
+function getNextValue(event, boundingRect, matrix, tool, props, mode, prePinchMode, nextValueFn) {
   let nextValue = event.touches.length === 0 ? { mode: prePinchMode ? MODE_IDLE : mode, prePinchMode: null } : {};
   let touch = event.touches.length > 0 ? event.touches[0] : event.changedTouches[0];
-  let touchPosition = getTouchPosition(touch, ViewerDOM);
+  let touchPosition = getTouchPosition(touch, boundingRect);
 
   switch (tool) {
     case TOOL_ZOOM_OUT:
@@ -77,16 +77,16 @@ function getNextValue(event, ViewerDOM, tool, props, mode, prePinchMode, nextVal
     case TOOL_PAN:
       event.stopPropagation();
       event.preventDefault();
-      return nextValueFn(event, ViewerDOM, tool, nextValue, props, touchPosition);
+      return nextValueFn(event, boundingRect, tool, nextValue, props, touchPosition);
 
     default:
       return nextValue;
   }
 }
 
-export function onTouchStart(event, ViewerDOM, tool, props, mode) {
+export function onTouchStart(event, boundingRect, matrix, tool, props, mode) {
   if (isMultiTouch(event, props)) {
-    return onMultiTouch(event, ViewerDOM, tool, props);
+    return onMultiTouch(event, boundingRect, tool, props);
   }
 
   if (event.touches.length !== 1) {
@@ -97,22 +97,22 @@ export function onTouchStart(event, ViewerDOM, tool, props, mode) {
     }
   }
 
-  return getNextValue(event, ViewerDOM, tool, props, onMouseDown);
+  return getNextValue(event, boundingRect, tool, props, onMouseDown);
 }
 
-export function onTouchMove(event, ViewerDOM, tool, props, mode) {
+export function onTouchMove(event, boundingRect, matrix, tool, props, mode) {
   if (isMultiTouch(event, props)) {
-    return onMultiTouch(event, ViewerDOM, tool, props);
+    return onMultiTouch(event, boundingRect, tool, props);
   }
 
   if (!([MODE_PANNING, MODE_ZOOMING].indexOf(mode) >= 0)) {
     return {};
   }
 
-  return getNextValue(event, ViewerDOM, tool, props, onMouseMove);
+  return getNextValue(event, boundingRect, tool, props, onMouseMove);
 }
 
-export function onTouchEnd(event, ViewerDOM, tool, props, mode, pinchPointDistance) {
+export function onTouchEnd(event, boundingRect, matrix, tool, props, mode, pinchPointDistance) {
   if (!([MODE_PANNING, MODE_ZOOMING].indexOf(mode) >= 0)) {
     return {};
   }
@@ -123,10 +123,10 @@ export function onTouchEnd(event, ViewerDOM, tool, props, mode, pinchPointDistan
     return nextValue;
   }
 
-  return getNextValue(event, ViewerDOM, tool, nextValue, props, onMouseUp);
+  return getNextValue(event, boundingRect, tool, nextValue, props, onMouseUp);
 }
 
-export function onTouchCancel(event, ViewerDOM, tool, props) {
+export function onTouchCancel(event, boundingRect, tool, props) {
   event.stopPropagation();
   event.preventDefault();
 
