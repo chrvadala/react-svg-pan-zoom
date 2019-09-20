@@ -51,7 +51,7 @@ export function zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorM
     scale(scaleFactor, scaleFactor),
     translate(-SVGPoint.x, -SVGPoint.y)
   );
-  
+
   return {
     mode: MODE_IDLE,
     matrix: limitZoomLevel(newMatrix, scaleFactorMin, scaleFactorMax),
@@ -180,24 +180,23 @@ export function startZooming(viewer) {
   };
 }
 
-export function updateZooming(mode, viewerX, viewerY) {
+export function updateZooming(mode, cursor) {
   if (mode !== MODE_ZOOMING) throw new Error('update selection not allowed in this mode ' + mode);
 
-  return {
-    end: {x: viewerX, y: viewerY}
-  };
+  return { end: cursor };
 }
 
-export function stopZooming(viewerX, viewerY, scaleFactor, start, end, props) {
+export function stopZooming(cursor, start, end, matrix, scaleFactor, props) {
 
-  let startPos = getSVGPoint(start.x, start.y);
-  let endPos = getSVGPoint(end.x, end.y);
-
+  const startPos = getSVGPoint(start.x, start.y, matrix);
+  const endPos = getSVGPoint(end.x, end.y, matrix);
   if (Math.abs(startPos.x - endPos.x) > 7 && Math.abs(startPos.y - endPos.y) > 7) {
-    let box = calculateBox(startPos, endPos);
+    // either fit around the box...
+    const box = calculateBox(startPos, endPos);
     return fitSelection(box.x, box.y, box.width, box.height);
   } else {
-    let SVGPoint = getSVGPoint(viewerX, viewerY);
+    // ...or zoom in around the cursor
+    const SVGPoint = getSVGPoint(cursor.x, cursor.y, matrix);
     return zoom(SVGPoint.x, SVGPoint.y, scaleFactor, props);
   }
 }

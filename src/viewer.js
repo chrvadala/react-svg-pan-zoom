@@ -309,12 +309,12 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
           let x = event.clientX - Math.round(left);
           let y = event.clientY - Math.round(top);
 
-          let nextValue = onMouseMove(event, boundingRect, matrix, tool, props, mode, {x, y});
+          let nextValue = onMouseMove(event, boundingRect, matrix, tool, props, mode, {x, y}, start, end);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
         onMouseUp={event => {
-          let nextValue = onMouseUp(event, boundingRect, matrix, tool, props, mode);
+          let nextValue = onMouseUp(event, boundingRect, matrix, tool, props, mode, null, start, end);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}

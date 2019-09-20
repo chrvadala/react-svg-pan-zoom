@@ -38,7 +38,7 @@ export function onMouseDown(event, boundingRect, matrix, tool, props, mode, coor
 
     case TOOL_AUTO:
     case TOOL_PAN:
-      nextValue = startPanning(x, y);
+      nextValue = startPanning({x, y});
       break;
 
     default:
@@ -49,7 +49,7 @@ export function onMouseDown(event, boundingRect, matrix, tool, props, mode, coor
   return nextValue;
 }
 
-export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coords = null) {
+export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coords = null, start, end) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
@@ -65,7 +65,7 @@ export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coor
   switch (tool) {
     case TOOL_ZOOM_IN:
       if (mode === MODE_ZOOMING)
-        nextValue = forceExit ? stopZooming(x, y, props.scaleFactor, props) : updateZooming(x, y);
+        nextValue = forceExit ? stopZooming({x, y}, start, end, matrix, props.scaleFactor, props) : updateZooming(mode, {x, y});
       break;
 
     case TOOL_AUTO:
@@ -82,7 +82,7 @@ export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coor
   return nextValue;
 }
 
-export function onMouseUp(event, boundingRect, matrix, tool, props, mode, coords = null) {
+export function onMouseUp(event, boundingRect, matrix, tool, props, mode, coords = null, start, end) {
   let x, y;
   if (coords) {
     ({x, y} = coords);
@@ -97,12 +97,12 @@ export function onMouseUp(event, boundingRect, matrix, tool, props, mode, coords
   switch (tool) {
     case TOOL_ZOOM_OUT:
       if (mode === MODE_ZOOMING)
-        nextValue = stopZooming(x, y, 1 / props.scaleFactor, props);
+        nextValue = stopZooming({x, y}, start, end, matrix, 1 / props.scaleFactor, props);
       break;
 
     case TOOL_ZOOM_IN:
       if (mode === MODE_ZOOMING)
-        nextValue = stopZooming(x, y, props.scaleFactor, props);
+        nextValue = stopZooming({x, y}, start, end, matrix, props.scaleFactor, props);
       break;
 
     case TOOL_AUTO:
