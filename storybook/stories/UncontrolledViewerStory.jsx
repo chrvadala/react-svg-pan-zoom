@@ -3,8 +3,6 @@ import React, {StrictMode} from 'react';
 import {UncontrolledReactSVGPanZoom} from '../../src/index';
 import Snake from './snake.svg';
 
-const HAS_LOCAL_STORAGE = window.localStorage !== undefined;
-
 export default class UncontrolledViewerStory extends React.Component {
   constructor(props) {
     super(props);

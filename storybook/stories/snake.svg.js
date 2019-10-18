@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React from 'react'
 
 //image credits http://clipartsy.com/Giki/animal/Colorful_Animal_Snake.svg
 //svg2react credits https://theadd.github.io/svg2react/

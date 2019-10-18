@@ -6,9 +6,8 @@ import {
   TOOL_ZOOM_OUT,
   MODE_PANNING,
   MODE_ZOOMING,
-  MODE_IDLE
 } from '../constants';
-import {setFocus, setViewerCoords, getSVGPoint} from './common';
+import {setFocus, getSVGPoint} from './common';
 import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';

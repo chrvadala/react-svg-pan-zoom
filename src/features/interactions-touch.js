@@ -1,6 +1,6 @@
 import {transform, fromObject, translate, scale} from 'transformation-matrix';
 import {
-  TOOL_NONE, TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   MODE_IDLE, MODE_PANNING, MODE_ZOOMING
 } from '../constants';
 import {resetMode, getSVGPoint, set} from './common';

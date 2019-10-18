@@ -63,7 +63,7 @@ import {printMigrationTipsRelatedToProps} from "./migration-tips";
 export default class ReactSVGPanZoom extends React.Component {
 
   constructor(props, context) {
-    const {value, width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = props;
+    const {width: viewerWidth, height: viewerHeight, scaleFactorMin, scaleFactorMax, children} = props;
     const {viewBox: SVGViewBox} = children.props;
     let defaultValue;
     if (SVGViewBox) {

@@ -23,6 +23,7 @@ function BorderGradient({direction, width, height, _uid}) {
       break;
 
     case POSITION_LEFT:
+    default:
       transform = " ";
       break;
   }

@@ -24,6 +24,8 @@ export default class ToolbarButton extends React.Component {
       case 'touchcancel':
         this.setState({hover: false});
         break;
+      default:
+        //noop
     }
   }
 
@@ -59,7 +61,6 @@ export default class ToolbarButton extends React.Component {
         style={style}
         title={this.props.title}
         name={this.props.name}
-        role="button"
         type="button"
       >{this.props.children}</button>
     )

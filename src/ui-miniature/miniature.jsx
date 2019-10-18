@@ -5,8 +5,6 @@ import {applyToPoints, inverse} from 'transformation-matrix';
 import MiniatureToggleButton from './miniature-toggle-button';
 import MiniatureMask from './miniature-mask';
 
-const {min, max} = Math;
-
 export default function Miniature(props) {
 
   let {value, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;

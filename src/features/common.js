@@ -1,4 +1,4 @@
-import {TOOL_NONE, MODE_IDLE} from '../constants';
+import {MODE_IDLE} from '../constants';
 import {
   identity,
   fromObject,

@@ -22,7 +22,7 @@ export default function MiniatureToggleButton({value, onChangeValue, position}) 
   let action = value.miniatureOpen ? closeMiniature : openMiniature;
 
   return (
-    <button role="button" type="button" style={style} onClick={event => onChangeValue(action(value))}>
+    <button type="button" style={style} onClick={() => onChangeValue(action(value))}>
       <IconArrow open={value.miniatureOpen} position={position}/>
     </button>
   )

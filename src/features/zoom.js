@@ -16,7 +16,7 @@ function moreThanScaleFactorMax (value, scaleFactor) {
 }
 
 export function isZoomLevelGoingOutOfBounds(value, scaleFactor) {
-  return lessThanScaleFactorMin(value, scaleFactor) && scaleFactor < 1 || moreThanScaleFactorMax(value, scaleFactor) && scaleFactor > 1;
+  return (lessThanScaleFactorMin(value, scaleFactor) && scaleFactor < 1) || (moreThanScaleFactorMax(value, scaleFactor) && scaleFactor > 1);
 }
 
 export function limitZoomLevel(value, matrix) {
@@ -115,12 +115,17 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
       case ALIGN_TOP:
         translateY = -SVGMinY * scaleLevel;
       break;
+
       case ALIGN_CENTER:
         translateY = Math.round(remainderY / 2) - SVGMinY * scaleLevel;
       break;
+
       case ALIGN_BOTTOM:
         translateY = remainderY - SVGMinY * scaleLevel;
       break;
+
+      default:
+        //no op
     }
   } else {
     //(2) match in height, meaning scaled SVGWidth <= viewerWidth
@@ -129,12 +134,17 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
       case ALIGN_LEFT:
         translateX = -SVGMinX * scaleLevel;
       break;
+
       case ALIGN_CENTER:
         translateX = Math.round(remainderX / 2) - SVGMinX * scaleLevel;
       break;
+
       case ALIGN_RIGHT:
         translateX = remainderX - SVGMinX * scaleLevel;
       break;
+
+      default:
+        //no op
     }
   }
 

@@ -77,6 +77,7 @@ yarn add react-svg-pan-zoom
 - **v3.1** - Upgrades to storybook 5 and [transformation-matrix 2](https://github.com/chrvadala/transformation-matrix); Fixes some Babel configuration issues
 - **v3.2** - Upgrades deps
 - **v3.3** - Adds SVG viewbox prop support [#150](https://github.com/chrvadala/react-svg-pan-zoom/pull/150) 
+- **v3.4** - Upgrades deps and increases code quality (fixing eslint warnings)
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
