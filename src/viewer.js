@@ -8,7 +8,6 @@ import {pan} from './features/pan';
 import {reset, setPointOnViewerCenter} from './features/common';
 import {
   onDoubleClick,
-  onInterval,
   onMouseDown,
   onMouseEnterOrLeave,
   onMouseMove,
@@ -69,10 +68,10 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   const viewer = {viewerWidth, viewerHeight};
 
   const [autoPanIsRunning, setAutoPanning] = useState(true);
+  const [autoPanHover, setAutoPanHover] = useState(POSITION_NONE);
   const [tool, setTool] = useState(TOOL_AUTO);
 
   const [matrix, setMatrix] = useState(identity());
-  const [pointer, setPointer] = useState(NULL_POSITION);
   const [start, setStart] = useState(NULL_POSITION);
   const [end, setEnd] = useState(NULL_POSITION);
 
@@ -95,11 +94,42 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   };
   const SVGAttributes = {SVGMinX, SVGMinY, SVGWidth, SVGHeight};
 
-  // componentDidMount()
+  const hoverBorderRef = useRef()
   useEffect(() => {
-    requestAnimationFrame(autoPanLoop);
-    return () => setAutoPanning(false)
-  }, []);
+    hoverBorderRef.current = requestAnimationFrame(() => panOnHover(matrix));
+    return () => cancelAnimationFrame(hoverBorderRef.current);
+  }, [autoPanHover]);
+
+  const panOnHover = (inputMatrix) => {
+    let deltaX = 0;
+    let deltaY = 0;
+    
+    if(autoPanHover === POSITION_NONE){
+      cancelAnimationFrame(hoverBorderRef.current)
+    } else {
+      switch (autoPanHover) {
+        case POSITION_TOP:
+            deltaY = -2;
+          break;
+    
+        case POSITION_RIGHT:
+            deltaX = 2;
+          break;
+    
+        case POSITION_BOTTOM:
+            deltaY = 2;
+          break;
+    
+        case POSITION_LEFT:
+            deltaX = -2;
+          break;
+      }
+      const delta =  {x: deltaX / inputMatrix.d, y: deltaY / inputMatrix.d};
+      const nextValue = pan(inputMatrix, delta, viewer, SVGAttributes, props.preventPanOutside ? 20 : undefined);
+      updateValue(nextValue);
+      hoverBorderRef.current = requestAnimationFrame(() => panOnHover(nextValue.matrix));
+    }
+  }
 
   // on value change
   useEffect(() => {
@@ -111,7 +141,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
       if (onPan && nextValue.lastAction === ACTION_PAN) onPan(nextValue);
     }
   }, [
-    matrix, pointer, start, end,
+    matrix, start, end,
     mode, focus, pinchPointDistance, prePinchMode, miniatureOpen,
     lastAction,
   ]);
@@ -131,7 +161,6 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
       matrix,
       start,
       end,
-      pointer,
 
       //
       mode,
@@ -147,11 +176,10 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   }
 
   function updateValue(nextValue) {
-    const { matrix, start, end, pointer, mode, lastAction, miniatureOpen} = nextValue;
+    const { matrix, start, end, mode, lastAction, miniatureOpen} = nextValue;
     if('matrix' in nextValue) setMatrix(matrix);
     if('start' in nextValue) setStart(start);
     if('end' in nextValue) setEnd(end);
-    if('pointer' in nextValue) setPointer(pointer);
 
     if('mode' in nextValue) setMode(mode);
     if('focus' in nextValue) setFocus(focus);
@@ -246,17 +274,6 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     if (!onEventHandler) return;
 
     onEventHandler(eventFactory(event, matrix, boundingRect));
-  }
-
-  function autoPanLoop() {
-    // const nextValue = onInterval(null, boundingRect, matrix, tool, props, mode, pointer, viewer);
-    // if (value !== nextValue) {
-    //   updateValue(nextValue);
-    // }
-
-    // if (autoPanIsRunning) {
-    //   requestAnimationFrame(autoPanLoop);
-    // }
   }
 
   /** React renderer **/
@@ -382,24 +399,14 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
             {children.props.children}
           </g>
         </g>
+        
 
-        {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && focus) ? null : (
-          <g style={{pointerEvents: "none"}}>
-            {!(pointer.y <= 20) ? null :
-              <BorderGradient direction={POSITION_TOP} width={viewerWidth} height={viewerHeight}/>
-            }
-
-            {!(viewerWidth - pointer.x <= 20) ? null :
-              <BorderGradient direction={POSITION_RIGHT} width={viewerWidth} height={viewerHeight}/>
-            }
-
-            {!(viewerHeight - pointer.y <= 20) ? null :
-              <BorderGradient direction={POSITION_BOTTOM} width={viewerWidth} height={viewerHeight}/>
-            }
-
-            {!(focus && pointer.x <= 20) ? null :
-              <BorderGradient direction={POSITION_LEFT} width={viewerWidth} height={viewerHeight}/>
-            }
+        {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan) ? null : (
+          <g>
+            <BorderGradient direction={POSITION_TOP} width={viewerWidth} height={viewerHeight} setAutoPanHover={setAutoPanHover}/>
+            <BorderGradient direction={POSITION_RIGHT} width={viewerWidth} height={viewerHeight} setAutoPanHover={setAutoPanHover}/>
+            <BorderGradient direction={POSITION_BOTTOM} width={viewerWidth} height={viewerHeight} setAutoPanHover={setAutoPanHover}/>
+            <BorderGradient direction={POSITION_LEFT} width={viewerWidth} height={viewerHeight} setAutoPanHover={setAutoPanHover}/>
           </g>
         )}
 

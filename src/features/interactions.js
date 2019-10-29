@@ -9,7 +9,7 @@ import {
   MODE_IDLE
 } from '../constants';
 import {setViewerCoords, getSVGPoint, getCursorPosition} from './common';
-import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
+import {startPanning, updatePanning, stopPanning} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
 
@@ -134,14 +134,4 @@ export function onWheel(event, boundingRect, matrix, tool, props, mode) {
 export function onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode) {
   event.preventDefault();
   return {focus: event.type === 'mouseenter'};
-}
-
-export function onInterval(event, boundingRect, matrix, tool, props, mode, coords = null) {
-
-  const {x, y} = coords;
-  if (![TOOL_NONE, TOOL_AUTO].includes(tool) ) return {};
-  if (!props.detectAutoPan) return {};
-  if (!focus) return {};
-
-  return autoPanIfNeeded(x, y);
 }

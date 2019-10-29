@@ -1,12 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import PropTypes from 'prop-types';
-import {POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT} from '../constants';
+import {POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT, POSITION_NONE} from '../constants';
 import RandomUID from "../utils/RandomUID";
 
 const prefixID = 'react-svg-pan-zoom_border_gradient'
 
-function BorderGradient({direction, width, height, _uid}) {
-
+function BorderGradient({direction, width, height, _uid, setAutoPanHover}) {
+  const [hover, setHover] = useState(false)
   let transform;
 
   switch (direction) {
@@ -45,7 +45,8 @@ function BorderGradient({direction, width, height, _uid}) {
       </defs>
 
       <rect x="0" y="0" width="20" height={Math.max(width, height)}
-            style={{stroke: "none", fill: "#000", mask: `url(#${maskID})`}} transform={transform}/>
+            style={{stroke: "none", fill: "#000", mask: `url(#${maskID})`, opacity: hover ? 1 : 0}} 
+            transform={transform} onMouseEnter={() => {setHover(true); setAutoPanHover(direction)}} onMouseLeave={() => {setHover(false); setAutoPanHover(POSITION_NONE)}} />
     </g>
   );
 }
