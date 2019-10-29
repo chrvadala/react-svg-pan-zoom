@@ -8,37 +8,29 @@ import {
   MODE_ZOOMING,
   MODE_IDLE
 } from '../constants';
-import {setViewerCoords, getSVGPoint} from './common';
+import {setViewerCoords, getSVGPoint, getCursorPosition} from './common';
 import {startPanning, updatePanning, stopPanning, autoPanIfNeeded} from './pan';
 import {startZooming, updateZooming, stopZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
 
 
-export function onMouseDown(event, boundingRect, matrix, tool, props, mode, coords = null) {
-  let x, y;
-  if (coords) {
-    ({x, y} = coords);
-  } else {
-    let {left, top} = boundingRect;
-    x = event.clientX - Math.round(left);
-    y = event.clientY - Math.round(top);
-  }
-
+export function onMouseDown(event, boundingRect, matrix, tool, props, mode) {
+  const cursurPosition = getCursorPosition(event, boundingRect);
   let nextValue = {};
-
   switch (tool) {
     case TOOL_ZOOM_OUT:
+      const {x, y} = cursurPosition;
       const SVGPoint = getSVGPoint(x, y, matrix);
       nextValue = zoom(matrix, SVGPoint, 1 / props.scaleFactor);
       break;
 
     case TOOL_ZOOM_IN:
-      nextValue = startZooming({x, y});
+      nextValue = startZooming(cursurPosition);
       break;
 
     case TOOL_AUTO:
     case TOOL_PAN:
-      nextValue = startPanning({x, y});
+      nextValue = startPanning(cursurPosition);
       break;
 
     default:
@@ -49,31 +41,22 @@ export function onMouseDown(event, boundingRect, matrix, tool, props, mode, coor
   return nextValue;
 }
 
-export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coords = null, start, end) {
-  let x, y;
-  if (coords) {
-    ({x, y} = coords);
-  } else {
-    let {left, top} = boundingRect;
-    x = event.clientX - Math.round(left);
-    y = event.clientY - Math.round(top);
-  }
-
-  let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
+export function onMouseMove(event, boundingRect, matrix, tool, props, mode, start, end, viewer, SVGAttributes) {
+  const cursurPosition = getCursorPosition(event, boundingRect);
+  const forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
   let nextValue = {};
 
   switch (tool) {
     case TOOL_ZOOM_IN:
       if (mode === MODE_ZOOMING)
-        nextValue = forceExit ? stopZooming({x, y}, start, end, matrix, props.scaleFactor, props) : updateZooming(mode, {x, y});
+        nextValue = forceExit ? stopZooming(cursurPosition, start, end, matrix, props.scaleFactor, props, viewer) : updateZooming(mode, cursurPosition);
       break;
 
     case TOOL_AUTO:
     case TOOL_PAN:
       if (mode === MODE_PANNING)
-        nextValue = forceExit ? stopPanning() : updatePanning(x, y, props.preventPanOutside ? 20 : undefined);
+        nextValue = forceExit ? stopPanning() : updatePanning(cursurPosition, start, end, matrix, props.preventPanOutside ? 20 : undefined, mode, viewer, SVGAttributes);
       break;
-
     default:
       return {};
   }
@@ -82,33 +65,24 @@ export function onMouseMove(event, boundingRect, matrix, tool, props, mode, coor
   return nextValue;
 }
 
-export function onMouseUp(event, boundingRect, matrix, tool, props, mode, coords = null, start, end) {
-  let x, y;
-  if (coords) {
-    ({x, y} = coords);
-  } else {
-    let {left, top} = boundingRect;
-    x = event.clientX - Math.round(left);
-    y = event.clientY - Math.round(top);
-  }
-
+export function onMouseUp(event, boundingRect, matrix, tool, props, mode, start, end, viewer) {
+  const cursurPosition = getCursorPosition(event, boundingRect);
   let nextValue = {};
-
   switch (tool) {
     case TOOL_ZOOM_OUT:
       if (mode === MODE_ZOOMING)
-        nextValue = stopZooming({x, y}, start, end, matrix, 1 / props.scaleFactor, props);
+        nextValue = stopZooming(cursurPosition, start, end, matrix, 1 / props.scaleFactor, props, viewer);
       break;
 
     case TOOL_ZOOM_IN:
       if (mode === MODE_ZOOMING)
-        nextValue = stopZooming({x, y}, start, end, matrix, props.scaleFactor, props);
+        nextValue = stopZooming(cursurPosition, start, end, matrix, props.scaleFactor, props, viewer);
       break;
 
     case TOOL_AUTO:
     case TOOL_PAN:
       if (mode === MODE_PANNING)
-        nextValue = stopPanning(x, y);
+        nextValue = stopPanning();
       break;
 
     default:
@@ -119,25 +93,18 @@ export function onMouseUp(event, boundingRect, matrix, tool, props, mode, coords
   return nextValue;
 }
 
-export function onDoubleClick(event, boundingRect, matrix, tool, props, mode, coords = null) {
-  let x, y;
-  if (coords) {
-    ({x, y} = coords);
-  } else {
-    let {left, top} = boundingRect;
-    x = event.clientX - Math.round(left);
-    y = event.clientY - Math.round(top);
-  }
+export function onDoubleClick(event, boundingRect, matrix, tool, props, mode) {
+  const cursurPosition = getCursorPosition(event, boundingRect);
+  const {x, y} = cursurPosition;
 
   let nextValue = {};
-
   switch (tool) {
     case TOOL_AUTO:
       if (!props.disableDoubleClickZoomWithToolAuto) {
-        let SVGPoint = getSVGPoint(x, y);
-        let modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
-        let modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
-        let scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
+        const SVGPoint = getSVGPoint(x, y);
+        const modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
+        const modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
+        const scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
         nextValue = zoom(SVGPoint.x, SVGPoint.y, scaleFactor, props);
       }
       break;
@@ -150,15 +117,9 @@ export function onDoubleClick(event, boundingRect, matrix, tool, props, mode, co
   return nextValue;
 }
 
-export function onWheel(event, boundingRect, matrix, tool, props, mode, coords = null) {
-  let x, y;
-  if (coords) {
-    ({x, y} = coords)
-  } else {
-    let {left, top} = boundingRect;
-    x = event.clientX - Math.round(left);
-    y = event.clientY - Math.round(top);
-  }
+export function onWheel(event, boundingRect, matrix, tool, props, mode) {
+  const cursurPosition = getCursorPosition(event, boundingRect);
+  const {x, y} = cursurPosition;
 
   if (!props.detectWheel) return {};
 
@@ -170,13 +131,13 @@ export function onWheel(event, boundingRect, matrix, tool, props, mode, coords =
   return zoom(matrix, SVGPoint, scaleFactor);
 }
 
-export function onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode, coords = null) {
+export function onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode) {
   event.preventDefault();
   return {focus: event.type === 'mouseenter'};
 }
 
-export function onInterval(ecent, boundingRect, matrix, tool, props, mode, coords = null) {
-  let {x, y} = coords;
+export function onInterval(event, boundingRect, matrix, tool, props, mode, coords = null) {
+  const {x, y} = coords;
   if (! ([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0) ) return {};
   if (!props.detectAutoPan) return {};
   if (!focus) return {};

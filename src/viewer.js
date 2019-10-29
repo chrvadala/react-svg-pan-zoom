@@ -162,8 +162,8 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     if('pointer' in nextValue) setPointer(pointer);
 
     if('mode' in nextValue) setMode(mode);
-    if('lastAction' in nextValue) setLastAction(lastAction);
     if('focus' in nextValue) setFocus(focus);
+    if('lastAction' in nextValue) setLastAction(lastAction);
 
   }
 
@@ -195,10 +195,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
 
     fitToViewer(SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
       const zoomValue = fitToViewer(viewer, SVGAttributes, SVGAlignX, SVGAlignY);
-      setMatrix(zoomValue.matrix);
-      setStart(zoomValue.start);
-      setEnd(zoomValue.end);
-      setLastAction(zoomValue.last_action);
+      updateValue(zoomValue)
     },
 
     zoomOnViewerCenter(viewer, scaleFactor) {
@@ -250,7 +247,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   }
 
   function autoPanLoop() {
-    // let nextValue = onInterval(null, boundingRect, matrix, tool, props, mode, pointer, viewer);
+    // const nextValue = onInterval(null, boundingRect, matrix, tool, props, mode, pointer, viewer);
     // if (value !== nextValue) {
     //   updateValue(nextValue);
     // }
@@ -299,22 +296,18 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
         style={style}
 
         onMouseDown={event => {
-          let nextValue = onMouseDown(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onMouseDown(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
 
           handleViewerEvent(event);
         }}
         onMouseMove={event => {
-          let {left, top} = boundingRect;
-          let x = event.clientX - Math.round(left);
-          let y = event.clientY - Math.round(top);
-
-          let nextValue = onMouseMove(event, boundingRect, matrix, tool, props, mode, {x, y}, start, end);
+          const nextValue = onMouseMove(event, boundingRect, matrix, tool, props, mode, start, end, viewer, SVGAttributes);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
         onMouseUp={event => {
-          let nextValue = onMouseUp(event, boundingRect, matrix, tool, props, mode, null, start, end);
+          const nextValue = onMouseUp(event, boundingRect, matrix, tool, props, mode, start, end, viewer);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
@@ -323,43 +316,43 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
           handleViewerEvent(event)
         }}
         onDoubleClick={event => {
-          let nextValue = onDoubleClick(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onDoubleClick(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
 
         onWheel={event => {
-          let nextValue = onWheel(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onWheel(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
         }}
 
         onMouseEnter={event => {
           if (detectTouch()) return;
-          let nextValue = onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
         }}
         onMouseLeave={event => {
-          let nextValue = onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
         }}
 
         onTouchStart={event => {
-          let nextValue = onTouchStart(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onTouchStart(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
         onTouchMove={event => {
-          let nextValue = onTouchMove(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onTouchMove(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
         onTouchEnd={event => {
-          let nextValue = onTouchEnd(event, boundingRect, matrix, tool, props, mode);
+          const nextValue = onTouchEnd(event, boundingRect, matrix, tool, props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}
         onTouchCancel={event => {
-          let nextValue = onTouchCancel(event, boundingRect, tool,  props, mode);
+          const nextValue = onTouchCancel(event, boundingRect, tool,  props, mode);
           if (!isEmpty(nextValue)) updateValue(nextValue);
           handleViewerEvent(event);
         }}>
@@ -412,12 +405,12 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
           <Selection startX={start.x} startY={start.y} endX={end.x} endY={end.y}/>
         }
       </svg>
-
+      
+      
       {props.toolbarProps.position === POSITION_NONE ? null :
         <CustomToolbar
           {...props.toolbarProps}
-          // value={value}
-          // onChangeValue={value => updateValue(value)}
+          fitToViewer={(SVGAlignX, SVGAlignY) => updateValue(fitToViewer(viewer, SVGAttributes, SVGAlignX, SVGAlignY))}
           tool={tool}
           onChangeTool={tool => props.onChangeTool(tool)}
         />}

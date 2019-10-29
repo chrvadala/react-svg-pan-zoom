@@ -14,11 +14,12 @@ export function pan(initialMatrix, delta, viewer, SVGAttributes, panLimit = unde
     fromObject(initialMatrix),              //2
     translate(delta.x, delta.y) //1
   );
-  const {viewerWidth, viewerHeight} = viewer;
 
   // apply pan limits
   if (panLimit) {
+    const {viewerWidth, viewerHeight} = viewer;
     const {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = SVGAttributes;
+
     let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
       {x: SVGMinX + panLimit, y: SVGMinY + panLimit},
       {x: SVGMinX + SVGWidth - panLimit, y: SVGMinY + SVGHeight - panLimit}
@@ -59,19 +60,18 @@ export function startPanning(viewer) {
   };
 }
 
-export function updatePanning(start, end, viewerX, viewerY, matrix, panLimit, mode) {
+export function updatePanning(cursor, start, end, matrix, panLimit, mode, viewer, SVGAttributes) {
   if (mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + mode);
 
   let startPos = getSVGPoint(end.x, end.y, matrix);
-  let endPos = getSVGPoint(viewerX, viewerY, matrix);
+  let endPos = getSVGPoint(cursor.x, cursor.y, matrix);
 
-  let deltaX = endPos.x - startPos.x;
-  let deltaY = endPos.y - startPos.y;
+  let delta = {x: endPos.x - startPos.x, y: endPos.y - startPos.y};
 
   return {
-    ...pan(deltaX, deltaY, panLimit),
+    ...pan(matrix, delta, viewer, SVGAttributes, panLimit),
     mode: MODE_PANNING,
-    end: {x: viewerX, y: viewerY},
+    end: cursor,
     last_action: ACTION_PAN
   };
 }

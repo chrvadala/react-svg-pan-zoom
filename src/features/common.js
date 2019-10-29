@@ -21,6 +21,19 @@ export function getSVGPoint(x, y, matrix = identity()) {
 }
 
 /**
+ * Export x,y coords relative to SVG
+ * @param event
+ * @param boundingRect
+ * @returns {*|{x, y}|{x: number, y: number}}
+ */
+export function getCursorPosition(event, boundingRect) {
+    const {left, top} = boundingRect;
+    const x = event.clientX - Math.round(left);
+    const y = event.clientY - Math.round(top);
+    return {x, y}
+}
+
+/**
  * Decompose matrix to scale and translate
  * @param matrix
  * @returns {{scaleFactor: number, translationX: number, translationY: number}}

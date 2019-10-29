@@ -51,7 +51,6 @@ export function zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorM
     scale(scaleFactor, scaleFactor),
     translate(-SVGPoint.x, -SVGPoint.y)
   );
-
   return {
     mode: MODE_IDLE,
     matrix: limitZoomLevel(newMatrix, scaleFactorMin, scaleFactorMax),
@@ -168,7 +167,7 @@ export function fitToViewer(viewer, SVGAttributes, SVGAlignX=ALIGN_LEFT, SVGAlig
 export function zoomOnViewerCenter(viewer, scaleFactor) {
   const {viewerWidth, viewerHeight} = viewer;
 
-  let SVGPoint = getSVGPoint(viewerWidth / 2, viewerHeight / 2);
+  const SVGPoint = getSVGPoint(viewerWidth / 2, viewerHeight / 2);
   return zoom(SVGPoint.x, SVGPoint.y, scaleFactor);
 }
 
@@ -186,17 +185,17 @@ export function updateZooming(mode, cursor) {
   return { end: cursor };
 }
 
-export function stopZooming(cursor, start, end, matrix, scaleFactor, props) {
-
+export function stopZooming(cursor, start, end, matrix, scaleFactor, props, viewer) {
   const startPos = getSVGPoint(start.x, start.y, matrix);
   const endPos = getSVGPoint(end.x, end.y, matrix);
   if (Math.abs(startPos.x - endPos.x) > 7 && Math.abs(startPos.y - endPos.y) > 7) {
     // either fit around the box...
     const box = calculateBox(startPos, endPos);
-    return fitSelection(box.x, box.y, box.width, box.height);
+    return fitSelection(box.x, box.y, box.width, box.height, viewer.viewerWidth, viewer.viewerHeight);
   } else {
     // ...or zoom in around the cursor
     const SVGPoint = getSVGPoint(cursor.x, cursor.y, matrix);
-    return zoom(SVGPoint.x, SVGPoint.y, scaleFactor, props);
+    const { scaleFactorMin, scaleFactorMax } = props;
+    return zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorMax);
   }
 }

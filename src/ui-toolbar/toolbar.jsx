@@ -6,7 +6,6 @@ import {
   ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM,
 } from '../constants';
 
-import {fitToViewer} from '../features/zoom';
 import IconCursor from './icon-cursor';
 import IconPan from './icon-pan';
 import IconZoomIn from './icon-zoom-in';
@@ -14,7 +13,7 @@ import IconZoomOut from './icon-zoom-out';
 import IconFit from './icon-fit';
 import ToolbarButton from './toolbar-button';
 
-export default function Toolbar({tool, onChangeValue, onChangeTool, position, SVGAlignX, SVGAlignY}) {
+export default function Toolbar({tool, onChangeTool, position, fitToViewer, SVGAlignX, SVGAlignY}) {
 
   let handleChangeTool = (event, tool) => {
     onChangeTool(tool);
@@ -23,7 +22,6 @@ export default function Toolbar({tool, onChangeValue, onChangeTool, position, SV
   };
 
   let handleFit = event => {
-    // onChangeValue(fitToViewer(SVGAlignX, SVGAlignY));
     fitToViewer(SVGAlignX, SVGAlignY);
     event.stopPropagation();
     event.preventDefault();
@@ -105,12 +103,8 @@ Toolbar.propTypes = {
 
   //customizations
   position: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
-  SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
-  SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
 };
 
 Toolbar.defaultProps = {
   position: POSITION_RIGHT,
-  SVGAlignX: ALIGN_LEFT,
-  SVGAlignY: ALIGN_TOP
 };
