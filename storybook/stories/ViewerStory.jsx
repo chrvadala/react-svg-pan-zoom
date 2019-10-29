@@ -81,13 +81,14 @@ export default class MainStory extends Component {
           tool={this.state.tool}
           onChangeTool={tool => {
             action('onChangeTool')(tool)
+            console.info(tool);
             this.setState({tool})
           }}
 
           value={this.state.value}
           onChangeValue={value => {
             if (this.state.logValueOnConsole) {
-              // action('onChangeValue')(value);
+              action('onChangeValue')(value);
               console.info(value);
             }
             this.setState({value})

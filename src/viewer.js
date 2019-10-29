@@ -5,13 +5,7 @@ import {identity, toSVG} from 'transformation-matrix';
 import eventFactory from './events/event-factory';
 //features
 import {pan} from './features/pan';
-import {
-  reset,
-  setPointOnViewerCenter,
-  setSVGViewBox,
-  setViewerSize,
-  setZoomLevels
-} from './features/common';
+import {reset, setPointOnViewerCenter} from './features/common';
 import {
   onDoubleClick,
   onInterval,
@@ -70,12 +64,12 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     height: viewerHeight,
     scaleFactorMin,
     scaleFactorMax,
-    tool,
     children
   } = props;
   const viewer = {viewerWidth, viewerHeight};
 
   const [autoPanIsRunning, setAutoPanning] = useState(true);
+  const [tool, setTool] = useState(TOOL_AUTO);
 
   const [matrix, setMatrix] = useState(identity());
   const [pointer, setPointer] = useState(NULL_POSITION);
@@ -116,8 +110,6 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
       if (onZoom && nextValue.lastAction === ACTION_ZOOM) onZoom(nextValue);
       if (onPan && nextValue.lastAction === ACTION_PAN) onPan(nextValue);
     }
-
-    return () => setAutoPanning(false)
   }, [
     matrix, pointer, start, end,
     mode, focus, pinchPointDistance, prePinchMode, miniatureOpen,
@@ -155,7 +147,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   }
 
   function updateValue(nextValue) {
-    const { matrix, start, end, pointer, mode, lastAction} = nextValue;
+    const { matrix, start, end, pointer, mode, lastAction, miniatureOpen} = nextValue;
     if('matrix' in nextValue) setMatrix(matrix);
     if('start' in nextValue) setStart(start);
     if('end' in nextValue) setEnd(end);
@@ -165,25 +157,27 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     if('focus' in nextValue) setFocus(focus);
     if('lastAction' in nextValue) setLastAction(lastAction);
 
+    if('miniatureOpen' in nextValue) setMiniatureOpen(miniatureOpen);
+
+    const { onChangeValue } = props;
+    if(onChangeValue) onChangeValue(getValue());
   }
 
   /** ReactSVGPanZoom methods **/
   useImperativeHandle(Viewer, () => ({
 
-    pan(matrix, SVGDeltaX, SVGDeltaY) {
-      const panValue = pan(matrix, {x: SVGDeltaX, y: SVGDeltaY}, SVGAttributes, viewer);
-      setMatrix(panValue.matrix);
-      setMode(panValue.mode);
-      setLastAction(ACTION_PAN);
+    pan(SVGDeltaX, SVGDeltaY) {
+      const nextValue = pan(matrix, {x: SVGDeltaX, y: SVGDeltaY}, viewer, SVGAttributes, props.preventPanOutside ? 20 : undefined);
+      updateValue(nextValue);
     },
 
-    zoom(matrix, SVGPointX, SVGPointY, scaleFactor) {
-      const zoomValue = zoom(SVGPointX, SVGPointY, scaleFactor)
-      setLastAction(ACTION_ZOOM);
+    zoom(SVGPointX, SVGPointY, scaleFactor) {
+      const nextValue = zoom(matrix, {x: SVGPointX, y: SVGPointY}, scaleFactor, scaleFactorMin, scaleFactorMax);
+      updateValue(nextValue);
     },
 
     fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-      fitSelection(
+      const nextValue = fitSelection(
         selectionSVGPointX,
         selectionSVGPointY,
         selectionWidth,
@@ -191,33 +185,41 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
         viewerWidth,
         viewerHeight
       );
+      updateValue(nextValue);
     },
 
     fitToViewer(SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
-      const zoomValue = fitToViewer(viewer, SVGAttributes, SVGAlignX, SVGAlignY);
-      updateValue(zoomValue)
+      const nextValue = fitToViewer(viewer, SVGAttributes, SVGAlignX, SVGAlignY);
+      updateValue(nextValue);
     },
 
-    zoomOnViewerCenter(viewer, scaleFactor) {
-      zoomOnViewerCenter(scaleFactor);
+    zoomOnViewerCenter(scaleFactor) {
+      const nextValue = zoomOnViewerCenter(matrix, viewer, scaleFactor, scaleFactorMin, scaleFactorMax);
+      updateValue(nextValue);
     },
 
     setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
-      setPointOnViewerCenter(viewerWidth, viewerHeight, SVGPointX, SVGPointY, zoomLevel);
+      const nextValue = setPointOnViewerCenter(viewerWidth, viewerHeight, SVGPointX, SVGPointY, zoomLevel);
+      updateValue(nextValue);
     },
 
     reset() {
-      // updateValue(reset());
-      setMode(MODE_IDLE);
-      setMatrix(identity());
+      const nextValue = reset();
+      updateValue(nextValue);
     },
 
     openMiniature() {
-      setMiniatureOpen(true);
+      const nextValue = openMiniature();
+      updateValue(nextValue);
     },
 
     closeMiniature() {
-      setMiniatureOpen(false);
+      const nextValue = closeMiniature();
+      updateValue(nextValue);
+    },
+
+    changeTool(tool) {
+      setTool(tool);
     }
   }));
 
@@ -412,7 +414,11 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
           {...props.toolbarProps}
           fitToViewer={(SVGAlignX, SVGAlignY) => updateValue(fitToViewer(viewer, SVGAttributes, SVGAlignX, SVGAlignY))}
           tool={tool}
-          onChangeTool={tool => props.onChangeTool(tool)}
+          onChangeTool={tool => {
+            setTool(tool);
+            const { onChangeTool } = props;
+            if(onChangeTool) onChangeTool(tool);
+          }}
         />}
 
       {props.miniatureProps.position === POSITION_NONE ? null :
@@ -443,42 +449,15 @@ ReactSVGPanZoom.propTypes = {
 
   //height of the viewer displayed on screen
   height: PropTypes.number.isRequired,
-  //
-  // //value of the viewer (current camera view)
-  // value: PropTypes.oneOfType([
-  //   PropTypes.object,
-  //   PropTypes.shape({
-  //     version: PropTypes.oneOf([2]).isRequired,
-  //     mode: PropTypes.oneOf([MODE_IDLE, MODE_PANNING, MODE_ZOOMING]).isRequired,
-  //     focus: PropTypes.bool.isRequired,
-  //     a: PropTypes.number.isRequired,
-  //     b: PropTypes.number.isRequired,
-  //     c: PropTypes.number.isRequired,
-  //     d: PropTypes.number.isRequired,
-  //     e: PropTypes.number.isRequired,
-  //     f: PropTypes.number.isRequired,
-  //     viewerWidth: PropTypes.number.isRequired,
-  //     viewerHeight: PropTypes.number.isRequired,
-  //     SVGMinX: PropTypes.number.isRequired,
-  //     SVGMinY: PropTypes.number.isRequired,
-  //     SVGWidth: PropTypes.number.isRequired,
-  //     SVGHeight: PropTypes.number.isRequired,
-  //     startX: PropTypes.number,
-  //     startY: PropTypes.number,
-  //     endX: PropTypes.number,
-  //     endY: PropTypes.number,
-  //     miniatureOpen: PropTypes.bool.isRequired,
-  //   })
-  // ]).isRequired,
 
   //handler something changed
-  // onChangeValue: PropTypes.func.isRequired,
+  onChangeValue: PropTypes.func,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
   tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
 
   //handler tool changed
-  onChangeTool: PropTypes.func.isRequired,
+  onChangeTool: PropTypes.func,
 
   /**************************************************************************/
   /* Customize style                                                        */

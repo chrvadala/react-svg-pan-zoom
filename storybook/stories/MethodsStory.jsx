@@ -77,6 +77,11 @@ export default class MethodsStory extends React.Component {
           <button type="button" style={STYLE_BUTTON} name="zoom-pan-left-btn"
                   onClick={event => this.Viewer.pan(-100, 0)}>.pan(-100, 0)
           </button>
+
+
+          <button type="button" style={STYLE_BUTTON} name="zoom-pan-left-btn"
+                  onClick={event => this.Viewer.zoom(200, 200, 0.9)}>.zoom(200, 200, 0.9)
+          </button>
         </div>
 
         <hr style={HR_BUTTON}/>

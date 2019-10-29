@@ -137,8 +137,9 @@ export function onMouseEnterOrLeave(event, boundingRect, matrix, tool, props, mo
 }
 
 export function onInterval(event, boundingRect, matrix, tool, props, mode, coords = null) {
+
   const {x, y} = coords;
-  if (! ([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0) ) return {};
+  if (![TOOL_NONE, TOOL_AUTO].includes(tool) ) return {};
   if (!props.detectAutoPan) return {};
   if (!focus) return {};
 
