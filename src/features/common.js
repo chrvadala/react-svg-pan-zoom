@@ -1,23 +1,18 @@
 import {MODE_IDLE} from '../constants';
-import {
-  identity,
-  fromObject,
-  inverse,
-  applyToPoint,
-  transform,
-  translate,
-  scale
-} from 'transformation-matrix';
+import {applyToPoint, fromObject, identity, inverse, scale, transform, translate} from 'transformation-matrix';
+
+const VERSION = 3
+export const DEFAULT_MODE = MODE_IDLE
 
 /**
  * Obtain default value
  * @returns {Object}
  */
-export function getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin, scaleFactorMax) {
+export function getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight, scaleFactorMin = null, scaleFactorMax = null) {
   return set({}, {
     ...identity(),
-    version: 2,
-    mode: MODE_IDLE,
+    version: VERSION,
+    mode: DEFAULT_MODE,
     focus: false,
     pinchPointDistance: null,
     prePinchMode: null,
@@ -41,12 +36,12 @@ export function getDefaultValue(viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVG
 /**
  * Change value
  * @param value
- * @param change
+ * @param patch
  * @param action
  * @returns {Object}
  */
-export function set(value, change, action = null) {
-  value = Object.assign({}, value, change, {lastAction: action});
+export function set(value, patch, action = null) {
+  value = Object.assign({}, value, patch, {lastAction: action});
   return Object.freeze(value);
 }
 
@@ -57,7 +52,8 @@ export function set(value, change, action = null) {
 export function isValueValid(value) {
   return value !== null
     && typeof value === 'object'
-    && value.hasOwnProperty('version');
+    && value.hasOwnProperty('version')
+    && value.version === VERSION;
 }
 
 /**
@@ -131,6 +127,7 @@ export function setSVGViewBox(value, SVGMinX, SVGMinY, SVGWidth, SVGHeight) {
  * @param scaleFactorMax
  * @returns {Object}
  */
+//TODO rename to setZoomLimits
 export function setZoomLevels(value, scaleFactorMin, scaleFactorMax) {
   return set(value, {scaleFactorMin, scaleFactorMax});
 }
@@ -178,7 +175,7 @@ export function reset(value) {
  */
 export function resetMode(value) {
   return set(value, {
-    mode: MODE_IDLE,
+    mode: DEFAULT_MODE,
     startX: null,
     startY: null,
     endX: null,

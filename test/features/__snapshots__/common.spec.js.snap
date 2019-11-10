@@ -1,0 +1,61 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`setPointOnViewerCenter 1`] = `
+Object {
+  "SVGHeight": 400,
+  "SVGMinX": 0,
+  "SVGMinY": 0,
+  "SVGWidth": 400,
+  "a": 1,
+  "b": 0,
+  "c": 0,
+  "d": 1,
+  "e": -100,
+  "endX": null,
+  "endY": null,
+  "f": -100,
+  "focus": false,
+  "lastAction": null,
+  "miniatureOpen": true,
+  "mode": "idle",
+  "pinchPointDistance": null,
+  "prePinchMode": null,
+  "scaleFactorMax": null,
+  "scaleFactorMin": null,
+  "startX": null,
+  "startY": null,
+  "version": 3,
+  "viewerHeight": 200,
+  "viewerWidth": 200,
+}
+`;
+
+exports[`setPointOnViewerCenter 2`] = `
+Object {
+  "SVGHeight": 400,
+  "SVGMinX": 0,
+  "SVGMinY": 0,
+  "SVGWidth": 400,
+  "a": 2,
+  "b": 0,
+  "c": 0,
+  "d": 2,
+  "e": -300,
+  "endX": null,
+  "endY": null,
+  "f": -300,
+  "focus": false,
+  "lastAction": null,
+  "miniatureOpen": true,
+  "mode": "idle",
+  "pinchPointDistance": null,
+  "prePinchMode": null,
+  "scaleFactorMax": null,
+  "scaleFactorMin": null,
+  "startX": null,
+  "startY": null,
+  "version": 3,
+  "viewerHeight": 200,
+  "viewerWidth": 200,
+}
+`;
