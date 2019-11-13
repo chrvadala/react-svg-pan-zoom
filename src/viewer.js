@@ -145,10 +145,12 @@ export default class ReactSVGPanZoom extends React.Component {
   componentDidMount() {
     this.autoPanIsRunning = true;
     requestAnimationFrame(this.autoPanLoop);
+    this.ViewerDOM.addEventListener('wheel', this.onWheel, false);
   }
 
   componentWillUnmount() {
     this.autoPanIsRunning = false;
+    this.ViewerDOM.removeEventListener('wheel', this.onWheel, false);
   }
 
   /** ReactSVGPanZoom handlers **/
@@ -330,11 +332,6 @@ export default class ReactSVGPanZoom extends React.Component {
             this.handleViewerEvent(event);
           }}
 
-          onWheel={event => {
-            let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
-          }}
-
           onMouseEnter={event => {
             if (detectTouch()) return;
             let nextValue = onMouseEnterOrLeave(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
@@ -436,6 +433,11 @@ export default class ReactSVGPanZoom extends React.Component {
         }
       </div>
     );
+  }
+
+  onWheel = (event) => {
+    let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+    if (this.getValue() !== nextValue) this.setValue(nextValue);
   }
 }
 
