@@ -150,7 +150,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
   componentWillUnmount() {
     this.autoPanIsRunning = false;
-    this.ViewerDOM.removeEventListener('wheel', this.onWheel, false);
+    this.ViewerDOM.removeEventListener('wheel', this.onWheel);
   }
 
   /** ReactSVGPanZoom handlers **/
