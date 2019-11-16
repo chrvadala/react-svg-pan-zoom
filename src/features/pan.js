@@ -3,11 +3,11 @@ import {set, getSVGPoint} from './common';
 import {fromObject, translate, transform, applyToPoints} from 'transformation-matrix';
 
 /**
- *
+ * Atomic pan operation
  * @param value
- * @param SVGDeltaX
- * @param SVGDeltaY
- * @param panLimit
+ * @param SVGDeltaX drag movement
+ * @param SVGDeltaY drag movement
+ * @param panLimit forces the image to keep at least x pixel inside the viewer
  * @returns {Object}
  */
 export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
@@ -50,6 +50,13 @@ export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
   }, ACTION_PAN);
 }
 
+/**
+ * Start pan operation lifecycle
+ * @param value
+ * @param viewerX
+ * @param viewerY
+ * @return {ReadonlyArray<unknown>}
+ */
 export function startPanning(value, viewerX, viewerY) {
   return set(value, {
     mode: MODE_PANNING,
@@ -60,6 +67,14 @@ export function startPanning(value, viewerX, viewerY) {
   }, ACTION_PAN);
 }
 
+/**
+ * Continue pan operation lifecycle
+ * @param value
+ * @param viewerX
+ * @param viewerY
+ * @param panLimit
+ * @return {ReadonlyArray<unknown>}
+ */
 export function updatePanning(value, viewerX, viewerY, panLimit) {
   if (value.mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + value.mode);
 
@@ -79,6 +94,11 @@ export function updatePanning(value, viewerX, viewerY, panLimit) {
   }, ACTION_PAN);
 }
 
+/**
+ * Stop pan operation lifecycle
+ * @param value
+ * @return {ReadonlyArray<unknown>}
+ */
 export function stopPanning(value) {
   return set(value, {
       mode: MODE_IDLE,
@@ -90,6 +110,13 @@ export function stopPanning(value) {
   );
 }
 
+/**
+ * when pointer is on viewer edge -> pan image
+ * @param value
+ * @param viewerX
+ * @param viewerY
+ * @return {ReadonlyArray<any>}
+ */
 export function autoPanIfNeeded(value, viewerX, viewerY) {
   let deltaX = 0;
   let deltaY = 0;
