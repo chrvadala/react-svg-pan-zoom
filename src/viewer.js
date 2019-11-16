@@ -82,6 +82,7 @@ export default class ReactSVGPanZoom extends React.Component {
       defaultValue
     }
     this.autoPanLoop = this.autoPanLoop.bind(this);
+    this.onWheel = this.onWheel.bind(this);
 
     if (process.env.NODE_ENV !== 'production') {
       printMigrationTipsRelatedToProps(props)
@@ -145,10 +146,12 @@ export default class ReactSVGPanZoom extends React.Component {
   componentDidMount() {
     this.autoPanIsRunning = true;
     requestAnimationFrame(this.autoPanLoop);
+    this.ViewerDOM.addEventListener('wheel', this.onWheel, false);
   }
 
   componentWillUnmount() {
     this.autoPanIsRunning = false;
+    this.ViewerDOM.removeEventListener('wheel', this.onWheel);
   }
 
   /** ReactSVGPanZoom handlers **/
@@ -257,6 +260,11 @@ export default class ReactSVGPanZoom extends React.Component {
     }
   }
 
+  onWheel(event) {
+    let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
+    if (this.getValue() !== nextValue) this.setValue(nextValue);
+  }
+
   /** React renderer **/
   render() {
     let {props, state: {pointerX, pointerY}} = this;
@@ -328,11 +336,6 @@ export default class ReactSVGPanZoom extends React.Component {
             let nextValue = onDoubleClick(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
-          }}
-
-          onWheel={event => {
-            let nextValue = onWheel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
           }}
 
           onMouseEnter={event => {
