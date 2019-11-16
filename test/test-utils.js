@@ -15,3 +15,13 @@ export function testBBox(value) {
   //x1, y1, x2, y2
   return [topLeft.x, topLeft.y, bottomRight.x, bottomRight.y]
 }
+
+
+/**
+ * extracts matrix for testing purpose
+ * @param value
+ * @return {Matrix}
+ */
+export function testMatrix(value){
+  return fromObject(value)
+}
