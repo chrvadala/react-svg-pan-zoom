@@ -78,6 +78,7 @@ yarn add react-svg-pan-zoom
 - **v3.2** - Upgrades deps
 - **v3.3** - Adds SVG viewbox prop support [#150](https://github.com/chrvadala/react-svg-pan-zoom/pull/150) 
 - **v3.4** - Upgrades deps and increases code quality (fixing eslint warnings)
+- **v3.5** - Handles wheel event as passive [#158](https://github.com/chrvadala/react-svg-pan-zoom/pull/158), upgrades deps
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
@@ -102,3 +103,4 @@ yarn add react-svg-pan-zoom
 - [KQLYYY](https://github.com/KQLYYY)
 - [TimVanMourik](https://github.com/TimVanMourik)
 - [kheyse-oqton](https://github.com/kheyse-oqton)
+- [krnlde](https://github.com/krnlde)
