@@ -83,6 +83,11 @@ export default class ReactSVGPanZoom extends React.Component {
     }
     this.autoPanLoop = this.autoPanLoop.bind(this);
     this.onWheel = this.onWheel.bind(this);
+    this.onMouseMove = this.onMouseMove.bind(this);
+    this.onMouseUp = this.onMouseUp.bind(this);
+    this.onTouchMove = this.onTouchMove.bind(this);
+    this.onTouchEnd = this.onTouchEnd.bind(this);
+    this.onTouchCancel = this.onTouchCancel.bind(this);
 
     if (process.env.NODE_ENV !== 'production') {
       printMigrationTipsRelatedToProps(props)
@@ -146,11 +151,21 @@ export default class ReactSVGPanZoom extends React.Component {
   componentDidMount() {
     this.autoPanIsRunning = true;
     requestAnimationFrame(this.autoPanLoop);
+    document.addEventListener('mousemove', this.onMouseMove, false);
+    document.addEventListener('mouseup', this.onMouseUp, false);
+    document.addEventListener('touchmove', this.onTouchMove, false);
+    document.addEventListener('touchend', this.onTouchEnd, false);
+    document.addEventListener('touchcancel', this.onTouchCancel, false);
     this.ViewerDOM.addEventListener('wheel', this.onWheel, false);
   }
 
   componentWillUnmount() {
     this.autoPanIsRunning = false;
+    document.removeEventListener('mousemove', this.onMouseMove);
+    document.removeEventListener('mouseup', this.onMouseUp);
+    document.removeEventListener('touchmove', this.onTouchMove);
+    document.removeEventListener('touchend', this.onTouchEnd);
+    document.removeEventListener('touchcancel', this.onTouchCancel);
     this.ViewerDOM.removeEventListener('wheel', this.onWheel);
   }
 
@@ -265,6 +280,50 @@ export default class ReactSVGPanZoom extends React.Component {
     if (this.getValue() !== nextValue) this.setValue(nextValue);
   }
 
+  onMouseMove(event) {
+    const value = this.getValue();
+    if (value.mode === MODE_IDLE) return;
+
+    let {left, top} = this.ViewerDOM.getBoundingClientRect();
+    let x = event.clientX - Math.round(left);
+    let y = event.clientY - Math.round(top);
+
+    let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), value, this.props, {x, y});
+    if (value !== nextValue) this.setValue(nextValue);
+    this.setState({pointerX: x, pointerY: y});
+    this.handleViewerEvent(event);
+  }
+  onMouseUp(event) {
+    const value = this.getValue();
+    if (value.mode === MODE_IDLE) return;
+    let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), value, this.props);
+    if (value !== nextValue) this.setValue(nextValue);
+    this.handleViewerEvent(event);
+  }
+
+  onTouchMove(event) {
+    const value = this.getValue();
+    if (value.mode === MODE_IDLE) return;
+    let nextValue = onTouchMove(event, this.ViewerDOM, this.getTool(), value, this.props);
+    if (value !== nextValue) this.setValue(nextValue);
+    this.handleViewerEvent(event);
+  }
+  onTouchEnd(event) {
+    const value = this.getValue();
+    if (value.mode === MODE_IDLE) return;
+    let nextValue = onTouchEnd(event, this.ViewerDOM, this.getTool(), value, this.props);
+    if (value !== nextValue) this.setValue(nextValue);
+    this.handleViewerEvent(event);
+  }
+  onTouchCancel(event) {
+    const value = this.getValue();
+    if (value.mode === MODE_IDLE) return;
+    let nextValue = onTouchCancel(event, this.ViewerDOM, this.getTool(), value, this.props);
+    if (value !== nextValue) this.setValue(nextValue);
+    this.handleViewerEvent(event);
+  }
+
+
   /** React renderer **/
   render() {
     let {props, state: {pointerX, pointerY}} = this;
@@ -313,21 +372,6 @@ export default class ReactSVGPanZoom extends React.Component {
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
-          onMouseMove={event => {
-            let {left, top} = this.ViewerDOM.getBoundingClientRect();
-            let x = event.clientX - Math.round(left);
-            let y = event.clientY - Math.round(top);
-
-            let nextValue = onMouseMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props, {x, y});
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.setState({pointerX: x, pointerY: y});
-            this.handleViewerEvent(event);
-          }}
-          onMouseUp={event => {
-            let nextValue = onMouseUp(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleViewerEvent(event);
-          }}
 
           onClick={event => {
             this.handleViewerEvent(event)
@@ -353,21 +397,7 @@ export default class ReactSVGPanZoom extends React.Component {
             if (this.getValue() !== nextValue) this.setValue(nextValue);
             this.handleViewerEvent(event);
           }}
-          onTouchMove={event => {
-            let nextValue = onTouchMove(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleViewerEvent(event);
-          }}
-          onTouchEnd={event => {
-            let nextValue = onTouchEnd(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleViewerEvent(event);
-          }}
-          onTouchCancel={event => {
-            let nextValue = onTouchCancel(event, this.ViewerDOM, this.getTool(), this.getValue(), this.props);
-            if (this.getValue() !== nextValue) this.setValue(nextValue);
-            this.handleViewerEvent(event);
-          }}>
+        >
 
           <rect
             fill={props.background}
