@@ -7,10 +7,15 @@ import autoPanning from './auto-panning';
 import controls from './controls';
 import settings from './settings';
 import geometry from './geometry';
-import viewer from './viewer';
+import mouse from './mouse';
+import touch from './touch';
+import imperative from './imperative';
+
+import {INITIAL_STATE} from './initialState';
 
 
 export default reduceReducers(
+  INITIAL_STATE,
   //first the independent reducers
   combineReducers({
     scaleFactors,
@@ -22,7 +27,12 @@ export default reduceReducers(
 
   }),
   //then the reducer that depends on the settings above:
-  viewer
+  (state, action) => {
+    const reducers = {
+      mouse,
+      touch,
+      imperative,
+    }
+    return Object.keys(reducers).reduce((newState, key) => ({...newState, ...reducers[key](newState, action)}), state)
+  },
 )
-    
-

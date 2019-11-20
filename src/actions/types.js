@@ -15,6 +15,15 @@ export const TOUCH_MOVE = 'TOUCH_MOVE';
 export const TOUCH_END = 'TOUCH_END';
 export const TOUCH_CANCEL = 'TOUCH_CANCEL';
 
+///// IMPERATIVE INTERACTIONS /////
+export const PAN = 'PAN';
+export const ZOOM = 'ZOOM';
+export const FIT_SELECTION = 'FIT_SELECTION';
+export const FIT_TO_VIEWER = 'FIT_TO_VIEWER';
+export const ZOOM_ON_VIEW_CENTER = 'ZOOM_ON_VIEW_CENTER';
+export const SET_POINT_ON_VIEW_CENTER = 'SET_POINT_ON_VIEW_CENTER';
+export const RESET = 'RESET';
+
 ///// AUTO PAN /////
 export const SET_AUTO_PAN_RUNNING = 'SET_AUTO_PAN_RUNNING';
 export const SET_AUTO_PAN_HOVER = 'SET_AUTO_PAN_HOVER';
