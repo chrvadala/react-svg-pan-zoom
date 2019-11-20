@@ -1,5 +1,5 @@
 import {getSVGPoint} from '../features/common';
-import {startPanning, updatePanning, stopPanning} from '../features/pan';
+import {pan, startPanning, updatePanning, stopPanning} from '../features/pan';
 import {startZooming, updateZooming, stopZooming, zoom} from '../features/zoom';
 import mapRange from '../utils/mapRange';
 
@@ -41,7 +41,9 @@ const viewer = (state, action) => {
 
   switch (type) {
     case PAN:
-      // #TODO
+        const {preventPanOutside} = state.settings;
+        const {delta} = payload;
+        return {...state, viewer: {...viewer, ...pan(matrix, delta, viewerSize, SVGGeometry, preventPanOutside ? 20 : undefined)}}
       return state;
     case ZOOM:
       // #TODO

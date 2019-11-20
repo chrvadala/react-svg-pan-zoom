@@ -185,7 +185,7 @@ export function updateZooming(mode, cursor) {
   return { end: cursor };
 }
 
-export function stopZooming(cursor, start, end, matrix, scaleFactor, props, viewer) {
+export function stopZooming(cursor, start, end, matrix, scaleFactors, viewer) {
   const startPos = getSVGPoint(start.x, start.y, matrix);
   const endPos = getSVGPoint(end.x, end.y, matrix);
   if (Math.abs(startPos.x - endPos.x) > 7 && Math.abs(startPos.y - endPos.y) > 7) {
@@ -195,7 +195,8 @@ export function stopZooming(cursor, start, end, matrix, scaleFactor, props, view
   } else {
     // ...or zoom in around the cursor
     const SVGPoint = getSVGPoint(cursor.x, cursor.y, matrix);
-    const { scaleFactorMin, scaleFactorMax } = props;
+    const {scaleFactor, scaleFactorMin, scaleFactorMax} = scaleFactors;
+
     return zoom(matrix, SVGPoint, scaleFactor, scaleFactorMin, scaleFactorMax);
   }
 }

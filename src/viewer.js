@@ -11,7 +11,6 @@ import parseViewBox from './utils/ViewBoxParser';
 import {isEmpty} from "./utils/is";
 
 import {fitSelection, fitToViewer, zoom, zoomOnViewerCenter} from './features/zoom';
-import {closeMiniature, openMiniature} from './features/miniature';
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
@@ -22,7 +21,9 @@ import Miniature from './ui-miniature/miniature'
 import reducer from './reducers';
 
 import {
-  SET_BOUNDING_RECT
+  SET_BOUNDING_RECT, 
+  SET_TOOL,
+  SET_MINIATURE_OPEN
 } from './actions/types'
 
 import {
@@ -175,10 +176,9 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   // /** ReactSVGPanZoom methods **/
   useImperativeHandle(Viewer, () => ({
 
-  //   pan(SVGDeltaX, SVGDeltaY) {
-  //     const nextValue = pan(matrix, {x: SVGDeltaX, y: SVGDeltaY}, viewerSize, SVGGeometry, props.preventPanOutside ? 20 : undefined);
-  //     updateValue(nextValue);
-  //   },
+    pan(SVGDeltaX, SVGDeltaY) {
+      dispatch({type: "PAN", payload: {delta: {x: SVGDeltaX, y: SVGDeltaY}}})
+    },
 
   //   zoom(SVGPointX, SVGPointY, scaleFactor) {
   //     const nextValue = zoom(matrix, {x: SVGPointX, y: SVGPointY}, scaleFactor, scaleFactorMin, scaleFactorMax);
@@ -307,7 +307,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
       fitToViewer={(SVGAlignX, SVGAlignY) => updateValue(fitToViewer(viewerSize, SVGGeometry, SVGAlignX, SVGAlignY))}
       tool={tool}
       onChangeTool={tool => {
-        setTool(tool);
+        dispatch({type: SET_TOOL, payload: {tool}})
         const { onChangeTool } = props;
         if(onChangeTool) onChangeTool(tool);
       }}
@@ -318,7 +318,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
       viewer={viewerSize}
       SVGAttributes={SVGGeometry}
       miniatureOpen={miniatureOpen}
-      setMiniatureOpen={() => dispatch({type: "SET_MINIATURE_OPEN", payload: miniatureOpen})}
+      setMiniatureOpen={(open) => dispatch({type: SET_MINIATURE_OPEN, payload: {miniatureOpen: open}})}
       matrix={matrix}
       {...props.miniatureProps}
       // value={value}
@@ -350,10 +350,13 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   const style = {display: 'block', cursor, touchAction};
   const eventToPayload = (event) => {
     const cursurPosition = getCursorPosition(event, boundingRect);
-    const {type} = event;
+    const {type, buttons} = event;
+    // const modifierKeys = event.getModifierState(modifierKey);
     return {
       cursurPosition,
-      type
+      type,
+      buttons,
+      // modifierKeys
     }
   }
   return (

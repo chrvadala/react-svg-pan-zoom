@@ -16,6 +16,7 @@ export const INITIAL_STATE = {
     modifierKeys: [],
     pinchPointDistance: null,
     prePinchMode: null,
+    disableDoubleClickZoomWithToolAuto: false,
   },
   autoPanning: {
     autoPanIsRunning: true,
