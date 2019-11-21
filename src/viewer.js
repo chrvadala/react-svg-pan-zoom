@@ -327,6 +327,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
         width={viewerWidth}
         height={viewerHeight}
         style={style}
+        //#TODO check what to do with 'event.preventDefault()'
         onMouseUp={(event) => {dispatch({type: "MOUSE_UP", payload: eventToPayload(event)}); event.preventDefault();}}
         onMouseDown={(event) => dispatch({type: "MOUSE_DOWN", payload: eventToPayload(event)})}
         onMouseMove={(event) => dispatch({type: "MOUSE_MOVE", payload: eventToPayload(event)})}

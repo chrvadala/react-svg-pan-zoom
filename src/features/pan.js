@@ -47,7 +47,7 @@ export function pan(initialMatrix, delta, viewer, SVGAttributes, panLimit = unde
   return {
     mode: MODE_IDLE,
     matrix,
-    lastAction: ACTION_PAN
+    last_action: ACTION_PAN
   };
 }
 
