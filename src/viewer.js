@@ -4,13 +4,10 @@ import PropTypes from 'prop-types';
 //events
 import eventFactory from './events/event-factory';
 //features
-import {pan} from './features/pan';
-import {reset, setPointOnViewerCenter, getCursorPosition} from './features/common';
-
+import {getCursorPosition} from './features/common';
+//utils
 import parseViewBox from './utils/ViewBoxParser';
-import {isEmpty} from "./utils/is";
 
-import {fitSelection, fitToViewer, zoom, zoomOnViewerCenter} from './features/zoom';
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
@@ -57,7 +54,6 @@ import {
   NULL_POSITION
 } from './constants';
 import {printMigrationTipsRelatedToProps} from "./migration-tips";
-import { SET_PINCH_POINT_DISTANCE, SET_PRE_PINCH_MODE } from './actions/types';
 
 import {INITIAL_STATE} from './reducers/initialState';
 
@@ -73,7 +69,6 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     width: viewerWidth,
     height: viewerHeight,
     children,
-    settings
   } = props;
   const viewerSize = {viewerWidth, viewerHeight};
 
@@ -85,16 +80,12 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     SVGMinY: 0
   };
   const SVGGeometry = {SVGMinX, SVGMinY, SVGWidth, SVGHeight};
-
   const [state, dispatch] = useReducer(reducer, {...INITIAL_STATE, geometry: {viewerSize, boundingRect, SVGGeometry}});
-  
 
   const {viewer, controls, autoPanning} = state;
   const {tool, miniatureOpen} = controls;
   const {matrix, start, end, mode} = viewer;
-  
   const {autoPanHover, autoPanIsRunning} = autoPanning;
-
 
   const hoverBorderRef = useRef()
   useEffect(() => {
@@ -102,7 +93,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     return () => cancelAnimationFrame(hoverBorderRef.current);
   }, [autoPanHover]);
 
-  const panOnHover = (inputMatrix) => {
+  const panOnHover = () => {
     if(!autoPanIsRunning) return
 
     let deltaX = 0;
@@ -128,11 +119,8 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
             deltaX = -2;
           break;
       }
-      const delta =  {x: deltaX / inputMatrix.d, y: deltaY / inputMatrix.d};
-      // const nextValue = pan(inputMatrix, delta, viewerSize, SVGGeometry, props.preventPanOutside ? 20 : undefined);
-      // updateValue(nextValue);
-      // dispatch("")
-      hoverBorderRef.current = requestAnimationFrame(() => panOnHover(nextValue.matrix));
+      dispatch({type: PAN, payload: {delta: {x: deltaX / matrix.d, y: deltaY / matrix.d}}})
+      hoverBorderRef.current = requestAnimationFrame(() => panOnHover());
     }
   }
 
@@ -252,10 +240,10 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   );
   const borderGradients = !([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan) ? null : (
     <g>
-      <BorderGradient direction={POSITION_TOP} width={viewerWidth} height={viewerHeight} setAutoPanHover={() => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover}})}/>
-      <BorderGradient direction={POSITION_RIGHT} width={viewerWidth} height={viewerHeight} setAutoPanHover={() => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover}})}/>
-      <BorderGradient direction={POSITION_BOTTOM} width={viewerWidth} height={viewerHeight} setAutoPanHover={() => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover}})}/>
-      <BorderGradient direction={POSITION_LEFT} width={viewerWidth} height={viewerHeight} setAutoPanHover={() => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover}})}/>
+      <BorderGradient direction={POSITION_TOP} width={viewerWidth} height={viewerHeight} setAutoPanHover={(direction) => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover: direction}})}/>
+      <BorderGradient direction={POSITION_RIGHT} width={viewerWidth} height={viewerHeight} setAutoPanHover={(direction) => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover: direction}})}/>
+      <BorderGradient direction={POSITION_BOTTOM} width={viewerWidth} height={viewerHeight} setAutoPanHover={(direction) => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover: direction}})}/>
+      <BorderGradient direction={POSITION_LEFT} width={viewerWidth} height={viewerHeight} setAutoPanHover={(direction) => dispatch({type: "SET_AUTO_PAN_HOVER", payload: {autoPanHover: direction}})}/>
     </g>
   );
   const selection = !(mode === MODE_ZOOMING) ? null : (
@@ -267,7 +255,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   const toolbar = props.toolbarProps.position === POSITION_NONE ? null : (
     <CustomToolbar
       {...props.toolbarProps}
-      fitToViewer={(SVGAlignX, SVGAlignY) => updateValue(fitToViewer(viewerSize, SVGGeometry, SVGAlignX, SVGAlignY))}
+      fitToViewer={(SVGAlignX, SVGAlignY) => dispatch({type: FIT_TO_VIEWER, payload: {SVGAlignX, SVGAlignY}})}
       tool={tool}
       onChangeTool={tool => {
         dispatch({type: SET_TOOL, payload: {tool}})

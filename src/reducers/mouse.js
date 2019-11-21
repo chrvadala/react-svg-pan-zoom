@@ -93,7 +93,7 @@ const mouse = (state, action) => {
             return {...state, viewer: {...viewer, ...stopPanning()}}
           } else {
             const {preventPanOutside} = state.settings;
-            return {...state, viewer: {...viewer, ...updatePanning(cursurPosition, start, end, matrix, preventPanOutside ? 20 : undefined, mode, viewer, SVGGeometry)}}
+            return {...state, viewer: {...viewer, ...updatePanning(cursurPosition, start, end, matrix, preventPanOutside ? 20 : undefined, mode, viewerSize, SVGGeometry)}}
           }
         default:
           return state;
@@ -102,10 +102,10 @@ const mouse = (state, action) => {
       // #TODO
       return state;
     case MOUSE_DOUBLE_CLICK:
+      // #TODO
       const {disableDoubleClickZoomWithToolAuto, modifierKeys} = state.settings;
       switch (tool) {
         case TOOL_AUTO:
-          // #TODO
           // if (!disableDoubleClickZoomWithToolAuto) {
           //   const modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
           //   const modifierKeyActive = modifierKeys.reduce(modifierKeysReducer, false);

@@ -1,7 +1,6 @@
 import {getSVGPoint, setPointOnViewerCenter, reset} from '../features/common';
 import {pan} from '../features/pan';
 import {zoom, fitToViewer, fitSelection} from '../features/zoom';
-import mapRange from '../utils/mapRange';
 
 import {
   PAN,
@@ -13,18 +12,8 @@ import {
   RESET
 } from '../actions/types';
 
-import {
-  TOOL_AUTO,
-  TOOL_PAN,
-  TOOL_ZOOM_IN,
-  TOOL_ZOOM_OUT,
-  MODE_ZOOMING,
-  MODE_PANNING,
-} from '../constants';
 
-import {INITIAL_STATE} from './initialState';
-
-const viewer = (state, action) => {
+const imperative = (state, action) => {
   const {type, payload} = action;
   const {scaleFactors, viewer} = state;
   const {scaleFactor, scaleFactorMin, scaleFactorMax, scaleFactorOnWheel} = scaleFactors;
@@ -67,4 +56,4 @@ const viewer = (state, action) => {
       return state;
   }
 }
-export default viewer;
+export default imperative;
