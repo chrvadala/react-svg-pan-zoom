@@ -10,6 +10,7 @@ import {
 
 export const INITIAL_STATE = {
   settings: {
+    detectAutoPan: true,
     preventPanOutside: null,
     detectPinchGesture: false,
     detectWheel: true,
@@ -17,22 +18,16 @@ export const INITIAL_STATE = {
     pinchPointDistance: null,
     prePinchMode: null,
     disableDoubleClickZoomWithToolAuto: false,
-  },
-  autoPanning: {
-    autoPanIsRunning: true,
-    autoPanHover: POSITION_NONE,
-  },
-  scaleFactors: {
+    modifierKeys: [],
     scaleFactor: 1.1,
     scaleFactorMin: 0.01,
     scaleFactorMax: 100,
     scaleFactorOnWheel: 1.1,
   },
-  controls: {
+  viewer: {
     tool: TOOL_AUTO,
     miniatureOpen: true,
-  },
-  viewer: {
+    autoPanHover: POSITION_NONE,
     matrix: identity(),
     start: NULL_POSITION,
     end: NULL_POSITION,
@@ -40,6 +35,7 @@ export const INITIAL_STATE = {
     focus: false,
     lastAction: null
   },
+  // #TODO maybe include 'geometry' in 'viewer'
   geometry: {
     boundingRect: {x: 0, y: 0, width: 0, height: 0, top: 0, right: 0, bottom: 0, left: 0},
     viewerSize: {viewerWidth: 0, viewerHeight: 0},

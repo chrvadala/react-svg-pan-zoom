@@ -26,12 +26,12 @@ import {
 
 const mouse = (state, action) => {
   const {type, payload} = action;
-  const {scaleFactors, viewer} = state;
-  const {scaleFactor, scaleFactorMin, scaleFactorMax, scaleFactorOnWheel} = scaleFactors;
+  const {settings, viewer} = state;
+  const {scaleFactor, scaleFactorMin, scaleFactorMax, scaleFactorOnWheel} = settings;
+  const scaleFactors = {scaleFactor, scaleFactorMin, scaleFactorMax, scaleFactorOnWheel}
   const {viewerSize, SVGGeometry} = state.geometry;
-  const {tool} = state.controls;
 
-  const {start, end, matrix, mode} = state.viewer;
+  const {start, end, matrix, mode, tool} = state.viewer;
   const {cursurPosition} = payload;
   let SVGpoint
   if(cursurPosition) {

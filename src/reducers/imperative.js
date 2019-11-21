@@ -15,12 +15,11 @@ import {
 
 const imperative = (state, action) => {
   const {type, payload} = action;
-  const {scaleFactors, viewer} = state;
-  const {scaleFactor, scaleFactorMin, scaleFactorMax, scaleFactorOnWheel} = scaleFactors;
+  const {settings, viewer} = state;
+  const {scaleFactor, scaleFactorMin, scaleFactorMax} = settings;
   const {viewerSize, SVGGeometry} = state.geometry;
-  const {tool} = state.controls;
+  const {matrix} = viewer;
 
-  const {start, end, matrix, mode} = state.viewer;
   const {cursurPosition} = payload;
   let SVGpoint, scale
   if(cursurPosition) {

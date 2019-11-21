@@ -19,6 +19,8 @@ import reducer from './reducers';
 
 import {
   SET_BOUNDING_RECT, 
+  SET_VIEWER_SIZE,
+  SET_SVG_GEOMETRY,
   SET_TOOL,
   SET_MINIATURE_OPEN,
   PAN,
@@ -61,10 +63,9 @@ import {INITIAL_STATE} from './reducers/initialState';
 const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   if (process.env.NODE_ENV !== 'production') printMigrationTipsRelatedToProps(props)
 
+  // set geometry
   const ViewerDOM = useRef(null);
   const boundingRect = ViewerDOM.current && ViewerDOM.current.getBoundingClientRect();
-  useEffect(() => dispatch({type: SET_BOUNDING_RECT, payload: {boundingRect}}), [ViewerDOM.current]);
-
   const {
     width: viewerWidth,
     height: viewerHeight,
@@ -81,24 +82,25 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   };
   const SVGGeometry = {SVGMinX, SVGMinY, SVGWidth, SVGHeight};
   const [state, dispatch] = useReducer(reducer, {...INITIAL_STATE, geometry: {viewerSize, boundingRect, SVGGeometry}});
+  useEffect(() => dispatch({type: SET_BOUNDING_RECT, payload: {boundingRect}}), [ViewerDOM.current]);
+  useEffect(() => dispatch({type: SET_VIEWER_SIZE, payload: {viewerSize}}), [viewerWidth, viewerHeight]);
+  useEffect(() => dispatch({type: SET_SVG_GEOMETRY, payload: {SVGGeometry}}), [SVGMinX, SVGMinY, SVGWidth, SVGHeight]);
 
-  const {viewer, controls, autoPanning} = state;
-  const {tool, miniatureOpen} = controls;
-  const {matrix, start, end, mode} = viewer;
-  const {autoPanHover, autoPanIsRunning} = autoPanning;
+  const {viewer, settings} = state;
+  const {detectAutoPan} = settings;
+  const {matrix, start, end, mode, tool, miniatureOpen, autoPanHover} = viewer;
 
   const hoverBorderRef = useRef()
   useEffect(() => {
-    hoverBorderRef.current = requestAnimationFrame(() => panOnHover(matrix));
+    hoverBorderRef.current = requestAnimationFrame(() => panOnHover());
     return () => cancelAnimationFrame(hoverBorderRef.current);
   }, [autoPanHover]);
 
   const panOnHover = () => {
-    if(!autoPanIsRunning) return
+    if(!detectAutoPan) return
 
     let deltaX = 0;
     let deltaY = 0;
-
     if(autoPanHover === POSITION_NONE){
       cancelAnimationFrame(hoverBorderRef.current)
     } else {
@@ -119,6 +121,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
             deltaX = -2;
           break;
       }
+      
       dispatch({type: PAN, payload: {delta: {x: deltaX / matrix.d, y: deltaY / matrix.d}}})
       hoverBorderRef.current = requestAnimationFrame(() => panOnHover());
     }
