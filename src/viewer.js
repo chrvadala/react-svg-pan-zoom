@@ -23,7 +23,14 @@ import reducer from './reducers';
 import {
   SET_BOUNDING_RECT, 
   SET_TOOL,
-  SET_MINIATURE_OPEN
+  SET_MINIATURE_OPEN,
+  PAN,
+  ZOOM,
+  ZOOM_ON_VIEW_CENTER,
+  FIT_SELECTION,
+  FIT_TO_VIEWER,
+  SET_POINT_ON_VIEW_CENTER,
+  RESET
 } from './actions/types'
 
 import {
@@ -177,59 +184,44 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   useImperativeHandle(Viewer, () => ({
 
     pan(SVGDeltaX, SVGDeltaY) {
-      dispatch({type: "PAN", payload: {delta: {x: SVGDeltaX, y: SVGDeltaY}}})
+      dispatch({type: PAN, payload: {delta: {x: SVGDeltaX, y: SVGDeltaY}}})
     },
 
-  //   zoom(SVGPointX, SVGPointY, scaleFactor) {
-  //     const nextValue = zoom(matrix, {x: SVGPointX, y: SVGPointY}, scaleFactor, scaleFactorMin, scaleFactorMax);
-  //     updateValue(nextValue);
-  //   },
+    zoom(SVGPointX, SVGPointY, scaleFactor) {
+      dispatch({type: ZOOM, payload: {SVGPoint: {x: SVGPointX, y: SVGPointY}, scaleFactor}})
+    },
 
-  //   fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-  //     const nextValue = fitSelection(
-  //       selectionSVGPointX,
-  //       selectionSVGPointY,
-  //       selectionWidth,
-  //       selectionHeight,
-  //       viewerWidth,
-  //       viewerHeight
-  //     );
-  //     updateValue(nextValue);
-  //   },
+    fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
+      dispatch({type: FIT_SELECTION, payload: {selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight}})
+    },
 
     fitToViewer(SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
-      // const nextValue = fitToViewer(viewer, SVGGeometry, SVGAlignX, SVGAlignY);
-      // updateValue(nextValue);
+      dispatch({type: FIT_TO_VIEWER, payload: {SVGAlignX, SVGAlignY}})
     },
 
-  //   zoomOnViewerCenter(scaleFactor) {
-  //     const nextValue = zoomOnViewerCenter(matrix, viewer, scaleFactor, scaleFactorMin, scaleFactorMax);
-  //     updateValue(nextValue);
-  //   },
+    zoomOnViewerCenter(scaleFactor) {
+      dispatch({type: ZOOM_ON_VIEW_CENTER, payload: {scaleFactor}})
+    },
 
-  //   setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
-  //     const nextValue = setPointOnViewerCenter(viewerWidth, viewerHeight, SVGPointX, SVGPointY, zoomLevel);
-  //     updateValue(nextValue);
-  //   },
+    setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel) {
+      dispatch({type: SET_POINT_ON_VIEW_CENTER, payload: {SVGPointX, SVGPointY, zoomLevel}})
+    },
 
-  //   reset() {
-  //     const nextValue = reset();
-  //     updateValue(nextValue);
-  //   },
+    reset() {
+      dispatch({type: RESET, payload: {miniatureOpen: true}})
+    },
 
-  //   openMiniature() {
-  //     const nextValue = openMiniature();
-  //     updateValue(nextValue);
-  //   },
+    openMiniature() {
+      dispatch({type: SET_MINIATURE_OPEN, payload: {miniatureOpen: true}})
+    },
 
-  //   closeMiniature() {
-  //     const nextValue = closeMiniature();
-  //     updateValue(nextValue);
-  //   },
+    closeMiniature() {
+      dispatch({type: SET_MINIATURE_OPEN, payload: {miniatureOpen: false}})
+    },
 
-  //   changeTool(tool) {
-  //     setTool(tool);
-  //   }
+    changeTool(tool) {
+      dispatch({type: SET_TOOL, payload: {tool}})
+    }
   }));
 
   // /** ReactSVGPanZoom internals **/
