@@ -88,7 +88,7 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
 
   const {viewer, settings} = state;
   const {detectAutoPan} = settings;
-  const {matrix, start, end, mode, tool, miniatureOpen, autoPanHover} = viewer;
+  const {matrix, start, end, mode, tool, miniatureOpen, autoPanHover, last_action} = viewer;
 
   const hoverBorderRef = useRef()
   useEffect(() => {
@@ -127,20 +127,25 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
     }
   }
 
-  // // on value change
-  // useEffect(() => {
-  //   let {onChangeValue, onZoom, onPan} = props;
-  //   const nextValue = getValue();
-  //   if (onChangeValue) onChangeValue(nextValue);
-  //   if (nextValue.lastAction) {
-  //     if (onZoom && nextValue.lastAction === ACTION_ZOOM) onZoom(nextValue);
-  //     if (onPan && nextValue.lastAction === ACTION_PAN) onPan(nextValue);
-  //   }
-  // }, [
-  //   matrix, start, end,
-  //   mode, focus, pinchPointDistance, prePinchMode, miniatureOpen,
-  //   lastAction,
-  // ]);
+  useEffect(() => {
+    const {onValueTool} = props;
+    if(onValueTool) onValueTool(tool)}, 
+    [tool]
+  );
+  useEffect(() => {
+    const {onValueChange} = props;
+    if(onValueChange) onValueChange(viewer)}, 
+    [viewer]
+  );
+  
+  useEffect(() => {
+    const {onZoom, onPan} = props; 
+    if(!last_action) return;
+    if(onPan && last_action === ACTION_PAN) onPan(viewer);
+    if(onZoom && last_action === ACTION_ZOOM) onZoom(viewer);
+    },
+    [matrix]
+  );
 
   // /** ReactSVGPanZoom methods **/
   useImperativeHandle(Viewer, () => ({

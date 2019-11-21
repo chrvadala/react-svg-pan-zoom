@@ -33,7 +33,7 @@ export const INITIAL_STATE = {
     end: NULL_POSITION,
     mode: MODE_IDLE,
     focus: false,
-    lastAction: null
+    last_action: null
   },
   // #TODO maybe include 'geometry' in 'viewer'
   geometry: {
