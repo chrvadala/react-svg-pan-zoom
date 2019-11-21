@@ -151,35 +151,6 @@ const ReactSVGPanZoom = forwardRef((props, Viewer) => {
   //   lastAction,
   // ]);
 
-  // function getValue() {
-  //   return {
-  //     //directly from props:
-  //     viewerWidth,
-  //     viewerHeight,
-  //     scaleFactorMin,
-  //     scaleFactorMax,
-
-  //     //from child props:
-  //     SVGGeometry,
-
-  //     //
-  //     matrix,
-  //     start,
-  //     end,
-
-  //     //
-  //     mode,
-  //     focus,
-  //     pinchPointDistance,
-  //     prePinchMode,
-  //     miniatureOpen,
-  //     lastAction,
-
-  //     //
-  //     version: 3,
-  //   };
-  // }
-
   // /** ReactSVGPanZoom methods **/
   useImperativeHandle(Viewer, () => ({
 
