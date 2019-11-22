@@ -1,22 +1,18 @@
-import {transform, fromObject, translate, scale} from 'transformation-matrix';
+import {fromObject, scale, transform, translate} from 'transformation-matrix';
 
 import {
   ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING,
   ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
 } from '../constants';
-import {set, getSVGPoint} from './common';
+import {decompose, getSVGPoint, set} from './common';
 import calculateBox from '../utils/calculateBox';
 
-function lessThanScaleFactorMin (value, scaleFactor) {
-  return value.scaleFactorMin && (value.d * (scaleFactor)) <= value.scaleFactorMin;
-}
-
-function moreThanScaleFactorMax (value, scaleFactor) {
-  return value.scaleFactorMax && (value.d * scaleFactor) >= value.scaleFactorMax;
-}
-
 export function isZoomLevelGoingOutOfBounds(value, scaleFactor) {
-  return (lessThanScaleFactorMin(value, scaleFactor) && scaleFactor < 1) || (moreThanScaleFactorMax(value, scaleFactor) && scaleFactor > 1);
+  const {scaleFactor: curScaleFactor} = decompose(value)
+  const lessThanScaleFactorMin = value.scaleFactorMin && (curScaleFactor * scaleFactor) < value.scaleFactorMin;
+  const moreThanScaleFactorMax = value.scaleFactorMax && (curScaleFactor * scaleFactor) > value.scaleFactorMax;
+
+  return (lessThanScaleFactorMin && scaleFactor < 1) || (moreThanScaleFactorMax && scaleFactor > 1);
 }
 
 export function limitZoomLevel(value, matrix) {
@@ -53,7 +49,7 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
 
   return set(value, {
     mode: MODE_IDLE,
-    ...limitZoomLevel(value, matrix),
+    ...matrix,
     startX: null,
     startY: null,
     endX: null,
@@ -200,17 +196,18 @@ export function updateZooming(value, viewerX, viewerY) {
   });
 }
 
-export function stopZooming(value, viewerX, viewerY, scaleFactor, props) {
-  let {startX, startY, endX, endY} = value;
+export function stopZooming(value, viewerX, viewerY, scaleFactor) {
+  const TOLERATED_DISTANCE = 7 //minimum distance to choose if area selection or drill down on point
+  let {startX, startY} = value;
 
   let start = getSVGPoint(value, startX, startY);
-  let end = getSVGPoint(value, endX, endY);
+  let end = getSVGPoint(value, viewerX, viewerY);
 
-  if (Math.abs(startX - endX) > 7 && Math.abs(startY - endY) > 7) {
+  if (Math.abs(startX - viewerX) > TOLERATED_DISTANCE && Math.abs(startY - viewerY) > TOLERATED_DISTANCE) {
     let box = calculateBox(start, end);
     return fitSelection(value, box.x, box.y, box.width, box.height);
   } else {
     let SVGPoint = getSVGPoint(value, viewerX, viewerY);
-    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
+    return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);
   }
 }
