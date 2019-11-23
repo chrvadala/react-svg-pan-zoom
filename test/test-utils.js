@@ -22,6 +22,39 @@ export function testBBox(value) {
  * @param value
  * @return {Matrix}
  */
-export function testMatrix(value){
+export function testMatrix(value) {
   return fromObject(value)
+}
+
+export function createFakeEvent({type, mouse, touches, deltaY, buttons = 1}) {
+  const obj = {
+    type,
+    buttons,
+    preventDefault: jest.fn(),
+  }
+
+  if (mouse) {
+    obj.clientX = mouse[0]
+    obj.clientY = mouse[1]
+  }
+
+  if (touches && Array.isArray(touches)) {
+    obj.touches = touches.map(([x, y]) => ({clientX: x, clientY: y}))
+  }
+
+  if (Number.isFinite(deltaY)) {
+    obj.deltaY = deltaY
+  }
+
+  Object.freeze(obj)
+  return obj
+}
+
+export function createFakeDOM({position}) {
+  const obj = {}
+  if (position) {
+    obj.getBoundingClientRect = jest.fn().mockReturnValue({left: position[0], top: position[1]})
+  }
+  Object.freeze(obj)
+  return obj
 }

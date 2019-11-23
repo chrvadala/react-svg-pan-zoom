@@ -1,5 +1,13 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`createFakeEvent common 1`] = `
+Object {
+  "buttons": 1,
+  "preventDefault": [MockFunction],
+  "type": "click",
+}
+`;
+
 exports[`testMatrix 1`] = `
 Object {
   "a": 1,
