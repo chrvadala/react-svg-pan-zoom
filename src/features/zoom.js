@@ -57,6 +57,9 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
   }, ACTION_ZOOM);
 }
 
+//ENHANCEMENT: add ability to control alignment
+//ENHANCEMENT: add ability to selectively fit image inside viewer
+//ENHANCEMENT: refactor some logic in order to merge with fitToViewer function
 export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
   let {viewerWidth, viewerHeight} = value;
 
