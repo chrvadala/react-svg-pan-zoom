@@ -1,9 +1,11 @@
-import {getDefaultValue} from "../../src/features/common";
+import {getDefaultValue, getSVGPoint} from "../../src/features/common";
 import {
-  ALIGN_BOTTOM, ALIGN_CENTER,
+  ALIGN_BOTTOM,
+  ALIGN_CENTER,
   ALIGN_LEFT,
   ALIGN_RIGHT,
   ALIGN_TOP,
+  fitSelection,
   fitToViewer,
   MODE_IDLE,
   MODE_ZOOMING,
@@ -89,7 +91,18 @@ describe("zoom", () => {
 })
 
 describe("fitSelection", () => {
-  //TODO
+  test("square", () => {
+    const value = getDefaultValue(
+      200, 200,       //viewer 200x200
+      0, 0, 300, 300, //svg 300x300
+    )
+
+    const value1 = fitSelection(value, 0, 0, 100, 100)
+    expect(getSVGPoint(value1, 200, 200)).toEqual({x: 100, y: 100})
+  })
+
+  //TODO test w>h
+  //TODO test h<w
 })
 
 describe("fitToViewer", () => {
