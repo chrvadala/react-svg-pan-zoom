@@ -26,11 +26,12 @@ export function testMatrix(value) {
   return fromObject(value)
 }
 
-export function createFakeEvent({type, mouse, touches, deltaY, buttons = 1}) {
+export function createFakeEvent({type, mouse, touches, deltaY, buttons = 1, pressedKeys = []}) {
   const obj = {
     type,
     buttons,
     preventDefault: jest.fn(),
+    getModifierState: jest.fn().mockImplementation(key => pressedKeys.includes(key))
   }
 
   if (mouse) {
@@ -50,7 +51,7 @@ export function createFakeEvent({type, mouse, touches, deltaY, buttons = 1}) {
   return obj
 }
 
-export function createFakeDOM({position}) {
+export function createFakeDOM({position} = {}) {
   const obj = {}
   if (position) {
     obj.getBoundingClientRect = jest.fn().mockReturnValue({left: position[0], top: position[1]})

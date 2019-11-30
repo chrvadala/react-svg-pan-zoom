@@ -3,6 +3,7 @@
 exports[`createFakeEvent common 1`] = `
 Object {
   "buttons": 1,
+  "getModifierState": [MockFunction],
   "preventDefault": [MockFunction],
   "type": "click",
 }

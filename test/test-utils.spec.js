@@ -53,6 +53,14 @@ describe("createFakeEvent", () => {
     expect(event.touches).toEqual([{clientX: 50, clientY: 100}, {clientX: 200, clientY: 300}])
   })
 
+  test("modifierState", () => {
+    const event = createFakeEvent({type: 'click', pressedKeys: ['Alt']})
+    const stateAlt = event.getModifierState('Alt')
+    const stateCtrl = event.getModifierState('Ctrl')
+    expect(stateAlt).toBe(true)
+    expect(stateCtrl).toBe(false)
+  })
+
 })
 
 test("createFakeDOM", () => {
