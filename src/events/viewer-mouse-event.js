@@ -1,17 +1,11 @@
-import {getSVGPoint} from '../features/common'
 import ViewerEvent from './viewer-event';
+import {getMousePosition} from "../features/interactions";
 
-export default class ViewerMouseEvent extends ViewerEvent{
-
+export default class ViewerMouseEvent extends ViewerEvent {
   get point() {
     if (!this._cachePoint) {
-      let event = this.originalEvent, value = this.value, SVGViewer = this.SVGViewer;
-
-      let rect = SVGViewer.getBoundingClientRect();
-      let x = event.clientX - Math.round(rect.left);
-      let y = event.clientY - Math.round(rect.top);
-
-      this._cachePoint = getSVGPoint(value, x, y);
+      const {originalEvent: event, value, SVGViewer} = this;
+      this._cachePoint = getMousePosition(event, SVGViewer)
     }
     return this._cachePoint;
   }

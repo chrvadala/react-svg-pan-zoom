@@ -5,6 +5,7 @@ Object {
   "buttons": 1,
   "getModifierState": [MockFunction],
   "preventDefault": [MockFunction],
+  "stopPropagation": [MockFunction],
   "type": "click",
 }
 `;

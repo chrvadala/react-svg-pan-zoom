@@ -44,6 +44,7 @@ export function createFakeEvent({type, mouse, touches, deltaY, buttons = 1, pres
     type,
     buttons,
     preventDefault: jest.fn(),
+    stopPropagation: jest.fn(),
     getModifierState: jest.fn().mockImplementation(key => pressedKeys.includes(key))
   }
 
