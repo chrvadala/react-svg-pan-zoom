@@ -1,7 +1,9 @@
 import {getMousePosition, onDoubleClick, onMouseDown, onMouseMove, onMouseUp} from "../../src/features/interactions";
 import {createFakeDOM, createFakeEvent, testBBox, testMatrix} from "../test-utils";
-import {getDefaultValue} from "../../src/features/common";
-import {TOOL_AUTO, TOOL_PAN} from "../../src";
+import {getDefaultValue, getSVGPoint} from "../../src/features/common";
+import {TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from "../../src";
+import {toBeDeepCloseTo,toMatchCloseTo} from 'jest-matcher-deep-close-to';
+expect.extend({toBeDeepCloseTo, toMatchCloseTo});
 
 const VALUE = getDefaultValue(
   200, 200,       //viewer 200x200
@@ -77,13 +79,29 @@ describe("mouse interactions", () => {
   })
 
   describe("tool: TOOL_ZOOM_IN", () => {
-    test.todo("click")
-    test.todo("click and drag")
+    test("click", () => {
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_ZOOM_IN, value, {scaleFactor: 2}, {x: 200, y: 200})
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_ZOOM_IN, value1, {scaleFactor: 2}, {x: 200, y: 200})
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_ZOOM_IN, value2, {scaleFactor: 2}, {x: 200, y: 200})
+      expect(testBBox(value3)).toEqual([-200, -200, 600, 600])
+    })
+    test("click and drag", () => {
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_ZOOM_IN, value, {scaleFactor: 2}, {x: 50, y: 50})
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_ZOOM_IN, value1, {scaleFactor: 2}, {x: 100, y: 100})
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_ZOOM_IN, value2, {scaleFactor: 2}, {x: 200, y: 200})
+      expect(testMatrix(value1)).toEqual(testMatrix(value2))
+      expect(getSVGPoint(value3, 0, 0)).toMatchCloseTo({x: 50, y: 50}, 5)
+      expect(getSVGPoint(value3, 200, 200)).toEqual({x: 200, y: 200})
+    })
   })
 
   describe("tool: TOOL_ZOOM_OUT", () => {
-    test.todo("click")
-    test.todo("click and drag")
+    test("click", () => {
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_ZOOM_OUT, value, {scaleFactor: 2}, {x: 200, y: 200})
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_ZOOM_OUT, value1, {scaleFactor: 2}, {x: 200, y: 200})
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_ZOOM_OUT, value2, {scaleFactor: 2}, {x: 200, y: 200})
+      expect(testBBox(value3)).toEqual([100, 100, 300, 300])
+    })
   })
 })
 
