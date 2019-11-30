@@ -1,6 +1,7 @@
-import {getMousePosition} from "../../src/features/interactions";
-import {createFakeDOM, createFakeEvent} from "../test-utils";
+import {getMousePosition, onDoubleClick, onMouseDown, onMouseMove, onMouseUp} from "../../src/features/interactions";
+import {createFakeDOM, createFakeEvent, testBBox, testMatrix} from "../test-utils";
 import {getDefaultValue} from "../../src/features/common";
+import {TOOL_AUTO, TOOL_PAN} from "../../src";
 
 const VALUE = getDefaultValue(
   200, 200,       //viewer 200x200
@@ -16,44 +17,73 @@ test("getMousePosition", () => {
 })
 
 describe("mouse interactions", () => {
+  const value = getDefaultValue(
+    200, 200,       //viewer 200x200
+    0, 0, 400, 400, //svg 400x400
+  )
+  const event = createFakeEvent({type: 'click', mouse: [100, 200]})
+  const ViewerDOM = createFakeDOM()
+  const point1 = {x: 50, y: 50}
+  const point2 = {x: 100, y: 100}
+  const point3 = {x: 150, y: 150}
+
   describe("tool: TOOL_AUTO", () => {
     test("click", () => {
-      //TODO
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_AUTO, value, {}, point1)
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_AUTO, value1, {}, point1)
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_AUTO, value2, {}, point1)
+      expect(testMatrix(value3)).toEqual(testMatrix(value))
     })
 
-    test("click and drag", () => {
-      //TODO
+    test.skip("click and drag", () => {
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_AUTO, value, {}, point1)
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_AUTO, value1, {}, point2)
+      expect(testBBox(value2)).toEqual([50, 50, expect.any(Number), expect.any(Number)])
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_AUTO, value2, {}, point3)
+      //TODO onMouseUp doesn't consider last coords update, so this step fails
+      expect(testBBox(value3)).toEqual([100, 100, expect.any(Number), expect.any(Number)])
+    })
+
+    test('dblclick', () => {
+      const value1 = onDoubleClick(event, ViewerDOM, TOOL_AUTO, value, {disableDoubleClickZoomWithToolAuto: true}, point1)
+      expect(testMatrix(value1)).toEqual(testMatrix(value1))
+
+      //should zoom in (x2)
+      const value2 = onDoubleClick(event, ViewerDOM, TOOL_AUTO, value, {scaleFactor: 2, modifierKeys: ['Alt']}, {x: 200, y: 200})
+      expect(testBBox(value2)).toEqual([-200, -200, 600, 600])
+
+      //should zoom out (x0.5)
+      const event2 = createFakeEvent({type: 'dblclick', pressedKeys: ['Alt']})
+      const value3 = onDoubleClick(event2, ViewerDOM, TOOL_AUTO, value, {scaleFactor: 2, modifierKeys: ['Alt']}, {x: 200, y: 200})
+      expect(testBBox(value3)).toEqual([100, 100, 300, 300])
     })
   })
 
   describe("tool: TOOL_PAN", () => {
     test("click", () => {
-      //TODO
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_PAN, value, {}, point1)
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_PAN, value1, {}, point1)
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_PAN, value2, {}, point1)
+      expect(testMatrix(value3)).toEqual(testMatrix(value))
     })
-
-    test("click and drag", () => {
-      //TODO
+    test.skip("click and drag", () => {
+      const value1 = onMouseDown(event, ViewerDOM, TOOL_PAN, value, {}, point1)
+      const value2 = onMouseMove(event, ViewerDOM, TOOL_PAN, value1, {}, point2)
+      expect(testBBox(value2)).toEqual([50, 50, expect.any(Number), expect.any(Number)])
+      const value3 = onMouseUp(event, ViewerDOM, TOOL_PAN, value2, {}, point3)
+      //TODO onMouseUp doesn't consider last coords update, so this step fails
+      expect(testBBox(value3)).toEqual([100, 100, expect.any(Number), expect.any(Number)])
     })
   })
 
   describe("tool: TOOL_ZOOM_IN", () => {
-    test("click", () => {
-      //TODO
-    })
-
-    test("click and drag", () => {
-      //TODO
-    })
+    test.todo("click")
+    test.todo("click and drag")
   })
 
   describe("tool: TOOL_ZOOM_OUT", () => {
-    test("click", () => {
-      //TODO
-    })
-
-    test("click and drag", () => {
-      //TODO
-    })
+    test.todo("click")
+    test.todo("click and drag")
   })
 })
 

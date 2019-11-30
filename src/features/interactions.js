@@ -101,9 +101,10 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = nul
   let nextValue = value;
 
   if (tool === TOOL_AUTO && !props.disableDoubleClickZoomWithToolAuto) {
+    const {modifierKeys = []} = props;
     let SVGPoint = getSVGPoint(value, x, y);
     let modifierKeysReducer = (current, modifierKey) => current || event.getModifierState(modifierKey);
-    let modifierKeyActive = props.modifierKeys.reduce(modifierKeysReducer, false);
+    let modifierKeyActive = modifierKeys.reduce(modifierKeysReducer, false);
     let scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
     nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
   }
