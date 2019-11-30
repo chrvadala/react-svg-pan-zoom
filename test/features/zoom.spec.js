@@ -1,4 +1,4 @@
-import {getDefaultValue, getSVGPoint} from "../../src/features/common";
+import {getDefaultValue} from "../../src/features/common";
 import {
   ALIGN_BOTTOM,
   ALIGN_CENTER,
@@ -12,7 +12,7 @@ import {
   zoom,
   zoomOnViewerCenter
 } from "../../src";
-import {testBBox} from "../test-utils";
+import {testSVGBBox, testSVGPoint} from "../test-utils";
 import {startZooming, stopZooming, updateZooming} from "../../src/features/zoom";
 
 // declaring this because Number.EPSILON doesn't work with comparable numbers
@@ -26,18 +26,18 @@ describe("zoom", () => {
     )
 
     const value1 = zoom(value, 0, 0, 2)
-    expect(testBBox(value1)).toEqual([0, 0, 800, 800])
+    expect(testSVGBBox(value1)).toEqual([0, 0, 800, 800])
     expect(value1).toMatchSnapshot()
 
     const value2 = zoom(value1, 0, 0, 2)
-    expect(testBBox(value2)).toEqual([0, 0, 1600, 1600])
+    expect(testSVGBBox(value2)).toEqual([0, 0, 1600, 1600])
     expect(value2).toMatchSnapshot()
 
     const value3 = zoom(value, 100, 100, 2)
-    expect(testBBox(value3)).toEqual([-100, -100, 700, 700])
+    expect(testSVGBBox(value3)).toEqual([-100, -100, 700, 700])
 
     const value4 = zoom(value, 200, 200, 2)
-    expect(testBBox(value4)).toEqual([-200, -200, 600, 600])
+    expect(testSVGBBox(value4)).toEqual([-200, -200, 600, 600])
   })
 
   test("test zoom out", () => {
@@ -47,18 +47,18 @@ describe("zoom", () => {
     )
 
     const value1 = zoom(value, 0, 0, 1 / 2)
-    expect(testBBox(value1)).toEqual([0, 0, 200, 200])
+    expect(testSVGBBox(value1)).toEqual([0, 0, 200, 200])
     expect(value1).toMatchSnapshot()
 
     const value2 = zoom(value1, 0, 0, 1 / 2)
-    expect(testBBox(value2)).toEqual([0, 0, 100, 100])
+    expect(testSVGBBox(value2)).toEqual([0, 0, 100, 100])
     expect(value2).toMatchSnapshot()
 
     const value3 = zoom(value, 100, 100, 1 / 2)
-    expect(testBBox(value3)).toEqual([50, 50, 250, 250])
+    expect(testSVGBBox(value3)).toEqual([50, 50, 250, 250])
 
     const value4 = zoom(value, 200, 200, 1 / 2)
-    expect(testBBox(value4)).toEqual([100, 100, 300, 300])
+    expect(testSVGBBox(value4)).toEqual([100, 100, 300, 300])
   })
 
   test("test min bound", () => {
@@ -72,7 +72,7 @@ describe("zoom", () => {
     expect(value1).toBe(value) //should be unchanged
 
     const value2 = zoom(value, 0, 0, 4)
-    expect(testBBox(value2)).toEqual([0, 0, 1600, 1600])
+    expect(testSVGBBox(value2)).toEqual([0, 0, 1600, 1600])
   })
 
   test("test min bound", () => {
@@ -86,7 +86,7 @@ describe("zoom", () => {
     expect(value1).toBe(value) //should be unchanged
 
     const value2 = zoom(value, 0, 0, 1 / 2)
-    expect(testBBox(value2)).toEqual([0, 0, 200, 200])
+    expect(testSVGBBox(value2)).toEqual([0, 0, 200, 200])
   })
 })
 
@@ -98,11 +98,11 @@ describe("fitSelection", () => {
     )
 
     const value1 = fitSelection(value, 0, 0, 100, 100)
-    expect(getSVGPoint(value1, 200, 200)).toEqual({x: 100, y: 100})
+    expect(testSVGPoint(value1, 200, 200)).toEqual([100, 100])
   })
 
-  //TODO test w>h
-  //TODO test h<w
+  test.todo('w>h')
+  test.todo('h<w')
 })
 
 describe("fitToViewer", () => {
@@ -113,13 +113,13 @@ describe("fitToViewer", () => {
     )
 
     const value1 = fitToViewer(value, ALIGN_LEFT, ALIGN_TOP)
-    expect(testBBox(value1)).toEqual([0, 0, 100, 100])
+    expect(testSVGBBox(value1)).toEqual([0, 0, 100, 100])
 
     const value2 = fitToViewer(value, ALIGN_CENTER, ALIGN_TOP)
-    expect(testBBox(value2)).toEqual([50, 0, 150, 100])
+    expect(testSVGBBox(value2)).toEqual([50, 0, 150, 100])
 
     const value3 = fitToViewer(value, ALIGN_RIGHT, ALIGN_TOP)
-    expect(testBBox(value3)).toEqual([100, 0, 200, 100])
+    expect(testSVGBBox(value3)).toEqual([100, 0, 200, 100])
   })
 
   test("rect with w<h", () => {
@@ -129,13 +129,13 @@ describe("fitToViewer", () => {
     )
 
     const value1 = fitToViewer(value, ALIGN_LEFT, ALIGN_TOP)
-    expect(testBBox(value1)).toEqual([0, 0, 100, 100])
+    expect(testSVGBBox(value1)).toEqual([0, 0, 100, 100])
 
     const value2 = fitToViewer(value, ALIGN_LEFT, ALIGN_CENTER)
-    expect(testBBox(value2)).toEqual([0, 50, 100, 150])
+    expect(testSVGBBox(value2)).toEqual([0, 50, 100, 150])
 
     const value3 = fitToViewer(value, ALIGN_LEFT, ALIGN_BOTTOM)
-    expect(testBBox(value3)).toEqual([0, 100, 100, 200])
+    expect(testSVGBBox(value3)).toEqual([0, 100, 100, 200])
   })
 })
 
@@ -146,10 +146,10 @@ test("zoomOnViewerCenter", () => {
   )
 
   const value1 = zoomOnViewerCenter(value, 2)
-  expect(testBBox(value1)).toEqual([-100, -100, 300, 300])
+  expect(testSVGBBox(value1)).toEqual([-100, -100, 300, 300])
 
   const value2 = zoomOnViewerCenter(value, 1 / 2)
-  expect(testBBox(value2)).toEqual([50, 50, 150, 150])
+  expect(testSVGBBox(value2)).toEqual([50, 50, 150, 150])
 })
 
 test("zoom lifecycle", () => {
@@ -166,13 +166,13 @@ test("zoom lifecycle", () => {
 
   //zoom on point
   const value3 = stopZooming(value2, 0, 0, 2)
-  expect(testBBox(value3)).toEqual([0, 0, 400, 400])
+  expect(testSVGBBox(value3)).toEqual([0, 0, 400, 400])
   expect(value3).toMatchObject({mode: MODE_IDLE})
   expect(value3).toMatchSnapshot()
 
   //zoom on area
   const value4 = stopZooming(value2, 50, 50)
-  expect(testBBox(value4)).toEqual([0, 0, 800, 800])
+  expect(testSVGBBox(value4)).toEqual([0, 0, 800, 800])
   expect(value4).toMatchObject({mode: MODE_IDLE})
   expect(value4).toMatchSnapshot()
 })

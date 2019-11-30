@@ -1,5 +1,5 @@
 import {getDefaultValue} from "../src/features/common";
-import {createFakeDOM, createFakeEvent, testBBox, testMatrix} from "./test-utils";
+import {createFakeDOM, createFakeEvent, testSVGBBox, testMatrix, testSVGPoint} from "./test-utils";
 import {identity} from "transformation-matrix";
 
 describe('testBBox', () => {
@@ -9,7 +9,7 @@ describe('testBBox', () => {
       0, 0, 400, 400, //svg 400x400
     )
 
-    expect(testBBox(value)).toEqual([0, 0, 400, 400])
+    expect(testSVGBBox(value)).toEqual([0, 0, 400, 400])
   })
 
   test('view box', () => {
@@ -18,7 +18,7 @@ describe('testBBox', () => {
       30, 60, 100, 200, //svg 70x140
     )
 
-    expect(testBBox(value)).toEqual([0, 0, 70, 140])
+    expect(testSVGBBox(value)).toEqual([0, 0, 70, 140])
   })
 })
 
@@ -69,4 +69,13 @@ test("createFakeDOM", () => {
   expect(left).toEqual(200)
   expect(top).toEqual(300)
   expect(dom.getBoundingClientRect).toHaveBeenCalledTimes(1)
+})
+
+test("testSVGPoint", () => {
+  const value = getDefaultValue(
+    200, 200,       //viewer 200x200
+    0, 0, 400, 400, //svg 400x400
+  )
+  expect(testSVGPoint(value, 100, 100)).toEqual([100, 100])
+  expect(testSVGPoint(value, 200, 200)).toEqual([200, 200])
 })

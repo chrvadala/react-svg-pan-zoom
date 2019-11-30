@@ -1,8 +1,9 @@
 import {getMousePosition, onDoubleClick, onMouseDown, onMouseMove, onMouseUp} from "../../src/features/interactions";
-import {createFakeDOM, createFakeEvent, testBBox, testMatrix} from "../test-utils";
-import {getDefaultValue, getSVGPoint} from "../../src/features/common";
+import {createFakeDOM, createFakeEvent, testSVGBBox, testMatrix, testSVGPoint} from "../test-utils";
+import {getDefaultValue} from "../../src/features/common";
 import {TOOL_AUTO, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from "../../src";
-import {toBeDeepCloseTo,toMatchCloseTo} from 'jest-matcher-deep-close-to';
+import {toBeDeepCloseTo, toMatchCloseTo} from 'jest-matcher-deep-close-to';
+
 expect.extend({toBeDeepCloseTo, toMatchCloseTo});
 
 const VALUE = getDefaultValue(
@@ -40,10 +41,10 @@ describe("mouse interactions", () => {
     test.skip("click and drag", () => {
       const value1 = onMouseDown(event, ViewerDOM, TOOL_AUTO, value, {}, point1)
       const value2 = onMouseMove(event, ViewerDOM, TOOL_AUTO, value1, {}, point2)
-      expect(testBBox(value2)).toEqual([50, 50, expect.any(Number), expect.any(Number)])
+      expect(testSVGBBox(value2)).toEqual([50, 50, expect.any(Number), expect.any(Number)])
       const value3 = onMouseUp(event, ViewerDOM, TOOL_AUTO, value2, {}, point3)
       //TODO onMouseUp doesn't consider last coords update, so this step fails
-      expect(testBBox(value3)).toEqual([100, 100, expect.any(Number), expect.any(Number)])
+      expect(testSVGBBox(value3)).toEqual([100, 100, expect.any(Number), expect.any(Number)])
     })
 
     test('dblclick', () => {
@@ -51,13 +52,19 @@ describe("mouse interactions", () => {
       expect(testMatrix(value1)).toEqual(testMatrix(value1))
 
       //should zoom in (x2)
-      const value2 = onDoubleClick(event, ViewerDOM, TOOL_AUTO, value, {scaleFactor: 2, modifierKeys: ['Alt']}, {x: 200, y: 200})
-      expect(testBBox(value2)).toEqual([-200, -200, 600, 600])
+      const value2 = onDoubleClick(event, ViewerDOM, TOOL_AUTO, value, {scaleFactor: 2, modifierKeys: ['Alt']}, {
+        x: 200,
+        y: 200
+      })
+      expect(testSVGBBox(value2)).toEqual([-200, -200, 600, 600])
 
       //should zoom out (x0.5)
       const event2 = createFakeEvent({type: 'dblclick', pressedKeys: ['Alt']})
-      const value3 = onDoubleClick(event2, ViewerDOM, TOOL_AUTO, value, {scaleFactor: 2, modifierKeys: ['Alt']}, {x: 200, y: 200})
-      expect(testBBox(value3)).toEqual([100, 100, 300, 300])
+      const value3 = onDoubleClick(event2, ViewerDOM, TOOL_AUTO, value, {
+        scaleFactor: 2,
+        modifierKeys: ['Alt']
+      }, {x: 200, y: 200})
+      expect(testSVGBBox(value3)).toEqual([100, 100, 300, 300])
     })
   })
 
@@ -71,10 +78,10 @@ describe("mouse interactions", () => {
     test.skip("click and drag", () => {
       const value1 = onMouseDown(event, ViewerDOM, TOOL_PAN, value, {}, point1)
       const value2 = onMouseMove(event, ViewerDOM, TOOL_PAN, value1, {}, point2)
-      expect(testBBox(value2)).toEqual([50, 50, expect.any(Number), expect.any(Number)])
+      expect(testSVGBBox(value2)).toEqual([50, 50, expect.any(Number), expect.any(Number)])
       const value3 = onMouseUp(event, ViewerDOM, TOOL_PAN, value2, {}, point3)
       //TODO onMouseUp doesn't consider last coords update, so this step fails
-      expect(testBBox(value3)).toEqual([100, 100, expect.any(Number), expect.any(Number)])
+      expect(testSVGBBox(value3)).toEqual([100, 100, expect.any(Number), expect.any(Number)])
     })
   })
 
@@ -83,15 +90,15 @@ describe("mouse interactions", () => {
       const value1 = onMouseDown(event, ViewerDOM, TOOL_ZOOM_IN, value, {scaleFactor: 2}, {x: 200, y: 200})
       const value2 = onMouseMove(event, ViewerDOM, TOOL_ZOOM_IN, value1, {scaleFactor: 2}, {x: 200, y: 200})
       const value3 = onMouseUp(event, ViewerDOM, TOOL_ZOOM_IN, value2, {scaleFactor: 2}, {x: 200, y: 200})
-      expect(testBBox(value3)).toEqual([-200, -200, 600, 600])
+      expect(testSVGBBox(value3)).toEqual([-200, -200, 600, 600])
     })
     test("click and drag", () => {
       const value1 = onMouseDown(event, ViewerDOM, TOOL_ZOOM_IN, value, {scaleFactor: 2}, {x: 50, y: 50})
       const value2 = onMouseMove(event, ViewerDOM, TOOL_ZOOM_IN, value1, {scaleFactor: 2}, {x: 100, y: 100})
       const value3 = onMouseUp(event, ViewerDOM, TOOL_ZOOM_IN, value2, {scaleFactor: 2}, {x: 200, y: 200})
       expect(testMatrix(value1)).toEqual(testMatrix(value2))
-      expect(getSVGPoint(value3, 0, 0)).toMatchCloseTo({x: 50, y: 50}, 5)
-      expect(getSVGPoint(value3, 200, 200)).toEqual({x: 200, y: 200})
+      expect(testSVGPoint(value3, 0, 0)).toMatchCloseTo([50, 50], 5)
+      expect(testSVGPoint(value3, 200, 200)).toEqual([200, 200])
     })
   })
 
@@ -100,7 +107,7 @@ describe("mouse interactions", () => {
       const value1 = onMouseDown(event, ViewerDOM, TOOL_ZOOM_OUT, value, {scaleFactor: 2}, {x: 200, y: 200})
       const value2 = onMouseMove(event, ViewerDOM, TOOL_ZOOM_OUT, value1, {scaleFactor: 2}, {x: 200, y: 200})
       const value3 = onMouseUp(event, ViewerDOM, TOOL_ZOOM_OUT, value2, {scaleFactor: 2}, {x: 200, y: 200})
-      expect(testBBox(value3)).toEqual([100, 100, 300, 300])
+      expect(testSVGBBox(value3)).toEqual([100, 100, 300, 300])
     })
   })
 })
