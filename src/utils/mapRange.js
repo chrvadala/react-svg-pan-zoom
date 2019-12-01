@@ -1,3 +1,13 @@
-export default function mapRange(value, low1, high1, low2, high2) {
-  return low2 + (high2 - low2) * (value - low1) / (high1 - low1);
+/**
+ * Convert (re-map) an input value range into a destination range.
+ * @param value
+ * @param sourceStart
+ * @param sourceEnd
+ * @param targetStart
+ * @param targetEnd
+ * @return number
+ */
+
+export default function mapRange(value, sourceStart, sourceEnd, targetStart, targetEnd) {
+  return targetStart + (targetEnd - targetStart) * (value - sourceStart) / (sourceEnd - sourceStart);
 }
