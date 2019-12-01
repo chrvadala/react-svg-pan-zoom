@@ -23,7 +23,7 @@ import {
   onMouseUp,
   onWheel
 } from './features/interactions';
-import parseViewBox from './utils/ViewBoxParser';
+import parseViewBox from './utils/parseViewBox';
 import {onTouchCancel, onTouchEnd, onTouchMove, onTouchStart} from './features/interactions-touch';
 
 import {fitSelection, fitToViewer, zoom, zoomOnViewerCenter} from './features/zoom';
