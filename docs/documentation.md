@@ -64,8 +64,8 @@
 | `setValue(value)`                              | Through this method you can set a new value |
 | `getTool()`                                    | Get current tool |
 | `changeTool(tool)`                             | Change the tool (one of `none`,`pan`,`zoom-in`,`zoom-out`,`auto`) |
-| `openMiniature`                                | Open the miniature | 
-| `closeMiniature`                               | Close the miniature | 
+| `openMiniature`                                | Open the miniature |
+| `closeMiniature`                               | Close the miniature |
 
 ## Event attributes
 To your event handlers will be passed an instance of `ViewerMouseEvent` or `ViewerTouchEvent` (as the case). They have some useful attributes that map event positions to SVG coords.
@@ -107,8 +107,8 @@ import {
   //components
   ReactSVGPanZoom,             //Controlled component
   UncontrolledReactSVGPanZoom, //Uncontrolled component
-  
-  //functions to manipulate the state. The signature is quite similar to component methods, expect for the first parameter that is the current value. These are usefull only for some advanced integrations (e.g. reducers). 
+
+  //functions to manipulate the state. The signature is quite similar to component methods, expect for the first parameter that is the current value. These are usefull only for some advanced integrations (e.g. reducers).
   setPointOnViewerCenter,   //setPointOnViewerCenter(value, SVGPointX, SVGPointY, zoomLevel)
   reset,                    //reset(value)
   pan,                      //pan(value, SVGDeltaX, SVGDeltaY)
@@ -118,35 +118,34 @@ import {
   zoomOnViewerCenter,       //zoomOnViewerCenter(value, scaleFactor)
   openMiniature,
   closeMiniature,
-  
+
   //constants
   MODE_IDLE,
   MODE_PANNING,
   MODE_ZOOMING,
-  
+
   TOOL_AUTO,
   TOOL_NONE,
   TOOL_PAN,
   TOOL_ZOOM_IN,
   TOOL_ZOOM_OUT,
-  
+
   POSITION_NONE,
   POSITION_TOP,
   POSITION_RIGHT,
   POSITION_BOTTOM,
   POSITION_LEFT,
-  
+
   ACTION_ZOOM,
   ACTION_PAN,
-  
+
   ALIGN_CENTER,
   ALIGN_LEFT,
   ALIGN_RIGHT,
   ALIGN_TOP,
   ALIGN_BOTTOM,
-  
+  ALIGN_COVER
+
   INITIAL_VALUE
 } from 'react-svg-pan-zoom'
 ```
-
-
