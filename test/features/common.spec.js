@@ -61,11 +61,11 @@ test("isValueValid", () => {
 })
 
 test("getSVGPoint", () => {
-  expect(getSVGPoint(VALUE, 100, 100)).toMatchObject({x: 100, y: 100})
-  expect(getSVGPoint(VALUE, 200, 200)).toMatchObject({x: 200, y: 200})
+  expect(getSVGPoint(VALUE, 100, 100)).toEqual({x: 100, y: 100})
+  expect(getSVGPoint(VALUE, 200, 200)).toEqual({x: 200, y: 200})
 
   const value_2 = fitToViewer(VALUE)
-  expect(getSVGPoint(value_2, 100, 100)).toMatchObject({x: 200, y: 200})
+  expect(getSVGPoint(value_2, 100, 100)).toEqual({x: 200, y: 200})
 })
 
 test("decompose", () => {

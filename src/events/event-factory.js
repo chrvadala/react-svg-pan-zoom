@@ -1,7 +1,7 @@
 import ViewerMouseEvent from './viewer-mouse-event';
 import ViewerTouchEvent from './viewer-touch-event';
 
-export default function (originalEvent, value, SVGViewer) {
+export default function eventFactory(originalEvent, value, SVGViewer) {
 
   let eventType = originalEvent.type;
 
