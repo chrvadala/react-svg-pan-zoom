@@ -138,6 +138,8 @@ export default class MainStory extends Component {
               [ALIGN_CENTER]: ALIGN_CENTER,
               [ALIGN_BOTTOM]: ALIGN_BOTTOM
             }, ALIGN_TOP),
+
+            activeToolColor: color('toolbarProps.activeToolColor', '#1CA6FC'),
           }}
 
           miniatureProps={{
