@@ -14,7 +14,7 @@ import IconZoomOut from './icon-zoom-out';
 import IconFit from './icon-fit';
 import ToolbarButton from './toolbar-button';
 
-export default function Toolbar({tool, value, onChangeValue, onChangeTool, position, SVGAlignX, SVGAlignY}) {
+export default function Toolbar({tool, value, onChangeValue, onChangeTool, activeToolColor, position, SVGAlignX, SVGAlignY}) {
 
   let handleChangeTool = (event, tool) => {
     onChangeTool(tool);
@@ -52,6 +52,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
       <ToolbarButton
         toolbarPosition={position}
         active={tool === TOOL_NONE}
+        activeColor={activeToolColor}
         name="unselect-tools"
         title="Selection"
         onClick={ event => handleChangeTool(event, TOOL_NONE) }>
@@ -61,6 +62,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
       <ToolbarButton
         toolbarPosition={position}
         active={tool === TOOL_PAN}
+        activeColor={activeToolColor}
         name="select-tool-pan"
         title="Pan"
         onClick={ event => handleChangeTool(event, TOOL_PAN) }>
@@ -70,6 +72,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
       <ToolbarButton
         toolbarPosition={position}
         active={tool === TOOL_ZOOM_IN}
+        activeColor={activeToolColor}
         name="select-tool-zoom-in"
         title="Zoom in"
         onClick={ event => handleChangeTool(event, TOOL_ZOOM_IN) }>
@@ -79,6 +82,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
       <ToolbarButton
         toolbarPosition={position}
         active={tool === TOOL_ZOOM_OUT}
+        activeColor={activeToolColor}
         name="select-tool-zoom-out"
         title="Zoom out"
         onClick={ event => handleChangeTool(event, TOOL_ZOOM_OUT) }>
@@ -88,6 +92,7 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, posit
       <ToolbarButton
         toolbarPosition={position}
         active={false}
+        activeColor={activeToolColor}
         name="fit-to-viewer"
         title="Fit to viewer"
         onClick={ event => handleFit(event) }>
@@ -107,10 +112,12 @@ Toolbar.propTypes = {
   position: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]),
   SVGAlignX: PropTypes.oneOf([ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT]),
   SVGAlignY: PropTypes.oneOf([ALIGN_CENTER, ALIGN_TOP, ALIGN_BOTTOM]),
+  activeToolColor: PropTypes.string
 };
 
 Toolbar.defaultProps = {
   position: POSITION_RIGHT,
   SVGAlignX: ALIGN_LEFT,
-  SVGAlignY: ALIGN_TOP
+  SVGAlignY: ALIGN_TOP,
+  activeToolColor: '#1CA6FC'
 };

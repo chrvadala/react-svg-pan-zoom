@@ -47,6 +47,7 @@
 | toolbarProps.position   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
 | toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
 | toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
+| toolbarProps.activeToolColor | `#1CA6FC` | String | Color of active and hovered tool icons |
 
 \* handler available only with the tool `none` or `auto`
 
