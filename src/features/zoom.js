@@ -2,7 +2,7 @@ import {fromObject, scale, transform, translate} from 'transformation-matrix';
 
 import {
   ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING,
-  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM
+  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM, ALIGN_COVER
 } from '../constants';
 import {decompose, getSVGPoint, set} from './common';
 import calculateBox from '../utils/calculateBox';
@@ -101,15 +101,16 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
   let scaleY = viewerHeight / SVGHeight;
   let scaleLevel = Math.min(scaleX, scaleY);
 
-  const scaleMatrix = scale(scaleLevel, scaleLevel);
+  let scaleMatrix = scale(scaleLevel, scaleLevel);
 
   let translateX = -SVGMinX * scaleX;
   let translateY = -SVGMinY * scaleY;
 
-  // after fitting, SVG and the viewer will match in width (1) or in height (2)
-  if (scaleX < scaleY) {
-    //(1) match in width, meaning scaled SVGHeight <= viewerHeight
+ // after fitting, SVG and the viewer will match in width (1) or in height (2) or SVG will cover the container with preserving aspect ratio (0)
+ if (scaleX < scaleY) {
     let remainderY = viewerHeight - scaleX * SVGHeight;
+
+    //(1) match in width, meaning scaled SVGHeight <= viewerHeight
     switch(SVGAlignY) {
       case ALIGN_TOP:
         translateY = -SVGMinY * scaleLevel;
@@ -123,12 +124,20 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
         translateY = remainderY - SVGMinY * scaleLevel;
       break;
 
+      case ALIGN_COVER:
+        scaleMatrix = scale(scaleY, scaleY); // (0) we must now match to short edge, in this case - height
+        let remainderX = viewerWidth - scaleY * SVGWidth; // calculate remainder in the other scale
+
+        translateX = SVGMinX + Math.round(remainderX / 2); // center by the long edge
+      break;
+
       default:
         //no op
     }
   } else {
-    //(2) match in height, meaning scaled SVGWidth <= viewerWidth
     let remainderX = viewerWidth - scaleY * SVGWidth;
+
+    //(2) match in height, meaning scaled SVGWidth <= viewerWidth
     switch(SVGAlignX) {
       case ALIGN_LEFT:
         translateX = -SVGMinX * scaleLevel;
@@ -142,12 +151,20 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
         translateX = remainderX - SVGMinX * scaleLevel;
       break;
 
+      case ALIGN_COVER:
+        scaleMatrix = scale(scaleX, scaleX); // (0) we must now match to short edge, in this case - width
+        let remainderY = viewerHeight - scaleX * SVGHeight; // calculate remainder in the other scale
+
+        translateY = SVGMinY + Math.round(remainderY / 2); // center by the long edge
+      break;
+
       default:
         //no op
     }
   }
 
   const translationMatrix = translate(translateX, translateY);
+
   const matrix = transform(
     translationMatrix, //2
     scaleMatrix        //1

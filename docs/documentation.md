@@ -144,7 +144,8 @@ import {
   ALIGN_RIGHT,
   ALIGN_TOP,
   ALIGN_BOTTOM,
-  
+  ALIGN_COVER,
+
   INITIAL_VALUE
 } from 'react-svg-pan-zoom'
 ```

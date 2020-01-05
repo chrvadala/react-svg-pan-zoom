@@ -5,6 +5,7 @@ import {
   ALIGN_LEFT,
   ALIGN_RIGHT,
   ALIGN_TOP,
+  ALIGN_COVER,
   fitSelection,
   fitToViewer,
   MODE_IDLE,
@@ -105,7 +106,29 @@ describe("fitSelection", () => {
   test.todo('h<w')
 })
 
-describe("fitToViewer", () => {
+describe("fitToViewer rect > viewer", () => {
+    test("rect with w>h", () => {
+      const value = getDefaultValue(
+        200, 100,       //viewer 200x100
+        0, 0, 400, 400, //svg 400x400
+      )
+
+      const value1 = fitToViewer(value, ALIGN_COVER, ALIGN_COVER)
+      expect(testSVGBBox(value1)).toEqual([0, -50, 200, 150])
+    })
+
+    test("rect with w<h", () => {
+      const value = getDefaultValue(
+        100, 200,       //viewer 200x100
+        0, 0, 400, 400, //svg 400x400
+      )
+
+      const value1 = fitToViewer(value, ALIGN_COVER, ALIGN_COVER)
+      expect(testSVGBBox(value1)).toEqual([-50, 0, 150, 200])
+    })
+})
+
+describe("fitToViewer rect < viewer", () => {
   test("rect with w>h", () => {
     const value = getDefaultValue(
       200, 100,       //viewer 200x100
@@ -120,6 +143,9 @@ describe("fitToViewer", () => {
 
     const value3 = fitToViewer(value, ALIGN_RIGHT, ALIGN_TOP)
     expect(testSVGBBox(value3)).toEqual([100, 0, 200, 100])
+
+    const value4 = fitToViewer(value, ALIGN_COVER, ALIGN_COVER)
+    expect(testSVGBBox(value4)).toEqual([0, -50, 200, 150])
   })
 
   test("rect with w<h", () => {
@@ -136,6 +162,9 @@ describe("fitToViewer", () => {
 
     const value3 = fitToViewer(value, ALIGN_LEFT, ALIGN_BOTTOM)
     expect(testSVGBBox(value3)).toEqual([0, 100, 100, 200])
+
+    const value4 = fitToViewer(value, ALIGN_COVER, ALIGN_COVER)
+    expect(testSVGBBox(value4)).toEqual([-50, 0, 150, 200])
   })
 })
 
