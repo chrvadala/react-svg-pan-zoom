@@ -81,6 +81,7 @@ yarn add react-svg-pan-zoom
 - **v3.5** - Handles wheel event as passive [#158](https://github.com/chrvadala/react-svg-pan-zoom/pull/158), upgrades deps
 - **v3.6** - Adds some unit tests, Fixes [#161](https://github.com/chrvadala/react-svg-pan-zoom/issues/161), upgrades deps
 - **v3.7** - Adds some more unit tests, upgrades deps
+- **v3.8** - Adds cover option on `fitToViewer` method [#167](https://github.com/chrvadala/react-svg-pan-zoom/pull/167), adds `activeToolColor` property [#168](https://github.com/chrvadala/react-svg-pan-zoom/pull/168)
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
@@ -107,3 +108,5 @@ yarn add react-svg-pan-zoom
 - [kheyse-oqton](https://github.com/kheyse-oqton)
 - [krnlde](https://github.com/krnlde)
 - [UnHumbleBen](https://github.com/UnHumbleBen)
+- [wolasss](https://github.com/wolasss)
+- [leweohlsen](https://github.com/leweohlsen)
