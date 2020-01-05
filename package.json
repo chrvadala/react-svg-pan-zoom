@@ -54,19 +54,19 @@
   ],
   "dependencies": {
     "prop-types": "^15.7.2",
-    "transformation-matrix": "^2.1.0"
+    "transformation-matrix": "^2.2.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.7.5",
-    "@babel/core": "^7.7.5",
-    "@babel/runtime": "^7.7.6",
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/runtime": "^7.7.7",
     "@storybook/addon-actions": "5.2.8",
     "@storybook/addon-knobs": "5.2.8",
     "@storybook/addon-links": "5.2.8",
     "@storybook/addons": "5.2.8",
     "@storybook/react": "5.2.8",
     "@storybook/theming": "^5.2.8",
-    "@types/jest": "^24.0.23",
+    "@types/jest": "^24.0.25",
     "babel-loader": "^8.0.6",
     "coveralls": "^3.0.9",
     "cross-env": "^6.0.3",
@@ -80,7 +80,7 @@
     "react-scripts": "^3.3.0",
     "react-virtualized": "^9.21.1",
     "remarkable": "^2.0.0",
-    "webpack": "^4.41.2",
+    "webpack": "^4.41.5",
     "webpack-cli": "^3.3.9"
   },
   "peerDependencies": {
