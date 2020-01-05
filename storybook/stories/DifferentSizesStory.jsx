@@ -7,6 +7,7 @@ import {
   ALIGN_LEFT,
   ALIGN_RIGHT,
   ALIGN_TOP,
+  ALIGN_COVER,
   UncontrolledReactSVGPanZoom
 } from '../../src/index';
 
@@ -34,12 +35,14 @@ export default class DifferentSizesStory extends Component {
       SVGAlignX: select('toolbarProps.SVGAlignX', {
         [ALIGN_LEFT]: ALIGN_LEFT,
         [ALIGN_CENTER]: ALIGN_CENTER,
-        [ALIGN_RIGHT]: ALIGN_RIGHT
+        [ALIGN_RIGHT]: ALIGN_RIGHT,
+        [ALIGN_COVER]: ALIGN_COVER,
       }, ALIGN_LEFT),
       SVGAlignY: select('toolbarProps.SVGAlignY', {
         [ALIGN_TOP]: ALIGN_TOP,
         [ALIGN_CENTER]: ALIGN_CENTER,
-        [ALIGN_BOTTOM]: ALIGN_BOTTOM
+        [ALIGN_BOTTOM]: ALIGN_BOTTOM,
+        [ALIGN_COVER]: ALIGN_COVER,
       }, ALIGN_TOP),
     }
 
