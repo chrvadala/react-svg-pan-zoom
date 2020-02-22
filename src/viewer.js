@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {toSVG} from 'transformation-matrix';
+import {toSVG, applyToPoints, inverse} from 'transformation-matrix';
 //events
 import eventFactory from './events/event-factory';
 //features
@@ -298,14 +298,34 @@ export default class ReactSVGPanZoom extends React.Component {
 
     const style = {display: 'block', cursor, touchAction};
 
+    let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(inverse(value), [
+      {x: 0, y: 0},
+      {x: value.viewerWidth, y: value.viewerHeight}
+    ]);
+
+    const viewerToSvgWidthRatio = value.viewerWidth / value.SVGWidth;
+
+    const viewerToSvgHeightRatio = value.viewerHeight / value.SVGHeight;
+
+    x1 *= viewerToSvgWidthRatio;
+    x2 *= viewerToSvgWidthRatio;
+
+    y1 *= viewerToSvgHeightRatio;
+    y2 *= viewerToSvgHeightRatio;
+
+    const thumbWidth = (x2 - x1);
+    const thumbHeight = (y2 - y1);
+
+    const thumbSize = 6;
+
     return (
       <div
         style={{position: "relative", width: value.viewerWidth, height: value.viewerHeight, ...props.style}}
         className={this.props.className}>
         <svg
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
-          width={value.viewerWidth}
-          height={value.viewerHeight}
+          width={value.viewerWidth + thumbSize}
+          height={value.viewerHeight + thumbSize}
           style={style}
 
           onMouseDown={event => {
@@ -392,6 +412,25 @@ export default class ReactSVGPanZoom extends React.Component {
               {props.children.props.children}
             </g>
           </g>
+
+          <rect
+            fill="black"
+            fillOpacity="0.2"
+            rx="2"
+            x={x1}
+            y={value.viewerWidth}
+            width={thumbWidth}
+            height={thumbSize}
+          />
+          <rect
+            fill="black"
+            fillOpacity="0.2"
+            rx="2"
+            x={value.viewerHeight}
+            y={y1}
+            width={thumbSize}
+            height={thumbHeight}
+          />
 
           {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
             <g style={{pointerEvents: "none"}}>
