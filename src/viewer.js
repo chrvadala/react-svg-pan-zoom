@@ -31,6 +31,7 @@ import {closeMiniature, openMiniature} from './features/miniature';
 //ui
 import cursorPolyfill from './ui/cursor-polyfill';
 import BorderGradient from './ui/border-gradient';
+import Scrollbar from "./ui/scrollbar";
 import Selection from './ui/selection';
 import Toolbar from './ui-toolbar/toolbar';
 import detectTouch from './ui/detect-touch';
@@ -270,7 +271,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature} = props;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -303,6 +304,9 @@ export default class ReactSVGPanZoom extends React.Component {
       {x: value.viewerWidth, y: value.viewerHeight}
     ]);
 
+    const showHorizontalScrollbar = scroll === "scroll" ? true: scroll === "auto" && (x1 > 0 || x2 < value.SVGWidth || (x2 - x1) < value.SVGWidth);
+    const showVerticalScrollbar = scroll === "scroll" ? true: scroll === "auto" && (y1 > 0 || y2 < value.SVGHeight || (y2 - y1) < value.SVGHeight);
+
     const viewerToSvgWidthRatio = value.viewerWidth / value.SVGWidth;
 
     const viewerToSvgHeightRatio = value.viewerHeight / value.SVGHeight;
@@ -324,8 +328,8 @@ export default class ReactSVGPanZoom extends React.Component {
         className={this.props.className}>
         <svg
           ref={ViewerDOM => this.ViewerDOM = ViewerDOM}
-          width={value.viewerWidth + thumbSize}
-          height={value.viewerHeight + thumbSize}
+          width={value.viewerWidth}
+          height={value.viewerHeight}
           style={style}
 
           onMouseDown={event => {
@@ -413,24 +417,29 @@ export default class ReactSVGPanZoom extends React.Component {
             </g>
           </g>
 
-          <rect
-            fill="black"
-            fillOpacity="0.2"
-            rx="2"
+          {showHorizontalScrollbar && <Scrollbar
             x={x1}
-            y={value.viewerWidth}
+            y={value.viewerWidth - thumbSize}
             width={thumbWidth}
             height={thumbSize}
-          />
-          <rect
-            fill="black"
-            fillOpacity="0.2"
-            rx="2"
-            x={value.viewerHeight}
+            isVertical={false}
+            onScroll={(({value: scrollValue}) => {
+              const currValue = this.getValue();
+              const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
+              this.setValue(newValue);
+            })}
+          />}
+          {showVerticalScrollbar && <Scrollbar
+            x={value.viewerHeight - thumbSize}
             y={y1}
             width={thumbSize}
             height={thumbHeight}
-          />
+            onScroll={(({value: scrollValue}) => {
+              const currValue = this.getValue();
+              const newValue = {...currValue, f: currValue.f - (scrollValue * currValue.a / viewerToSvgHeightRatio)};
+              this.setValue(newValue);
+            })}
+          />}
 
           {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
             <g style={{pointerEvents: "none"}}>
@@ -663,7 +672,8 @@ ReactSVGPanZoom.propTypes = {
       return new Error('SVG should have props `width` and `height` or `viewBox`');
     }
 
-  }
+  },
+  scroll: PropTypes.oneOf(["scroll", "auto", "none"])
 };
 
 ReactSVGPanZoom.defaultProps = {
@@ -685,4 +695,5 @@ ReactSVGPanZoom.defaultProps = {
   toolbarProps: {},
   customMiniature: Miniature,
   miniatureProps: {},
+  scroll: "none"
 };
