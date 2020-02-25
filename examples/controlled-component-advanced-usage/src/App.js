@@ -51,7 +51,8 @@ export default class App extends React.PureComponent {
           ref={Viewer => this.Viewer = Viewer}
           tool={this.state.tool} onChangeTool={tool => this.changeTool(tool)}
           value={this.state.value} onChangeValue={value => this.changeValue(value)}
-
+          scroll="auto"
+          detectAutoPan={false}
           onClick={event => console.log('click', event.x, event.y, event.originalEvent)}
         >
           <svg width={617} height={316}>

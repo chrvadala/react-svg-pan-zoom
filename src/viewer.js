@@ -271,7 +271,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll} = props;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, preventPanOutside} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -419,26 +419,30 @@ export default class ReactSVGPanZoom extends React.Component {
 
           {showHorizontalScrollbar && <Scrollbar
             x={x1}
-            y={value.viewerWidth - thumbSize}
+            y={value.viewerHeight - thumbSize}
             width={thumbWidth}
             height={thumbSize}
             isVertical={false}
             onScroll={(({value: scrollValue}) => {
               const currValue = this.getValue();
-              const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
+              // const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
+              const newValue = pan(currValue, - (scrollValue / viewerToSvgWidthRatio), 0, preventPanOutside ? 20 : undefined);
               this.setValue(newValue);
             })}
+            scrollBarStyle={scrollBarStyle}
           />}
           {showVerticalScrollbar && <Scrollbar
-            x={value.viewerHeight - thumbSize}
+            x={value.viewerWidth - thumbSize}
             y={y1}
             width={thumbSize}
             height={thumbHeight}
             onScroll={(({value: scrollValue}) => {
               const currValue = this.getValue();
-              const newValue = {...currValue, f: currValue.f - (scrollValue * currValue.a / viewerToSvgHeightRatio)};
+              // const newValue = {...currValue, f: currValue.f - (scrollValue * currValue.a / viewerToSvgHeightRatio)};
+              const newValue = pan(currValue, 0, - (scrollValue / viewerToSvgHeightRatio), preventPanOutside ? 20 : undefined);
               this.setValue(newValue);
             })}
+            scrollBarStyle={scrollBarStyle}
           />}
 
           {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
@@ -695,5 +699,9 @@ ReactSVGPanZoom.defaultProps = {
   toolbarProps: {},
   customMiniature: Miniature,
   miniatureProps: {},
-  scroll: "none"
+  scroll: "none",
+  scrollBarStyle: {
+    fill: "black",
+    fillOpacity: 0.2
+  }
 };

@@ -2,9 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const style = {
-  cursor: "pointer",
   fill: "black",
-  fillOpacity: 0.2
+  fillOpacity: 0.2,
 };
 
 export default class Scrollbar extends React.Component {
@@ -20,6 +19,8 @@ export default class Scrollbar extends React.Component {
     this.onMouseDown = this.onMouseDown.bind(this);
     this.onMouseMove = this.onMouseMove.bind(this);
     this.onMouseUp = this.onMouseUp.bind(this);
+    this.onMouseOver = this.onMouseOver.bind(this);
+    this.onMouseOut = this.onMouseOut.bind(this);
   }
 
   componentDidMount() {
@@ -58,13 +59,31 @@ export default class Scrollbar extends React.Component {
     event.stopPropagation();
     this.setState({isMouseDown: false});
   }
+
+  onMouseOver(event) {
+    event.stopPropagation();
+    this.setState({isMouseOver: true});
+  }
+
+  onMouseOut(event) {
+    if(!this.state.isMouseOver)
+      return;
+    event.stopPropagation();
+    this.setState({isMouseOver: false});
+  }
+
   render() {
-    const {onMouseDown} = this;
-    const {x, y, width, height} = this.props;
+    const {onMouseDown, onMouseOver, onMouseOut} = this;
+    const {x, y, width, height, scrollBarStyle} = this.props;
+    const {isMouseDown, isMouseOver} = this.state;
+    const normalOpacity = scrollBarStyle.fillOpacity || style.fillOpacity;
+    const fillOpacity = isMouseDown || isMouseOver ? Math.min(normalOpacity * 2, 1) : normalOpacity;
     return <rect
       onMouseDown={onMouseDown}
+      onMouseOver={onMouseOver}
+      onMouseOut={onMouseOut}
       rx="2"
-      style={style}
+      style={{...style, ...scrollBarStyle, fillOpacity}}
       x={x}
       y={y}
       width={width}
@@ -79,7 +98,8 @@ Scrollbar.propTypes = {
   width: PropTypes.number.isRequired,
   height: PropTypes.number.isRequired,
   onScroll: PropTypes.func.isRequired,
-  isVertical: PropTypes.bool
+  isVertical: PropTypes.bool,
+  scrollBarStyle: PropTypes.object.isRequired,
 };
 
 Scrollbar.defaultProps = {

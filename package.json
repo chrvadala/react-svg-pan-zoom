@@ -1,7 +1,7 @@
 {
-  "author": "chrvadala",
-  "name": "react-svg-pan-zoom",
-  "version": "3.8.0",
+  "author": "Ashwin Singh",
+  "name": "react-svg-pan-zoom-scrollbars",
+  "version": "3.9.0",
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./build-commonjs/index.js",
   "module": "./build-es/index.js",
