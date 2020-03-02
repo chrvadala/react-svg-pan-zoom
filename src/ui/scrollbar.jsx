@@ -74,7 +74,7 @@ export default class Scrollbar extends React.Component {
 
   render() {
     const {onMouseDown, onMouseOver, onMouseOut} = this;
-    const {x, y, width, height, scrollBarStyle} = this.props;
+    const {x, y, width, height, scrollBarStyle, rx} = this.props;
     const {isMouseDown, isMouseOver} = this.state;
     const normalOpacity = scrollBarStyle.fillOpacity || style.fillOpacity;
     const fillOpacity = isMouseDown || isMouseOver ? Math.min(normalOpacity * 2, 1) : normalOpacity;
@@ -82,7 +82,7 @@ export default class Scrollbar extends React.Component {
       onMouseDown={onMouseDown}
       onMouseOver={onMouseOver}
       onMouseOut={onMouseOut}
-      rx="2"
+      rx={rx}
       style={{...style, ...scrollBarStyle, fillOpacity}}
       x={x}
       y={y}
@@ -100,6 +100,7 @@ Scrollbar.propTypes = {
   onScroll: PropTypes.func.isRequired,
   isVertical: PropTypes.bool,
   scrollBarStyle: PropTypes.object.isRequired,
+  rx: PropTypes.number.isRequired,
 };
 
 Scrollbar.defaultProps = {

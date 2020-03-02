@@ -47,7 +47,7 @@ export default class App extends React.PureComponent {
         <hr/>
 
         <ReactSVGPanZoom
-          width={500} height={500}
+          width={1000} height={700}
           ref={Viewer => this.Viewer = Viewer}
           tool={this.state.tool} onChangeTool={tool => this.changeTool(tool)}
           value={this.state.value} onChangeValue={value => this.changeValue(value)}

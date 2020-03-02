@@ -271,7 +271,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, preventPanOutside} = props;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, preventPanOutside, thumbSize} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -319,8 +319,6 @@ export default class ReactSVGPanZoom extends React.Component {
 
     const thumbWidth = (x2 - x1);
     const thumbHeight = (y2 - y1);
-
-    const thumbSize = 6;
 
     return (
       <div
@@ -430,6 +428,7 @@ export default class ReactSVGPanZoom extends React.Component {
               this.setValue(newValue);
             })}
             scrollBarStyle={scrollBarStyle}
+            rx={thumbSize / 2}
           />}
           {showVerticalScrollbar && <Scrollbar
             x={value.viewerWidth - thumbSize}
@@ -443,6 +442,7 @@ export default class ReactSVGPanZoom extends React.Component {
               this.setValue(newValue);
             })}
             scrollBarStyle={scrollBarStyle}
+            rx={thumbSize / 2}
           />}
 
           {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
@@ -677,7 +677,8 @@ ReactSVGPanZoom.propTypes = {
     }
 
   },
-  scroll: PropTypes.oneOf(["scroll", "auto", "none"])
+  scroll: PropTypes.oneOf(["scroll", "auto", "none"]),
+  thumbSize: PropTypes.number.isRequired,
 };
 
 ReactSVGPanZoom.defaultProps = {
@@ -703,5 +704,6 @@ ReactSVGPanZoom.defaultProps = {
   scrollBarStyle: {
     fill: "black",
     fillOpacity: 0.2
-  }
+  },
+  thumbSize: 8
 };
