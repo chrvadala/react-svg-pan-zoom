@@ -4,7 +4,7 @@ import {noArgsDecorator, viewerTouchEventDecorator, viewerMouseEventDecorator} f
 
 import {
   UncontrolledReactSVGPanZoom,
-  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
+  TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_EXPLORE,
 } from '../../src/index';
 import Snake from './snake.svg';
 
@@ -91,6 +91,9 @@ export default class MethodsStory extends React.Component {
           </button>
           <button type="button" style={STYLE_BUTTON} name="select-tool-pan-btn"
                   onClick={event => this.Viewer.changeTool(TOOL_PAN)}>.changeTool(TOOL_PAN)
+          </button>
+          <button type="button" style={STYLE_BUTTON} name="select-tool-explore-btn"
+                  onClick={event => this.Viewer.changeTool(TOOL_EXPLORE)}>.changeTool(TOOL_EXPLORE)
           </button>
           <button type="button" style={STYLE_BUTTON} name="select-tool-zoom-in-btn"
                   onClick={event => this.Viewer.changeTool(TOOL_ZOOM_IN)}>.changeTool(TOOL_ZOOM_IN)

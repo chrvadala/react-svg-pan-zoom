@@ -1,7 +1,7 @@
 import {transform, fromObject, translate, scale} from 'transformation-matrix';
 import {
   TOOL_PAN, TOOL_AUTO, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
-  MODE_IDLE, MODE_PANNING, MODE_ZOOMING
+  MODE_IDLE, MODE_PANNING, MODE_ZOOMING, TOOL_EXPLORE
 } from '../constants';
 import {resetMode, getSVGPoint, set} from './common';
 import {onMouseDown, onMouseMove, onMouseUp} from './interactions';
@@ -86,6 +86,7 @@ function onSingleTouch(event, ViewerDOM, tool, value, props, nextValueFn) {
     case TOOL_ZOOM_IN:
     case TOOL_AUTO:
     case TOOL_PAN:
+    case TOOL_EXPLORE:
       event.stopPropagation();
       event.preventDefault();
       return nextValueFn(event, ViewerDOM, tool, nextValue, props, touchPosition);

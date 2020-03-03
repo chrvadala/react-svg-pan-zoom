@@ -1,4 +1,13 @@
-import {MODE_PANNING, MODE_ZOOMING, TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,} from '../constants';
+import {
+  MODE_PANNING,
+  MODE_ZOOMING,
+  TOOL_AUTO,
+  TOOL_EXPLORE,
+  TOOL_NONE,
+  TOOL_PAN,
+  TOOL_ZOOM_IN,
+  TOOL_ZOOM_OUT,
+} from '../constants';
 import {getSVGPoint, setFocus} from './common';
 import {autoPanIfNeeded, startPanning, stopPanning, updatePanning} from './pan';
 import {startZooming, stopZooming, updateZooming, zoom} from './zoom';
@@ -31,6 +40,14 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
       nextValue = startPanning(value, x, y);
       break;
 
+    case TOOL_EXPLORE:
+      if(event.target !== ViewerDOM)
+        break;
+      else {
+        nextValue = startPanning(value, x, y);
+        break;
+      }
+
     default:
       return value;
   }
@@ -53,6 +70,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
 
     case TOOL_AUTO:
     case TOOL_PAN:
+    case TOOL_EXPLORE:
       if (value.mode === MODE_PANNING)
         nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, props.preventPanOutside ? 20 : undefined);
       break;
@@ -83,6 +101,7 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
 
     case TOOL_AUTO:
     case TOOL_PAN:
+    case TOOL_EXPLORE:
       if (value.mode === MODE_PANNING)
         nextValue = stopPanning(value);
       break;

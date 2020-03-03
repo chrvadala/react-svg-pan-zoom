@@ -53,7 +53,7 @@ import {
   POSITION_NONE,
   POSITION_RIGHT,
   POSITION_TOP,
-  TOOL_AUTO,
+  TOOL_AUTO, TOOL_EXPLORE,
   TOOL_NONE,
   TOOL_PAN,
   TOOL_ZOOM_IN,
@@ -280,7 +280,7 @@ export default class ReactSVGPanZoom extends React.Component {
 
     let cursor;
 
-    if (tool === TOOL_PAN)
+    if (tool === TOOL_PAN || tool === TOOL_EXPLORE)
       cursor = cursorPolyfill(value.mode === MODE_PANNING ? 'grabbing' : 'grab');
 
     if (tool === TOOL_ZOOM_IN)
@@ -295,7 +295,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let blockChildEvents = [TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT].indexOf(tool) >= 0;
     blockChildEvents = blockChildEvents || panningWithToolAuto;
 
-    const touchAction = (this.props.detectPinchGesture || [TOOL_PAN, TOOL_AUTO].indexOf(this.getTool()) !== -1) ? 'none' : undefined
+    const touchAction = (this.props.detectPinchGesture || [TOOL_PAN, TOOL_AUTO, TOOL_EXPLORE].indexOf(this.getTool()) !== -1) ? 'none' : undefined
 
     const style = {display: 'block', cursor, touchAction};
 
@@ -405,11 +405,12 @@ export default class ReactSVGPanZoom extends React.Component {
             style={blockChildEvents ? {pointerEvents: "none"} : {}}>
             <rect
               fill={this.props.SVGBackground}
-              style={this.props.SVGStyle}
+              style={{...this.props.SVGStyle, pointerEvents: tool === TOOL_EXPLORE ? "none" : undefined}}
               x={value.SVGMinX || 0}
               y={value.SVGMinY || 0}
               width={value.SVGWidth}
-              height={value.SVGHeight}/>
+              height={value.SVGHeight}
+            />
             <g>
               {props.children.props.children}
             </g>
@@ -535,7 +536,7 @@ ReactSVGPanZoom.propTypes = {
   onChangeValue: PropTypes.func.isRequired,
 
   //current active tool (TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT)
-  tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT]).isRequired,
+  tool: PropTypes.oneOf([TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, TOOL_EXPLORE]).isRequired,
 
   //handler tool changed
   onChangeTool: PropTypes.func.isRequired,

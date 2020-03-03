@@ -7,6 +7,7 @@ export const TOOL_NONE = 'none';
 export const TOOL_PAN = 'pan';
 export const TOOL_ZOOM_IN = 'zoom-in';
 export const TOOL_ZOOM_OUT = 'zoom-out';
+export const TOOL_EXPLORE = 'explore';
 
 export const POSITION_NONE = 'none';
 export const POSITION_TOP = 'top';

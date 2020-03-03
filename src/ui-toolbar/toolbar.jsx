@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import {
   TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,
   POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT,
-  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM,
+  ALIGN_CENTER, ALIGN_LEFT, ALIGN_RIGHT, ALIGN_TOP, ALIGN_BOTTOM, TOOL_EXPLORE,
 } from '../constants';
 
 import {fitToViewer} from '../features/zoom';
@@ -66,6 +66,16 @@ export default function Toolbar({tool, value, onChangeValue, onChangeTool, activ
         name="select-tool-pan"
         title="Pan"
         onClick={ event => handleChangeTool(event, TOOL_PAN) }>
+        <IconPan/>
+      </ToolbarButton>
+
+      <ToolbarButton
+        toolbarPosition={position}
+        active={tool === TOOL_EXPLORE}
+        activeColor={activeToolColor}
+        name="select-tool-explore"
+        title="Explore"
+        onClick={ event => handleChangeTool(event, TOOL_EXPLORE) }>
         <IconPan/>
       </ToolbarButton>
 
