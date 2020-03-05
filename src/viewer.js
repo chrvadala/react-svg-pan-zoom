@@ -280,8 +280,11 @@ export default class ReactSVGPanZoom extends React.Component {
 
     let cursor;
 
-    if (tool === TOOL_PAN || tool === TOOL_EXPLORE)
-      cursor = cursorPolyfill(value.mode === MODE_PANNING ? tool === TOOL_EXPLORE ? 'move':'grabbing' : 'grab');
+    if (tool === TOOL_PAN )
+      cursor = cursorPolyfill(value.mode === MODE_PANNING ? 'grabbing' : 'grab');
+
+    if (tool === TOOL_EXPLORE)
+      cursor = cursorPolyfill(value.mode === MODE_PANNING ? 'move' : 'default');
 
     if (tool === TOOL_ZOOM_IN)
       cursor = cursorPolyfill('zoom-in');
