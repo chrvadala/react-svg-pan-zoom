@@ -304,15 +304,15 @@ export default class ReactSVGPanZoom extends React.Component {
 
     let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(inverse(value), [
       {x: 0, y: 0},
-      {x: value.viewerWidth, y: value.viewerHeight}
+      {x: value.viewerWidth - thumbSize, y: value.viewerHeight - thumbSize}
     ]);
 
     const showHorizontalScrollbar = scroll === "scroll" ? true: scroll === "auto" && (x1 > 0 || x2 < value.SVGWidth || (x2 - x1) < value.SVGWidth);
     const showVerticalScrollbar = scroll === "scroll" ? true: scroll === "auto" && (y1 > 0 || y2 < value.SVGHeight || (y2 - y1) < value.SVGHeight);
 
-    const viewerToSvgWidthRatio = value.viewerWidth / value.SVGWidth;
+    const viewerToSvgWidthRatio = (value.viewerWidth - thumbSize) / value.SVGWidth;
 
-    const viewerToSvgHeightRatio = value.viewerHeight / value.SVGHeight;
+    const viewerToSvgHeightRatio = (value.viewerHeight - thumbSize) / value.SVGHeight;
 
     x1 *= viewerToSvgWidthRatio;
     x2 *= viewerToSvgWidthRatio;
