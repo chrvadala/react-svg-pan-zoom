@@ -271,7 +271,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, preventPanOutside, thumbSize} = props;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, preventPanOutside, thumbSize, canalBarStyle} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -419,35 +419,55 @@ export default class ReactSVGPanZoom extends React.Component {
             </g>
           </g>
 
-          {showHorizontalScrollbar && <Scrollbar
-            x={x1}
-            y={value.viewerHeight - thumbSize}
-            width={thumbWidth}
-            height={thumbSize}
-            isVertical={false}
-            onScroll={(({value: scrollValue}) => {
-              const currValue = this.getValue();
-              // const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
-              const newValue = pan(currValue, - (scrollValue / viewerToSvgWidthRatio), 0, preventPanOutside ? 20 : undefined);
-              this.setValue(newValue);
-            })}
-            scrollBarStyle={scrollBarStyle}
-            rx={thumbSize / 2}
-          />}
-          {showVerticalScrollbar && <Scrollbar
-            x={value.viewerWidth - thumbSize}
-            y={y1}
-            width={thumbSize}
-            height={thumbHeight}
-            onScroll={(({value: scrollValue}) => {
-              const currValue = this.getValue();
-              // const newValue = {...currValue, f: currValue.f - (scrollValue * currValue.a / viewerToSvgHeightRatio)};
-              const newValue = pan(currValue, 0, - (scrollValue / viewerToSvgHeightRatio), preventPanOutside ? 20 : undefined);
-              this.setValue(newValue);
-            })}
-            scrollBarStyle={scrollBarStyle}
-            rx={thumbSize / 2}
-          />}
+          {showHorizontalScrollbar && <>
+            <rect
+              x={0}
+              y={value.viewerHeight - thumbSize}
+              width={value.viewerWidth - (showVerticalScrollbar ? thumbSize: 0)}
+              height={thumbSize}
+              style={canalBarStyle}
+            />
+            <Scrollbar
+              x={x1}
+              y={value.viewerHeight - thumbSize}
+              width={thumbWidth}
+              height={thumbSize}
+              isVertical={false}
+              onScroll={(({value: scrollValue}) => {
+                const currValue = this.getValue();
+                // const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
+                const newValue = pan(currValue, - (scrollValue / viewerToSvgWidthRatio), 0, preventPanOutside ? 20 : undefined);
+                this.setValue(newValue);
+              })}
+              scrollBarStyle={scrollBarStyle}
+              rx={thumbSize / 2}
+            />
+            </>
+          }
+          {showVerticalScrollbar &&
+          <>
+            <rect
+              x={value.viewerWidth - thumbSize}
+              y={0}
+              width={thumbSize}
+              height={value.viewerHeight}
+              style={canalBarStyle}
+            />
+            <Scrollbar
+              x={value.viewerWidth - thumbSize}
+              y={y1}
+              width={thumbSize}
+              height={thumbHeight}
+              onScroll={(({value: scrollValue}) => {
+                const currValue = this.getValue();
+                // const newValue = {...currValue, f: currValue.f - (scrollValue * currValue.a / viewerToSvgHeightRatio)};
+                const newValue = pan(currValue, 0, - (scrollValue / viewerToSvgHeightRatio), preventPanOutside ? 20 : undefined);
+                this.setValue(newValue);
+              })}
+              scrollBarStyle={scrollBarStyle}
+              rx={thumbSize / 2}
+            />
+          </>}
 
           {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
             <g style={{pointerEvents: "none"}}>
@@ -708,6 +728,10 @@ ReactSVGPanZoom.defaultProps = {
   scrollBarStyle: {
     fill: "black",
     fillOpacity: 0.2
+  },
+  canalBarStyle: {
+    fill: "black",
+    fillOpacity: 0.1
   },
   thumbSize: 8
 };
