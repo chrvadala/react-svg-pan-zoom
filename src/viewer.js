@@ -266,12 +266,22 @@ export default class ReactSVGPanZoom extends React.Component {
     if (this.getValue() !== nextValue) this.setValue(nextValue);
   }
 
+  panImage({deltaX = 0, deltaY = 0}) {
+    const {
+      preventPanOutside
+    } = this.props;
+    const currValue = this.getValue();
+    // const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
+    const newValue = pan(currValue, deltaX, deltaY, preventPanOutside ? 20 : undefined);
+    this.setValue(newValue);
+  }
+
   /** React renderer **/
   render() {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, preventPanOutside, thumbSize, canalBarStyle} = props;
+    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature, scroll, scrollBarStyle, thumbSize, canalBarStyle} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -426,6 +436,12 @@ export default class ReactSVGPanZoom extends React.Component {
               width={value.viewerWidth - (showVerticalScrollbar ? thumbSize: 0)}
               height={thumbSize}
               style={canalBarStyle}
+              onMouseDown={(event) => {
+                const rect = event.target.getBoundingClientRect();
+                const x = (event.pageX - rect.left); //x position within the element.
+                const displacement = (x1 - x + thumbWidth / 2) / viewerToSvgWidthRatio;
+                this.panImage({deltaX: displacement});
+              }}
             />
             <Scrollbar
               x={x1}
@@ -434,10 +450,7 @@ export default class ReactSVGPanZoom extends React.Component {
               height={thumbSize}
               isVertical={false}
               onScroll={(({value: scrollValue}) => {
-                const currValue = this.getValue();
-                // const newValue = {...currValue, e: currValue.e - (scrollValue * currValue.a / viewerToSvgWidthRatio)};
-                const newValue = pan(currValue, - (scrollValue / viewerToSvgWidthRatio), 0, preventPanOutside ? 20 : undefined);
-                this.setValue(newValue);
+                this.panImage({deltaX: - (scrollValue / viewerToSvgWidthRatio)});
               })}
               scrollBarStyle={scrollBarStyle}
               rx={thumbSize / 2}
@@ -452,6 +465,12 @@ export default class ReactSVGPanZoom extends React.Component {
               width={thumbSize}
               height={value.viewerHeight}
               style={canalBarStyle}
+              onMouseDown={(event) => {
+                const rect = event.target.getBoundingClientRect();
+                const y = (event.pageY - rect.top); //x position within the element.
+                const displacement = (y1 - y + thumbHeight / 2) / viewerToSvgHeightRatio;
+                this.panImage({deltaY: displacement});
+              }}
             />
             <Scrollbar
               x={value.viewerWidth - thumbSize}
@@ -459,10 +478,7 @@ export default class ReactSVGPanZoom extends React.Component {
               width={thumbSize}
               height={thumbHeight}
               onScroll={(({value: scrollValue}) => {
-                const currValue = this.getValue();
-                // const newValue = {...currValue, f: currValue.f - (scrollValue * currValue.a / viewerToSvgHeightRatio)};
-                const newValue = pan(currValue, 0, - (scrollValue / viewerToSvgHeightRatio), preventPanOutside ? 20 : undefined);
-                this.setValue(newValue);
+                this.panImage({deltaY: - (scrollValue / viewerToSvgHeightRatio)});
               })}
               scrollBarStyle={scrollBarStyle}
               rx={thumbSize / 2}
