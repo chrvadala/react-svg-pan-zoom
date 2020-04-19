@@ -48,6 +48,7 @@
 | toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
 | toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
 | toolbarProps.activeToolColor | `#1CA6FC` | String | Color of active and hovered tool icons |
+| SVGIsReactComponent | `false` | Boolean | Set this it `true` if rather than an `svg` element, you're wrapping a React component that renders SVG output |
 
 \* handler available only with the tool `none` or `auto`
 

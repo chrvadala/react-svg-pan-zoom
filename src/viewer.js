@@ -389,7 +389,7 @@ export default class ReactSVGPanZoom extends React.Component {
               width={value.SVGWidth}
               height={value.SVGHeight}/>
             <g>
-              {props.children.props.children}
+              {props.SVGIsReactComponent ? props.children : props.children.props.children}
             </g>
           </g>
 
@@ -434,7 +434,7 @@ export default class ReactSVGPanZoom extends React.Component {
             onChangeValue={value => this.setValue(value)}
             SVGBackground={this.props.SVGBackground}
           >
-            {props.children.props.children}
+            {props.SVGIsReactComponent ? props.children : props.children.props.children}
           </CustomMiniature>
         }
       </div>
@@ -603,8 +603,9 @@ ReactSVGPanZoom.propTypes = {
   /**************************************************************************/
   /* Children Check                                                         */
   /**************************************************************************/
-  //accept only one node SVG
+  //accept only one node SVG unless SVGIsReactComponent is set
   children: function (props, propName, componentName) {
+    if (props.SVGIsReactComponent) return
     // Only accept a single child, of the appropriate type
     //credits: http://www.mattzabriskie.com/blog/react-validating-children
     let prop = props[propName];
@@ -646,4 +647,5 @@ ReactSVGPanZoom.defaultProps = {
   toolbarProps: {},
   customMiniature: Miniature,
   miniatureProps: {},
+  SVGIsReactComponent: false
 };
