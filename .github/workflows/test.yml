@@ -1,0 +1,39 @@
+name: Test
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        os: [ ubuntu-18.04 ]
+        node: [ 12 ]
+    name: Test Nodejs v${{ matrix.node }} on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: yarn install
+      - run: yarn build
+      - run: yarn ci
+      - name: Publish Coveralls
+        uses: coverallsapp/github-action@v1.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          flag-name: run-nodejs-v${{ matrix.node }}-${{ matrix.os }}
+          parallel: true
+
+  finish:
+    name: Finish
+    needs: build
+    runs-on: ubuntu-18.04
+    steps:
+      - name: Coveralls Finished
+        uses: coverallsapp/github-action@v1.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          parallel-finished: true
