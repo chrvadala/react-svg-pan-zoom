@@ -7,4 +7,4 @@ Please replace this line with a brief description of the suggested feature.
 I'll consider your request and I'll implement it as long as I have a chance.
 
 ------------------------------------------------------------------------------------------
-Please consider also to support the creator of this project: https://beerpay.io/chrvadala/react-svg-pan-zoom
+Please consider also to support the creator of this project: https://www.paypal.me/chrvadala/25
