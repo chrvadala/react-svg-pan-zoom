@@ -16,6 +16,7 @@ export const POSITION_LEFT = 'left';
 
 export const ACTION_ZOOM = 'zoom';
 export const ACTION_PAN = 'pan';
+export const ACTION_AUTO_PAN = 'auto_pan';
 
 export const ALIGN_CENTER = 'center';
 export const ALIGN_LEFT = 'left';

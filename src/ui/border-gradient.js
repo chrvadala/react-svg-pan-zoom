@@ -5,7 +5,7 @@ import RandomUID from "../utils/RandomUID";
 
 const prefixID = 'react-svg-pan-zoom_border_gradient'
 
-function BorderGradient({direction, width, height, _uid}) {
+function BorderGradient({direction, width, height, length, _uid}) {
 
   let transform;
 
@@ -39,13 +39,13 @@ function BorderGradient({direction, width, height, _uid}) {
           <stop offset="100%" stopColor="#000" stopOpacity="0.5"/>
         </linearGradient>
 
-        <mask id={maskID} x="0" y="0" width="20" height={Math.max(width, height)}>
-          <rect x="0" y="0" width="20" height={Math.max(width, height)}
+        <mask id={maskID} x="0" y="0" width={length} height={Math.max(width, height)}>
+          <rect x="0" y="0" width={length} height={Math.max(width, height)}
                 style={{stroke: "none", fill: `url(#${gradientID})`}}/>
         </mask>
       </defs>
 
-      <rect x="0" y="0" width="20" height={Math.max(width, height)}
+      <rect x="0" y="0" width={length} height={Math.max(width, height)}
             style={{stroke: "none", fill: "#000", mask: `url(#${maskID})`}} transform={transform}/>
     </g>
   );
@@ -54,7 +54,8 @@ function BorderGradient({direction, width, height, _uid}) {
 BorderGradient.propTypes = {
   direction: PropTypes.oneOf([POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]).isRequired,
   width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired
+  height: PropTypes.number.isRequired,
+  length: PropTypes.number.isRequired
 };
 
 export default RandomUID(BorderGradient)

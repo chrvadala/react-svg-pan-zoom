@@ -155,6 +155,13 @@ export default class MainStory extends Component {
 
             height: number('miniatureProps.height', 80),
           }}
+
+          autoPanProps={{
+            length: number('autoPanProps.length', 20),
+            width: number('autoPanProps.width', 20),
+            height: number('autoPanProps.height', 20),
+            delta: number('autoPanProps.delta', 2),
+          }}
         >
 
           <svg width={1440} height={1440}>

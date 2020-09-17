@@ -38,6 +38,7 @@ import Miniature from './ui-miniature/miniature'
 
 import {
   ACTION_PAN,
+  ACTION_AUTO_PAN,
   ACTION_ZOOM,
   ALIGN_BOTTOM,
   ALIGN_CENTER,
@@ -171,7 +172,7 @@ export default class ReactSVGPanZoom extends React.Component {
     if (onChangeValue) onChangeValue(nextValue);
     if (nextValue.lastAction) {
       if (onZoom && nextValue.lastAction === ACTION_ZOOM) onZoom(nextValue);
-      if (onPan && nextValue.lastAction === ACTION_PAN) onPan(nextValue);
+      if (onPan && (nextValue.lastAction === ACTION_PAN || nextValue.lastAction === ACTION_AUTO_PAN)) onPan(nextValue);
     }
   }
 
@@ -296,6 +297,9 @@ export default class ReactSVGPanZoom extends React.Component {
 
     const touchAction = (this.props.detectPinchGesture || [TOOL_PAN, TOOL_AUTO].indexOf(this.getTool()) !== -1) ? 'none' : undefined
 
+    const autoPanWidth = this.props.autoPanProps.width || this.props.autoPanProps.length || 20;
+    const autoPanHeight = this.props.autoPanProps.height || this.props.autoPanProps.length || 20;
+
     const style = {display: 'block', cursor, touchAction};
 
     return (
@@ -395,20 +399,20 @@ export default class ReactSVGPanZoom extends React.Component {
 
           {!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0 && props.detectAutoPan && value.focus) ? null : (
             <g style={{pointerEvents: "none"}}>
-              {!(pointerY <= 20) ? null :
-                <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight}/>
+              {!(pointerY <= autoPanHeight) ? null :
+                <BorderGradient direction={POSITION_TOP} width={value.viewerWidth} height={value.viewerHeight} length={autoPanHeight}/>
               }
 
-              {!(value.viewerWidth - pointerX <= 20) ? null :
-                <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight}/>
+              {!(value.viewerWidth - pointerX <= autoPanWidth) ? null :
+                <BorderGradient direction={POSITION_RIGHT} width={value.viewerWidth} height={value.viewerHeight} length={autoPanWidth}/>
               }
 
-              {!(value.viewerHeight - pointerY <= 20) ? null :
-                <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight}/>
+              {!(value.viewerHeight - pointerY <= autoPanHeight) ? null :
+                <BorderGradient direction={POSITION_BOTTOM} width={value.viewerWidth} height={value.viewerHeight} length={autoPanHeight}/>
               }
 
-              {!(value.focus && pointerX <= 20) ? null :
-                <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight}/>
+              {!(value.focus && pointerX <= autoPanWidth) ? null :
+                <BorderGradient direction={POSITION_LEFT} width={value.viewerWidth} height={value.viewerHeight} length={autoPanWidth}/>
               }
             </g>
           )}
@@ -601,6 +605,19 @@ ReactSVGPanZoom.propTypes = {
   }),
 
   /**************************************************************************/
+  /* Auto pan configurations                                                */
+  /**************************************************************************/
+
+  //auto pan props
+  autoPanProps: PropTypes.shape({
+    width: PropTypes.number,
+    height: PropTypes.number,
+    length: PropTypes.number,
+    delta: PropTypes.number,
+    easing: PropTypes.func,
+  }),
+
+  /**************************************************************************/
   /* Children Check                                                         */
   /**************************************************************************/
   //accept only one node SVG
@@ -646,4 +663,5 @@ ReactSVGPanZoom.defaultProps = {
   toolbarProps: {},
   customMiniature: Miniature,
   miniatureProps: {},
+  autoPanProps: {},
 };

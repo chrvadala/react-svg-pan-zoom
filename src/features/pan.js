@@ -1,4 +1,4 @@
-import {ACTION_PAN, MODE_IDLE, MODE_PANNING} from '../constants';
+import {ACTION_PAN, ACTION_AUTO_PAN, MODE_IDLE, MODE_PANNING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {fromObject, translate, transform, applyToPoints} from 'transformation-matrix';
 
@@ -115,19 +115,29 @@ export function stopPanning(value) {
  * @param value
  * @param viewerX
  * @param viewerY
+ * @param props
  * @return {ReadonlyArray<any>}
  */
-export function autoPanIfNeeded(value, viewerX, viewerY) {
+export function autoPanIfNeeded(value, viewerX, viewerY, props) {
   let deltaX = 0;
   let deltaY = 0;
 
-  if (viewerY <= 20) deltaY = 2;
-  if (value.viewerWidth - viewerX <= 20) deltaX = -2;
-  if (value.viewerHeight - viewerY <= 20) deltaY = -2;
-  if (viewerX <= 20) deltaX = 2;
+  const panWidth = props.width || props.length || 20;
+  const panHeight = props.height || props.length || 20;
+
+  const delta = props.delta || 2;
+
+  if (viewerY <= panHeight)
+    deltaY = props.easing ? props.easing(1 - viewerY / panHeight) : delta;
+  if (value.viewerWidth - viewerX <= panWidth)
+    deltaX = props.easing ? -props.easing(1 - (value.viewerWidth - viewerX) / panWidth) : -delta;
+  if (value.viewerHeight - viewerY <= panHeight)
+    deltaY = props.easing ? -props.easing(1 - (value.viewerHeight - viewerY) / panHeight) : -delta;
+  if (viewerX <= panWidth)
+    deltaX = props.easing ? props.easing(1 - viewerX / panWidth) : delta;
 
   deltaX = deltaX / value.d;
   deltaY = deltaY / value.d;
 
-  return (deltaX === 0 && deltaY === 0) ? value : pan(value, deltaX, deltaY);
+  return (deltaX === 0 && deltaY === 0) ? value : set(pan(value, deltaX, deltaY), {}, ACTION_AUTO_PAN);
 }

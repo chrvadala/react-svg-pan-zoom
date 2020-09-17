@@ -48,6 +48,12 @@
 | toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
 | toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
 | toolbarProps.activeToolColor | `#1CA6FC` | String | Color of active and hovered tool icons |
+| autoPanProps | {} | Object | Auto pan settings |
+| autoPanProps.length | `20` | Number | Length of the auto pan area on each side |
+| autoPanProps.width | - | Number | Length of the auto pan area on the left and right, overrides `length` |
+| autoPanProps.height | - | Number | Length of the auto pan area on the top and bottom, overrides `length` |
+| autoPanProps.delta | `2` | Number | Amount of pixel to shift when auto panning |
+| autoPanProps.easing | - | `fn(t: Number): Number` | Easing function which must return the amount of pixel to shift given t [0, 1], 0 being the start of the panning area, 1 being the edge of the viewer |
 
 \* handler available only with the tool `none` or `auto`
 
@@ -139,6 +145,7 @@ import {
   
   ACTION_ZOOM,
   ACTION_PAN,
+  ACTION_AUTO_PAN,
   
   ALIGN_CENTER,
   ALIGN_LEFT,
@@ -150,5 +157,3 @@ import {
   INITIAL_VALUE
 } from 'react-svg-pan-zoom'
 ```
-
-
