@@ -66,12 +66,34 @@ test("auto pan", () => {
     0, 0, 400, 400, //svg 400x400
   )
 
-  const value1 = autoPanIfNeeded(value, 100, 100) //because far from viewer edge -> no pan operation
+  const value1 = autoPanIfNeeded(value, 100, 100, {}) //because far from viewer edge -> no pan operation
   expect(value1).toBe(value)
 
-  const value2 = autoPanIfNeeded(value, 190, 190)
+  const value2 = autoPanIfNeeded(value, 190, 190, {})
   expect(testSVGBBox(value2)).toEqual([-2, -2, expect.any(Number), expect.any(Number)])
 
-  const value3 = autoPanIfNeeded(value, 10, 10)
+  const value3 = autoPanIfNeeded(value, 10, 10, {})
   expect(testSVGBBox(value3)).toEqual([2, 2, expect.any(Number), expect.any(Number)])
+
+  // autoPan.delta
+  const value4 = autoPanIfNeeded(value, 10, 10, {delta: 3})
+  expect(testSVGBBox(value4)).toEqual([3, 3, expect.any(Number), expect.any(Number)])
+
+  // autoPan.easing
+  const value5 = autoPanIfNeeded(value, 10, 10, {easing: (t) => {
+    return 3 * t * t + 2;
+  }})
+  expect(testSVGBBox(value5)).toEqual([2.75, 2.75, expect.any(Number), expect.any(Number)])
+
+  // autoPan.length
+  const value6 = autoPanIfNeeded(value, 10, 10, {length: 5})
+  expect(value6).toBe(value)
+
+  // autoPan.width
+  const value7 = autoPanIfNeeded(value, 10, 10, {width: 5})
+  expect(testSVGBBox(value7)).toEqual([0, 2, expect.any(Number), expect.any(Number)])
+
+  // autoPan.height
+  const value8 = autoPanIfNeeded(value, 10, 10, {height: 5})
+  expect(testSVGBBox(value8)).toEqual([2, 0, expect.any(Number), expect.any(Number)])
 })
