@@ -26,7 +26,7 @@ class MyViewer extends React.Component {
         width={200} height={400}
         tool={this.state.tool}
         onChangeTool={tool => this.setState({tool})}
-        value={value}
+        value={this.state.value}
         onChangeValue={value => this.setState({value})}
       >....</ReactSVGPanZoom>
     )
