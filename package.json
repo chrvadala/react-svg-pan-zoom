@@ -1,7 +1,7 @@
 {
   "author": "chrvadala",
   "name": "react-svg-pan-zoom",
-  "version": "3.8.0",
+  "version": "3.8.1",
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./build-commonjs/index.js",
   "module": "./build-es/index.js",
@@ -16,7 +16,7 @@
     "library:build:es": "cross-env KEEP_MODULES=true babel --out-dir build-es src",
     "library:build:umd_min": "cross-env webpack --env.minimize",
     "library:build:umd": "webpack",
-    "clean": "del build-*",
+    "clean": "del build-* coverage",
     "test": "jest",
     "coverage": "jest --coverage",
     "ci": "npm-run-all coverage"
