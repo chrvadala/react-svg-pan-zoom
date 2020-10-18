@@ -49,7 +49,7 @@ jobs:
          $_BIN/gh-pages \
            --dist website \
            --branch gh-pages \
-           --repo "https://x-access-token:$GH_TOKEN@github.com/chrvadala/chrvadala.github.io" \
+           --repo "https://x-access-token:$GH_TOKEN@github.com/chrvadala/react-svg-pan-zoom" \
            --user "$GH_USER"
         env:
          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
