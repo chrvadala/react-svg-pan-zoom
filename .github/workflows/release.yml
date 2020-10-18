@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - stable
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    outputs:
+      version: ${{ env.VERSION }}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - run: echo "::set-env name=VERSION::$(jq '.version' package.json)"
+      - run: yarn install
+      - run: yarn build
+      - run: yarn pack --filename artifact.tgz
+      - uses: actions/upload-artifact@v2
+        with:
+          name: artifact
+          path: artifact.tgz
+      - run: yarn ci
+
+  npm-publish:
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/download-artifact@v2
+        with:
+          name: artifact
+          path: /tmp
+      - run: tar xvzf /tmp/artifact.tgz
+      - run: yarn publish ./package
+        env:
+          VERSION: ${{ fromJSON(needs.build.outputs.version) }}
+          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
+
+  tag-release:
+    runs-on: ubuntu-18.04
+    needs: [build, npm-publish]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Create TAG
+        run: |
+          git tag $RELEASE
+          git push --follow-tags
+        env:
+          release: v${{ fromJSON(needs.build.outputs.version) }}
+
+  gh-release:
+    runs-on: ubuntu-18.04
+    needs: [build, npm-publish]
+    steps:
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ fromJSON(needs.build.outputs.version) }}
+          release_name: Release ${{ fromJSON(needs.build.outputs.version) }}
+          body: Release ${{ fromJSON(needs.build.outputs.version) }}
