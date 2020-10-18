@@ -23,7 +23,36 @@ jobs:
         with:
           name: artifact
           path: artifact.tgz
+      - uses: actions/upload-artifact@v2
+        with:
+          name: website
+          path: build-storybook
       - run: yarn ci
+
+  gh-pages:
+    runs-on: ubuntu-18.04
+    needs: build
+    steps:
+      - uses: actions/setup-node@v1
+        with:
+          node-version: 12
+          registry-url: 'https://registry.npmjs.org'
+      - uses: actions/download-artifact@v2
+        with:
+          name: website
+          path: website
+      - name: Publish on gh-pages
+        run: |
+         yarn global add gh-pages
+         _BIN=$(yarn global dir)/node_modules/.bin
+         $_BIN/gh-pages \
+           --dist "$GITHUB_WORKSPACE/website" \
+           --branch gh-pages \
+           --repo "https://x-access-token:$GH_TOKEN@github.com/chrvadala/chrvadala.github.io" \
+           --user "$GH_USER"
+        env:
+         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+         GH_USER: ${{secrets.USER }}
 
   npm-publish:
     runs-on: ubuntu-18.04
