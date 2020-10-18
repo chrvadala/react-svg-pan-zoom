@@ -111,3 +111,4 @@ yarn add react-svg-pan-zoom
 - [UnHumbleBen](https://github.com/UnHumbleBen)
 - [wolasss](https://github.com/wolasss)
 - [leweohlsen](https://github.com/leweohlsen)
+- [sroze](https://github.com/sroze)
