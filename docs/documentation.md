@@ -10,6 +10,7 @@
 | onChangeValue     | **required** | `fn(value: object)` | Callback called when the viewer changes its value *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
 | tool              | **required** | one of `none`, `pan`, `zoom-in`, `zoom-out`, `auto` |  Lock the viewer to a specific tool *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
 | onChangeTool      | **required** | `fn(tool: string)` | Callback called when the viewer changes the used tool *(if you want to omit this use `<UncontrolledReactSVGPanZoom>` component)*|
+| defaultTool      | `none` | String | The default tool selected. One of `none`, `pan`, `zoom-in`, `zoom-out` |
 | background        | `#616264`  | String | Background of the viewer |
 | SVGBackground    | `white`      | String | Background of the SVG |
 | SVGStyle          | `{}`       | Object | Style of the SVG |
