@@ -270,7 +270,7 @@ export default class ReactSVGPanZoom extends React.Component {
     let {props, state: {pointerX, pointerY}} = this;
     let tool = this.getTool();
     let value = this.getValue();
-    let {customToolbar: CustomToolbar, customMiniature: CustomMiniature} = props;
+    let {customToolbar: CustomToolbar = Toolbar, customMiniature: CustomMiniature = Miniature} = props;
 
     let panningWithToolAuto = tool === TOOL_AUTO
       && value.mode === MODE_PANNING
@@ -642,8 +642,6 @@ ReactSVGPanZoom.defaultProps = {
   disableZoomWithToolAuto: false,
   onZoom: null,
   onPan: null,
-  customToolbar: Toolbar,
   toolbarProps: {},
-  customMiniature: Miniature,
   miniatureProps: {},
 };
