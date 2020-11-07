@@ -14,7 +14,7 @@
     "storybook:build": "build-storybook -s storybook/public -c storybook -o build-storybook",
     "library:build:commonjs": "cross-env KEEP_MODULES=false babel --out-dir build-commonjs src",
     "library:build:es": "cross-env KEEP_MODULES=true babel --out-dir build-es src",
-    "library:build:umd_min": "cross-env webpack --env.minimize",
+    "library:build:umd_min": "cross-env webpack --env minimize",
     "library:build:umd": "webpack",
     "clean": "del build-* coverage",
     "test": "jest",
