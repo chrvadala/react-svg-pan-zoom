@@ -1,8 +1,6 @@
 import React, {useEffect, useRef} from "react";
-import {withKnobs, text, boolean, number} from '@storybook/addon-knobs';
 import UncontrolledReactSVGPanZoom from '../../src/uncontrolled-viewer';
 import Snake from './components/Snake.svg'
-import {ReactSVGPanZoom} from "../../src";
 
 export default {
   title: 'UncontrolledViewer',
@@ -26,5 +24,4 @@ const Template = args => {
 }
 
 export const Primary = Template.bind({});
-Primary.args = {
-};
+Primary.args = {};

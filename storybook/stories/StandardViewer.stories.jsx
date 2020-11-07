@@ -1,4 +1,4 @@
-import React, {StrictMode, useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
+import React, {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
 import {withKnobs, boolean, number, select, color} from '@storybook/addon-knobs';
 import ReactSVGPanZoom from '../../src/viewer';
 import Snake from './components/Snake.svg'
@@ -13,9 +13,8 @@ import {
   POSITION_RIGHT,
   POSITION_TOP,
   TOOL_AUTO,
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, UncontrolledReactSVGPanZoom
+  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT
 } from "../../src";
-import {action} from "@storybook/addon-actions";
 import Button from "./components/Button";
 import HR from "./components/HR";
 import ToolSelector from "./components/ToolSelector";
