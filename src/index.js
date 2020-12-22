@@ -6,6 +6,7 @@ export {default as Toolbar} from './ui-toolbar/toolbar';
 export {default as ToolbarButton} from './ui-toolbar/toolbar-button';
 export {default as IconCursor} from './ui-toolbar/icon-cursor';
 export {default as IconPan} from './ui-toolbar/icon-pan';
+export {default as IconFit} from './ui-toolbar/icon-fit';
 export {default as IconZoomIn} from './ui-toolbar/icon-zoom-in';
 export {default as IconZoomOut} from './ui-toolbar/icon-zoom-out';
 export {default as Miniature} from './ui-miniature/miniature';
