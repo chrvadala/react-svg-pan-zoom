@@ -8,14 +8,12 @@ on:
 jobs:
   build:
     runs-on: ubuntu-18.04
-    outputs:
-      version: ${{ env.VERSION }}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: echo "::set-env name=VERSION::$(jq '.version' package.json)"
+      - run: echo "VERSION=$(jq -j '.version' package.json)" >> $GITHUB_ENV
       - run: yarn install
       - run: yarn build
       - run: yarn pack --filename artifact.tgz
@@ -28,6 +26,8 @@ jobs:
           name: website
           path: build-storybook
       - run: yarn ci
+    outputs:
+      version: ${{ env.VERSION }}
 
   gh-pages:
     runs-on: ubuntu-18.04
@@ -70,7 +70,7 @@ jobs:
       - run: tar xvzf /tmp/artifact.tgz
       - run: yarn publish ./package
         env:
-          VERSION: ${{ fromJSON(needs.build.outputs.version) }}
+          VERSION: ${{ needs.build.outputs.version }}
           NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
 
   tag-release:
@@ -83,7 +83,7 @@ jobs:
           git tag $RELEASE
           git push --follow-tags
         env:
-          release: v${{ fromJSON(needs.build.outputs.version) }}
+          release: v${{ needs.build.outputs.version }}
 
   gh-release:
     runs-on: ubuntu-18.04
@@ -94,6 +94,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v${{ fromJSON(needs.build.outputs.version) }}
-          release_name: Release ${{ fromJSON(needs.build.outputs.version) }}
-          body: Release ${{ fromJSON(needs.build.outputs.version) }}
+          tag_name: v${{ needs.build.outputs.version }}
+          release_name: Release ${{ needs.build.outputs.version }}
+          body: Release ${{ needs.build.outputs.version }}
