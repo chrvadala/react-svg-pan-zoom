@@ -83,6 +83,7 @@ yarn add react-svg-pan-zoom
 - **v3.6** - Adds some unit tests, Fixes [#161](https://github.com/chrvadala/react-svg-pan-zoom/issues/161), upgrades deps
 - **v3.7** - Adds some more unit tests, upgrades deps
 - **v3.8** - Adds cover option on `fitToViewer` method [#167](https://github.com/chrvadala/react-svg-pan-zoom/pull/167), adds `activeToolColor` property [#168](https://github.com/chrvadala/react-svg-pan-zoom/pull/168), upgrades deps
+- **v3.9** - Exports toolbar icons and buttons [#192](https://github.com/chrvadala/react-svg-pan-zoom/pull/192)
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
@@ -112,3 +113,4 @@ yarn add react-svg-pan-zoom
 - [wolasss](https://github.com/wolasss)
 - [leweohlsen](https://github.com/leweohlsen)
 - [sroze](https://github.com/sroze)
+- [justin-hackin](https://github.com/justin-hackin)
