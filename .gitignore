@@ -11,3 +11,4 @@ examples/*/yarn.lock
 build-*
 .cache
 coverage
+.eslintcache
