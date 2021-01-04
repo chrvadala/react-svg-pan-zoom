@@ -1,9 +1,10 @@
 import React, {useState} from "react";
 import {TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from "../../../src";
+import {INITIAL_VALUE} from "../../../build-es";
 
 export default (story, context) => {
   const [tool, onChangeTool] = useState(TOOL_NONE)
-  const [value, onChangeValue] = useState({})
+  const [value, onChangeValue] = useState(INITIAL_VALUE)
 
   const args = {
     ...context.args,

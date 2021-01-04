@@ -3,12 +3,11 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "react": "^16.6.0",
-    "react-dom": "^16.6.0",
-    "react-svg-pan-zoom": "../../"
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
   },
   "devDependencies": {
-    "react-scripts": "^2.0.5"
+    "react-scripts": "^4.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
