@@ -18,6 +18,7 @@ import Button from "./components/Button";
 import HR from "./components/HR";
 import withToolSelector from "./decorators/withToolSelector";
 import withNestedProps from "./decorators/withNestedProps";
+import {INITIAL_VALUE} from "../../build-es";
 
 export default {
   title: 'StandardViewer',
@@ -216,7 +217,7 @@ Methods.args = {
 export const Resizable = (args) => {
   const Viewer = useRef(null);
   const [tool, onChangeTool] = useState(TOOL_NONE)
-  const [value, onChangeValue] = useState({})
+  const [value, onChangeValue] = useState(INITIAL_VALUE)
   const [width, height] = useWindowSize({initialWidth: 400, initialHeight: 400})
 
   useLayoutEffect(() => {
