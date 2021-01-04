@@ -17,16 +17,22 @@ import {
 } from "../../src";
 import Button from "./components/Button";
 import HR from "./components/HR";
-import ToolSelector from "./components/ToolSelector";
+import withToolSelector from "./decorators/withToolSelector";
+import withNestedProps from "./decorators/withNestedProps";
 
 export default {
   title: 'StandardViewer',
   component: ReactSVGPanZoom,
-  decorators: [withKnobs],
+  decorators: [withToolSelector, withNestedProps],
   argTypes: {
+    tool: {control: {disable: true}},
+    value: {control: {disable: true}},
+    customMiniature: {control: {disable: true}},
+    customToolbar: {control: {disable: true}},
+    children: {control: {disable: true}},
+
     onClick: {action: 'onClick'},
     onDoubleClick: {action: 'onDoubleClick'},
-
     // onZoom: {action: 'onZoom'},  //disabled due to storybook performance issues
     // onPan: {action: 'onPan'},    //disabled due to storybook performance issues
 
@@ -37,13 +43,93 @@ export default {
     onTouchStart: {action: 'onTouchStart'},
     // onTouchMove: {action: 'onTouchMove'},   //disabled due to storybook performance issues
     onTouchEnd: {action: 'onTouchEnd'},
+
+    "toolbarProps.position": {
+      control: {type: 'select', options: [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]},
+    },
+    "toolbarProps.SVGAlignX": {
+      control: {type: 'select', options: [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_COVER]},
+    },
+    "toolbarProps.SVGAlignY": {
+      control: {type: 'select', options: [ALIGN_TOP, ALIGN_CENTER, ALIGN_BOTTOM, ALIGN_COVER]},
+    },
+    "toolbarProps.activeToolColor": {
+      control: {type: 'color'},
+    },
+    "miniatureProps.position": {
+      control: {type: 'select', options: [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]},
+    },
+    "miniatureProps.background": {
+      control: {type: 'color'},
+    },
+    "miniatureProps.width": {
+      control: {type: 'number', min: 1},
+    },
+    "miniatureProps.height": {
+      control: {type: 'number', min: 1},
+    },
   }
 }
 
-const Template = ({svgArgs, ...args}) => {
+const Template = (args) => {
   const Viewer = useRef(null);
-  const [tool, onChangeTool] = useState(TOOL_NONE)
-  const [value, onChangeValue] = useState({})
+
+  useEffect(() => {
+    Viewer.current.fitToViewer();
+  }, []);
+
+  return (
+    <ReactSVGPanZoom ref={Viewer} {...args}>
+      <svg width={1440} height={1440}>
+        <Snake/>
+      </svg>
+    </ReactSVGPanZoom>
+  )
+}
+
+export const Primary = Template.bind({});
+Primary.args = {
+  width: 400,
+  height: 400,
+}
+
+const TemplateMultiMeasures = ({viewerWidth, viewerHeight, svgWidth, svgHeight, ...args}) => {
+  const Viewer = useRef(null);
+
+  useEffect(() => {
+    Viewer.current.fitToViewer();
+  }, []);
+
+  return (
+    <ReactSVGPanZoom ref={Viewer} {...args}>
+      <svg width={svgWidth} height={svgHeight}>
+        <rect x="20" y="20" width={svgWidth - 40} height={svgHeight - 40} fill="blue" stroke="black"/>
+        <text x="20" y="15">{svgWidth}x{svgHeight}</text>
+      </svg>
+    </ReactSVGPanZoom>
+  )
+}
+
+export const Square = TemplateMultiMeasures.bind({})
+Square.args = {width: 400, height: 400, svgWidth: 300, svgHeight: 300}
+
+export const Rect1 = TemplateMultiMeasures.bind({})
+Rect1.args = {width: 600, height: 400, svgWidth: 300, svgHeight: 600}
+
+export const Rect2 = TemplateMultiMeasures.bind({})
+Rect2.args = {width: 600, height: 400, svgWidth: 600, svgHeight: 300}
+
+export const Rect3 = TemplateMultiMeasures.bind({})
+Rect3.args = {width: 400, height: 600, svgWidth: 300, svgHeight: 600}
+
+export const Rect4 = TemplateMultiMeasures.bind({})
+Rect4.args = {width: 400, height: 600, svgWidth: 600, svgHeight: 300}
+
+
+export const Methods = (args) => {
+  const Viewer = useRef(null);
+
+  const changeTool = nextTool => args.onChangeTool(nextTool)
 
   useEffect(() => {
     Viewer.current.fitToViewer();
@@ -51,73 +137,68 @@ const Template = ({svgArgs, ...args}) => {
 
   return (
     <>
-      <div style={{marginBottom: "10px", background: "#fff", padding: "10px"}}>
-        <label>Tool</label> {" "}
-        <select value={tool} onChange={e => onChangeTool(e.target.value)}>
-          <option value={TOOL_NONE}>{TOOL_NONE}</option>
-          <option value={TOOL_AUTO}>{TOOL_AUTO}</option>
-          <option value={TOOL_PAN}>{TOOL_PAN}</option>
-          <option value={TOOL_ZOOM_IN}>{TOOL_ZOOM_IN}</option>
-          <option value={TOOL_ZOOM_OUT}>{TOOL_ZOOM_OUT}</option>
-        </select>
+      <div>
+        <Button onClick={event => Viewer.current.fitToViewer()}>.fitToViewer()
+        </Button>
+
+        <Button onClick={event => Viewer.current.reset()}>.reset()
+        </Button>
+
+        <Button onClick={event => Viewer.current.fitSelection(725, 40, 200, 120)}>.fitSelection(725, 40, 200, 120)
+        </Button>
+
+        <Button onClick={event => Viewer.current.zoomOnViewerCenter(1.1)}>.zoomOnViewerCenter(1.1)
+        </Button>
+
+        <Button onClick={event => Viewer.current.zoomOnViewerCenter(0.9)}>.zoomOnViewerCenter(0.9)}
+        </Button>
+
+        <Button onClick={event => Viewer.current.setPointOnViewerCenter(525, 780, 2)}>.setPointOnViewerCenter(525, 780,
+          2)
+        </Button>
+
+        <Button onClick={event => Viewer.current.pan(0, -100)}>.pan(0, -100)
+        </Button>
+
+        <Button onClick={event => Viewer.current.pan(100, 0)}>.pan(100, 0)
+        </Button>
+
+        <Button onClick={event => Viewer.current.pan(0, 100)}>.pan(0, 100)
+        </Button>
+
+        <Button onClick={event => Viewer.current.pan(-100, 0)}>.pan(-100, 0)
+        </Button>
       </div>
+
+      <HR/>
+
+      <div>
+
+        <Button onClick={event => changeTool(TOOL_AUTO)}>.changeTool(TOOL_AUTO)
+        </Button>
+        <Button onClick={event => changeTool(TOOL_NONE)}>.changeTool(TOOL_NONE)
+        </Button>
+        <Button onClick={event => changeTool(TOOL_PAN)}>.changeTool(TOOL_PAN)
+        </Button>
+        <Button onClick={event => changeTool(TOOL_ZOOM_IN)}>.changeTool(TOOL_ZOOM_IN)
+        </Button>
+        <Button onClick={event => changeTool(TOOL_ZOOM_OUT)}>.changeTool(TOOL_ZOOM_OUT)
+        </Button>
+      </div>
+
+      <HR/>
+
+      <div>
+        <Button onClick={event => Viewer.current.openMiniature()}>.openMiniature()
+        </Button>
+        <Button onClick={event => Viewer.current.closeMiniature()}>.closeMiniature()
+        </Button>
+      </div>
+
+      <HR/>
+
       <ReactSVGPanZoom
-        width={400} height={400}
         ref={Viewer}
-        value={value} onChangeValue={onChangeValue}
-        tool={tool} onChangeTool={onChangeTool}
-
-        scaleFactor={number('scaleFactor', 1.1)}
-        scaleFactorOnWheel={number('scaleFactorOnWheel', 1.1)}
-
-        detectAutoPan={boolean('detectAutoPan', true)}
-        detectWheel={boolean('detectWheel', true)}
-        detectPinchGesture={boolean('detectPinchGesture', true)}
-
-        preventPanOutside={boolean('preventPanOutside', true)}
-
-        disableDoubleClickZoomWithToolAuto={boolean('disableDoubleClickZoomWithToolAuto', false)}
-
-        scaleFactorMin={number('scaleFactorMin', 0)}
-        scaleFactorMax={number('scaleFactorMax', 999999)}
-
-        toolbarProps={{
-          position: select('toolbarProps.position', {
-            [POSITION_NONE]: POSITION_NONE,
-            [POSITION_TOP]: POSITION_TOP,
-            [POSITION_RIGHT]: POSITION_RIGHT,
-            [POSITION_BOTTOM]: POSITION_BOTTOM,
-            [POSITION_LEFT]: POSITION_LEFT,
-            [POSITION_RIGHT]: POSITION_RIGHT,
-          }, POSITION_RIGHT),
-
-          SVGAlignX: select('toolbarProps.SVGAlignX', {
-            [ALIGN_LEFT]: ALIGN_LEFT,
-            [ALIGN_CENTER]: ALIGN_CENTER,
-            [ALIGN_RIGHT]: ALIGN_RIGHT
-          }, ALIGN_LEFT),
-
-          SVGAlignY: select('toolbarProps.SVGAlignY', {
-            [ALIGN_TOP]: ALIGN_TOP,
-            [ALIGN_CENTER]: ALIGN_CENTER,
-            [ALIGN_BOTTOM]: ALIGN_BOTTOM
-          }, ALIGN_TOP),
-
-          activeToolColor: color('toolbarProps.activeToolColor', '#1CA6FC'),
-        }}
-
-        miniatureProps={{
-          position: select('miniatureProps.position', {
-            [POSITION_NONE]: POSITION_NONE,
-            [POSITION_RIGHT]: POSITION_RIGHT,
-            [POSITION_LEFT]: POSITION_LEFT,
-          }, POSITION_LEFT),
-
-          background: color('miniatureProps.color', '#616264'),
-          width: number('miniatureProps.width', 100),
-          height: number('miniatureProps.height', 80),
-        }}
-
         {...args}
       >
         <svg width={1440} height={1440}>
@@ -128,170 +209,12 @@ const Template = ({svgArgs, ...args}) => {
   )
 }
 
-export const Primary = Template.bind({});
-
-const TemplateMultiMeasures = ({viewerWidth, viewerHeight, svgWidth, svgHeight}) => {
-  const Viewer = useRef(null);
-  const [tool, onChangeTool] = useState(TOOL_NONE)
-  const [value, onChangeValue] = useState({})
-
-  useEffect(() => {
-    Viewer.current.fitToViewer();
-  }, []);
-
-  const toolbarProps = useMemo(() => ({
-    SVGAlignX: select('toolbarProps.SVGAlignX', {
-      [ALIGN_LEFT]: ALIGN_LEFT,
-      [ALIGN_CENTER]: ALIGN_CENTER,
-      [ALIGN_RIGHT]: ALIGN_RIGHT,
-      [ALIGN_COVER]: ALIGN_COVER,
-    }, ALIGN_LEFT),
-    SVGAlignY: select('toolbarProps.SVGAlignY', {
-      [ALIGN_TOP]: ALIGN_TOP,
-      [ALIGN_CENTER]: ALIGN_CENTER,
-      [ALIGN_BOTTOM]: ALIGN_BOTTOM,
-      [ALIGN_COVER]: ALIGN_COVER,
-    }, ALIGN_TOP),
-  }))
-
-  return (
-    <ReactSVGPanZoom
-      width={viewerWidth} height={viewerHeight}
-      ref={Viewer}
-      toolbarProps={toolbarProps}
-      value={value} onChangeValue={onChangeValue}
-      tool={tool} onChangeTool={onChangeTool}
-    >
-      <svg width={svgWidth} height={svgHeight}>
-        <rect x="20" y="20" width={svgWidth - 40} height={svgHeight - 40} fill="blue" stroke="black"/>
-        <text x="20" y="15">{svgWidth}x{svgHeight}</text>
-      </svg>
-    </ReactSVGPanZoom>
-  )
+Methods.args = {
+  width: 400,
+  height: 400,
 }
 
-export const Square = TemplateMultiMeasures.bind()
-Square.args = {viewerWidth: 400, viewerHeight: 400, svgWidth: 300, svgHeight: 300}
-
-export const Rect1 = TemplateMultiMeasures.bind()
-Rect1.args = {viewerWidth: 600, viewerHeight: 400, svgWidth: 300, svgHeight: 600}
-
-export const Rect2 = TemplateMultiMeasures.bind()
-Rect2.args = {viewerWidth: 600, viewerHeight: 400, svgWidth: 600, svgHeight: 300}
-
-export const Rect3 = TemplateMultiMeasures.bind()
-Rect3.args = {viewerWidth: 400, viewerHeight: 600, svgWidth: 300, svgHeight: 600}
-
-export const Rect4 = TemplateMultiMeasures.bind()
-Rect4.args = {viewerWidth: 400, viewerHeight: 600, svgWidth: 600, svgHeight: 300}
-
-
-export const Methods = () => {
-  const Viewer = useRef(null);
-  const [tool, changeTool] = useState(TOOL_NONE)
-  const [value, changeValue] = useState({})
-
-  useEffect(() => {
-    Viewer.current.fitToViewer();
-  }, []);
-
-
-  return (
-    <>
-      <div>
-        <ToolSelector tool={tool} changeTool={changeTool}/>
-
-        <Button name="fit-btn"
-                onClick={event => Viewer.current.fitToViewer()}>.fitToViewer()
-        </Button>
-
-        <Button name="reset-btn"
-                onClick={event => Viewer.current.reset()}>.reset()
-        </Button>
-
-        <Button name="zoom-area-btn"
-                onClick={event => Viewer.current.fitSelection(725, 40, 200, 120)}>.fitSelection(725, 40, 200, 120)
-        </Button>
-
-        <Button name="zoom-in-btn"
-                onClick={event => Viewer.current.zoomOnViewerCenter(1.1)}>.zoomOnViewerCenter(1.1)
-        </Button>
-
-        <Button name="zoom-out-btn"
-                onClick={event => Viewer.current.zoomOnViewerCenter(0.9)}>.zoomOnViewerCenter(0.9)}
-        </Button>
-
-        <Button name="zoom-point-btn"
-                onClick={event => Viewer.current.setPointOnViewerCenter(525, 780, 2)}>.setPointOnViewerCenter(525, 780,
-          2)
-        </Button>
-
-        <Button name="zoom-pan-top-btn"
-                onClick={event => Viewer.current.pan(0, -100)}>.pan(0, -100)
-        </Button>
-
-        <Button name="zoom-pan-right-btn"
-                onClick={event => Viewer.current.pan(100, 0)}>.pan(100, 0)
-        </Button>
-
-        <Button name="zoom-pan-bottom-btn"
-                onClick={event => Viewer.current.pan(0, 100)}>.pan(0, 100)
-        </Button>
-
-        <Button name="zoom-pan-left-btn"
-                onClick={event => Viewer.current.pan(-100, 0)}>.pan(-100, 0)
-        </Button>
-      </div>
-
-      <HR/>
-
-      <div>
-
-        <Button name="select-tool-auto-btn"
-                onClick={event => changeTool(TOOL_AUTO)}>.changeTool(TOOL_AUTO)
-        </Button>
-        <Button name="select-tool-none-btn"
-                onClick={event => changeTool(TOOL_NONE)}>.changeTool(TOOL_NONE)
-        </Button>
-        <Button name="select-tool-pan-btn"
-                onClick={event => changeTool(TOOL_PAN)}>.changeTool(TOOL_PAN)
-        </Button>
-        <Button name="select-tool-zoom-in-btn"
-                onClick={event => changeTool(TOOL_ZOOM_IN)}>.changeTool(TOOL_ZOOM_IN)
-        </Button>
-        <Button name="select-tool-zoom-out-btn"
-                onClick={event => changeTool(TOOL_ZOOM_OUT)}>.changeTool(TOOL_ZOOM_OUT)
-        </Button>
-      </div>
-
-      <HR/>
-
-      <div>
-        <Button name="select-tool-auto-btn"
-                onClick={event => Viewer.current.openMiniature()}>.openMiniature()
-        </Button>
-        <Button name="select-tool-none-btn"
-                onClick={event => Viewer.current.closeMiniature()}>.closeMiniature()
-        </Button>
-      </div>
-
-      <HR/>
-
-      <ReactSVGPanZoom
-        width={400} height={400}
-        ref={Viewer}
-        value={value} onChangeValue={changeValue}
-        tool={tool} onChangeTool={changeTool}
-      >
-        <svg width={1440} height={1440}>
-          <Snake/>
-        </svg>
-      </ReactSVGPanZoom>
-    </>
-  )
-}
-
-export const Resizable = () => {
+export const Resizable = (args) => {
   const Viewer = useRef(null);
   const [tool, onChangeTool] = useState(TOOL_NONE)
   const [value, onChangeValue] = useState({})
@@ -307,6 +230,7 @@ export const Resizable = () => {
       ref={Viewer}
       value={value} onChangeValue={onChangeValue}
       tool={tool} onChangeTool={onChangeTool}
+      {...args}
     >
       <svg width={1440} height={1440}>
         <Snake/>
@@ -315,4 +239,5 @@ export const Resizable = () => {
   )
 }
 
-Resizable.decorators = [(Story) => <div style={{height: '100%', margin: -14}}><Story/></div>]
+Resizable.decorators = [story => <div style={{height: '100%', margin: "-63px -14px -14px"}}>{story()}</div>]
+

@@ -10,10 +10,9 @@ const STYLE_BUTTON = {
   cursor: "pointer"
 };
 
-export default ({onClick, name, children}) => (
+export default ({onClick, children}) => (
   <button
     type="button"
-    name={name}
     style={STYLE_BUTTON}
     onClick={onClick}>{children}</button>
 )
