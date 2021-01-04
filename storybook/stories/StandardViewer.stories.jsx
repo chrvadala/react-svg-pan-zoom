@@ -1,5 +1,4 @@
 import React, {useEffect, useLayoutEffect, useMemo, useRef, useState} from "react";
-import {withKnobs, boolean, number, select, color} from '@storybook/addon-knobs';
 import ReactSVGPanZoom from '../../src/viewer';
 import Snake from './components/Snake.svg'
 import {useWindowSize} from '@react-hook/window-size'
