@@ -12,13 +12,12 @@ import {
   POSITION_RIGHT,
   POSITION_TOP,
   TOOL_AUTO,
-  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT
+  TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, INITIAL_VALUE
 } from "../../src";
 import Button from "./components/Button";
 import HR from "./components/HR";
 import withToolSelector from "./decorators/withToolSelector";
 import withNestedProps from "./decorators/withNestedProps";
-import {INITIAL_VALUE} from "../../build-es";
 
 export default {
   title: 'StandardViewer',

@@ -1,6 +1,5 @@
 import React, {useState} from "react";
-import {TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT} from "../../../src";
-import {INITIAL_VALUE} from "../../../build-es";
+import {TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT, INITIAL_VALUE} from "../../../src";
 
 export default (story, context) => {
   const [tool, onChangeTool] = useState(TOOL_NONE)
