@@ -50,7 +50,7 @@
   ],
   "dependencies": {
     "prop-types": "^15.7.2",
-    "transformation-matrix": "^2.5.0"
+    "transformation-matrix": "^2.6.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.12.10",
