@@ -50,7 +50,6 @@ yarn add react-svg-pan-zoom
 ## Usage examples
 - [**Basic**](./examples/controlled-component) - Basic usage of `<ReactSVGPanZoom>`.
 - [**Uncontrolled Component**](./examples/uncontrolled-component) - Basic usage of `<UncontrolledReactSVGPanZoom>`.
-- [**Advanced usage**](./examples/controlled-component-advanced-usage) - Complex usage of `<ReactSVGPanZoom>` that uses some advanced features.
 - [**JSFiddle**](https://jsfiddle.net/chrvadala/f67qyfsd/) - This is a JSFiddle demo that uses UMD bundle.
 - [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
 
