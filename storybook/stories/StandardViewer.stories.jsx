@@ -20,7 +20,6 @@ import withToolSelector from "./decorators/withToolSelector";
 import withNestedProps from "./decorators/withNestedProps";
 
 export default {
-  title: 'StandardViewer',
   component: ReactSVGPanZoom,
   decorators: [withToolSelector, withNestedProps],
   argTypes: {
@@ -44,19 +43,23 @@ export default {
     onTouchEnd: {action: 'onTouchEnd'},
 
     "toolbarProps.position": {
-      control: {type: 'select', options: [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT]},
+      options: [POSITION_NONE, POSITION_TOP, POSITION_RIGHT, POSITION_BOTTOM, POSITION_LEFT],
+      control: { type: 'select' },
     },
     "toolbarProps.SVGAlignX": {
-      control: {type: 'select', options: [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_COVER]},
+      control: { type: 'select' },
+      options: [ALIGN_LEFT, ALIGN_CENTER, ALIGN_RIGHT, ALIGN_COVER],
     },
     "toolbarProps.SVGAlignY": {
-      control: {type: 'select', options: [ALIGN_TOP, ALIGN_CENTER, ALIGN_BOTTOM, ALIGN_COVER]},
+      control: { type: 'select' },
+      options: [ALIGN_TOP, ALIGN_CENTER, ALIGN_BOTTOM, ALIGN_COVER],
     },
     "toolbarProps.activeToolColor": {
       control: {type: 'color'},
     },
     "miniatureProps.position": {
-      control: {type: 'select', options: [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT]},
+      control: { type: 'select' },
+      options: [POSITION_NONE, POSITION_RIGHT, POSITION_LEFT],
     },
     "miniatureProps.background": {
       control: {type: 'color'},

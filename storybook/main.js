@@ -1,10 +1,19 @@
 module.exports = {
-  "stories": [
-    "./**/*.stories.mdx",
-    "./**/*.stories.@(js|jsx|ts|tsx)"
+  staticDirs: ["public"],
+  stories: [
+    {
+      directory: './stories',
+      titlePrefix: 'React SVG Pan Zoom',
+      files: '*.stories.*',
+    },
   ],
   addons: [
-    '@storybook/preset-create-react-app',
-    '@storybook/addon-essentials',
+    "@storybook/addon-links",
+    "@storybook/addon-essentials",
+    "@storybook/preset-create-react-app"
   ],
+  framework: "@storybook/react",
+  core: {
+    "builder": "webpack5"
+  }
 };

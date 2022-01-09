@@ -3,7 +3,6 @@ import UncontrolledReactSVGPanZoom from '../../src/uncontrolled-viewer';
 import Snake from './components/Snake.svg'
 
 export default {
-  title: 'UncontrolledViewer',
   component: UncontrolledReactSVGPanZoom
 };
 
