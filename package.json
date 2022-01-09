@@ -9,7 +9,7 @@
   "jsnext:main": "./build-es/index.js",
   "scripts": {
     "start": "npm run website:start",
-    "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd_min && npm run website:build",
+    "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd_min",
     "test": "npm run test:coverage",
     "website:start": "start-storybook -p 9001 -c storybook",
     "website:build": "build-storybook -o build-storybook -c storybook",

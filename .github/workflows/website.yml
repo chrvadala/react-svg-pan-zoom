@@ -1,0 +1,16 @@
+name: Website
+
+on:
+  push:
+      branches:
+        - main
+
+jobs:
+  build_and_publish:
+    name: Publish Github Pages Website
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - uses: chrvadala/github-actions/gh-pages-publish-action@v1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
