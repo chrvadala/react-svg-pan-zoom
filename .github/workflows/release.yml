@@ -1,99 +1,24 @@
 name: Release
 
 on:
-  push:
-    branches:
-      - stable
+  workflow_dispatch:
+   inputs:
+      NEXT_VERSION:
+        description: Define next version (major/minor/patch)
+        required: true
+      REPOSITORY_NAME:
+        description: Repository full name (e.g. chrvadala/hello )
+        required: true
 
 jobs:
-  build:
-    runs-on: ubuntu-18.04
+  build_and_release:
+    runs-on: ubuntu-20.04
+    if: ${{ github.event.inputs.REPOSITORY_NAME ==  github.repository }}
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - name: Release library
+        uses: chrvadala/github-actions/nodejs-release-library-action@v1
         with:
-          node-version: 12
-      - run: echo "VERSION=$(jq -j '.version' package.json)" >> $GITHUB_ENV
-      - run: yarn install
-      - run: yarn build
-      - run: yarn pack --filename artifact.tgz
-      - uses: actions/upload-artifact@v2
-        with:
-          name: artifact
-          path: artifact.tgz
-      - uses: actions/upload-artifact@v2
-        with:
-          name: website
-          path: build-storybook
-      - run: yarn ci
-    outputs:
-      version: ${{ env.VERSION }}
-
-  gh-pages:
-    runs-on: ubuntu-18.04
-    needs: build
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: 'https://registry.npmjs.org'
-      - uses: actions/download-artifact@v2
-        with:
-          name: website
-          path: website
-      - name: Publish on gh-pages
-        run: |
-         yarn global add gh-pages
-         _BIN=$(yarn global dir)/node_modules/.bin
-         $_BIN/gh-pages \
-           --dist website \
-           --branch gh-pages \
-           --repo "https://x-access-token:$GH_TOKEN@github.com/chrvadala/react-svg-pan-zoom" \
-           --user "$GH_USER"
-        env:
-         GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-         GH_USER: ${{secrets.USER }}
-
-  npm-publish:
-    runs-on: ubuntu-18.04
-    needs: build
-    steps:
-      - uses: actions/setup-node@v1
-        with:
-          node-version: 12
-          registry-url: 'https://registry.npmjs.org'
-      - uses: actions/download-artifact@v2
-        with:
-          name: artifact
-          path: /tmp
-      - run: tar xvzf /tmp/artifact.tgz
-      - run: yarn publish ./package
-        env:
-          VERSION: ${{ needs.build.outputs.version }}
-          NODE_AUTH_TOKEN: ${{ secrets.npm_token }}
-
-  tag-release:
-    runs-on: ubuntu-18.04
-    needs: [build, npm-publish]
-    steps:
-      - uses: actions/checkout@v2
-      - name: Create TAG
-        run: |
-          git tag $RELEASE
-          git push --follow-tags
-        env:
-          release: v${{ needs.build.outputs.version }}
-
-  gh-release:
-    runs-on: ubuntu-18.04
-    needs: [build, npm-publish]
-    steps:
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
+          NEXT_VERSION: ${{ github.event.inputs.NEXT_VERSION }}
+          NPM_TOKEN: ${{ secrets.npm_token }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: v${{ needs.build.outputs.version }}
-          release_name: Release ${{ needs.build.outputs.version }}
-          body: Release ${{ needs.build.outputs.version }}
