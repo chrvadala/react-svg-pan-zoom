@@ -1,10 +1,11 @@
 module.exports = {
   staticDirs: ["public"],
   stories: [
+    './stories/Welcome.stories.mdx',
     {
       directory: './stories',
       titlePrefix: 'React SVG Pan Zoom',
-      files: '*.stories.*',
+      files: '*.stories.jsx',
     },
   ],
   addons: [
