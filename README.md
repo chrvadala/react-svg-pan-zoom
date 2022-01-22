@@ -84,6 +84,7 @@ yarn add react-svg-pan-zoom
 - **v3.8** - Adds cover option on `fitToViewer` method [#167](https://github.com/chrvadala/react-svg-pan-zoom/pull/167), adds `activeToolColor` property [#168](https://github.com/chrvadala/react-svg-pan-zoom/pull/168), upgrades deps
 - **v3.9** - Exports toolbar icons and buttons [#192](https://github.com/chrvadala/react-svg-pan-zoom/pull/192)
 - **3.10** - Upgrades deps; Migrates to React 17 and Storybook 6; Updates examples and docs to React hooks
+- **3.11** - Migrates from yarn to npm; Makes use of [chrvadala/github-actions](https://github.com/chrvadala/github-actions); Updates deps;
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
