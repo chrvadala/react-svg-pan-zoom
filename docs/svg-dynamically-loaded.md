@@ -26,6 +26,8 @@ const Viewer = () => (
 
 If you are having trouble with using react-svg-pan-zoom-loader you may want to try this alternative method using [svg-parser](https://github.com/Rich-Harris/svg-parser) and [hast-to-hyperscript](https://github.com/syntax-tree/hast-to-hyperscript).
 
+See [this CodeSandbox](https://codesandbox.io/s/stoic-voice-pc5jzx) to see it in action.
+
 ```js
 import {parse as parseSVG} from 'svg-parser'
 import {toH} from 'hast-to-hyperscript'
