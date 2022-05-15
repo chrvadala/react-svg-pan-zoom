@@ -1,6 +1,6 @@
 import {MODE_PANNING, MODE_ZOOMING, TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,} from '../constants';
 import {getSVGPoint, setFocus} from './common';
-import {autoPanIfNeeded, startPanning, stopPanning, updatePanning} from './pan';
+import {autoPanIfNeeded, startPanning, stopPanning, updatePanning, pan} from './pan';
 import {startZooming, stopZooming, updateZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
 
@@ -115,6 +115,12 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = nul
 
 export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
   const {x, y} = coords || getMousePosition(event, ViewerDOM)
+  const {deltaX, deltaY} = event;
+
+  //  prohibit touchpad gesture trigger back and forward
+  event.stopPropagation();
+  event.preventDefault();
+
 
   if (!props.detectWheel) return value;
 
@@ -122,9 +128,18 @@ export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
   let scaleFactor = mapRange(delta, -1, 1, props.scaleFactorOnWheel, 1 / props.scaleFactorOnWheel);
 
   let SVGPoint = getSVGPoint(value, x, y);
-  let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
+  let nextValue
+  // event.ctrlKey is necessary to handle pinch zooming
+  if (event.metaKey || event.ctrlKey) {
+    nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props)
+  } else if (event.shiftKey) {
+    // scroll horizontally when shift pressed
+    nextValue = pan(value, -(deltaY || deltaX), 0)
+  }
+  else {
+    nextValue = pan(value, -deltaX, -deltaY)
+  }
 
-  event.preventDefault();
   return nextValue;
 }
 
