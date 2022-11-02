@@ -15,8 +15,3 @@ export {pan} from './features/pan';
 export {zoom, fitSelection, fitToViewer, zoomOnViewerCenter} from './features/zoom';
 export {openMiniature, closeMiniature} from './features/miniature'
 export * from './constants';
-
-export const Viewer = () => {
-  tipNoViewer()
-  return null;
-};
