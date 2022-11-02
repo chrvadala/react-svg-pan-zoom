@@ -1,7 +1,7 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`zoom lifecycle 1`] = `
-Object {
+{
   "SVGHeight": 200,
   "SVGMinX": 0,
   "SVGMinY": 0,
@@ -31,7 +31,7 @@ Object {
 `;
 
 exports[`zoom lifecycle 2`] = `
-Object {
+{
   "SVGHeight": 200,
   "SVGMinX": 0,
   "SVGMinY": 0,
@@ -61,7 +61,7 @@ Object {
 `;
 
 exports[`zoom test zoom in 1`] = `
-Object {
+{
   "SVGHeight": 400,
   "SVGMinX": 0,
   "SVGMinY": 0,
@@ -91,7 +91,7 @@ Object {
 `;
 
 exports[`zoom test zoom in 2`] = `
-Object {
+{
   "SVGHeight": 400,
   "SVGMinX": 0,
   "SVGMinY": 0,
@@ -121,7 +121,7 @@ Object {
 `;
 
 exports[`zoom test zoom out 1`] = `
-Object {
+{
   "SVGHeight": 400,
   "SVGMinX": 0,
   "SVGMinY": 0,
@@ -151,7 +151,7 @@ Object {
 `;
 
 exports[`zoom test zoom out 2`] = `
-Object {
+{
   "SVGHeight": 400,
   "SVGMinX": 0,
   "SVGMinY": 0,
