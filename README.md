@@ -24,12 +24,12 @@ This component can work in four different modes depending on the selected tool:
 - With the tool **auto** the user can interact with SVG child elements, perform *pan* (dragging the image), *zoom in* (double click), *zoom out* (double click + shift).
 
 ## Documentation
-- [Getting Started](./docs/getting-started.md#props)
-- [Props](./docs/documentation.md#props)
-- [Methods](./docs/documentation.md#methods)
-- [API](./docs/documentation.md#api)
-- [Autosizer viewer](./docs/autosizer-viewer.md)
-- [SVG dynamically loaded](./docs/svg-dynamically-loaded.md)
+- [Getting Started](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/getting-started.md#props)
+- [Props](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/documentation.md#props)
+- [Methods](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/documentation.md#methods)
+- [API](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/documentation.md#api)
+- [Autosizer viewer](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/autosizer-viewer.md)
+- [SVG dynamically loaded](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/svg-dynamically-loaded.md)
 
 <!-- BEGIN_SECTION_SKIPPED_ONLINE -->
 ## Install
@@ -55,7 +55,7 @@ yarn add react-svg-pan-zoom
 - [**CodeSandbox**](https://codesandbox.io/s/1v19809803) - This is a CodeSandbox demo.
 
 ## Changelog
-- **v2.0** - Project refactor. Follow [this guide](./docs/migrate-from-v1-to-v2.md) for migration instructions.
+- **v2.0** - Project refactor. Follow [this guide](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/migrate-from-v1-to-v2.md) for migration instructions.
 - **v2.1** - Adds `setPointOnViewerCenter`, `reset` methods and `className`, `style` props
 - **v2.2** - Introduces tool `auto`, improves default toolbar
 - **v2.3** - Adds touch events support
@@ -74,7 +74,7 @@ yarn add react-svg-pan-zoom
 - **v2.16** - Adds `onPan` and `onZoom` callbacks, Upgrade deps, Fixes boundaries feature
 - **v2.17** - Upgrades deps
 - **v2.18** - Introduces `toolbarProps.SVGAlignX` and `toolbarProps.SVGAlignY` props.  Adds alignment configuration in `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")` method ([#120](https://github.com/chrvadala/react-svg-pan-zoom/pull/120)). Upgrades deps.
-- **v3.0** - Upgrades to babel 7 and storybook 4; Introduces `<UncontrolledReactSVGPanZoom />` component and makes `<ReactSVGPanZoom>` a stateless component (except for some optimizations); Moves props related to miniature and toolbar, respectively into the `miniatureProp` and `toolbarProp` props. **Migration guide is available [here](./docs/migrate-from-v2-to-v3.md)**.
+- **v3.0** - Upgrades to babel 7 and storybook 4; Introduces `<UncontrolledReactSVGPanZoom />` component and makes `<ReactSVGPanZoom>` a stateless component (except for some optimizations); Moves props related to miniature and toolbar, respectively into the `miniatureProp` and `toolbarProp` props. **Migration guide is available [here](https://github.com/chrvadala/react-svg-pan-zoom/blob/main/docs/migrate-from-v2-to-v3.md)**.
 - **v3.1** - Upgrades to storybook 5 and [transformation-matrix 2](https://github.com/chrvadala/transformation-matrix); Fixes some Babel configuration issues
 - **v3.2** - Upgrades deps
 - **v3.3** - Adds SVG viewbox prop support [#150](https://github.com/chrvadala/react-svg-pan-zoom/pull/150)
