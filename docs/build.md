@@ -2,7 +2,8 @@
 
 Build this library with
 ```bash
+git clone https://github.com/chrvadala/react-svg-pan-zoom.git
 cd react-svg-pan-zoom/
-yarn install
-yarn build
+npm install
+npm run build
 ```

@@ -3,7 +3,7 @@
 ## Install
 ### NPM
 ```sh
-yarn add react-svg-pan-zoom
+npm i react-svg-pan-zoom
 ```
 ### UMD
 ```html

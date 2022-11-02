@@ -3,7 +3,7 @@
 To load an SVG dynamically there's a standalone package (made in collaboration with [nufaylr](https://github.com/nufaylr)).
 It's available here https://github.com/nufaylr/react-svg-pan-zoom-loader.
 
-The full documentation is available here: [React SVG Pan Zoom Loader documentation](https://github.com/nufaylr/react-svg-pan-zoom-loader/blob/master/README.md)
+The full documentation is available here: [React SVG Pan Zoom Loader documentation](https://github.com/nufaylr/react-svg-pan-zoom-loader/blob/main/README.md)
 
 ```js
 import {ReactSVGPanZoom} from 'react-svg-pan-zoom'
