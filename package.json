@@ -49,32 +49,29 @@
     "web-components"
   ],
   "dependencies": {
-    "prop-types": "^15.8.0",
-    "transformation-matrix": "^2.11.1"
+    "prop-types": "^15.8.1",
+    "transformation-matrix": "^2.14.0"
   },
   "devDependencies": {
-    "@babel/cli": "^7.16.7",
-    "@react-hook/window-size": "^3.0.7",
-    "@storybook/addon-actions": "^6.4.9",
-    "@storybook/addon-essentials": "^6.4.9",
-    "@storybook/addon-links": "^6.4.9",
-    "@storybook/builder-webpack5": "^6.4.9",
-    "@storybook/manager-webpack5": "^6.4.9",
-    "@storybook/node-logger": "^6.4.9",
-    "@storybook/preset-create-react-app": "^4.0.0",
-    "@storybook/react": "^6.4.9",
-    "del-cli": "^4.0.1",
-    "jest": "^27.4.7",
+    "@babel/cli": "^7.19.3",
+    "@react-hook/window-size": "^3.1.1",
+    "@storybook/addon-actions": "^6.5.13",
+    "@storybook/addon-essentials": "^6.5.13",
+    "@storybook/addon-interactions": "^6.5.13",
+    "@storybook/addon-links": "^6.5.13",
+    "@storybook/builder-webpack5": "^6.5.13",
+    "@storybook/manager-webpack5": "^6.5.13",
+    "@storybook/node-logger": "^6.5.13",
+    "@storybook/preset-create-react-app": "^4.1.2",
+    "@storybook/react": "^6.5.13",
+    "del-cli": "^5.0.0",
+    "jest": "^29.2.2",
     "jest-matcher-deep-close-to": "^3.0.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-scripts": "5.0.0",
-    "web-vitals": "^2.1.2",
-    "webpack": "^5.65.0",
-    "webpack-cli": "^4.9.1"
-  },
-  "peerDependencies": {
-    "react": ">=17.0.0"
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-scripts": "5.0.1",
+    "webpack": "^5.74.0",
+    "webpack-cli": "^4.10.0"
   },
   "funding": "https://github.com/sponsors/chrvadala"
 }
