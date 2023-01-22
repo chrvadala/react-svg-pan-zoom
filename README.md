@@ -86,11 +86,12 @@ yarn add react-svg-pan-zoom
 - **v3.9** - Exports toolbar icons and buttons [#192](https://github.com/chrvadala/react-svg-pan-zoom/pull/192)
 - **3.10** - Upgrades deps; Migrates to React 17 and Storybook 6; Updates examples and docs to React hooks
 - **3.11** - Migrates from yarn to npm; Makes use of [chrvadala/github-actions](https://github.com/chrvadala/github-actions); Updates deps;
+- **3.12** - Migrates to gh-sponsor; Improves docs; Deprecates v1 migration guide; Upgrades deps;
 
 ## Some projects using react-svg-pan-zoom
 - [**Learn Anything**](https://github.com/learn-anything/learn-anything)
 - [**React Planner**](https://github.com/cvdlab/react-planner)
-- [Python extension for vscode](https://github.com/microsoft/vscode-python)
+- [**Python extension for vscode**](https://github.com/microsoft/vscode-python)
 - [**Others...**](https://github.com/chrvadala/react-svg-pan-zoom/network/dependents)
 - Pull request your project!
 
