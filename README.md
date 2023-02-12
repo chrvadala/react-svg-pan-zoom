@@ -117,3 +117,4 @@ yarn add react-svg-pan-zoom
 - [leweohlsen](https://github.com/leweohlsen)
 - [sroze](https://github.com/sroze)
 - [justin-hackin](https://github.com/justin-hackin)
+- [Hydroxycarbamide](https://github.com/Hydroxycarbamide)
