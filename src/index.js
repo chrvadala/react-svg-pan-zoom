@@ -1,5 +1,3 @@
-import {tipNoViewer} from "./migration-tips";
-
 export {default as ReactSVGPanZoom} from './viewer';
 export {default as UncontrolledReactSVGPanZoom} from './uncontrolled-viewer';
 export {default as Toolbar} from './ui-toolbar/toolbar';
