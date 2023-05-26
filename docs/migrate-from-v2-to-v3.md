@@ -48,7 +48,7 @@ class MyViewer extends React.Component {
     return (
       <UncontrolledReactSVGPanZoom
         width={200} height={400}
-      >....</ReactSVGPanZoom>
+      >....</UncontrolledReactSVGPanZoom>
     )
   }
 }
@@ -72,14 +72,14 @@ Replace
 with
 ```javascript
 const minitiatureProps = {
-  miniaturePosition: "left",
-  miniatureBackground: "#fff",
-  miniatureWidth: 100,
-  miniatureHeight: 80
+  position: "left",
+  background: "#fff",
+  width: 100,
+  height: 80
 }
 
 const toolbarProps = {
-  toolbarPosition: "right"
+  position: "right"
 }
 
 <ReactSVGPanZoom 
