@@ -91,7 +91,7 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
       case ALIGN_COVER:
         scaleMatrix = scale(scaleY, scaleY); // (0) we must now match to short edge, in this case - height
         let remainderX = viewerWidth - scaleY * selectionWidth; // calculate remainder in the other scale
-  
+
         translateX = selectionSVGPointX + Math.round(remainderX / 2); // center by the long edge
       break;
 
@@ -118,7 +118,7 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
       case ALIGN_COVER:
         scaleMatrix = scale(scaleX, scaleX); // (0) we must now match to short edge, in this case - width
         let remainderY = viewerHeight - scaleX * selectionHeight; // calculate remainder in the other scale
-  
+
         translateY = selectionSVGPointY + Math.round(remainderY / 2); // center by the long edge
       break;
 
@@ -155,7 +155,7 @@ export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, sele
   }, ACTION_ZOOM);
 }
 
-export function fitToViewer(value, SVGAlignX=ALIGN_CENTER, SVGAlignY=ALIGN_CENTER) {
+export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
   let {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = value;
   return fitSelection(value, SVGMinX, SVGMinY, SVGWidth, SVGHeight, SVGAlignX, SVGAlignY);  
 }
