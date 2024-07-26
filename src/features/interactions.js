@@ -48,7 +48,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
   switch (tool) {
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
-        nextValue = forceExit ? stopZooming(value, x, y, props.scaleFactor, props) : updateZooming(value, x, y);
+        nextValue = forceExit ? stopZooming(value, x, y, props.scaleFactor, props.toolbarProps.SVGAlignX, toolbarProps.SVGAlignY) : updateZooming(value, x, y);
       break;
 
     case TOOL_AUTO:
@@ -73,12 +73,12 @@ export function onMouseUp(event, ViewerDOM, tool, value, props, coords = null) {
   switch (tool) {
     case TOOL_ZOOM_OUT:
       if (value.mode === MODE_ZOOMING)
-        nextValue = stopZooming(value, x, y, 1 / props.scaleFactor, props);
+        nextValue = stopZooming(value, x, y, 1 / props.scaleFactor, props.toolbarProps.SVGAlignX, toolbarProps.SVGAlignY);
       break;
 
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
-        nextValue = stopZooming(value, x, y, props.scaleFactor, props);
+        nextValue = stopZooming(value, x, y, props.scaleFactor, props.toolbarProps.SVGAlignX, toolbarProps.SVGAlignY);
       break;
 
     case TOOL_AUTO:
