@@ -7,7 +7,6 @@
   "module": "./build-es/index.js",
   "unpkg": "./build-umd/react-svg-pan-zoom.min.js",
   "jsnext:main": "./build-es/index.js",
-  "types": "./index.d.ts",
   "scripts": {
     "start": "npm run website:start",
     "build": "npm run clean && npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd_min",
@@ -25,8 +24,7 @@
   "files": [
     "*.md",
     "build-*",
-    "src",
-    "*.d.ts"
+    "src"
   ],
   "repository": {
     "type": "git",
