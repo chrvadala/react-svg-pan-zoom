@@ -6,7 +6,7 @@ module.exports = function (api) {
   const presets = [];
   const plugins = [];
 
-  plugins.push("@babel/plugin-proposal-object-rest-spread")
+  plugins.push("@babel/plugin-transform-object-rest-spread")
 
   presets.push(["@babel/preset-env", {
     modules: KEEP_MODULES ? false : 'commonjs',
