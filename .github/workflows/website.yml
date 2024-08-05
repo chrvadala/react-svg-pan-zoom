@@ -10,7 +10,7 @@ jobs:
     name: Publish Github Pages Website
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: chrvadala/github-actions/gh-pages-publish-action@v1
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

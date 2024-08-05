@@ -10,16 +10,16 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-22.04 ]
-        node: [ 14, 16 ]
+        node: [ 16, 18, 20 ]
     name: Test Nodejs v${{ matrix.node }} on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: chrvadala/github-actions/nodejs-test-library-action@v1
         with:
           NODE_VERSION: ${{ matrix.node }}
       - name: Publish Coveralls
-        uses: coverallsapp/github-action@v1.1.2
+        uses: coverallsapp/github-action@v2.2.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           flag-name: run-nodejs-v${{ matrix.node }}-${{ matrix.os }}
@@ -31,7 +31,7 @@ jobs:
     runs-on: ubuntu-22.04
     steps:
       - name: Coveralls Finished
-        uses: coverallsapp/github-action@v1.1.2
+        uses: coverallsapp/github-action@v2.2.3
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
