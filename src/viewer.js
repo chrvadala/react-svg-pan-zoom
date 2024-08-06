@@ -186,8 +186,8 @@ export default class ReactSVGPanZoom extends React.Component {
     this.setValue(nextValue);
   }
 
-  fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-    let nextValue = fitSelection(this.getValue(), selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight);
+  fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
+    let nextValue = fitSelection(this.getValue(), selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, SVGAlignX, SVGAlignY);
     this.setValue(nextValue);
   }
 

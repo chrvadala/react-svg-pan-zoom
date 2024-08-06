@@ -46,8 +46,8 @@
 | customToolbar     | -            | Component | Override toolbar component |
 | toolbarProps | {} | Object | Toolbar settings |
 | toolbarProps.position   | `right`      | one of `none`, `top`, `right`, `bottom`, `left` | Toolbar position |
-| toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right` | X Alignment used for "Fit to Viewer" action |
-| toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom` | Y Alignment used for "Fit to Viewer" action |
+| toolbarProps.SVGAlignX | `left` | one of `left`, `center`, `right`, `cover` | X Alignment used for "Fit to Viewer" and "Zoom in" actions |
+| toolbarProps.SVGAlignY | `top` | one of `top`, `center`, `bottom`, `cover` | Y Alignment used for "Fit to Viewer" and "Zoom in" actions |
 | toolbarProps.activeToolColor | `#1CA6FC` | String | Color of active and hovered tool icons |
 
 \* handler available only with the tool `none` or `auto`
@@ -57,8 +57,8 @@
 |-----|------|
 | `pan(SVGDeltaX, SVGDeltaY)`               | Apply a pan |
 | `zoom(SVGPointX, SVGPointY, scaleFactor)`   | Zoom in or out the SVG |
-| `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)`| Fit an SVG area to viewer |
-| `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")`         | Fit all SVG to Viewer (`SVGAlignX`: one of `left`, `center`, `right`, `SVGAlignY`: one of `top`, `center`, `bottom`)  |
+| `fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, SVGAlignX = "left", SVGAlignY = "top")`| Fit an SVG area to viewer (`SVGAlignX`: one of `left`, `center`, `right`, `cover`, `SVGAlignY`: one of `top`, `center`, `bottom`, `cover`) |
+| `fitToViewer(SVGAlignX = "left", SVGAlignY = "top")`         | Fit all SVG to Viewer (`SVGAlignX`: one of `left`, `center`, `right`, `cover`, `SVGAlignY`: one of `top`, `center`, `bottom`, `cover`)  |
 | `setPointOnViewerCenter(SVGPointX, SVGPointY, zoomLevel)`| Set a point on Viewer center |
 | `reset()`                                      | Reset Viewer view to default |
 | `zoomOnViewerCenter(scaleFactor)`              | Zoom SVG on center |
