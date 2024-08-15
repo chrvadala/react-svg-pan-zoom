@@ -35,6 +35,7 @@ jobs:
         run: |
           npm ci
           npm run build --if-present
+          npm run website:build
         shell: bash
       - name: Setup Pages
         uses: actions/configure-pages@v5
