@@ -5,9 +5,19 @@ import {applyToPoints, inverse} from 'transformation-matrix';
 import MiniatureToggleButton from './miniature-toggle-button';
 import MiniatureMask from './miniature-mask';
 
-export default function Miniature(props) {
 
-  let {value, onChangeValue, children, position, background, SVGBackground, width: miniatureWidth, height: miniatureHeight} = props;
+const DEFAULT_BACKGROUND = "#616264"
+
+export default function Miniature({ value,
+  onChangeValue,
+  children,
+  SVGBackground,
+  background = DEFAULT_BACKGROUND,
+  position = POSITION_LEFT,
+  width: miniatureWidth = 100,
+  height: miniatureHeight = 80
+} ) {
+
   let {SVGMinX, SVGMinY, SVGWidth, SVGHeight, viewerWidth, viewerHeight} = value;
 
   let ratio = SVGHeight / SVGWidth;
@@ -91,14 +101,7 @@ Miniature.propTypes = {
 
   //customizations
   position: PropTypes.oneOf([POSITION_RIGHT, POSITION_LEFT]),
-  background: PropTypes.string.isRequired,
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
+  background: PropTypes.string,
+  width: PropTypes.number,
+  height: PropTypes.number,
 };
-
-Miniature.defaultProps = {
-  position: POSITION_LEFT,
-  background: "#616264",
-  width: 100,
-  height: 80,
-}

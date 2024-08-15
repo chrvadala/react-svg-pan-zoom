@@ -14,7 +14,16 @@ import IconZoomOut from './icon-zoom-out';
 import IconFit from './icon-fit';
 import ToolbarButton from './toolbar-button';
 
-export default function Toolbar({tool, value, onChangeValue, onChangeTool, activeToolColor, position, SVGAlignX, SVGAlignY}) {
+const DEFAULT_ACTIVE_TOOL_COLOR = '#1CA6FC'
+export default function Toolbar({ tool,
+  value,
+  onChangeValue,
+  onChangeTool,
+  activeToolColor = DEFAULT_ACTIVE_TOOL_COLOR,
+  position = POSITION_RIGHT,
+  SVGAlignX = ALIGN_LEFT,
+  SVGAlignY = ALIGN_TOP
+}) {
 
   let handleChangeTool = (event, tool) => {
     onChangeTool(tool);
@@ -115,9 +124,3 @@ Toolbar.propTypes = {
   activeToolColor: PropTypes.string
 };
 
-Toolbar.defaultProps = {
-  position: POSITION_RIGHT,
-  SVGAlignX: ALIGN_LEFT,
-  SVGAlignY: ALIGN_TOP,
-  activeToolColor: '#1CA6FC'
-};
