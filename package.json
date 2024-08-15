@@ -22,9 +22,12 @@
     "test:coverage": "jest --coverage"
   },
   "files": [
-    "*.md",
-    "build-*",
-    "src"
+    "README.md",
+    "build-commonjs",
+    "build-es",
+    "build-umd",
+    "src",
+    "test"
   ],
   "repository": {
     "type": "git",
