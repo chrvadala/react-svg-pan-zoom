@@ -26,21 +26,35 @@ describe("atomic pan", () => {
     expect(testSVGBBox(value1)).toEqual([50, 70, 120, 210])
   })
 
-  test("pan limit", () => {
+  test("pan with preventPanOutside", () => {
     const value = getDefaultValue(
       200, 200,       //viewer 200x200
       0, 0, 400, 400, //svg 400x400
     )
 
     //move to bottom right limit
-    const value1 = pan(value, 500, 700, 20)
+    const value1 = pan(value, 500, 700, { preventPanOutside: true })
     expect(testSVGBBox(value1)).toEqual([180, 180, expect.any(Number), expect.any(Number)])
 
     //move to top left limit
-    const value2 = pan(value, -500, -700, 20)
+    const value2 = pan(value, -500, -700, { preventPanOutside: true })
     expect(testSVGBBox(value2)).toEqual([expect.any(Number), expect.any(Number), 20, 20])
   })
 
+  test("pan with constrainToSVGBounds", () => {
+    const value = getDefaultValue(
+      200, 200,       // viewer 200x200
+      0, 0, 400, 400  // SVG 400x400
+    );
+
+    // Move to bottom right limit with constrainToSVGBounds
+    const value1 = pan(value, 500, 700, { constrainToSVGBounds: true });
+    expect(testSVGBBox(value1)).toEqual([0, 0, expect.any(Number), expect.any(Number)]);
+
+    // Move to top left limit with constrainToSVGBounds
+    const value2 = pan(value, -500, -700, { constrainToSVGBounds: true });
+    expect(testSVGBBox(value2)).toEqual([expect.any(Number), expect.any(Number), 200, 200]);
+  });
 })
 
 test("pan lifecycle", () => {

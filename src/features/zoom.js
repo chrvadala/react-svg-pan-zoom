@@ -1,4 +1,4 @@
-import {fromObject, scale, transform, translate} from 'transformation-matrix';
+import {fromObject, scale, transform, translate, applyToPoints} from 'transformation-matrix';
 
 import {
   ACTION_ZOOM, MODE_IDLE, MODE_ZOOMING,
@@ -34,14 +34,18 @@ export function limitZoomLevel(value, matrix) {
   });
 }
 
-export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
+export function zoom(value, SVGPointX, SVGPointY, scaleFactor, props) {
+  let matrix = transform(
+    fromObject(value)
+  );
+
   if (isZoomLevelGoingOutOfBounds(value, scaleFactor)) {
       // Do not change translation and scale of value
       return value;
   }
 
-  const matrix = transform(
-    fromObject(value),
+  matrix = transform(
+    matrix,
     translate(SVGPointX, SVGPointY),
     scale(scaleFactor, scaleFactor),
     translate(-SVGPointX, -SVGPointY)

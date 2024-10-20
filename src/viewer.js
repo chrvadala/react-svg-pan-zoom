@@ -594,6 +594,11 @@ ReactSVGPanZoom.propTypes = {
   preventPanOutside: PropTypes.bool,
 
   /**
+   * if enabled, restricts the viewer so it cannot be moved or zoomed outside the SVG boundaries
+   */
+  constrainToSVGBounds: PropTypes.bool,
+
+  /**
   * how much scale in or out
   */
   scaleFactor: PropTypes.number,
@@ -700,6 +705,7 @@ ReactSVGPanZoom.defaultProps = {
   detectPinchGesture: true,
   modifierKeys: ["Alt", "Shift", "Control"],
   preventPanOutside: true,
+  constrainToSVGBounds: false,
   scaleFactor: 1.1,
   scaleFactorOnWheel: 1.06,
   disableZoomWithToolAuto: false,

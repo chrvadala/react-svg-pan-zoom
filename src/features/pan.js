@@ -1,48 +1,71 @@
-import {ACTION_PAN, MODE_IDLE, MODE_PANNING} from '../constants';
+import {ACTION_PAN, ALIGN_COVER, MODE_IDLE, MODE_PANNING} from '../constants';
 import {set, getSVGPoint} from './common';
 import {fromObject, translate, transform, applyToPoints} from 'transformation-matrix';
+
+/**
+ * Recalculate position if restrictions applied (preventPanOutside / constrainToSVGBounds)
+ * @param matrix
+ * @param value
+ * @param props
+ * @return {Object}
+ */
+export function applyPanLimits(matrix, value, props) {
+  const { preventPanOutside, constrainToSVGBounds } = props || {};
+  const panLimit = preventPanOutside && !constrainToSVGBounds ? 20 : 0;
+
+  let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
+    {x: value.SVGMinX + panLimit, y: value.SVGMinY + panLimit},
+    {x: value.SVGMinX + value.SVGWidth - panLimit, y: value.SVGMinY + value.SVGHeight - panLimit}
+  ]);
+
+  let moveX = 0;
+  let moveY = 0;
+
+  if (preventPanOutside) {
+    if (x1 > value.viewerWidth)
+      moveX = value.viewerWidth - x1;
+    else if (x2 < 0) moveX = -x2;
+
+    if (value.viewerHeight - y1 < 0)
+      moveY = value.viewerHeight - y1;
+    else if (y2 < 0) moveY = -y2;
+  }
+
+  if (constrainToSVGBounds) {
+    if (x1 > 0) {
+      moveX = -x1;
+    } else if (x2 < value.viewerWidth) {
+      moveX = value.viewerWidth - x2;
+    }
+
+    if (y1 > 0) {
+      moveY = -y1;
+    } else if (y2 < value.viewerHeight) {
+      moveY = value.viewerHeight - y2;
+    }
+  }
+
+  return transform(
+    translate(moveX, moveY),
+    matrix
+  )
+}
 
 /**
  * Atomic pan operation
  * @param value
  * @param SVGDeltaX drag movement
  * @param SVGDeltaY drag movement
- * @param panLimit forces the image to keep at least x pixel inside the viewer
+ * @param props
  * @returns {Object}
  */
-export function pan(value, SVGDeltaX, SVGDeltaY, panLimit = undefined) {
-
+export function pan(value, SVGDeltaX, SVGDeltaY, props) {
   let matrix = transform(
     fromObject(value),              //2
     translate(SVGDeltaX, SVGDeltaY) //1
   );
 
-  // apply pan limits
-  if (panLimit) {
-    let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
-      {x: value.SVGMinX + panLimit, y: value.SVGMinY + panLimit},
-      {x: value.SVGMinX + value.SVGWidth - panLimit, y: value.SVGMinY + value.SVGHeight - panLimit}
-    ]);
-
-    //x limit
-    let moveX = 0;
-    if (value.viewerWidth - x1 < 0)
-      moveX = value.viewerWidth - x1;
-    else if (x2 < 0) moveX = -x2;
-
-
-    //y limit
-    let moveY = 0;
-    if (value.viewerHeight - y1 < 0)
-      moveY = value.viewerHeight - y1;
-    else if (y2 < 0) moveY = -y2;
-
-    //apply limits
-    matrix = transform(
-      translate(moveX, moveY),
-      matrix
-    )
-  }
+  matrix = applyPanLimits(matrix, value, props);
 
   return set(value, {
     mode: MODE_IDLE,
@@ -75,7 +98,7 @@ export function startPanning(value, viewerX, viewerY) {
  * @param panLimit
  * @return {ReadonlyArray<unknown>}
  */
-export function updatePanning(value, viewerX, viewerY, panLimit) {
+export function updatePanning(value, viewerX, viewerY, panLimit, constrainToSVGBounds) {
   if (value.mode !== MODE_PANNING) throw new Error('update pan not allowed in this mode ' + value.mode);
 
   let {endX, endY} = value;
@@ -86,7 +109,7 @@ export function updatePanning(value, viewerX, viewerY, panLimit) {
   let deltaX = end.x - start.x;
   let deltaY = end.y - start.y;
 
-  let nextValue = pan(value, deltaX, deltaY, panLimit);
+  let nextValue = pan(value, deltaX, deltaY, panLimit, constrainToSVGBounds);
   return set(nextValue, {
     mode: MODE_PANNING,
     endX: viewerX,

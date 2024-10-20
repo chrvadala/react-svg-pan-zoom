@@ -1,8 +1,20 @@
-import {MODE_PANNING, MODE_ZOOMING, TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,} from '../constants';
+import {ALIGN_COVER, MODE_PANNING, MODE_ZOOMING, TOOL_AUTO, TOOL_NONE, TOOL_PAN, TOOL_ZOOM_IN, TOOL_ZOOM_OUT,} from '../constants';
 import {getSVGPoint, setFocus} from './common';
 import {autoPanIfNeeded, startPanning, stopPanning, updatePanning} from './pan';
-import {startZooming, stopZooming, updateZooming, zoom} from './zoom';
+import {fitToViewer, startZooming, stopZooming, updateZooming, zoom} from './zoom';
 import mapRange from '../utils/mapRange';
+import {fromObject, transform, applyToPoints} from 'transformation-matrix';
+
+export function isViewerInsideSVG(value) {
+  let matrix = transform(fromObject(value));
+
+  let [{x: x1, y: y1}, {x: x2, y: y2}] = applyToPoints(matrix, [
+    {x: value.SVGMinX, y: value.SVGMinY},
+    {x: value.SVGMinX + value.SVGWidth, y: value.SVGMinY + value.SVGHeight}
+  ]);
+
+  return x1 <= 0 && y1 <= 0 && x2 >= value.viewerWidth && y2 >= value.viewerHeight;
+}
 
 export function getMousePosition(event, ViewerDOM) {
   let {left, top} = ViewerDOM.getBoundingClientRect();
@@ -20,6 +32,8 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
     case TOOL_ZOOM_OUT:
       let SVGPoint = getSVGPoint(value, x, y);
       nextValue = zoom(value, SVGPoint.x, SVGPoint.y, 1 / props.scaleFactor, props);
+      if (props.constrainToSVGBounds && !isViewerInsideSVG(nextValue))
+        return value;
       break;
 
     case TOOL_ZOOM_IN:
@@ -29,6 +43,8 @@ export function onMouseDown(event, ViewerDOM, tool, value, props, coords = null)
     case TOOL_AUTO:
     case TOOL_PAN:
       nextValue = startPanning(value, x, y);
+      if (props.constrainToSVGBounds && !isViewerInsideSVG(nextValue))
+        return fitToViewer(value, ALIGN_COVER, ALIGN_COVER);
       break;
 
     default:
@@ -44,7 +60,6 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
 
   let forceExit = (event.buttons === 0); //the mouse exited and reentered into svg
   let nextValue = value;
-
   switch (tool) {
     case TOOL_ZOOM_IN:
       if (value.mode === MODE_ZOOMING)
@@ -54,7 +69,7 @@ export function onMouseMove(event, ViewerDOM, tool, value, props, coords = null)
     case TOOL_AUTO:
     case TOOL_PAN:
       if (value.mode === MODE_PANNING)
-        nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, props.preventPanOutside ? 20 : undefined);
+        nextValue = forceExit ? stopPanning(value) : updatePanning(value, x, y, props);
       break;
 
     default:
@@ -107,6 +122,9 @@ export function onDoubleClick(event, ViewerDOM, tool, value, props, coords = nul
     let modifierKeyActive = modifierKeys.reduce(modifierKeysReducer, false);
     let scaleFactor = modifierKeyActive ? 1 / props.scaleFactor : props.scaleFactor;
     nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
+
+    if (props.constrainToSVGBounds && !isViewerInsideSVG(nextValue))
+      return fitToViewer(value, ALIGN_COVER, ALIGN_COVER);
   }
 
   event.preventDefault();
@@ -123,6 +141,8 @@ export function onWheel(event, ViewerDOM, tool, value, props, coords = null) {
 
   let SVGPoint = getSVGPoint(value, x, y);
   let nextValue = zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor, props);
+  if (props.constrainToSVGBounds && !isViewerInsideSVG(nextValue))
+    return fitToViewer(value, ALIGN_COVER, ALIGN_COVER);
 
   event.preventDefault();
   return nextValue;
@@ -138,9 +158,11 @@ export function onMouseEnterOrLeave(event, ViewerDOM, tool, value, props, coords
 export function onInterval(event, ViewerDOM, tool, value, props, coords = null) {
   let {x, y} = coords;
 
+  let nextValue = autoPanIfNeeded(value, x, y);
   if (!([TOOL_NONE, TOOL_AUTO].indexOf(tool) >= 0)) return value;
   if (!props.detectAutoPan) return value;
   if (!value.focus) return value;
+  if (props.constrainToSVGBounds && !isViewerInsideSVG(nextValue)) return value;
 
-  return autoPanIfNeeded(value, x, y);
+  return nextValue;
 }
