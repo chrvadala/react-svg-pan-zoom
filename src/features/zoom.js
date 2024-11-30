@@ -57,105 +57,69 @@ export function zoom(value, SVGPointX, SVGPointY, scaleFactor) {
   }, ACTION_ZOOM);
 }
 
-//ENHANCEMENT: add ability to control alignment
 //ENHANCEMENT: add ability to selectively fit image inside viewer
-//ENHANCEMENT: refactor some logic in order to merge with fitToViewer function
-export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
+export function fitSelection(value, selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
   let {viewerWidth, viewerHeight} = value;
 
   let scaleX = viewerWidth / selectionWidth;
   let scaleY = viewerHeight / selectionHeight;
-
-  let scaleLevel = Math.min(scaleX, scaleY);
-
-  const matrix = transform(
-    scale(scaleLevel, scaleLevel),                      //2
-    translate(-selectionSVGPointX, -selectionSVGPointY) //1
-  );
-
-  if(isZoomLevelGoingOutOfBounds(value, scaleLevel / value.d)) {
-    // Do not allow scale and translation
-    return set(value, {
-      mode: MODE_IDLE,
-      startX: null,
-      startY: null,
-      endX: null,
-      endY: null
-    });
-  }
-
-  return set(value, {
-    mode: MODE_IDLE,
-    ...limitZoomLevel(value, matrix),
-    startX: null,
-    startY: null,
-    endX: null,
-    endY: null
-  }, ACTION_ZOOM);
-}
-
-export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
-  let {viewerWidth, viewerHeight, SVGMinX, SVGMinY, SVGWidth, SVGHeight} = value;
-
-  let scaleX = viewerWidth / SVGWidth;
-  let scaleY = viewerHeight / SVGHeight;
   let scaleLevel = Math.min(scaleX, scaleY);
 
   let scaleMatrix = scale(scaleLevel, scaleLevel);
 
-  let translateX = -SVGMinX * scaleX;
-  let translateY = -SVGMinY * scaleY;
+  let translateX = -selectionSVGPointX * scaleX;
+  let translateY = -selectionSVGPointY * scaleY;
 
- // after fitting, SVG and the viewer will match in width (1) or in height (2) or SVG will cover the container with preserving aspect ratio (0)
- if (scaleX < scaleY) {
-    let remainderY = viewerHeight - scaleX * SVGHeight;
+  // after fitting, SVG and the viewer will match in width (1) or in height (2) or SVG will cover the container with preserving aspect ratio (0)
+  if (scaleX < scaleY) {
+    let remainderY = viewerHeight - scaleX * selectionHeight;
 
     //(1) match in width, meaning scaled SVGHeight <= viewerHeight
     switch(SVGAlignY) {
       case ALIGN_TOP:
-        translateY = -SVGMinY * scaleLevel;
+        translateY = -selectionSVGPointY * scaleLevel;
       break;
 
       case ALIGN_CENTER:
-        translateY = Math.round(remainderY / 2) - SVGMinY * scaleLevel;
+        translateY = Math.round(remainderY / 2) - selectionSVGPointY * scaleLevel;
       break;
 
       case ALIGN_BOTTOM:
-        translateY = remainderY - SVGMinY * scaleLevel;
+        translateY = remainderY - selectionSVGPointY * scaleLevel;
       break;
 
       case ALIGN_COVER:
         scaleMatrix = scale(scaleY, scaleY); // (0) we must now match to short edge, in this case - height
-        let remainderX = viewerWidth - scaleY * SVGWidth; // calculate remainder in the other scale
+        let remainderX = viewerWidth - scaleY * selectionWidth; // calculate remainder in the other scale
 
-        translateX = SVGMinX + Math.round(remainderX / 2); // center by the long edge
+        translateX = selectionSVGPointX + Math.round(remainderX / 2); // center by the long edge
       break;
 
       default:
         //no op
     }
   } else {
-    let remainderX = viewerWidth - scaleY * SVGWidth;
+    let remainderX = viewerWidth - scaleY * selectionWidth;
 
     //(2) match in height, meaning scaled SVGWidth <= viewerWidth
     switch(SVGAlignX) {
       case ALIGN_LEFT:
-        translateX = -SVGMinX * scaleLevel;
+        translateX = -selectionSVGPointX * scaleLevel;
       break;
 
       case ALIGN_CENTER:
-        translateX = Math.round(remainderX / 2) - SVGMinX * scaleLevel;
+        translateX = Math.round(remainderX / 2) - selectionSVGPointX * scaleLevel;
       break;
 
       case ALIGN_RIGHT:
-        translateX = remainderX - SVGMinX * scaleLevel;
+        translateX = remainderX - selectionSVGPointX * scaleLevel;
       break;
 
       case ALIGN_COVER:
         scaleMatrix = scale(scaleX, scaleX); // (0) we must now match to short edge, in this case - width
-        let remainderY = viewerHeight - scaleX * SVGHeight; // calculate remainder in the other scale
+        let remainderY = viewerHeight - scaleX * selectionHeight; // calculate remainder in the other scale
 
-        translateY = SVGMinY + Math.round(remainderY / 2); // center by the long edge
+        translateY = selectionSVGPointY + Math.round(remainderY / 2); // center by the long edge
       break;
 
       default:
@@ -191,6 +155,11 @@ export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
   }, ACTION_ZOOM);
 }
 
+export function fitToViewer(value, SVGAlignX=ALIGN_LEFT, SVGAlignY=ALIGN_TOP) {
+  let {SVGMinX, SVGMinY, SVGWidth, SVGHeight} = value;
+  return fitSelection(value, SVGMinX, SVGMinY, SVGWidth, SVGHeight, SVGAlignX, SVGAlignY);  
+}
+
 export function zoomOnViewerCenter(value, scaleFactor) {
   let {viewerWidth, viewerHeight} = value;
   let SVGPoint = getSVGPoint(value, viewerWidth / 2, viewerHeight / 2);
@@ -216,7 +185,7 @@ export function updateZooming(value, viewerX, viewerY) {
   });
 }
 
-export function stopZooming(value, viewerX, viewerY, scaleFactor) {
+export function stopZooming(value, viewerX, viewerY, scaleFactor, SVGAlignX, SVGAlignY) {
   const TOLERATED_DISTANCE = 7 //minimum distance to choose if area selection or drill down on point
   let {startX, startY} = value;
 
@@ -225,7 +194,7 @@ export function stopZooming(value, viewerX, viewerY, scaleFactor) {
 
   if (Math.abs(startX - viewerX) > TOLERATED_DISTANCE && Math.abs(startY - viewerY) > TOLERATED_DISTANCE) {
     let box = calculateBox(start, end);
-    return fitSelection(value, box.x, box.y, box.width, box.height);
+    return fitSelection(value, box.x, box.y, box.width, box.height, SVGAlignX, SVGAlignY);
   } else {
     let SVGPoint = getSVGPoint(value, viewerX, viewerY);
     return zoom(value, SVGPoint.x, SVGPoint.y, scaleFactor);

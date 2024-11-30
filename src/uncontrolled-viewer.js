@@ -32,11 +32,11 @@ export default class UncontrolledReactSVGPanZoom extends React.Component {
     this.Viewer.zoom(SVGPointX, SVGPointY, scaleFactor)
   }
 
-  fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight) {
-    this.Viewer.fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight)
+  fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
+    this.Viewer.fitSelection(selectionSVGPointX, selectionSVGPointY, selectionWidth, selectionHeight, SVGAlignX, SVGAlignY)
   }
 
-  fitToViewer(SVGAlignX, SVGAlignY) {
+  fitToViewer(SVGAlignX = ALIGN_LEFT, SVGAlignY = ALIGN_TOP) {
     this.Viewer.fitToViewer(SVGAlignX, SVGAlignY)
   }
 
