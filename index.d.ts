@@ -189,7 +189,7 @@ export function zoomOnViewerCenter(value: Value, scaleFactor: number): Value;
 export function openMiniature(): void;
 export function closeMiniature(): void;
 
-export const INITIAL_VALUE: Value;
+export const INITIAL_VALUE: Partial<Value>
 export const MODE_IDLE: string;
 export const MODE_PANNING: string;
 export const MODE_ZOOMING: string;
