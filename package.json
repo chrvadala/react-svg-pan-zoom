@@ -5,6 +5,7 @@
   "description": "A React component that adds pan and zoom features to SVG",
   "main": "./build-commonjs/index.js",
   "module": "./build-es/index.js",
+  "types": "./index.d.ts",
   "unpkg": "./build-umd/react-svg-pan-zoom.min.js",
   "jsnext:main": "./build-es/index.js",
   "scripts": {
@@ -27,7 +28,8 @@
     "build-es",
     "build-umd",
     "src",
-    "test"
+    "test",
+    "index.d.ts"
   ],
   "repository": {
     "type": "git",
